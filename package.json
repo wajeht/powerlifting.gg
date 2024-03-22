@@ -15,6 +15,7 @@
 		"lint": "eslint --fix .",
 		"test:watch": "vitest",
 		"test": "vitest --run",
+		"postinstall": "touch ./src/database/db.sqlite && chmod +w ./src/database/db.sqlite && npm run migrate:latest",
 		"db:clean": "rm -rf ./src/database/db.sqlite && touch ./src/database/db.sqlite",
 		"db:rollback": "knex migrate:rollback --knexfile=./src/database/knexfile.js",
 		"db:migrate:make": "knex migrate:make --knexfile=./src/database/knexfile.js",
@@ -31,7 +32,6 @@
 	"author": "wajeht",
 	"license": "MIT",
 	"dependencies": {
-		"better-sqlite3": "^9.4.3",
 		"compression": "^1.7.4",
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
@@ -40,7 +40,8 @@
 		"express-ejs-layouts": "^2.5.1",
 		"express-rate-limit": "^7.2.0",
 		"helmet": "^7.1.0",
-		"knex": "^3.1.0"
+		"knex": "^3.1.0",
+		"sqlite3": "^5.1.7"
 	},
 	"devDependencies": {
 		"eslint": "^8.57.0",

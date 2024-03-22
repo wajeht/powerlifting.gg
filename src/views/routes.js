@@ -1,4 +1,5 @@
 import express from 'express';
+import { db } from '../database/db.js';
 
 const routes = express.Router();
 
@@ -6,8 +7,9 @@ routes.get('/healthz', (req, res) => {
 	return res.status(200).json({ message: 'ok', date: new Date() });
 });
 
-routes.get('/', (req, res) => {
-	return res.status(200).render('./home.html');
+routes.get('/', async (req, res) => {
+	const tenants = await db.select('*').from('tenants');
+	return res.status(200).render('./home.html', { tenants });
 });
 
 export function notFoundHandler(req, res, next) {

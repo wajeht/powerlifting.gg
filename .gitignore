@@ -128,3 +128,14 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+node_modules
+!/logs/.gitkeep
+/logs/*
+/dist
+env.json
+./src/database/db.sqlite
+*.sqlite
+/src/database/db.sqlite
+./src/database/db.sqlite
+.env
