@@ -10,7 +10,7 @@ routes.get('/healthz', (req, res) => {
 });
 
 routes.get('/', tenant, async (req, res) => {
-	logger.debug(req.subdomains, req.subdomain);
+	logger.debug(req.subdomains, req.hostname);
 	let tenants = await db.select('*').from('tenants');
 		tenants = tenants.map((tenant) => ({
 		...tenant,
