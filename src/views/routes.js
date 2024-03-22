@@ -11,10 +11,11 @@ routes.get('/healthz', (req, res) => {
 
 routes.get('/', tenant, async (req, res) => {
 	logger.debug(req.subdomains, req.hostname);
+	const domain = env.env === 'production' ? 'subdomain.jaw.dev' : `localhost:${env.port}`
 	let tenants = await db.select('*').from('tenants');
 		tenants = tenants.map((tenant) => ({
 		...tenant,
-		domain: `http://${tenant.slug}.localhost:${env.port}`
+		domain: `http://${tenant.slug}.${domain}`
 	}));
 	return res.status(200).render('./home.html', { tenants });
 });
