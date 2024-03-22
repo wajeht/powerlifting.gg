@@ -8,8 +8,8 @@ routes.get('/healthz', (req, res) => {
 	return res.status(200).json({ message: 'ok', date: new Date() });
 });
 
-routes.get('/', async (req, res) => {
-	console.log(req.subdomains);
+routes.get('/', tenant, async (req, res) => {
+	console.log(req.subdomains, req.subdomain);
 	let tenants = await db.select('*').from('tenants');
 		tenants = tenants.map((tenant) => ({
 		...tenant,
