@@ -2,7 +2,7 @@
 	"name": "subdomain",
 	"version": "0.0.1",
 	"type": "module",
-	"description": "subdomain systems using node and express",
+	"description": "multitendency systems using node and express",
 	"main": "./src/server.js",
 	"scripts": {
 		"start": "node ./src/server.js",
