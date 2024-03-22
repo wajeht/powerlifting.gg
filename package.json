@@ -5,10 +5,10 @@
 	"description": "multi-tendency systems using node and express",
 	"main": "./src/server.js",
 	"scripts": {
-		"update:deps": " npx npm-check -u",
-		"check:deps": "npx depcheck",
 		"start": "node ./src/server.js",
 		"dev": "nodemon ./src/server.js",
+		"update:deps": " npx npm-check -u",
+		"check:deps": "npx depcheck",
 		"format:check": "prettier --check .",
 		"format": "prettier --write .",
 		"lint:check": "eslint .",
