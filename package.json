@@ -1,0 +1,40 @@
+{
+	"name": "subdomain",
+	"version": "0.0.1",
+	"type": "module",
+	"description": "subdomain systems using node and express",
+	"main": "./src/server.js",
+	"scripts": {
+		"start": "node ./src/server.js",
+		"dev": "nodemon ./src/server.js",
+		"format:check": "prettier --check .",
+		"format": "prettier --write .",
+		"lint:check": "eslint .",
+		"lint": "eslint --fix ."
+	},
+	"keywords": [
+		"node",
+		"express",
+		"subdomain"
+	],
+	"author": "wajeht",
+	"license": "MIT",
+	"dependencies": {
+		"better-sqlite3": "^9.4.3",
+		"compression": "^1.7.4",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"ejs": "^3.1.9",
+		"express": "^4.19.1",
+		"express-ejs-layouts": "^2.5.1",
+		"express-rate-limit": "^7.2.0",
+		"helmet": "^7.1.0",
+		"knex": "^3.1.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"nodemon": "^3.1.0",
+		"prettier": "^3.2.5"
+	}
+}
