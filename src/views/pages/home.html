@@ -1,5 +1,8 @@
 <div>
-	<p>demonstration of multi-tendency systems using node and express</p>
-
-	<pre>{{ <%= tenants %> }}</pre>
+	<% for (const tenant of tenants) { %>
+		<div>
+			<h4><%= tenant.name %></h4>
+			<a href="<%= tenant.domain %>"><%= tenant.domain %></a>
+		</div>
+	<% } %>
 </div>

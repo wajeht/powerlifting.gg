@@ -1,5 +1,6 @@
 import express from 'express';
 import { db } from '../database/db.js';
+import { env } from '../conifg/env.js';
 
 const routes = express.Router();
 
@@ -8,7 +9,11 @@ routes.get('/healthz', (req, res) => {
 });
 
 routes.get('/', async (req, res) => {
-	const tenants = await db.select('*').from('tenants');
+	let tenants = await db.select('*').from('tenants');
+		tenants = tenants.map((tenant) => ({
+		...tenant,
+		domain: `http://${tenant.slug}.localhost:${env.port}`
+	}));
 	return res.status(200).render('./home.html', { tenants });
 });
 

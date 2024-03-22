@@ -15,7 +15,7 @@
 		"lint": "eslint --fix .",
 		"test:watch": "vitest",
 		"test": "vitest --run",
-		"postinstall": "touch ./src/database/db.sqlite && chmod +w ./src/database/db.sqlite && npm run db:migrate:latest && npm run db:seed:run",
+		"postinstall": "rm -f ./src/database/db.sqlite && touch ./src/database/db.sqlite && chmod +w ./src/database/db.sqlite && npm run db:migrate:latest && npm run db:seed:run",
 		"db:clean": "rm -rf ./src/database/db.sqlite && touch ./src/database/db.sqlite",
 		"db:rollback": "knex migrate:rollback --knexfile=./src/database/knexfile.js",
 		"db:migrate:make": "knex migrate:make --knexfile=./src/database/knexfile.js",
