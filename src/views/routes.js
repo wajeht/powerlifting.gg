@@ -1,6 +1,7 @@
 import express from 'express';
 import { db } from '../database/db.js';
 import { env } from '../conifg/env.js';
+import { logger } from '../utils/logger.js'
 
 const routes = express.Router();
 
@@ -9,7 +10,7 @@ routes.get('/healthz', (req, res) => {
 });
 
 routes.get('/', tenant, async (req, res) => {
-	console.log(req.subdomains, req.subdomain);
+	logger.debug(req.subdomains, req.subdomain);
 	let tenants = await db.select('*').from('tenants');
 		tenants = tenants.map((tenant) => ({
 		...tenant,
