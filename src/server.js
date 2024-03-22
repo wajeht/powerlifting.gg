@@ -1,6 +1,7 @@
 import { app } from './app.js';
 import { env } from './conifg/env.js';
+import { logger } from './utils/logger.js'
 
 app.listen(env.port, () => {
-	console.log(`Server was started on http://localhost:${env.port}`);
+	logger.info(`Server was started on http://localhost:${env.port}`);
 });
