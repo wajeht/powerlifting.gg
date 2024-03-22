@@ -4,11 +4,14 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const knexConfig = {
+const knexConfig = {
 	client: 'better-sqlite3',
 	useNullAsDefault: true,
+	// connection: {
+	// 	filename: path.resolve(__dirname, 'db.sqlite'),
+	// },
 	connection: {
-		filename: path.resolve(__dirname, 'db.sqlite'),
+		filename: ':memory:',
 	},
 	migrations: {
 		tableName: 'knex_migrations',
@@ -27,3 +30,5 @@ if (process.env.NODE_ENV === 'testing') {
 		filename: ':memory:',
 	};
 }
+
+export default knexConfig;
