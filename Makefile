@@ -5,3 +5,4 @@ push:
 	git add -A
 	./commit.sh
 	git push --no-verify
+	./deploy.sh
