@@ -1,0 +1,8 @@
+# https://github.com/FiloSottile/mkcert
+# you need to install mkcert locally on your computer
+# for tls certificate to work properly
+
+subdomain.local {
+	tls /root/certs/cert.pem /root/certs/key.pem
+	reverse_proxy subdomain:8080
+}
