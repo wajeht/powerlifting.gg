@@ -9,9 +9,40 @@
 }
 
 body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	min-height: 100vh;
+	max-width: 500px;
+
+	padding: 20px;
+
+	margin: 0 auto;
+
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 }
+
+header {
+	padding: 20px;
+	text-align: center;
+	flex-grow: 0;
+}
+
+main {
+	padding: 20px;
+	flex-grow: 1;
+}
+
+footer {
+	padding: 20px;
+	font-size: small;
+	text-align: center;
+	flex-grow: 0;
+}
+
 
 img,
 picture,
