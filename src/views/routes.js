@@ -9,6 +9,7 @@ routes.get('/healthz', (req, res) => {
 });
 
 routes.get('/', async (req, res) => {
+	console.log(req.subdomains);
 	let tenants = await db.select('*').from('tenants');
 		tenants = tenants.map((tenant) => ({
 		...tenant,
@@ -16,6 +17,12 @@ routes.get('/', async (req, res) => {
 	}));
 	return res.status(200).render('./home.html', { tenants });
 });
+
+export function tenant(req, res, next) {
+	const subdomain = req.hostname.split('.')[0];
+	req.subdomain = subdomain;
+	next();
+}
 
 export function notFoundHandler(req, res, next) {
 	return res.status(404).render('./not-found.html');
