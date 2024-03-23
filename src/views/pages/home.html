@@ -2,7 +2,7 @@
 	<% for (const tenant of tenants) { %>
 		<div>
 			<h4><%= tenant.name %></h4>
-			<a href="<%= app.domain(tenant.slug) %>"><%= app.domain(tenant.slug) %></a>
+			<a href="<%= app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %></a>
 		</div>
 	<% } %>
 </div>

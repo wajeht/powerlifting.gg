@@ -31,6 +31,12 @@ export async function tenantHandler(req, res, next) {
 
 		req.tenant = tenant;
 		req.subdomain = subdomain;
+
+		res.locals.app = {
+			...res.locals.app,
+			tenant,
+		};
+
 		return next();
 	} catch (error) {
 		next(error);
@@ -38,16 +44,18 @@ export async function tenantHandler(req, res, next) {
 }
 
 export function localVariables(req, res, next) {
-	const domain = (subdomain) => {
-		if (env.env === 'production') {
-			return `https://${subdomain}.subdomain.jaw.dev`;
-		}
-		return `http://${subdomain}.localhost:${env.port}`;
-	};
 	res.locals.app = {
 		env: env.env,
-		domain: domain,
+		mainDomain:
+			env.env === 'production' ? 'https://subdomain.jaw.dev' : `http://localhost:${env.port}`,
+		configureDomain: (subdomain) => {
+			if (env.env === 'production') {
+				return `https://${subdomain}.subdomain.jaw.dev`;
+			}
+			return `http://${subdomain}.localhost:${env.port}`;
+		},
 	};
+
 	return next();
 }
 
