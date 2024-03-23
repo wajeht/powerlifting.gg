@@ -9,7 +9,7 @@ const routes = express.Router();
 routes.get('/', tenantHandler, async (req, res, next) => {
 	try {
 		if (req.tenant) {
-			return res.status(200).render('tenant.html', { tenant: req.tenant });
+			return res.status(200).render('tenant.html', { tenant: JSON.stringify(req.tenant) });
 		}
 
 		const tenants = await db.select('*').from('tenants');

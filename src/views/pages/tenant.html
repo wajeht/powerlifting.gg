@@ -1,7 +1,10 @@
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+    const tenant = <%- tenant %>;
+    document.body.style.backgroundColor = tenant.color;
+	});
+</script>
+
 <div>
-  <p>welcome from tenant
-    <span style="font-style: italic; font-weight: bold; text-decoration-line: underline;">
-      <%= tenant.name %>
-    </span>
-  </p>
+  <p>welcome from tenant <%- JSON.parse(tenant).name %></p>
 </div>
