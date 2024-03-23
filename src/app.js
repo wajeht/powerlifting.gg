@@ -6,12 +6,13 @@ import compression from 'compression';
 import helmet from 'helmet';
 import express from 'express';
 import { rateLimit } from 'express-rate-limit';
-import routes, {
+import routes from './views/routes.js';
+import {
 	notFoundHandler,
 	errorHandler,
 	rateLimitHandler,
 	localVariables,
-} from './views/routes.js';
+} from './app.middlewares.js';
 
 const app = express();
 
@@ -59,6 +60,7 @@ app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'views', 'layouts
 
 app.use(localVariables);
 app.use(expressLayouts);
+
 app.use(routes);
 
 app.use(notFoundHandler);
