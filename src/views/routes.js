@@ -8,7 +8,10 @@ const routes = express.Router();
 routes.get('/', tenantHandler, async (req, res, next) => {
 	try {
 		if (req.tenant) {
-			return res.status(200).render('tenant.html', { tenant: JSON.stringify(req.tenant) });
+			return res.status(200).render('tenant.html', {
+				tenant: JSON.stringify(req.tenant),
+				layout: '../layouts/tenant.html',
+			});
 		}
 
 		const tenants = await db.select('*').from('tenants');
@@ -24,7 +27,10 @@ routes.get('/healthz', (req, res) => {
 
 routes.get('/login', tenantHandler, async (req, res, next) => {
 	try {
-		return res.status(200).render('login.html');
+		return res.status(200).render('login.html', {
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+		});
 	} catch (error) {
 		next(error);
 	}
@@ -41,7 +47,10 @@ routes.post('/login', tenantHandler, async (req, res, next) => {
 
 routes.get('/register', tenantHandler, async (req, res, next) => {
 	try {
-		return res.status(200).render('register.html');
+		return res.status(200).render('register.html', {
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+		});
 	} catch (error) {
 		next(error);
 	}

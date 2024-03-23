@@ -7,7 +7,7 @@ export function up(knex) {
 		table.increments('id').primary();
 		table.string('name').notNullable();
 		table.string('slug').notNullable().unique();
-		table.string('log_url').nullable();
+		table.string('logo_url').nullable();
 		table.string('color').nullable().defaultTo('black');
 		table.timestamps(true, true);
 	});
