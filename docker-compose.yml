@@ -16,21 +16,6 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
 
-  caddy:
-    image: caddy:alpine
-    container_name: caddy-service
-    restart: unless-stopped
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ./Caddyfile.dev:/etc/caddy/Caddyfile
-      - ./certs:/root/certs
-    networks:
-      - subdomain-network
-    depends_on:
-      - subdomain
-
 networks:
   subdomain-network:
     driver: bridge
