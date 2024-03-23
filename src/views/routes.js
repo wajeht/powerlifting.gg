@@ -35,7 +35,9 @@ routes.get('/user/:id', tenantHandler, async (req, res, next) => {
 			.from('users')
 			.where({ tenant_id: req.tenant.id, id: req.params.id })
 			.first();
+
 		if (!user) throw new NotFoundError();
+
 		return res.status(200).render('user.html', {
 			user,
 			tenant: JSON.stringify(req.tenant),
