@@ -17,7 +17,7 @@ WORKDIR /usr/src/app
 
 COPY --chown=node:node --from=build /usr/src/app .
 
-EXPOSE 8080
+EXPOSE 80
 
 HEALTHCHECK CMD curl -f http://localhost:8080/healthz || exit 1
 
