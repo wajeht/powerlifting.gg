@@ -1,8 +1,8 @@
 import express from 'express';
 import { db } from '../database/db.js';
-import { logger } from '../utils/logger.js';
+// import { logger } from '../utils/logger.js';
 import { tenantHandler } from '../app.middlewares.js';
-import { NotFoundError, ValidationError } from '../app.errors.js';
+import { NotFoundError, UnimplementedFunctionError, ValidationError } from '../app.errors.js';
 
 const routes = express.Router();
 
@@ -59,6 +59,25 @@ routes.get('/user/:id', tenantHandler, async (req, res, next) => {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
 		});
+	} catch (error) {
+		next(error);
+	}
+});
+
+routes.post('/user/:id', tenantHandler, async (req, res, next) => {
+	try {
+		if (req.body.method === 'DELETE') {
+			const user = await db
+				.delete()
+				.from('users')
+				.where({ tenant_id: req.tenant.id, id: req.params.id });
+
+			if (!user) throw new NotFoundError();
+
+			return res.redirect('/admin');
+		}
+
+		throw new UnimplementedFunctionError();
 	} catch (error) {
 		next(error);
 	}
