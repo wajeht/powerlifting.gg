@@ -103,8 +103,12 @@ routes.get('/register', tenantHandler, async (req, res, next) => {
 
 routes.post('/register', tenantHandler, async (req, res, next) => {
 	try {
-		logger.debug(req.body);
-		return res.redirect('/register');
+		await db('users').insert({
+			tenant_id: req.tenant.id,
+			email: req.body.email,
+			password: req.body.password,
+		});
+		return res.redirect('/admin');
 	} catch (error) {
 		next(error);
 	}
