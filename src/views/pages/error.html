@@ -1,3 +1,7 @@
 <div>
-	<p>error</p>
+	<% if (app.env !== 'development') { %>
+		<pre style="white-space: pre-wrap; word-wrap: break-word"><%= error %></pre>
+	<% } else { %>
+		<p><%= error %></p>
+	<% } %>
 </div>

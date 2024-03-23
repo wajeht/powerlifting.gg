@@ -6,10 +6,17 @@ import compression from 'compression';
 import helmet from 'helmet';
 import express from 'express';
 import { rateLimit } from 'express-rate-limit';
-import routes, { notFoundHandler, errorHandler, rateLimitHandler } from './views/routes.js';
+import routes, {
+	notFoundHandler,
+	errorHandler,
+	rateLimitHandler,
+	localVariables,
+} from './views/routes.js';
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(compression());
 app.use(
@@ -49,8 +56,8 @@ app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', path.resolve(path.join(process.cwd(), 'src', 'views', 'pages')));
 app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'views', 'layouts', 'main.html')));
-app.use(expressLayouts);
 
+app.use(localVariables);
 app.use(expressLayouts);
 app.use(routes);
 
