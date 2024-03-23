@@ -26,4 +26,4 @@ clean:
 	docker compose down --rmi all
 
 wipe:
-	docker system prune -a --volumes
+	docker system prune -a --volumes -f
