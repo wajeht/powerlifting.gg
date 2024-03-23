@@ -2,12 +2,15 @@ FROM node:20.6.1-alpine
 
 WORKDIR /usr/src/app
 
-COPY ./package.json ./
-COPY ./package-lock.json ./
+RUN apk update && apk upgrade
+RUN apk add --no-cache sqlite
 
+COPY package.json package-lock.json ./
+
+RUN npm install sqlite3
 RUN npm install
 
-COPY ./ .
+COPY . .
 
 EXPOSE 8080
 

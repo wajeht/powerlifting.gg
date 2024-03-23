@@ -6,7 +6,7 @@
 	"main": "./src/server.js",
 	"scripts": {
 		"start": "npm run db:prepare && node ./src/server.js",
-		"dev": "nodemon ./src/server.js",
+		"dev": "npm run db:prepare && nodemon ./src/server.js",
 		"update:deps": " npx npm-check -u",
 		"check:deps": "npx depcheck",
 		"format:check": "prettier --check .",
