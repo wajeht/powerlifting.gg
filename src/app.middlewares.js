@@ -38,8 +38,15 @@ export async function tenantHandler(req, res, next) {
 }
 
 export function localVariables(req, res, next) {
+	const domain = (subdomain) => {
+		if (env.env === 'production') {
+			return `https://${subdomain}.subdomain.jaw.dev`;
+		}
+		return `http://${subdomain}.localhost:${env.port}`;
+	};
 	res.locals.app = {
 		env: env.env,
+		domain: domain,
 	};
 	return next();
 }

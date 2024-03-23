@@ -1,18 +1,13 @@
 import express from 'express';
 import { db } from '../database/db.js';
-import { env } from '../conifg/env.js';
+// import { env } from '../conifg/env.js';
 import { tenantHandler } from '../app.middlewares.js';
 
 const routes = express.Router();
 
 routes.get('/', async (req, res, next) => {
 	try {
-		const domain = env.env === 'production' ? 'subdomain.jaw.dev' : `localhost:${env.port}`;
-		let tenants = await db.select('*').from('tenants');
-		tenants = tenants.map((tenant) => ({
-			...tenant,
-			domain: `http://${tenant.slug}.${domain}`,
-		}));
+		const tenants = await db.select('*').from('tenants');
 		return res.status(200).render('home.html', { tenants });
 	} catch (error) {
 		next(error);
