@@ -17,7 +17,7 @@ export async function tenantHandler(req, res, next) {
 		logger.debug({ subdomain });
 
 		// test this for prod
-		if (subdomain === 'localhost') {
+		if (['localhost', 'subdomain'].includes(subdomain)) {
 			return next();
 		}
 
