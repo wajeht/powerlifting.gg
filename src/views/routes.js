@@ -3,6 +3,7 @@ import { db } from '../database/db.js';
 // import { logger } from '../utils/logger.js';
 import { tenantHandler } from '../app.middlewares.js';
 import { NotFoundError, UnimplementedFunctionError, ValidationError } from '../app.errors.js';
+import bcrypt from 'bcryptjs';
 
 const routes = express.Router();
 
@@ -99,10 +100,15 @@ routes.post('/login', tenantHandler, async (req, res, next) => {
 		const user = await db
 			.select('*')
 			.from('users')
-			.where({ tenant_id: req.tenant.id, email: req.body.email, password: req.body.password })
+			.where({ tenant_id: req.tenant.id, email: req.body.email })
 			.first();
 
 		if (!user) throw new ValidationError('email or password is wrong!');
+
+		const comparedPassword = await bcrypt.compare(req.body.password, user.password);
+
+		if (!comparedPassword) throw new ValidationError('email or password is wrong!');
+
 		return res.redirect('/admin');
 	} catch (error) {
 		next(error);
@@ -122,11 +128,13 @@ routes.get('/register', tenantHandler, async (req, res, next) => {
 
 routes.post('/register', tenantHandler, async (req, res, next) => {
 	try {
+		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		await db('users').insert({
 			tenant_id: req.tenant.id,
 			email: req.body.email,
-			password: req.body.password,
+			password: hashedPassword,
 		});
+
 		return res.redirect('/admin');
 	} catch (error) {
 		next(error);
