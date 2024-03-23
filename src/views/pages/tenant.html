@@ -7,4 +7,9 @@
 
 <div>
   <p>welcome from tenant <%- JSON.parse(tenant).name %></p>
+
+  <center>
+    <a href="<%= app.configureDomain(JSON.parse(tenant).slug)%>/login">login</a>
+    <a href="<%= app.configureDomain(JSON.parse(tenant).slug)%>/register">register</a>
+  </center>
 </div>

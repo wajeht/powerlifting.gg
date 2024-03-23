@@ -1,6 +1,5 @@
 import express from 'express';
 import { db } from '../database/db.js';
-import { env } from '../conifg/env.js';
 import { logger } from '../utils/logger.js';
 import { tenantHandler } from '../app.middlewares.js';
 
@@ -33,13 +32,14 @@ routes.get('/login', tenantHandler, async (req, res, next) => {
 
 routes.post('/login', tenantHandler, async (req, res, next) => {
 	try {
-		// login
+		logger.debug(req.body);
+		return res.redirect('/login');
 	} catch (error) {
 		next(error);
 	}
 });
 
-routes.get('/regiser', tenantHandler, async (req, res, next) => {
+routes.get('/register', tenantHandler, async (req, res, next) => {
 	try {
 		return res.status(200).render('register.html');
 	} catch (error) {
@@ -47,9 +47,10 @@ routes.get('/regiser', tenantHandler, async (req, res, next) => {
 	}
 });
 
-routes.post('/regiser', tenantHandler, async (req, res, next) => {
+routes.post('/register', tenantHandler, async (req, res, next) => {
 	try {
-		// regiser
+		logger.debug(req.body);
+		return res.redirect('/register');
 	} catch (error) {
 		next(error);
 	}
