@@ -21,4 +21,6 @@ public/show-hint.min.js
 public/vim.min.js
 public/libs/*
 public/libs
-src/views
+src/views/components/*
+src/views/layouts/*
+src/views/pages/*
