@@ -1,21 +1,23 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
-    const tenant = <%- tenant %>;
-    document.body.style.backgroundColor = tenant.color;
+		const tenant = <% - tenant %>;
+		document.body.style.backgroundColor = tenant.color;
 	});
 </script>
 
 <header>
-  <center>
+	<center>
 		<a href="<%= app.configureDomain(JSON.parse(tenant).slug) %>">
 			<img src="<%= JSON.parse(tenant).logo_url %>" alt="logo">
 		</a>
 
 		<a href="<%= app.configureDomain(JSON.parse(tenant).slug) %>">
-			<h1><%= JSON.parse(tenant).name %></h1>
+			<h1>
+				<%= JSON.parse(tenant).name %>
+			</h1>
 		</a>
 
-    <a href="<%= app.configureDomain(JSON.parse(tenant).slug)%>/login">login</a>
-    <a href="<%= app.configureDomain(JSON.parse(tenant).slug)%>/register">register</a>
-</center>
+		<a href="<%= app.configureDomain(JSON.parse(tenant).slug)%>/login">login</a>
+		<a href="<%= app.configureDomain(JSON.parse(tenant).slug)%>/register">register</a>
+	</center>
 </header>
