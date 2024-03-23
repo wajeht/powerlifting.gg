@@ -8,9 +8,11 @@ const routes = express.Router();
 routes.get('/', tenantHandler, async (req, res, next) => {
 	try {
 		if (req.tenant) {
+			const users = await db.select('*').from('users').where({ tenant_id: req.tenant.id });
 			return res.status(200).render('tenant.html', {
 				tenant: JSON.stringify(req.tenant),
 				layout: '../layouts/tenant.html',
+				users,
 			});
 		}
 

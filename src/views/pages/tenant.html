@@ -1,3 +1,12 @@
-<header>
+<div>
   <p>welcome from tenant <%- JSON.parse(tenant).name %></p>
-</header>
+  <br>
+
+	<% for (const user of users) { %>
+		<div>
+      <h4><%= user.email %></h4>
+      <p><%= user.password %></p>
+		</div>
+    <br>
+	<% } %>
+</div>
