@@ -5,6 +5,20 @@ import { tenantHandler } from '../app.middlewares.js';
 
 const routes = express.Router();
 
+routes.get('/', async (req, res, next) => {
+	try {
+		const domain = env.env === 'production' ? 'subdomain.jaw.dev' : `localhost:${env.port}`;
+		let tenants = await db.select('*').from('tenants');
+		tenants = tenants.map((tenant) => ({
+			...tenant,
+			domain: `http://${tenant.slug}.${domain}`,
+		}));
+		return res.status(200).render('home.html', { tenants });
+	} catch (error) {
+		next(error);
+	}
+});
+
 routes.get('/healthz', (req, res) => {
 	return res.status(200).json({ message: 'ok', date: new Date() });
 });
@@ -36,20 +50,6 @@ routes.get('/regiser', tenantHandler, async (req, res, next) => {
 routes.post('/regiser', tenantHandler, async (req, res, next) => {
 	try {
 		// regiser
-	} catch (error) {
-		next(error);
-	}
-});
-
-routes.get('/', tenantHandler, async (req, res, next) => {
-	try {
-		const domain = env.env === 'production' ? 'subdomain.jaw.dev' : `localhost:${env.port}`;
-		let tenants = await db.select('*').from('tenants');
-		tenants = tenants.map((tenant) => ({
-			...tenant,
-			domain: `http://${tenant.slug}.${domain}`,
-		}));
-		return res.status(200).render('home.html', { tenants });
 	} catch (error) {
 		next(error);
 	}

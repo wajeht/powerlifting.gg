@@ -18,7 +18,7 @@ export async function tenantHandler(req, res, next) {
 
 		// test this for prod
 		if (['localhost', 'subdomain'].includes(subdomain)) {
-			return next();
+			return res.redirect('/');
 		}
 
 		const [tenant] = await db.select('*').from('tenants').where({ slug: subdomain });
