@@ -1,12 +1,17 @@
 import express from 'express';
 import { db } from '../database/db.js';
-// import { env } from '../conifg/env.js';
+import { env } from '../conifg/env.js';
+import { logger } from '../utils/logger.js';
 import { tenantHandler } from '../app.middlewares.js';
 
 const routes = express.Router();
 
-routes.get('/', async (req, res, next) => {
+routes.get('/', tenantHandler, async (req, res, next) => {
 	try {
+		if (req.tenant) {
+			return res.status(200).render('tenant.html', { tenant: req.tenant });
+		}
+
 		const tenants = await db.select('*').from('tenants');
 		return res.status(200).render('home.html', { tenants });
 	} catch (error) {

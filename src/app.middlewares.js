@@ -14,16 +14,12 @@ export async function tenantHandler(req, res, next) {
 	try {
 		const subdomain = req.hostname.split('.')[0];
 
-		logger.debug({ subdomain });
-
 		// test this for prod
 		if (['localhost', 'subdomain'].includes(subdomain)) {
-			return res.redirect('/');
+			return next();
 		}
 
 		const [tenant] = await db.select('*').from('tenants').where({ slug: subdomain });
-
-		logger.debug({ tenant });
 
 		if (!tenant) {
 			throw new NotFoundError();
