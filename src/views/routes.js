@@ -2,8 +2,13 @@ import express from 'express';
 import { db } from '../database/db.js';
 import { logger } from '../utils/logger.js';
 import { tenantHandler } from '../app.middlewares.js';
+import { NotFoundError } from '../app.errors.js';
 
 const routes = express.Router();
+
+routes.get('/healthz', (req, res) => {
+	return res.status(200).json({ message: 'ok', date: new Date() });
+});
 
 routes.get('/', tenantHandler, async (req, res, next) => {
 	try {
@@ -23,8 +28,24 @@ routes.get('/', tenantHandler, async (req, res, next) => {
 	}
 });
 
-routes.get('/healthz', (req, res) => {
-	return res.status(200).json({ message: 'ok', date: new Date() });
+routes.get('/tenant/user/:id', tenantHandler, async (req, res, next) => {
+	try {
+		const user = await db
+			.select('*')
+			.from('users')
+			.where({ tenant_id: req.tenant.id, id: req.params.id })
+			.first();
+		if (!user) {
+			throw new NotFoundError();
+		}
+		return res.status(200).render('user.html', {
+			user,
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+		});
+	} catch (error) {
+		next(error);
+	}
 });
 
 routes.get('/login', tenantHandler, async (req, res, next) => {

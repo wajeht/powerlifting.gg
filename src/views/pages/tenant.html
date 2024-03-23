@@ -4,12 +4,8 @@
 
   <% for (const user of users) { %>
     <div>
-      <h4>
-        <%= user.email %>
-      </h4>
-      <p>
-        <%= user.password %>
-      </p>
+      <a href="/tenant/user/<%= user.id %>"><h4><%= user.email %></h4></a>
+      <p><%= user.password %></p>
     </div>
     <br>
     <% } %>
