@@ -2,11 +2,15 @@
   <p>welcome from tenant <%- JSON.parse(tenant).name %></p>
   <br>
 
-	<% for (const user of users) { %>
-		<div>
-      <h4><%= user.email %></h4>
-      <p><%= user.password %></p>
-		</div>
+  <% for (const user of users) { %>
+    <div>
+      <h4>
+        <%= user.email %>
+      </h4>
+      <p>
+        <%= user.password %>
+      </p>
+    </div>
     <br>
-	<% } %>
+    <% } %>
 </div>
