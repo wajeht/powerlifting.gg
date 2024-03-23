@@ -6,7 +6,7 @@ export async function seed(db) {
 	for (const tenant of tenants) {
 		const users = Array.from({ length: 3 }, () => ({
 			email: faker.internet.email(),
-			password: faker.internet.password(),
+			password: 'password',
 			tenant_id: tenant.id,
 		}));
 

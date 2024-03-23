@@ -2,7 +2,7 @@ import express from 'express';
 import { db } from '../database/db.js';
 import { logger } from '../utils/logger.js';
 import { tenantHandler } from '../app.middlewares.js';
-import { NotFoundError } from '../app.errors.js';
+import { NotFoundError, ValidationError } from '../app.errors.js';
 
 const routes = express.Router();
 
@@ -23,6 +23,22 @@ routes.get('/', tenantHandler, async (req, res, next) => {
 
 		const tenants = await db.select('*').from('tenants');
 		return res.status(200).render('home.html', { tenants });
+	} catch (error) {
+		next(error);
+	}
+});
+
+routes.get('/admin', tenantHandler, async (req, res, next) => {
+	try {
+		if (req.tenant) {
+			const users = await db.select('*').from('users').where({ tenant_id: req.tenant.id });
+			return res.status(200).render('admin.html', {
+				tenant: JSON.stringify(req.tenant),
+				layout: '../layouts/tenant.html',
+				users,
+			});
+		}
+		throw new NotFoundError();
 	} catch (error) {
 		next(error);
 	}
@@ -61,8 +77,14 @@ routes.get('/login', tenantHandler, async (req, res, next) => {
 
 routes.post('/login', tenantHandler, async (req, res, next) => {
 	try {
-		logger.debug(req.body);
-		return res.redirect('/login');
+		const user = await db
+			.select('*')
+			.from('users')
+			.where({ tenant_id: req.tenant.id, email: req.body.email, password: req.body.password })
+			.first();
+
+		if (!user) throw new ValidationError('email or password is wrong!');
+		return res.redirect('/admin');
 	} catch (error) {
 		next(error);
 	}

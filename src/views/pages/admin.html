@@ -1,0 +1,13 @@
+<div>
+  <p>Welcome back!</p>
+  <br>
+
+  <% for (const user of users) { %>
+    <div>
+      <a href="/user/<%= user.id %>"><h4><%= user.id %></h4></a>
+      <a href="mailto:<%= user.email %>"><h4><%= user.email %></h4></a>
+      <p><%= user.password %></p>
+    </div>
+    <br>
+    <% } %>
+</div>

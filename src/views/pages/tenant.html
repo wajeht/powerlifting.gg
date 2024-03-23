@@ -1,12 +1,4 @@
 <div>
-  <p>Welcome from tenant <%- JSON.parse(tenant).name %>.</p>
+  <p>Welcome from tenant <%- JSON.parse(tenant).name %>. Please login or register!</p>
   <br>
-
-  <% for (const user of users) { %>
-    <div>
-      <a href="/user/<%= user.id %>"><h4><%= user.email %></h4></a>
-      <p><%= user.password %></p>
-    </div>
-    <br>
-    <% } %>
 </div>
