@@ -56,11 +56,24 @@ export function localVariables(req, res, next) {
 }
 
 export function notFoundHandler(req, res, next) {
+	if (req.tenant) {
+		return res.status(404).render('./not-found.html', {
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+		});
+	}
 	return res.status(404).render('./not-found.html');
 }
 
 export function errorHandler(err, req, res, next) {
 	logger.error(err);
 	const error = process.env.NODE_ENV === 'production' ? 'oh no, something went wrong!' : err;
+	if (req.tenant) {
+		return res.status(500).render('./error.html', {
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+			error,
+		});
+	}
 	return res.status(500).render('error.html', { error });
 }
