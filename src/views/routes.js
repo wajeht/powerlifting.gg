@@ -28,16 +28,14 @@ routes.get('/', tenantHandler, async (req, res, next) => {
 	}
 });
 
-routes.get('/tenant/user/:id', tenantHandler, async (req, res, next) => {
+routes.get('/user/:id', tenantHandler, async (req, res, next) => {
 	try {
 		const user = await db
 			.select('*')
 			.from('users')
 			.where({ tenant_id: req.tenant.id, id: req.params.id })
 			.first();
-		if (!user) {
-			throw new NotFoundError();
-		}
+		if (!user) throw new NotFoundError();
 		return res.status(200).render('user.html', {
 			user,
 			tenant: JSON.stringify(req.tenant),
