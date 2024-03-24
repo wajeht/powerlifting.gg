@@ -15,7 +15,7 @@ export async function tenantHandler(req, res, next) {
 		const subdomain = req.hostname.split('.')[0];
 
 		// test this for prod
-		if (['localhost', 'subdomain'].includes(subdomain)) {
+		if (['localhost', 'subdomain', 'jaw'].includes(subdomain)) {
 			return next();
 		}
 
