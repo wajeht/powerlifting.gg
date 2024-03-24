@@ -18,16 +18,17 @@ export async function tenantHandler(req, res, next) {
 			return next();
 		}
 
-		let tenant = req.app.locals.tenant;
+		const tenant = await db.select('*').from('tenants').where({ slug: subdomain }).first();
 
 		if (!tenant) {
-			tenant = await db.select('*').from('tenants').where({ slug: subdomain }).first();
-			if (!tenant) throw new NotFoundError('Tenant not found');
-			req.app.locals.tenant = tenant;
+			throw new NotFoundError();
 		}
 
 		req.tenant = tenant;
-		res.locals.app.tenant = tenant;
+		res.locals.app = {
+			...res.locals.app,
+			tenant,
+		};
 
 		return next();
 	} catch (error) {
