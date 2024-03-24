@@ -42,11 +42,10 @@ export async function tenantHandler(req, res, next) {
 export function localVariables(req, res, next) {
 	res.locals.app = {
 		env: env.env,
-		mainDomain:
-			env.env === 'production' ? 'https://subdomain.jaw.dev' : `http://localhost:${env.port}`,
+		mainDomain: env.env === 'production' ? 'http://jaw.lol' : `http://localhost:${env.port}`,
 		configureDomain: (subdomain) => {
 			if (env.env === 'production') {
-				return `https://${subdomain}.subdomain.jaw.dev`;
+				return `http://${subdomain}.jaw.lol`;
 			}
 			return `http://${subdomain}.localhost:${env.port}`;
 		},
