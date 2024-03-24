@@ -13,6 +13,12 @@ deploy:
 up:
 	docker compose -f docker-compose.dev.yml up
 
+up-prod:
+	docker compose -f docker-compose.yml up
+
+up-prod-d:
+	docker compose -f docker-compose.yml up -d
+
 up-d:
 	docker compose -f docker-compose.dev.yml up -d
 
