@@ -11,7 +11,7 @@ FROM node:20.6.1-alpine
 
 RUN apk update && apk upgrade && apk add curl
 
-USER node
+# USER node
 
 WORKDIR /usr/src/app
 
