@@ -36,3 +36,6 @@ clean:
 
 wipe:
 	docker system prune -a --volumes -f
+
+all:
+	docker stop $(docker ps -aq) && docker system prune -af --volumes
