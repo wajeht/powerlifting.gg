@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import express from 'express';
 import { rateLimit } from 'express-rate-limit';
 import routes from './views/routes.js';
+import api from './api/api.js';
 import {
 	notFoundHandler,
 	errorHandler,
@@ -63,6 +64,7 @@ app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'views', 'layouts
 app.use(localVariables);
 app.use(expressLayouts);
 
+app.use('/api', api);
 app.use(routes);
 
 app.use(notFoundHandler);
