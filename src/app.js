@@ -12,6 +12,7 @@ import {
 	errorHandler,
 	rateLimitHandler,
 	localVariables,
+	skipOnMyIp,
 } from './app.middlewares.js';
 
 const app = express();
@@ -45,6 +46,7 @@ app.use(
 		standardHeaders: 'draft-7',
 		legacyHeaders: false,
 		handler: rateLimitHandler,
+		skip: skipOnMyIp,
 	}),
 );
 

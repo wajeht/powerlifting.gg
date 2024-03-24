@@ -77,3 +77,9 @@ export function errorHandler(err, req, res, next) {
 	}
 	return res.status(500).render('error.html', { error });
 }
+
+export async function skipOnMyIp(req, res) {
+	const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
+	const myIpWasConnected = myIp === env.myIp;
+	return myIpWasConnected || env.env !== 'production';
+}
