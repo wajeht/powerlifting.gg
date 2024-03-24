@@ -45,12 +45,12 @@ export async function tenantHandler(req, res, next) {
 export function localVariables(req, res, next) {
 	res.locals.app = {
 		env: env.env,
-		mainDomain: env.env === 'production' ? 'http://jaw.lol' : `http://localhost:${env.port}`,
+		mainDomain: env.env === 'production' ? 'http://jaw.lol' : `http://app.local`,
 		configureDomain: (subdomain) => {
 			if (env.env === 'production') {
 				return `http://${subdomain}.jaw.lol`;
 			}
-			return `http://${subdomain}.localhost:${env.port}`;
+			return `http://${subdomain}.app.local`;
 		},
 	};
 
@@ -58,13 +58,11 @@ export function localVariables(req, res, next) {
 }
 
 export function notFoundHandler(req, res, next) {
-	if (req.tenant) {
-		return res.status(404).render('./not-found.html', {
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-		});
-	}
-	return res.status(404).render('./not-found.html');
+	if (!req.tenant) throw new NotFoundError();
+	return res.status(404).render('./not-found.html', {
+		tenant: JSON.stringify(req.tenant),
+		layout: '../layouts/tenant.html',
+	});
 }
 
 export function errorHandler(err, req, res, next) {
@@ -89,6 +87,7 @@ export function errorHandler(err, req, res, next) {
 			error: errorMessage,
 		});
 	}
+
 	return res.status(statusCode).render('error.html', { error: errorMessage });
 }
 export async function skipOnMyIp(req, res) {
