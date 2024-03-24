@@ -28,13 +28,7 @@ app.use(
 			directives: {
 				...helmet.contentSecurityPolicy.getDefaultDirectives(),
 				'default-src': ["'self'", 'plausible.jaw.dev '],
-				'script-src': [
-					"'self'",
-					"'unsafe-inline'",
-					'dogs.jaw.dev',
-					'localhost',
-					'plausible.jaw.dev',
-				],
+				'script-src': ["'self'", "'unsafe-inline'", 'jaw.lol', 'localhost', 'plausible.jaw.dev'],
 			},
 		},
 	}),
