@@ -59,7 +59,10 @@ export function localVariables(req, res, next) {
 }
 
 export function notFoundHandler(req, res, next) {
-	if (!req.tenant) throw new NotFoundError();
+	if (!req.tenant) {
+		return res.status(404).render('./not-found.html');
+	}
+
 	return res.status(404).render('./not-found.html', {
 		tenant: JSON.stringify(req.tenant),
 		layout: '../layouts/tenant.html',
