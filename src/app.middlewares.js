@@ -12,9 +12,9 @@ export function rateLimitHandler(req, res, next) {
 
 export async function tenantHandler(req, res, next) {
 	try {
-		const subdomain = req.hostname.split('.')[0];
+		const subdomain = req.subdomains.length ? req.subdomains[0] : null;
 
-		if (['localhost', 'subdomain', 'jaw'].includes(subdomain)) {
+		if (!subdomain) {
 			return next();
 		}
 

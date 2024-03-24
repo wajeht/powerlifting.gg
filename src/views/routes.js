@@ -31,15 +31,14 @@ routes.get('/', tenantHandler, async (req, res, next) => {
 
 routes.get('/admin', tenantHandler, async (req, res, next) => {
 	try {
-		if (req.tenant) {
-			const users = await db.select('*').from('users').where({ tenant_id: req.tenant.id });
-			return res.status(200).render('admin.html', {
-				tenant: JSON.stringify(req.tenant),
-				layout: '../layouts/tenant.html',
-				users,
-			});
-		}
-		throw new NotFoundError();
+		if (!req.tenant) throw new NotFoundError();
+
+		const users = await db.select('*').from('users').where({ tenant_id: req.tenant.id });
+		return res.status(200).render('admin.html', {
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+			users,
+		});
 	} catch (error) {
 		next(error);
 	}
@@ -47,6 +46,8 @@ routes.get('/admin', tenantHandler, async (req, res, next) => {
 
 routes.get('/user/:id', tenantHandler, async (req, res, next) => {
 	try {
+		if (!req.tenant) throw new NotFoundError();
+
 		const user = await db
 			.select('*')
 			.from('users')
@@ -67,6 +68,8 @@ routes.get('/user/:id', tenantHandler, async (req, res, next) => {
 
 routes.post('/user/:id', tenantHandler, async (req, res, next) => {
 	try {
+		if (!req.tenant) throw new NotFoundError();
+
 		if (req.body.method === 'DELETE') {
 			const user = await db
 				.delete()
@@ -86,6 +89,8 @@ routes.post('/user/:id', tenantHandler, async (req, res, next) => {
 
 routes.get('/login', tenantHandler, async (req, res, next) => {
 	try {
+		if (!req.tenant) throw new NotFoundError();
+
 		return res.status(200).render('login.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
@@ -97,6 +102,8 @@ routes.get('/login', tenantHandler, async (req, res, next) => {
 
 routes.post('/login', tenantHandler, async (req, res, next) => {
 	try {
+		if (!req.tenant) throw new NotFoundError();
+
 		const user = await db
 			.select('*')
 			.from('users')
@@ -117,6 +124,8 @@ routes.post('/login', tenantHandler, async (req, res, next) => {
 
 routes.get('/register', tenantHandler, async (req, res, next) => {
 	try {
+		if (!req.tenant) throw new NotFoundError();
+
 		return res.status(200).render('register.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
@@ -128,6 +137,8 @@ routes.get('/register', tenantHandler, async (req, res, next) => {
 
 routes.post('/register', tenantHandler, async (req, res, next) => {
 	try {
+		if (!req.tenant) throw new NotFoundError();
+
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		await db('users').insert({
 			tenant_id: req.tenant.id,
