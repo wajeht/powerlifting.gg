@@ -7,6 +7,7 @@
 	"scripts": {
 		"start": "NODE_ENV=production && npm run build && npm run db:prepare && node ./src/server.js",
 		"dev": "concurrently --kill-others --names \"EXPRESS,TAILWIND\" -c \"bgGreen.black,bgCyan.black\" \"npm run dev:server\" \"npm run dev:tailwind\"",
+		"dev:vue": "vite",
 		"dev:server": "npm run db:prepare && nodemon ./src/server.js",
 		"dev:tailwind": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --watch",
 		"build": "npm run build:tailwind && npm run minify",
@@ -49,7 +50,9 @@
 		"helmet": "^7.1.0",
 		"html-minifier": "^4.0.0",
 		"knex": "^3.1.0",
-		"sqlite3": "^5.1.7"
+		"sqlite3": "^5.1.7",
+		"vite": "^5.2.6",
+		"vue": "^3.4.21"
 	},
 	"devDependencies": {
 		"concurrently": "^8.2.2",
