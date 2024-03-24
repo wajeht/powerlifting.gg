@@ -2,6 +2,7 @@ import { logger } from './utils/logger.js';
 import { db } from './database/db.js';
 import { env } from './conifg/env.js';
 import {
+	HttpError,
 	NotFoundError,
 	ForbiddenError,
 	UnauthorizedError,
@@ -67,6 +68,7 @@ export function notFoundHandler(req, res, next) {
 
 export function errorHandler(err, req, res, next) {
 	const errorStatusCodes = {
+		HttpError: new HttpError().statusCode,
 		NotFoundError: new NotFoundError().statusCode,
 		ForbiddenError: new ForbiddenError().statusCode,
 		UnauthorizedError: new UnauthorizedError().statusCode,
@@ -90,6 +92,7 @@ export function errorHandler(err, req, res, next) {
 
 	return res.status(statusCode).render('error.html', { error: errorMessage });
 }
+
 export async function skipOnMyIp(req, res) {
 	const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
 	return myIp == env.myIp;

@@ -1,5 +1,5 @@
 export class HttpError extends Error {
-	constructor(statusCode, message) {
+	constructor(statusCode = 500, message = 'Oh no, something went wrong!') {
 		super(message);
 		this.statusCode = statusCode;
 	}
