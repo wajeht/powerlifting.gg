@@ -14,24 +14,20 @@ export async function tenantHandler(req, res, next) {
 	try {
 		const subdomain = req.hostname.split('.')[0];
 
-		// test this for prod
 		if (['localhost', 'subdomain', 'jaw'].includes(subdomain)) {
 			return next();
 		}
 
-		const [tenant] = await db.select('*').from('tenants').where({ slug: subdomain });
+		let tenant = req.app.locals.tenant;
 
 		if (!tenant) {
-			throw new NotFoundError();
+			tenant = await db.select('*').from('tenants').where({ slug: subdomain }).first();
+			if (!tenant) throw new NotFoundError('Tenant not found');
+			req.app.locals.tenant = tenant;
 		}
 
 		req.tenant = tenant;
-		req.subdomain = subdomain;
-
-		res.locals.app = {
-			...res.locals.app,
-			tenant,
-		};
+		res.locals.app.tenant = tenant;
 
 		return next();
 	} catch (error) {
@@ -79,6 +75,5 @@ export function errorHandler(err, req, res, next) {
 
 export async function skipOnMyIp(req, res) {
 	const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
-	const myIpWasConnected = myIp === env.myIp;
-	return myIpWasConnected || env.env !== 'production';
+	return myIp == env.myIp;
 }
