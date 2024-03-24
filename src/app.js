@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import express from 'express';
 import { rateLimit } from 'express-rate-limit';
 import routes from './views/routes.js';
+import { env } from './conifg/env.js';
 import api from './api/api.js';
 import {
 	notFoundHandler,
@@ -20,19 +21,22 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 app.use(compression());
-app.use(
-	helmet({
-		contentSecurityPolicy: {
-			directives: {
-				...helmet.contentSecurityPolicy.getDefaultDirectives(),
-				'default-src': ["'self'", 'plausible.jaw.dev '],
-				'script-src': ["'self'", "'unsafe-inline'", 'jaw.lol', 'localhost', 'plausible.jaw.dev'],
+
+if (env.env === 'production') {
+	app.use(cors());
+	app.use(
+		helmet({
+			contentSecurityPolicy: {
+				directives: {
+					...helmet.contentSecurityPolicy.getDefaultDirectives(),
+					'default-src': ["'self'", 'plausible.jaw.dev '],
+					'script-src': ["'self'", "'unsafe-inline'", 'jaw.lol', 'localhost', 'plausible.jaw.dev'],
+				},
 			},
-		},
-	}),
-);
+		}),
+	);
+}
 
 app.use(
 	rateLimit({
