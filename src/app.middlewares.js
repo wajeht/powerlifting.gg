@@ -1,7 +1,13 @@
 import { logger } from './utils/logger.js';
-import { NotFoundError } from './app.errors.js';
 import { db } from './database/db.js';
 import { env } from './conifg/env.js';
+import {
+	NotFoundError,
+	ForbiddenError,
+	UnauthorizedError,
+	ValidationError,
+	UnimplementedFunctionError,
+} from './app.errors.js';
 
 export function rateLimitHandler(req, res, next) {
 	if (req.get('Content-Type') === 'application/json') {
@@ -62,18 +68,29 @@ export function notFoundHandler(req, res, next) {
 }
 
 export function errorHandler(err, req, res, next) {
+	const errorStatusCodes = {
+		NotFoundError: new NotFoundError().statusCode,
+		ForbiddenError: new ForbiddenError().statusCode,
+		UnauthorizedError: new UnauthorizedError().statusCode,
+		ValidationError: new ValidationError().statusCode,
+		UnimplementedFunctionError: new UnimplementedFunctionError().statusCode,
+	};
+
+	let statusCode = errorStatusCodes[err.constructor.name] || 500;
+
 	logger.error(err);
-	const error = process.env.NODE_ENV === 'production' ? 'oh no, something went wrong!' : err;
+
+	const errorMessage = process.env.NODE_ENV === 'production' ? err.message : err.stack;
+
 	if (req.tenant) {
-		return res.status(500).render('./error.html', {
+		return res.status(statusCode).render('./error.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
-			error,
+			error: errorMessage,
 		});
 	}
-	return res.status(500).render('error.html', { error });
+	return res.status(statusCode).render('error.html', { error: errorMessage });
 }
-
 export async function skipOnMyIp(req, res) {
 	const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
 	return myIp == env.myIp;
