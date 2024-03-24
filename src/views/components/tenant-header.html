@@ -6,7 +6,6 @@
 </script>
 
 <header>
-	<center>
 		<h1><%= JSON.parse(tenant).emoji %></h1>
 
 		<a href="<%= app.configureDomain(JSON.parse(tenant).slug) %>">
@@ -15,5 +14,4 @@
 
 		<a href="<%= app.configureDomain(JSON.parse(tenant).slug)%>/login">login</a>
 		<a href="<%= app.configureDomain(JSON.parse(tenant).slug)%>/register">register</a>
-	</center>
 </header>
