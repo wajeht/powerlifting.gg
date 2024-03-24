@@ -58,13 +58,17 @@ export function localVariables(req, res, next) {
 	return next();
 }
 
-export function notFoundHandler(req, res, next) {
-	if (!req.tenant) {
+export async function notFoundHandler(req, res, next) {
+	const subdomain = req.subdomains.length ? req.subdomains[0] : null;
+
+	if (!subdomain) {
 		return res.status(404).render('./not-found.html');
 	}
 
+	const tenant = await db.select('*').from('tenants').where({ slug: subdomain }).first();
+
 	return res.status(404).render('./not-found.html', {
-		tenant: JSON.stringify(req.tenant),
+		tenant: JSON.stringify(tenant),
 		layout: '../layouts/tenant.html',
 	});
 }
