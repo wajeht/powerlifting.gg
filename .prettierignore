@@ -24,3 +24,5 @@ public/libs
 src/views/components/*
 src/views/layouts/*
 src/views/pages/*
+csr.pem
+key.pem
