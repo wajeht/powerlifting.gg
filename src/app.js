@@ -3,7 +3,7 @@ import ejs from 'ejs';
 import expressLayouts from 'express-ejs-layouts';
 import cors from 'express';
 import compression from 'compression';
-// import helmet from 'helmet';
+import helmet from 'helmet';
 import express from 'express';
 import { rateLimit } from 'express-rate-limit';
 import routes from './views/routes.js';
@@ -21,23 +21,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(compression());
-// app.use(
-// 	helmet({
-// 		contentSecurityPolicy: {
-// 			directives: {
-// 				...helmet.contentSecurityPolicy.getDefaultDirectives(),
-// 				'default-src': ["'self'", 'plausible.jaw.dev '],
-// 				'script-src': [
-// 					"'self'",
-// 					"'unsafe-inline'",
-// 					'dogs.jaw.dev',
-// 					'localhost',
-// 					'plausible.jaw.dev',
-// 				],
-// 			},
-// 		},
-// 	}),
-// );
+app.use(
+	helmet({
+		contentSecurityPolicy: {
+			directives: {
+				...helmet.contentSecurityPolicy.getDefaultDirectives(),
+				'default-src': ["'self'", 'plausible.jaw.dev '],
+				'script-src': [
+					"'self'",
+					"'unsafe-inline'",
+					'dogs.jaw.dev',
+					'localhost',
+					'plausible.jaw.dev',
+				],
+			},
+		},
+	}),
+);
 
 app.use(
 	rateLimit({

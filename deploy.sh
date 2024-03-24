@@ -1,5 +1,13 @@
 #!/bin/bash
 
-source .env
+ssh root@23.88.102.183 << EOF
 
-caprover deploy --caproverUrl $CAPROVER_DOMAIN --appToken $CAPROVER_APP_TOKEN --appName $CAPROVER_APP_NAME -b $CAPROVER_GIT_BRANCH_NAME
+# Change directory to subdomain
+cd subdomain
+
+# Git pull
+git pull
+
+docker compose up -d
+
+EOF
