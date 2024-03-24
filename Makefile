@@ -7,6 +7,9 @@ push:
 	git push --no-verify
 	./deploy.sh
 
+deploy:
+	./deploy.sh
+
 up:
 	docker compose up
 
