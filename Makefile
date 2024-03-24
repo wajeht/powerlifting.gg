@@ -11,22 +11,22 @@ deploy:
 	./deploy.sh
 
 up:
-	docker compose up
+	docker compose -f docker-compose.dev.yml up
 
 up-d:
-	docker compose up -d
+	docker compose -f docker-compose.dev.yml up -d
 
 log:
-	docker compose logs -f
+	docker compose -f docker-compose.dev.yml logs -f
 
 rebuild:
-	docker compose build --no-cache
+	docker compose -f docker-compose.dev.yml build --no-cache
 
 down:
-	docker compose down
+	docker compose -f docker-compose.dev.yml down
 
 clean:
-	docker compose down --rmi all
+	docker compose -f docker-compose.dev.yml down --rmi all
 
 wipe:
 	docker system prune -a --volumes -f
