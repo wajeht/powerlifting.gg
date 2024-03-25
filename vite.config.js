@@ -35,7 +35,7 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			input: getComponentEntries(resolve(__dirname, 'src/views/components')),
-			external: ['vue'],
+			external: ['vue', 'axios'],
 			output: {
 				dir: './public',
 				entryFileNames: 'js/[name].js',
@@ -43,6 +43,7 @@ export default defineConfig({
 				assetFileNames: 'js/[name][extname]',
 				globals: {
 					vue: 'Vue',
+					axios: 'axios',
 				},
 			},
 		},

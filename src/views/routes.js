@@ -62,11 +62,9 @@ routes.get('/admin', tenantHandler, async (req, res, next) => {
 	try {
 		if (!req.tenant) throw new NotFoundError();
 
-		const users = await db.select('*').from('users').where({ tenant_id: req.tenant.id });
 		return res.status(200).render('admin.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
-			users: JSON.stringify(users),
 		});
 	} catch (error) {
 		next(error);
