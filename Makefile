@@ -16,6 +16,9 @@ format:
 lint:
 	docker compose -f docker-compose.dev.yml exec subdomain npm run lint
 
+reset-db:
+	docker compose -f docker-compose.dev.yml exec subdomain npm run db:prepare
+
 deploy:
 	./deploy.sh
 
