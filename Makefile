@@ -7,6 +7,15 @@ push:
 	git push --no-verify
 	# ./deploy.sh
 
+test:
+	docker compose -f docker-compose.dev.yml exec subdomain npm run test
+
+format:
+	docker compose -f docker-compose.dev.yml exec subdomain npm run format
+
+lint:
+	docker compose -f docker-compose.dev.yml exec subdomain npm run lint
+
 deploy:
 	./deploy.sh
 
