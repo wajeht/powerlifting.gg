@@ -30,6 +30,7 @@ TThis whole codebase is `readable`, `extensible`, `testable`, and lastly, there 
 - [x] vue
 - [x] hot reload for vue/tailwind/express
 - [x] dockernize
+- [ ] eslint
 - [ ] email
 - [ ] job/queue
 - [ ] web socket
