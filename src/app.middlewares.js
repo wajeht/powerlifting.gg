@@ -94,6 +94,22 @@ export function errorHandler(err, req, res, next) {
 		errorMessage = 'Oops! The page you are looking for cannot be found.';
 	}
 
+	if (err instanceof ForbiddenError) {
+		errorMessage = err.message;
+	}
+
+	if (err instanceof ValidationError) {
+		errorMessage = err.message;
+	}
+
+	if (err instanceof UnauthorizedError) {
+		errorMessage = err.message;
+	}
+
+	if (err instanceof UnimplementedFunctionError) {
+		errorMessage = err.message;
+	}
+
 	if (req.tenant) {
 		return res.status(statusCode).render('./error.html', {
 			tenant: JSON.stringify(req.tenant),
