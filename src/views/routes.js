@@ -138,7 +138,11 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 	try {
 		if (!req.tenant) throw new NotFoundError();
 
+		if (!req.body.message || !req.body.email)
+			throw new ValidationError('username or password cannot be empty!');
+
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
 		await db('users').insert({
 			tenant_id: req.tenant.id,
 			email: req.body.email,
