@@ -87,7 +87,8 @@ export function errorHandler(err, req, res, next) {
 
 	logger.error(err);
 
-	const errorMessage = process.env.NODE_ENV === 'production' ? err.message : err.stack;
+	const errorMessage =
+		process.env.NODE_ENV === 'production' ? 'Oops! Something went wrong.' : err.stack;
 
 	if (req.tenant) {
 		return res.status(statusCode).render('./error.html', {
