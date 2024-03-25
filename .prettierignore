@@ -26,3 +26,4 @@ src/views/layouts/*
 src/views/pages/*
 csr.pem
 key.pem
+public/*
