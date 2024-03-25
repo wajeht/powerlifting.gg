@@ -1,4 +1,4 @@
-import "./Tenants.js";
+import "./Tenants.js?v=0.1";
 
 const { createApp } = Vue;
 
