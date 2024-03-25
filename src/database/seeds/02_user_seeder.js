@@ -30,7 +30,7 @@ export async function seed(db) {
 		{
 			email: 'user@test.com',
 			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O', // password - with bcrypjs hashed 10
-			role: 'ADMIN',
+			role: 'USER',
 			tenant_id: tenants[0].id,
 		},
 	];
