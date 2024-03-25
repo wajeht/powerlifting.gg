@@ -103,6 +103,10 @@ routes.post('/login', tenantHandler, async (req, res, next) => {
 	try {
 		if (!req.tenant) throw new NotFoundError();
 
+		if (req.body.message === '' || !req.body.email === '') {
+			throw new ValidationError('username or password cannot be empty!');
+		}
+
 		const user = await db
 			.select('*')
 			.from('users')
