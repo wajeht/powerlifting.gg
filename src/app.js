@@ -31,7 +31,14 @@ if (env.env === 'production') {
 				directives: {
 					...helmet.contentSecurityPolicy.getDefaultDirectives(),
 					'default-src': ["'self'", 'plausible.jaw.dev '],
-					'script-src': ["'self'", "'unsafe-inline'", 'jaw.lol', 'localhost', 'plausible.jaw.dev'],
+					'script-src': [
+						"'self'",
+						"'unsafe-inline'",
+						"'unsafe-eval'",
+						'jaw.lol',
+						'localhost',
+						'plausible.jaw.dev',
+					],
 				},
 			},
 		}),
