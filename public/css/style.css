@@ -1210,6 +1210,11 @@ html {
   position: static;
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .flex {
   display: flex;
 }
@@ -1226,12 +1231,43 @@ html {
   min-height: 100vh;
 }
 
+.max-w-lg {
+  max-width: 32rem;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
 
 .flex-col {
   flex-direction: column;
+}
+
+.gap-5 {
+  gap: 1.25rem;
+}
+
+.bg-red-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 202 202 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#467eea\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(70 126 234 / var(--tw-bg-opacity));
+}
+
+.p-5 {
+  padding: 1.25rem;
+}
+
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 [v-cloak] {

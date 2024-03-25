@@ -10,10 +10,10 @@ function configureDomain(slug) {
 </script>
 
 <template>
-  <div>
-    <div v-for="tenant in props.tenants">
+  <div class="flex flex-col gap-5">
+    <div v-for="tenant in props.tenants" :key="tenant.slug">
       <h4>{{ `${tenant.emoji} ${tenant.name}` }}</h4>
-      <a :href="configureDomain(tenant.slug)">{{ tenant.slug }}</a>
+      <a :href="configureDomain(tenant.slug)">{{ configureDomain(tenant.slug) }}</a>
     </div>
   </div>
 </template>

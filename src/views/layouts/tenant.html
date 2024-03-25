@@ -3,12 +3,12 @@
 	<!-- head -->
 	<%- include('../components/head.html') %>
 
-	<body id="app" class="flex flex-col min-h-screen" v-cloak>
+	<body id="app" class="flex flex-col min-h-screen max-w-4xl mx-auto" v-cloak>
 		<!-- tenant-header -->
 		<%- include('../components/tenant-header.html') %>
 
 		<!-- main -->
-		<main class="flex-1"><%- body %></main>
+		<main class="flex-1 p-5"><%- body %></main>
 
 		<!-- footer -->
 		<%- include('../components/footer.html') %>
