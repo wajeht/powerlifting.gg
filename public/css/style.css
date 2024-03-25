@@ -1024,6 +1024,15 @@ html {
   padding: 1.25rem !important;
 }
 
+.text-center {
+  text-align: center !important;
+}
+
+.text-sm {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
 [v-cloak] {
   display: none;
 }
