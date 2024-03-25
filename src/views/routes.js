@@ -1,6 +1,5 @@
 import express from 'express';
 import { db } from '../database/db.js';
-// import { logger } from '../utils/logger.js';
 import { tenantHandler } from '../app.middlewares.js';
 import { NotFoundError, UnimplementedFunctionError, ValidationError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
