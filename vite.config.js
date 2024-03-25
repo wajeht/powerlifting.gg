@@ -17,8 +17,8 @@ function getComponentEntries() {
 export default defineConfig({
 	plugins: [vue()],
 	build: {
-		outDir: './public/components',
-		emptyOutDir: true,
+		outDir: './public',
+		emptyOutDir: false,
 		lib: {
 			entry: resolve(__dirname, 'src/views/components'),
 			name: Object.keys(getComponentEntries())[0],
@@ -28,7 +28,7 @@ export default defineConfig({
 			input: getComponentEntries(),
 			external: ['vue'],
 			output: {
-				dir: './public/components',
+				dir: './public',
 				entryFileNames: 'js/[name].js',
 				chunkFileNames: 'js/[name].js',
 				assetFileNames: 'js/[name][extname]',
