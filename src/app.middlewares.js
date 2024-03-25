@@ -95,10 +95,11 @@ export function errorHandler(err, req, res, next) {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
 			error: errorMessage,
+			statusCode,
 		});
 	}
 
-	return res.status(statusCode).render('error.html', { error: errorMessage });
+	return res.status(statusCode).render('error.html', { error: errorMessage, statusCode });
 }
 
 export async function skipOnMyIp(req, res) {

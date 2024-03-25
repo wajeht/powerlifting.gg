@@ -1012,12 +1012,12 @@ html {
   flex-direction: column !important;
 }
 
-.gap-5 {
-  gap: 1.25rem !important;
-}
-
 .gap-2 {
   gap: 0.5rem !important;
+}
+
+.gap-5 {
+  gap: 1.25rem !important;
 }
 
 .p-5 {
