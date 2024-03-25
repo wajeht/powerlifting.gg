@@ -46,7 +46,10 @@ export async function tenantHandler(req, res, next) {
 export function localVariables(req, res, next) {
 	res.locals.app = {
 		env: env.env,
-		mainDomain: env.env === 'production' ? `https://${env.production_app_url}` : `http://${env.development_app_url}`,
+		mainDomain:
+			env.env === 'production'
+				? `https://${env.production_app_url}`
+				: `http://${env.development_app_url}`,
 		configureDomain: (subdomain) => {
 			if (env.env === 'production') {
 				return `https://${subdomain}.${env.production_app_url}`;

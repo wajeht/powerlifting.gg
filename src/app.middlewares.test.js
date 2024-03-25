@@ -24,7 +24,8 @@ describe('errorHandler', () => {
 
 		expect(mockRes.status).toHaveBeenCalledWith(500);
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
-			error: mockError.message,
+			error: 'Oops! Something went wrong.',
+			statusCode: 500,
 		});
 	});
 
@@ -35,7 +36,8 @@ describe('errorHandler', () => {
 
 		expect(mockRes.status).toHaveBeenCalledWith(500);
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
-			error: mockError.message,
+			error: 'Oops! Something went wrong.',
+			statusCode: 500,
 		});
 	});
 
@@ -58,34 +60,52 @@ describe('errorHandler', () => {
 		const mockError = new NotFoundError('Not Found');
 		errorHandler(mockError, mockReq, mockRes);
 		expect(mockRes.status).toHaveBeenCalledWith(404);
-		expect(mockRes.render).toHaveBeenCalledWith('error.html', { error: 'Not Found' });
+		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
+			error: 'Oops! The page you are looking for cannot be found.',
+			statusCode: 404,
+		});
 	});
 
 	it('should handle ForbiddenError', () => {
+		process.env.NODE_ENV = 'production';
 		const mockError = new ForbiddenError('Forbidden');
 		errorHandler(mockError, mockReq, mockRes);
 		expect(mockRes.status).toHaveBeenCalledWith(403);
-		expect(mockRes.render).toHaveBeenCalledWith('error.html', { error: 'Forbidden' });
+		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
+			error: 'Forbidden',
+			statusCode: 403,
+		});
 	});
 
 	it('should handle UnauthorizedError', () => {
+		process.env.NODE_ENV = 'production';
 		const mockError = new UnauthorizedError('Unauthorized');
 		errorHandler(mockError, mockReq, mockRes);
 		expect(mockRes.status).toHaveBeenCalledWith(401);
-		expect(mockRes.render).toHaveBeenCalledWith('error.html', { error: 'Unauthorized' });
+		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
+			error: 'Unauthorized',
+			statusCode: 401,
+		});
 	});
 
 	it('should handle ValidationError', () => {
 		const mockError = new ValidationError('Validation Error');
 		errorHandler(mockError, mockReq, mockRes);
 		expect(mockRes.status).toHaveBeenCalledWith(422);
-		expect(mockRes.render).toHaveBeenCalledWith('error.html', { error: 'Validation Error' });
+		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
+			error: 'Validation Error',
+			statusCode: 422,
+		});
 	});
 
 	it('should handle UnimplementedFunctionError', () => {
+		process.env.NODE_ENV = 'production';
 		const mockError = new UnimplementedFunctionError('Unimplemented Function');
 		errorHandler(mockError, mockReq, mockRes);
-		expect(mockRes.status).toHaveBeenCalledWith(500);
-		expect(mockRes.render).toHaveBeenCalledWith('error.html', { error: 'Unimplemented Function' });
+		expect(mockRes.status).toHaveBeenCalledWith(501);
+		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
+			error: 'Unimplemented Function',
+			statusCode: 501,
+		});
 	});
 });

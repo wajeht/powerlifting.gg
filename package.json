@@ -57,6 +57,7 @@
 		"vue": "^3.4.21"
 	},
 	"devDependencies": {
+		"@testing-library/vue": "^8.0.3",
 		"concurrently": "^8.2.2",
 		"daisyui": "^4.8.0",
 		"eslint": "^8.57.0",

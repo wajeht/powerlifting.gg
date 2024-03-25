@@ -149,7 +149,7 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 		const user = await db.select('*').from('users').where({ email: req.body.email }).first();
 
 		if (user) {
-			throw new ValidationError('user already exists!')
+			throw new ValidationError('user already exists!');
 		}
 
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
