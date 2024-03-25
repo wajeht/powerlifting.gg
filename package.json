@@ -6,10 +6,12 @@
 	"main": "./src/server.js",
 	"scripts": {
 		"start": "NODE_ENV=production && npm run build && npm run db:prepare && node ./src/server.js",
-		"dev": "concurrently --kill-others --names \"EXPRESS,TAILWIND\" -c \"bgGreen.black,bgCyan.black\" \"npm run dev:server\" \"npm run dev:tailwind\"",
+		"dev": "concurrently --kill-others --names \"EXPRESS,VUE,TAILWIND\" -c \"bgGreen.black,bgYellow.black,bgCyan.black\" \"npm run dev:server\" \"npm run dev:vue\" \"npm run dev:tailwind\"",
+		"dev:vue": "vite build --watch --mode development",
 		"dev:server": "npm run db:prepare && nodemon ./src/server.js",
 		"dev:tailwind": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --watch",
-		"build": "npm run build:tailwind && npm run minify",
+		"build": "npm run build:tailwind && npm run build:vue && npm run minify",
+		"build:vue": "vite build",
 		"build:tailwind": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --minify",
 		"minify": "if [ \"$NODE_ENV\" != \"development\" ]; then html-minifier --input-dir ./src/views --output-dir ./src/views --collapse-whitespace --minify-js --minify-css --remove-comments --file-ext html; else echo 'Cannot minify in development environment'; fi",
 		"update:deps": " npx npm-check -u",
@@ -38,6 +40,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@faker-js/faker": "^8.4.1",
+		"@vitejs/plugin-vue": "^5.0.4",
 		"bcryptjs": "^2.4.3",
 		"compression": "^1.7.4",
 		"cors": "^2.8.5",
@@ -49,7 +52,9 @@
 		"helmet": "^7.1.0",
 		"html-minifier": "^4.0.0",
 		"knex": "^3.1.0",
-		"sqlite3": "^5.1.7"
+		"sqlite3": "^5.1.7",
+		"vite": "^5.2.6",
+		"vue": "^3.4.21"
 	},
 	"devDependencies": {
 		"concurrently": "^8.2.2",

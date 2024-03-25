@@ -9,3 +9,4 @@ src/views/layouts/*
 src/views/pages/*
 dist/*
 dist
+public/js*

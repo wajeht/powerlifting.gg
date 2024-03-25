@@ -1,12 +1,1 @@
-<div>
-	<% for (const tenant of tenants) { %>
-		<div>
-			<h4>
-				<%= tenant.emoji %>
-				<%= tenant.name %>
-			</h4>
-			<a href="<%= app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %></a>
-		</div>
-		<br>
-	<% } %>
-</div>
+<Tenants :tenants="<%= JSON.stringify(tenants) %>" />
