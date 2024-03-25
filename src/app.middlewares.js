@@ -92,21 +92,12 @@ export function errorHandler(err, req, res, next) {
 
 	if (err instanceof NotFoundError) {
 		errorMessage = 'Oops! The page you are looking for cannot be found.';
-	}
-
-	if (err instanceof ForbiddenError) {
-		errorMessage = err.message;
-	}
-
-	if (err instanceof ValidationError) {
-		errorMessage = err.message;
-	}
-
-	if (err instanceof UnauthorizedError) {
-		errorMessage = err.message;
-	}
-
-	if (err instanceof UnimplementedFunctionError) {
+	} else if (
+		err instanceof ForbiddenError ||
+		err instanceof ValidationError ||
+		err instanceof UnauthorizedError ||
+		err instanceof UnimplementedFunctionError
+	) {
 		errorMessage = err.message;
 	}
 
