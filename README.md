@@ -13,8 +13,15 @@ multi-tendency systems using node and express
 
 # ✅ Todo
 
+- [x] vitest
+- [x] prod for demo
+- [x] tenancy each subdomain
 - [x] tailwind
 - [x] vue
+- [x] hot reload for vue/tailwind/express
+- [x] dockernize
+- [ ] email
+- [ ] job/queue
 - [ ] web socket
 - [ ] rbac
 - [ ] playright
