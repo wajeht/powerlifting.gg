@@ -43,18 +43,17 @@ if (env.env === 'production') {
 			},
 		}),
 	);
+	app.use(
+		rateLimit({
+			windowMs: 15 * 60 * 1000, // 15 minutes
+			limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+			standardHeaders: 'draft-7',
+			legacyHeaders: false,
+			handler: rateLimitHandler,
+			skip: skipOnMyIp,
+		}),
+	);
 }
-
-app.use(
-	rateLimit({
-		windowMs: 15 * 60 * 1000, // 15 minutes
-		limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-		standardHeaders: 'draft-7',
-		legacyHeaders: false,
-		handler: rateLimitHandler,
-		skip: skipOnMyIp,
-	}),
-);
 
 app.use(
 	express.static(path.resolve(path.join(process.cwd(), 'public')), {
