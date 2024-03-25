@@ -4,6 +4,6 @@ export default defineConfig({
 	test: {
 		globals: true,
 		watch: true,
-		setupFiles: '/src/utils/test-setup.js',
+		setupFiles: './src/utils/test-setup.js',
 	},
 });
