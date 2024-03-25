@@ -812,15 +812,15 @@ html {
 }
 
 .flex {
-  display: flex;
+  display: flex !important;
 }
 
 .flex-col {
-  flex-direction: column;
+  flex-direction: column !important;
 }
 
 .gap-5 {
-  gap: 1.25rem;
+  gap: 1.25rem !important;
 }
 
 [v-cloak] {
