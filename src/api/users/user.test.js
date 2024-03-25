@@ -32,8 +32,6 @@ it('should be able to get subdomain /api/users end point', async () => {
 		})
 		.returning('*');
 
-	console.log();
-
 	let user = {
 		username: faker.internet.userName(),
 		email: faker.internet.email(),
