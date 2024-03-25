@@ -87,8 +87,12 @@ export function errorHandler(err, req, res, next) {
 
 	logger.error(err);
 
-	const errorMessage =
+	let errorMessage =
 		process.env.NODE_ENV === 'production' ? 'Oops! Something went wrong.' : err.stack;
+
+	if (err instanceof NotFoundError) {
+		errorMessage = 'Oops! The page you are looking for cannot be found.';
+	}
 
 	if (req.tenant) {
 		return res.status(statusCode).render('./error.html', {
