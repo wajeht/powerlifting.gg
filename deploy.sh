@@ -10,8 +10,8 @@ git checkout -- .
 
 git pull
 
-docker compose build
+docker compose -f docker-compose.prod.yml build
 
-docker compose up -d
+docker compose -f docker-compose.prod.yml up -d
 
 EOF
