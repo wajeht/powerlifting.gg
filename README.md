@@ -7,9 +7,17 @@ multi-tendency systems using node and express
 > [!WARNING]
 > This project is unfinished and heavily work in progress.
 
-# 🤔 Development
+# 🤔 Why?
 
-- write someting inspirational
+`JavaScript` does not suck. Most developers suck at writing `JavaScript`. Here is a very simple multi-tenancy application with each tenant operating with its own subdomain.
+
+How cool is that? I'd say it is pretty cool!
+
+We're using traditional server-side rendering with `Vue` as a client on some parts of the apps where it makes complete sense! With a combination of modern tools like `Tailwind`, `Vitest`, `Playwright`, and more, your imagination is the limit.
+
+You might be asking: why not use `Next`, `Nuxt`, or some other `meta-framework`? This project seems like a hack and blah blah blah.
+
+SHUT UP!!"
 
 # ✅ Todo
 
