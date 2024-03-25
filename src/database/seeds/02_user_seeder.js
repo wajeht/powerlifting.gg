@@ -14,10 +14,26 @@ export async function seed(db) {
 		await db('users').insert(users);
 	}
 
-	await db('users').insert({
-		email: 'admin@test.com',
-		password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O', // password - with bcrypjs hashed 10
-		role: 'ADMIN',
-		tenant_id: tenants[0].id,
-	});
+	const users = [
+		{
+			email: 'super-admin@test.com',
+			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O', // password - with bcrypjs hashed 10
+			role: 'SUPER_ADMIN',
+			tenant_id: tenants[0].id,
+		},
+		{
+			email: 'admin@test.com',
+			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O', // password - with bcrypjs hashed 10
+			role: 'ADMIN',
+			tenant_id: tenants[0].id,
+		},
+		{
+			email: 'user@test.com',
+			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O', // password - with bcrypjs hashed 10
+			role: 'ADMIN',
+			tenant_id: tenants[0].id,
+		},
+	];
+
+	await db('users').insert(users);
 }

@@ -10,7 +10,7 @@ import {
 	UnimplementedFunctionError,
 } from './app.errors.js';
 
-export function rateLimitHandler(req, res, next) {
+export function rateLimitHandler(req, res) {
 	if (req.get('Content-Type') === 'application/json') {
 		return res.json({ message: 'Too many requests, please try again later.' });
 	}
