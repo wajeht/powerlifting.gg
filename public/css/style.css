@@ -1233,3 +1233,7 @@ html {
 .flex-col {
   flex-direction: column;
 }
+
+[v-cloak] {
+  display: none;
+}

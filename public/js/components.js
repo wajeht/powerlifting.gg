@@ -1,7 +1,7 @@
-import "./HelloWorld.vue";
+import "./Tenants.js";
 
 const { createApp } = Vue;
 
 const app = createApp();
-app.component("hello-world", HelloWorld);
+app.component("Tenants", Tenants);
 app.mount("#app");

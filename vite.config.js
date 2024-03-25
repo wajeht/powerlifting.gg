@@ -3,13 +3,22 @@ import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 import fs from 'fs';
 
-function getComponentEntries() {
-	const componentDir = resolve(__dirname, 'src/views/components');
-	const components = fs.readdirSync(componentDir).filter((file) => file.endsWith('.vue'));
+function getComponentEntries(componentDir) {
 	const entries = {};
-	components.forEach((component) => {
-		const componentName = component.replace(/\.vue$/, '');
-		entries[componentName] = resolve(componentDir, component);
+	const files = fs.readdirSync(componentDir);
+	files.forEach((file) => {
+		const filePath = resolve(componentDir, file);
+		const stat = fs.statSync(filePath);
+		if (stat.isDirectory()) {
+			const nestedEntries = getComponentEntries(filePath);
+			Object.assign(entries, nestedEntries);
+		} else if (file.endsWith('.vue')) {
+			const componentName = filePath
+				.replace(componentDir, '')
+				.replace(/^\//, '')
+				.replace(/\.vue$/, '');
+			entries[componentName] = filePath;
+		}
 	});
 	return entries;
 }
@@ -21,11 +30,11 @@ export default defineConfig({
 		emptyOutDir: false,
 		lib: {
 			entry: resolve(__dirname, 'src/views/components'),
-			name: Object.keys(getComponentEntries())[0],
+			name: Object.keys(getComponentEntries(resolve(__dirname, 'src/views/components')))[0],
 			formats: ['umd'],
 		},
 		rollupOptions: {
-			input: getComponentEntries(),
+			input: getComponentEntries(resolve(__dirname, 'src/views/components')),
 			external: ['vue'],
 			output: {
 				dir: './public',
