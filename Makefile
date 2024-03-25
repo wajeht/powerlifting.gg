@@ -10,6 +10,9 @@ push:
 test:
 	docker compose -f docker-compose.dev.yml exec subdomain npm run test
 
+test-w:
+	docker compose -f docker-compose.dev.yml exec subdomain npm run test:watch
+
 format:
 	docker compose -f docker-compose.dev.yml exec subdomain npm run format
 
