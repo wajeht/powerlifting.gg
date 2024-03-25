@@ -13,4 +13,4 @@ See [DEVELOPMENT](./DEVELOPMENT.md) for more information.
 
 # 📜 License
 
-Distributed under the MIT License © wajeht. See [LICENSE](./LICENSE) for more information.
+Distributed under the MIT License © [wajeht](https://www..github.com/wajeht). See [LICENSE](./LICENSE) for more information.
