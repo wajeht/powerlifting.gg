@@ -19,7 +19,7 @@ You might be asking: why not use `Next`, `Nuxt`, or some other `meta-framework`?
 
 SHUT UP!
 
-TThis whole codebase is `readable`, `extensible`, `testable`, and lastly, there is no damn `MAGIC` under the hood!
+This whole codebase is `readable`, `extensible`, `testable`, and lastly, there is no damn `MAGIC` under the hood!
 
 # ✅ Todo
 
