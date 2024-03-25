@@ -142,6 +142,12 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 			throw new ValidationError('username or password cannot be empty!');
 		}
 
+		const user = await db.select('*').from('users').where({ email: req.body.email }).first();
+
+		if (user) {
+			throw new ValidationError('user already exists!')
+		}
+
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
 		await db('users').insert({
