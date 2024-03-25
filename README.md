@@ -17,7 +17,9 @@ We're using traditional server-side rendering with `Vue` as a client on some par
 
 You might be asking: why not use `Next`, `Nuxt`, or some other `meta-framework`? This project seems like a hack and blah blah blah.
 
-SHUT UP!!"
+SHUT UP!
+
+TThis whole codebase is `readable`, `extensible`, `testable`, and lastly, there is no damn `MAGIC` under the hood!
 
 # ✅ Todo
 
