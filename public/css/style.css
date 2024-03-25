@@ -1018,6 +1018,10 @@ html {
   flex-direction: column !important;
 }
 
+.justify-between {
+  justify-content: space-between !important;
+}
+
 .gap-2 {
   gap: 0.5rem !important;
 }

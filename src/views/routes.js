@@ -10,6 +10,36 @@ routes.get('/healthz', (req, res) => {
 	return res.status(200).json({ message: 'ok', date: new Date() });
 });
 
+routes.get('/privacy-policy', tenantHandler, async (req, res, next) => {
+	try {
+		if (!req.tenant) {
+			return res.status(200).render('privacy-policy.html');
+		}
+
+		return res.status(200).render('privacy-policy.html', {
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+		});
+	} catch (error) {
+		next(error);
+	}
+});
+
+routes.get('/terms-of-services', tenantHandler, async (req, res, next) => {
+	try {
+		if (!req.tenant) {
+			return res.status(200).render('terms-of-services.html');
+		}
+
+		return res.status(200).render('terms-of-services.html', {
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+		});
+	} catch (error) {
+		next(error);
+	}
+});
+
 routes.get('/', tenantHandler, async (req, res, next) => {
 	try {
 		if (req.tenant) {
