@@ -1,19 +1,19 @@
 <script setup>
-import { defineProps } from 'vue';
-const props = defineProps({ tenants: Array });
+import { defineProps, computed, cloneVNode } from 'vue';
+const props = defineProps({ users: Array });
 
-function configureDomain(slug) {
-  const host = window.location.host;
-  const protocal = window.location.protocol;
-  return `${protocal}//${slug}.${host}`;
-}
+const computedDomain = computed(() => {
+  return window.location.origin;
+});
 </script>
 
 <template>
   <div class="flex flex-col gap-5">
-    <div v-for="tenant in props.tenants" :key="tenant.slug">
-      <h4>{{ `${tenant.emoji} ${tenant.name}` }}</h4>
-      <a :href="configureDomain(tenant.slug)">{{ configureDomain(tenant.slug) }}</a>
-    </div>
+    <a v-for="user of props.users" :href="`${computedDomain}/user/${user.id}`" :key="`user-key-${user.id}`"
+      class="bg-neutral-200 hover:bg-neutral-300 p-5 rounded-md">
+      <h4><span class="font-bold">ID:</span> {{ user.id }}</h4>
+      <p><span class="font-bold">Email:</span>{{ user.email }}</p>
+      <p><span class="font-bold">Role:</span>{{ user.role }}</p>
+    </a>
   </div>
 </template>

@@ -5,8 +5,10 @@
 export function up(knex) {
 	return knex.schema.createTable('users', function (table) {
 		table.increments('id').primary();
+		table.string('username').notNullable().unique();
 		table.string('email').notNullable().unique();
 		table.string('password').notNullable();
+		table.string('emoji').nullable().defaultTo('🤓');
 		table.enu('role', ['USER', 'ADMIN', 'SUPER_ADMIN']).notNullable().defaultTo('USER');
 		table.integer('tenant_id').unsigned().notNullable();
 		table.foreign('tenant_id').references('id').inTable('tenants');

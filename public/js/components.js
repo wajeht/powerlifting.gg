@@ -1,7 +1,7 @@
-import "./Tenants.js?v=0.2";
+import "./Users.js";
 
 const { createApp } = Vue;
 
 const app = createApp();
-app.component("Tenants", Tenants);
+app.component("Users", Users);
 app.mount("#app");
