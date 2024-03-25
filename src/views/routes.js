@@ -43,14 +43,14 @@ routes.get('/admin', tenantHandler, async (req, res, next) => {
 	}
 });
 
-routes.get('/user/:id', tenantHandler, async (req, res, next) => {
+routes.get('/user/:username', tenantHandler, async (req, res, next) => {
 	try {
 		if (!req.tenant) throw new NotFoundError();
 
 		const user = await db
 			.select('*')
 			.from('users')
-			.where({ tenant_id: req.tenant.id, id: req.params.id })
+			.where({ tenant_id: req.tenant.id, username: req.params.username })
 			.first();
 
 		if (!user) throw new NotFoundError();
