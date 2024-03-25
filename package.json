@@ -10,7 +10,7 @@
 		"dev:vue": "vite build --watch --mode development",
 		"dev:server": "npm run db:prepare && nodemon ./src/server.js",
 		"dev:tailwind": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --watch",
-		"build": "npm run build:tailwind && npm run minify",
+		"build": "npm run build:tailwind && npm run build:vue && npm run minify",
 		"build:vue": "vite build",
 		"build:tailwind": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --minify",
 		"minify": "if [ \"$NODE_ENV\" != \"development\" ]; then html-minifier --input-dir ./src/views --output-dir ./src/views --collapse-whitespace --minify-js --minify-css --remove-comments --file-ext html; else echo 'Cannot minify in development environment'; fi",
