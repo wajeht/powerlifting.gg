@@ -1,37 +1,31 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-
-const parseComponentArg = () => {
-	const arg = 'src/views/components/hello-world.vue:hello-world.vue';
-	const [path, name] = arg.split(':');
-	return { path, name };
-};
-
-const { path: componentPath, name: componentName } = parseComponentArg();
+import { resolve } from 'path';
+import fs from 'fs';
 
 export default defineConfig({
-	plugins: [
-		vue({
-			isProduction: true,
-		}),
-	],
+	plugins: [vue()],
 	build: {
+		outDir: './dist',
 		emptyOutDir: false,
-		outDir: '../../public',
-		lib: {
-			entry: componentPath,
-			name: componentName,
-			formats: ['umd'],
-		},
 		rollupOptions: {
-			external: ['vue', 'lodash', 'moment'],
+			input: getComponentEntries(), // Dynamically get all Vue component entries
 			output: {
-				dir: './public',
-				entryFileNames: `${componentName}.js`,
-				globals: {
-					vue: 'Vue',
-				},
+				entryFileNames: 'js/[name].js',
+				chunkFileNames: 'js/[name].js',
+				assetFileNames: 'js/[name][extname]',
 			},
 		},
 	},
 });
+
+function getComponentEntries() {
+	const componentDir = resolve(__dirname, 'src/views/components');
+	const components = fs.readdirSync(componentDir).filter((file) => file.endsWith('.vue'));
+	const entries = {};
+	components.forEach((component) => {
+		const componentName = component.replace(/\.vue$/, '');
+		entries[componentName] = resolve(componentDir, component);
+	});
+	return entries;
+}
