@@ -1,7 +1,7 @@
 import express from 'express';
 import { db } from '../database/db.js';
 import { tenantHandler } from '../app.middlewares.js';
-import { NotFoundError, UnimplementedFunctionError, ValidationError } from '../app.errors.js';
+import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
 
 const routes = express.Router();
@@ -121,6 +121,7 @@ routes.get('/login', tenantHandler, async (req, res, next) => {
 		return res.status(200).render('login.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
+			flashMessages: req.flash(),
 		});
 	} catch (error) {
 		next(error);
@@ -132,7 +133,8 @@ routes.post('/login', tenantHandler, async (req, res, next) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		if (req.body.message === '' || req.body.email === '') {
-			throw new ValidationError('username or password cannot be empty!');
+			req.flash('error', 'username or password cannot be empty!');
+			return res.redirect('/login');
 		}
 
 		const user = await db
@@ -141,11 +143,17 @@ routes.post('/login', tenantHandler, async (req, res, next) => {
 			.where({ tenant_id: req.tenant.id, email: req.body.email })
 			.first();
 
-		if (!user) throw new ValidationError('email or password is wrong!');
+		if (!user) {
+			req.flash('error', 'email or password is wrong!');
+			return res.redirect('/login');
+		}
 
 		const comparedPassword = await bcrypt.compare(req.body.password, user.password);
 
-		if (!comparedPassword) throw new ValidationError('email or password is wrong!');
+		if (!comparedPassword) {
+			req.flash('error', 'email or password is wrong!');
+			return res.redirect('/login');
+		}
 
 		return res.redirect('/admin');
 	} catch (error) {
@@ -160,6 +168,7 @@ routes.get('/register', tenantHandler, async (req, res, next) => {
 		return res.status(200).render('register.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
+			flashMessages: req.flash(),
 		});
 	} catch (error) {
 		next(error);
@@ -171,13 +180,15 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		if (req.body.message === '' || req.body.email === '') {
-			throw new ValidationError('username or password cannot be empty!');
+			req.flash('error', 'username or password cannot be empty!');
+			return res.redirect('/register');
 		}
 
 		const user = await db.select('*').from('users').where({ email: req.body.email }).first();
 
 		if (user) {
-			throw new ValidationError('user already exists!');
+			req.flash('error', 'username already exist!');
+			return res.redirect('/register');
 		}
 
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
