@@ -9,4 +9,10 @@ export const env = {
 	myIp: process.env.MY_IP_ADDRESS,
 	production_app_url: process.env.PRODUCTION_APP_URL,
 	development_app_url: process.env.DEVELOPMENT_APP_URL,
+	redis: {
+		port: process.env.REDIS_PORT,
+		host: process.env.REDIS_HOST,
+		password: process.env.REDIS_PASSWORD,
+	},
+	session_secret: process.env.SESSION_SECRET,
 };

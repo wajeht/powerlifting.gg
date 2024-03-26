@@ -5,10 +5,16 @@ import cors from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
 import express from 'express';
-import { rateLimit } from 'express-rate-limit';
+import session from 'express-session';
+import flash from 'connect-flash';
+import RedisStore from 'connect-redis';
+
 import routes from './views/routes.js';
-import { env } from './conifg/env.js';
 import api from './api/api.js';
+
+import { rateLimit } from 'express-rate-limit';
+import { redis } from './database/db.js';
+import { env } from './conifg/env.js';
 import {
 	notFoundHandler,
 	errorHandler,
@@ -16,6 +22,11 @@ import {
 	localVariables,
 	skipOnMyIp,
 } from './app.middlewares.js';
+
+const redisStore = new RedisStore({
+	client: redis,
+	prefix: 'subdomain-session-store:',
+});
 
 const app = express();
 
@@ -54,6 +65,21 @@ if (env.env === 'production') {
 		}),
 	);
 }
+
+app.use(flash());
+app.use(
+	session({
+		secret: env.session_secret,
+		resave: true,
+		store: redisStore,
+		saveUninitialized: true,
+		proxy: env.env === 'production',
+		cookie: {
+			httpOnly: env.env === 'production',
+			secure: env.env === 'production',
+		},
+	}),
+);
 
 app.use(
 	express.static(path.resolve(path.join(process.cwd(), 'public')), {
