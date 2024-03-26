@@ -61,7 +61,7 @@ export function localVariables(req, res, next) {
 	return next();
 }
 
-export async function notFoundHandler(req, res, next) {
+export async function notFoundHandler(req, res, _next) {
 	const subdomain = req.subdomains.length ? req.subdomains[0] : null;
 
 	if (!subdomain) {
@@ -76,7 +76,7 @@ export async function notFoundHandler(req, res, next) {
 	});
 }
 
-export function errorHandler(err, req, res, next) {
+export function errorHandler(err, req, res, _next) {
 	const errorStatusCodes = {
 		HttpError: new HttpError().statusCode,
 		NotFoundError: new NotFoundError().statusCode,
@@ -116,7 +116,7 @@ export function errorHandler(err, req, res, next) {
 	return res.status(statusCode).render('error.html', { error: errorMessage, statusCode });
 }
 
-export async function skipOnMyIp(req, res) {
+export async function skipOnMyIp(req, _res) {
 	const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
 	return myIp == env.myIp;
 }
