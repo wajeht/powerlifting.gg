@@ -5,7 +5,7 @@ push:
 	git add -A
 	./commit.sh
 	git push --no-verify
-	./deploy.sh
+	# ./deploy.sh
 
 test:
 	docker compose -f docker-compose.dev.yml exec subdomain npm run test

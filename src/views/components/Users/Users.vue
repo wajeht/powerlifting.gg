@@ -17,7 +17,7 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div data-testid="hi" class="flex flex-col gap-5">
+	<div class="flex flex-col gap-5">
 		<a
 			v-for="user of states.users"
 			:href="`${computedDomain}/user/${user.username}`"
