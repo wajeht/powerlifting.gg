@@ -1,11 +1,12 @@
-import "./Users.js";
-
+import './vue.global.prod.min.js';
 import axios from './axios.min.js';
-window.axios = axios;
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+import "./Users.js";
 
 const { createApp } = Vue;
 
 const app = createApp();
+app.config.globalProperties.$axios = axios;
+
 app.component("Users", Users);
 app.mount("#app");

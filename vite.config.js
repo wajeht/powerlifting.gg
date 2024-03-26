@@ -43,6 +43,7 @@ export default defineConfig({
 				assetFileNames: 'js/[name][extname]',
 				globals: {
 					vue: 'Vue',
+					axios: 'axios',
 				},
 			},
 		},
