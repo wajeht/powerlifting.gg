@@ -179,7 +179,7 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 	try {
 		if (!req.tenant) throw new NotFoundError();
 
-		if (req.body.message === '' || req.body.email === '') {
+		if (req.body.message === '' || req.body.email === '' || req.body.username === '') {
 			req.flash('error', 'username or password cannot be empty!');
 			return res.redirect('/register');
 		}
@@ -187,6 +187,11 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 		const user = await db.select('*').from('users').where({ email: req.body.email }).first();
 
 		if (user) {
+			req.flash('error', 'user already exist!');
+			return res.redirect('/register');
+		}
+
+		if (user && user.username === req.body.username) {
 			req.flash('error', 'username already exist!');
 			return res.redirect('/register');
 		}
@@ -196,6 +201,7 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 		await db('users').insert({
 			tenant_id: req.tenant.id,
 			email: req.body.email,
+			username: req.body.username,
 			password: hashedPassword,
 		});
 

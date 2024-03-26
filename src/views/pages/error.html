@@ -1,7 +1,7 @@
 <div>
 	<h1><%= statusCode %></h1>
 	<% if (app.env === 'development') { %>
-		<pre class="text-nowrap"><%= error %></pre>
+		<pre style="white-space: pre-wrap; word-wrap: break-word; text-align: left;"><%= error %></pre>
 	<% } else { %>
 		<p><%= error %></p>
 	<% } %>
