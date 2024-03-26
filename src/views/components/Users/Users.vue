@@ -1,5 +1,5 @@
 <script setup>
-import axios from '../../../../public/js/axios.min.js';
+import axios from 'axios';
 import { computed, onMounted, reactive } from 'vue';
 
 const states = reactive({

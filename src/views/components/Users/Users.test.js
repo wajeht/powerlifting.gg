@@ -1,9 +1,9 @@
-import axios from '../../../../public/js/axios.min.js';
+import axios from 'axios';
 import Users from './Users.vue';
 import { it, vi } from 'vitest';
 import { render, waitFor } from '@testing-library/vue';
 
-vi.mock('../../../../public/js/axios.min.js');
+vi.mock('axios');
 
 it('should be able to get users on load', async () => {
 	axios.get.mockResolvedValue({

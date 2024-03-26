@@ -1,12 +1,9 @@
-import './vue.global.prod.min.js';
-import axios from './axios.min.js';
+import './axios.min.js'; // 1.6.8
+import './Users.js';
 
-import "./Users.js";
-
-const { createApp } = Vue;
-
-const app = createApp();
-app.config.globalProperties.$axios = axios;
-
-app.component("Users", Users);
-app.mount("#app");
+document.addEventListener('DOMContentLoaded', () => {
+  const { createApp } = Vue;
+  const app = createApp();
+  app.component("Users", Users);
+  app.mount("#app");
+});
