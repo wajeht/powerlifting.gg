@@ -19,6 +19,7 @@ public/socket.io.min.js
 public/show-hint.min.css
 public/show-hint.min.js
 public/vim.min.js
+public/css/style.css
 public/libs/*
 public/libs
 !src/views/components/*.vue
