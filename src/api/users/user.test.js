@@ -1,26 +1,15 @@
 import { db } from '../../database/db.js';
 import request from 'supertest';
-import { it, expect, beforeAll, afterEach, afterAll } from 'vitest';
+import { it, expect } from 'vitest';
 import { faker } from '@faker-js/faker';
 
 import { app as server } from '../../app.js';
 import { env } from '../../conifg/env.js';
+import { refreshDatabase } from '../../utils/refresh-db.js';
 
 const app = request(server);
 
-beforeAll(async () => {
-	await db.migrate.latest();
-});
-
-afterEach(async () => {
-	await db('users').del();
-	await db('tenants').del();
-});
-
-afterAll(async () => {
-	await db.migrate.rollback();
-	await db.destroy();
-});
+await refreshDatabase();
 
 it('should be able to get subdomain /api/users end point', async () => {
 	const tenant = await db('tenants')
