@@ -21,7 +21,9 @@ public/show-hint.min.js
 public/vim.min.js
 public/libs/*
 public/libs
-src/views/components/*
+!src/views/components/*.vue
+src/views/components/*.js
+src/views/components/*.html
 src/views/layouts/*
 src/views/pages/*
 csr.pem

@@ -1,24 +1,31 @@
-import axios from 'axios';
+import axios from '../../../../public/js/axios.min.js';
 import Users from './Users.vue';
 import { it, vi } from 'vitest';
-import {render } from '@testing-library/vue';
+import { render, waitFor } from '@testing-library/vue';
 
-vi.mock('axios');
+vi.mock('../../../../public/js/axios.min.js');
 
-it.skip('should work', async ()=> {
-  axios.get.mockResolvedValue({ data: [{
-    "id": 14,
-    "username": "Kylee.Moen-Treutel23",
-    "email": "Rosetta.Bauch@hotmail.com",
-    "password": "$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O",
-    "emoji": "🥉",
-    "role": "USER",
-    "tenant_id": 1,
-    "created_at": "2024-03-25 23:59:36",
-    "updated_at": "2024-03-25 23:59:36"
-  }]})
+it('should be able to get users on load', async () => {
+	axios.get.mockResolvedValue({
+		data: {
+			data: [
+				{
+					id: 1,
+					username: 'Maida30',
+					email: 'Darrel_Pagac@yahoo.com',
+					password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
+					emoji: '🚥',
+					role: 'USER',
+					tenant_id: 2,
+					created_at: '2024-03-26 14:32:17',
+					updated_at: '2024-03-26 14:32:17',
+				},
+			],
+		},
+	});
 
-  const { getByText } = render(Users);
+	const { getByText } = render(Users);
 
-   getByText('x');
+	await waitFor(() => getByText('Maida30'));
+	expect(axios.get).toHaveBeenCalledWith('/api/users');
 });
