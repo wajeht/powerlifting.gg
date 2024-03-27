@@ -1,4 +1,4 @@
-export function userService(db) {
+export function UserService(db) {
 	return {
 		getUsers: async () => {
 			return await db.select('*').from('users');
