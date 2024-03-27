@@ -2,6 +2,8 @@ import { db } from '../database/db.js';
 import { logger } from '../utils/logger.js';
 import fs from 'fs/promises';
 import path from 'path';
+import cp from 'child_process';
+import { env } from '../conifg/env.js';
 
 export async function generateTailwindColors() {
 	const tailwindDotHtml = path.resolve(
@@ -17,6 +19,10 @@ export async function generateTailwindColors() {
 		await fs.writeFile(tailwindDotHtml, fileWithColors, 'utf-8');
 
 		logger.debug('generating tailwind classes =>', `${colors.join(', ')}`);
+
+		if (env.env === 'production') {
+			cp.exec('npm run build:tailwind');
+		}
 	} catch (error) {
 		logger.error(error);
 	}
