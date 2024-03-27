@@ -3,7 +3,7 @@ import { logger } from '../utils/logger.js';
 import fs from 'fs/promises';
 import path from 'path';
 
-export async function generateTailwindColors() {
+(async () => {
 	const tailwindDotHtml = path.resolve(
 		path.join(process.cwd(), 'src', 'views', 'components', 'tailwind.html'),
 	);
@@ -22,4 +22,4 @@ export async function generateTailwindColors() {
 	} catch (error) {
 		logger.error(error);
 	}
-}
+})();
