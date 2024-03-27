@@ -21,7 +21,18 @@ export async function generateTailwindColors() {
 		logger.debug('generating tailwind classes =>', `${colors.join(', ')}`);
 
 		if (env.env === 'production') {
-			cp.exec('npm run build:tailwind');
+			logger.debug('Running npm script to build Tailwind in production environment.');
+			cp.exec('npm run build:tailwind', (error, stdout, stderr) => {
+				if (error) {
+					logger.error(`Error while running npm script: ${error.message}`);
+					return;
+				}
+				if (stderr) {
+					logger.error(`npm script stderr: ${stderr}`);
+					return;
+				}
+				logger.debug(`npm script stdout: ${stdout}`);
+			});
 		}
 	} catch (error) {
 		logger.error(error);
