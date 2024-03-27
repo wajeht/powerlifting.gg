@@ -1,11 +1,4 @@
-<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		const tenant = <%- tenant %>;
-		document.getElementsByTagName('header')[0].style.background = tenant.color;
-	});
-</script>
-
-<header class="flex-0 p-5">
+<header class="flex-0 p-5 bg-[<%- JSON.parse(tenant).color %>]">
 	<div class="text-center">
 		<h1>
 			<%= JSON.parse(tenant).emoji %>

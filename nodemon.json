@@ -1,3 +1,4 @@
 {
-	"ext": "js,json,html,css,vue,ejs"
+	"ext": "js,json,html,css,vue,ejs",
+	"ignore": ["./src/views/components/tailwind.html"]
 }

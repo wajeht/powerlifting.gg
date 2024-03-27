@@ -1,8 +1,10 @@
 import { app } from './app.js';
 import { env } from './conifg/env.js';
 import { logger } from './utils/logger.js';
+import { generateTailwindColors } from './utils/tailwind.js';
 
-const server = app.listen(env.port, () => {
+const server = app.listen(env.port, async () => {
+	await generateTailwindColors();
 	logger.info(`Server was started on http://localhost:${env.port}`);
 });
 

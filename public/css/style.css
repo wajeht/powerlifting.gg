@@ -1044,6 +1044,31 @@ html {
   background-color: rgb(163 163 163 / var(--tw-bg-opacity)) !important;
 }
 
+.bg-\[\#3d8acd\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(61 138 205 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-\[\#558fdb\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(85 143 219 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-\[\#8dda3c\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(141 218 60 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-\[\#bad69e\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(186 214 158 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-\[\#bcd5f8\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(188 213 248 / var(--tw-bg-opacity)) !important;
+}
+
 .p-5 {
   padding: 1.25rem !important;
 }
