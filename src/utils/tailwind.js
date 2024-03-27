@@ -2,8 +2,6 @@ import { db } from '../database/db.js';
 import { logger } from '../utils/logger.js';
 import fs from 'fs/promises';
 import path from 'path';
-import cp from 'child_process';
-import { env } from '../conifg/env.js';
 
 export async function generateTailwindColors() {
 	const tailwindDotHtml = path.resolve(
@@ -20,18 +18,7 @@ export async function generateTailwindColors() {
 
 		logger.debug('generating tailwind classes =>', `${colors.join(', ')}`);
 
-		if (env.env === 'production') {
-			logger.debug('Running npm script to build Tailwind in production environment.');
-			cp.exec('npm run build:tailwind', (error, stdout, stderr) => {
-				if (error) {
-					logger.error(`Error while running npm script: ${error}`);
-				}
-				if (stderr) {
-					logger.error(`npm script stderr: ${stderr}`);
-				}
-				logger.debug(`npm script stdout: ${stdout}`);
-			});
-		}
+		process.exit(0);
 	} catch (error) {
 		logger.error(error);
 	}
