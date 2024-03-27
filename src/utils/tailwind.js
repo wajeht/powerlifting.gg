@@ -24,12 +24,10 @@ export async function generateTailwindColors() {
 			logger.debug('Running npm script to build Tailwind in production environment.');
 			cp.exec('npm run build:tailwind', (error, stdout, stderr) => {
 				if (error) {
-					logger.error(`Error while running npm script: ${error.message}`);
-					return;
+					logger.error(`Error while running npm script: ${error}`);
 				}
 				if (stderr) {
 					logger.error(`npm script stderr: ${stderr}`);
-					return;
 				}
 				logger.debug(`npm script stdout: ${stdout}`);
 			});

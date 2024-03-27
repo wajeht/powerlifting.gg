@@ -32,7 +32,7 @@ up-d:
 	docker compose -f docker-compose.dev.yml up -d
 
 up-prod:
-	docker compose -f dokcer-compose.prod.yml up
+	docker compose -f docker-compose.prod.yml up
 
 up-prod-d:
 	docker compose -f docker-compose.prod.yml up -d
