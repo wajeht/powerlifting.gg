@@ -1,5 +1,5 @@
 import { logger } from '../utils/logger.js';
-import { env } from '../conifg/env.js';
+import { redis as redisConfig } from '../conifg/redis.js';
 import Redis from 'ioredis';
 import RedisMock from 'ioredis-mock';
 
@@ -9,9 +9,9 @@ if (process.env.NODE_ENV === 'testing') {
 	redis = new RedisMock();
 } else {
 	const redisOptions = {
-		port: env.redis.port,
-		host: env.redis.host,
-		password: env.redis.password,
+		port: redisConfig.port,
+		host: redisConfig.host,
+		password: redisConfig.password,
 		maxRetriesPerRequest: null,
 	};
 	redis = new Redis(redisOptions);

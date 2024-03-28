@@ -30,6 +30,16 @@ services:
     volumes:
       - 'redis-data:/data'
 
+  mailhog:
+    container_name: mailhot
+    restart: unless-stopped
+    image: mailhog/mailhog
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+    networks:
+      - subdomain-network
+
 volumes:
   redis-data:
     driver: local

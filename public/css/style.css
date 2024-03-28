@@ -1034,41 +1034,6 @@ html {
   border-radius: 0.375rem !important;
 }
 
-.bg-\[\#5b13ae\] {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(91 19 174 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-\[\#a52d72\] {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(165 45 114 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-\[\#ac4f0f\] {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(172 79 15 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-\[\#c1f2d7\] {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(193 242 215 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-\[\#f7ac3c\] {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(247 172 60 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-neutral-200 {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(229 229 229 / var(--tw-bg-opacity)) !important;
-}
-
-.bg-neutral-400 {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(163 163 163 / var(--tw-bg-opacity)) !important;
-}
-
 .bg-\[\#1a460b\] {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(26 70 11 / var(--tw-bg-opacity)) !important;
@@ -1094,29 +1059,39 @@ html {
   background-color: rgb(251 136 190 / var(--tw-bg-opacity)) !important;
 }
 
-.bg-\[\#3d8acd\] {
+.bg-neutral-200 {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(61 138 205 / var(--tw-bg-opacity)) !important;
+  background-color: rgb(229 229 229 / var(--tw-bg-opacity)) !important;
 }
 
-.bg-\[\#558fdb\] {
+.bg-neutral-400 {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(85 143 219 / var(--tw-bg-opacity)) !important;
+  background-color: rgb(163 163 163 / var(--tw-bg-opacity)) !important;
 }
 
-.bg-\[\#8dda3c\] {
+.bg-\[\#3dc9b7\] {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(141 218 60 / var(--tw-bg-opacity)) !important;
+  background-color: rgb(61 201 183 / var(--tw-bg-opacity)) !important;
 }
 
-.bg-\[\#bad69e\] {
+.bg-\[\#6dd15b\] {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(186 214 158 / var(--tw-bg-opacity)) !important;
+  background-color: rgb(109 209 91 / var(--tw-bg-opacity)) !important;
 }
 
-.bg-\[\#bcd5f8\] {
+.bg-\[\#8fbba6\] {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(188 213 248 / var(--tw-bg-opacity)) !important;
+  background-color: rgb(143 187 166 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-\[\#ecac39\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(236 172 57 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-\[\#ed2f9c\] {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(237 47 156 / var(--tw-bg-opacity)) !important;
 }
 
 .p-5 {

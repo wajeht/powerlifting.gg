@@ -4,7 +4,7 @@ import { it, expect } from 'vitest';
 import { faker } from '@faker-js/faker';
 
 import { app as server } from '../../app.js';
-import { env } from '../../conifg/env.js';
+import { app as appEnv } from '../../conifg/app.js';
 import { refreshDatabase } from '../../utils/refresh-db.js';
 
 const app = request(server);
@@ -34,7 +34,7 @@ it('should be able to get subdomain /api/users end point', async () => {
 
 	const res = await app
 		.get('/api/users')
-		.set('Host', `${tenant[0].slug}.${env.development_app_url}`);
+		.set('Host', `${tenant[0].slug}.${appEnv.development_app_url}`);
 
 	expect(res.statusCode).toBe(200);
 	expect(res.body.data[0]).toStrictEqual(user[0]);
