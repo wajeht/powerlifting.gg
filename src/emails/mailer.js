@@ -4,9 +4,14 @@ import { email as emailConfig } from '../conifg/email.js';
 
 const transporter = nodemailer.createTransport(emailConfig);
 
-export async function sendMail({ to, subject, html }) {
+export async function sendMail({
+	to,
+	subject,
+	html,
+	from = `${emailConfig.auth.user} <${emailConfig.email_alias}>`,
+}) {
 	const mailOptions = {
-		from: `‼️ bang.jaw.dev <${emailConfig.email_alias}>`,
+		from,
 		to,
 		subject,
 		html,
