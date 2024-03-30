@@ -8,42 +8,27 @@ import {
 import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
 import { sendWelcomeEmail } from '../emails/email.js';
+import {
+	getHealthzHandler,
+	getPrivacyPolicyHandler,
+	getTermsOfServiceHandler,
+} from './web.handler.js';
 // import { body } from 'express-validator';
 
 const web = express.Router();
 
-web.get('/healthz', (req, res) => {
-	return res.status(200).json({ message: 'ok', date: new Date() });
-});
+web.get('/healthz', getHealthzHandler());
 
 web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) {
-			return res.status(200).render('privacy-policy.html');
-		}
-
-		return res.status(200).render('privacy-policy.html', {
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-		});
-	}),
+	catchAsyncErrorHandler(getPrivacyPolicyHandler()),
 );
 
 web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) {
-			return res.status(200).render('terms-of-services.html');
-		}
-
-		return res.status(200).render('terms-of-services.html', {
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-		});
-	}),
+	catchAsyncErrorHandler(getTermsOfServiceHandler),
 );
 
 web.get(
