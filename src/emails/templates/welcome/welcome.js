@@ -1,18 +1,13 @@
-import { sendMail } from '../../mailer.js';
-
-function generateWelcomeHTML(props) {
-	return `
-    <div>
-      <h1>Welcome to Gains City</h1>
-      <p>Hello ${props.name},</p>
-      <p>We're excited to have you as a member of our community.</p>
-    </div>
-  `;
-}
+import { logger } from '../../../utils/logger.js';
+import ejs from 'ejs';
+import path from 'node:path';
+import { sendMail } from '../../mailer.util.js';
 
 export async function sendWelcomeEmail({ email, subject = 'Welcome to Subdomain' }) {
 	try {
-		const html = generateWelcomeHTML({ name: email });
+		// prettier-ignore
+		const template = path.resolve(path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome','welcome.html'));
+		const html = await ejs.renderFile(template, { email });
 
 		await sendMail({
 			to: email,
@@ -20,8 +15,8 @@ export async function sendWelcomeEmail({ email, subject = 'Welcome to Subdomain'
 			html,
 		});
 
-		console.log(`***** Welcome email sent to ${email} *****`);
+		logger.info('welcome email sent to:', email);
 	} catch (error) {
-		console.error('***** Error while sending welcome email: ', error, ' *****');
+		logger.error('error while sending welcome email:', error);
 	}
 }

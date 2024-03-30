@@ -3,6 +3,7 @@ import { db } from '../database/db.js';
 import { tenantHandler } from '../app.middlewares.js';
 import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
+import { sendWelcomeEmail } from '../emails/email.js';
 
 const routes = express.Router();
 
@@ -204,6 +205,9 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 			username: req.body.username,
 			password: hashedPassword,
 		});
+
+		// TODO: use job queue
+		await sendWelcomeEmail({ email: req.body.email });
 
 		return res.redirect('/admin');
 	} catch (error) {
