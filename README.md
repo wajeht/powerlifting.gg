@@ -39,6 +39,8 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [ ] rbac
 - [ ] playright
 - [ ] test setup for ci
+- [ ] litestream to auto backup sqlite to s3
+- [ ] zero downtime
 
 # 💻 Development
 
