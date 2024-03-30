@@ -28,7 +28,7 @@ web.get(
 web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getTermsOfServiceHandler),
+	catchAsyncErrorHandler(getTermsOfServiceHandler()),
 );
 
 web.get(
