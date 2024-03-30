@@ -33,7 +33,7 @@ export const authorizePermissionHandler = (role, permissions) => {
 	};
 };
 
-export const validationHandler = (schemas) => {
+export const validateRequestHandler = (schemas) => {
 	return async (req, res, next) => {
 		try {
 			await Promise.all(schemas.map((schema) => schema.run(req)));

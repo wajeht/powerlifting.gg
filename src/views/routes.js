@@ -1,9 +1,14 @@
 import express from 'express';
 import { db } from '../database/db.js';
-import { tenantIdentityHandler, catchAsyncErrorHandler } from '../app.middlewares.js';
+import {
+	tenantIdentityHandler,
+	catchAsyncErrorHandler,
+	// validateRequestHandler,
+} from '../app.middlewares.js';
 import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
 import { sendWelcomeEmail } from '../emails/email.js';
+// import { body } from 'express-validator';
 
 const routes = express.Router();
 
@@ -179,6 +184,14 @@ routes.get(
 routes.post(
 	'/register',
 	tenantIdentityHandler,
+	// validateRequestHandler([
+	// 	body('username')
+	// 		.notEmpty()
+	// 		.withMessage('email must not be empty')
+	// 		.trim()
+	// 		.isEmail()
+	// 		.withMessage('must be email'),
+	// ]),
 	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) throw new NotFoundError();
 
