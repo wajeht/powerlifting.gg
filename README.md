@@ -9,7 +9,7 @@ multitenancy systems using node and express
 
 # 🤔 Why?
 
-`JavaScript` does not suck. Most developers suck at writing `JavaScript`. Here is a very simple multi-tenancy application with each tenant operating with its own subdomain.
+`JavaScript` does not suck. Most developers ~~(You)~~ have skill issues and suck at writing `JavaScript`. Here is a very simple multi-tenancy application with each tenant operating with its own subdomain.
 
 How cool is that? I'd say it is pretty cool!
 
@@ -39,6 +39,8 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [ ] rbac
 - [ ] playright
 - [ ] test setup for ci
+- [ ] litestream to auto backup sqlite to s3
+- [ ] zero downtime
 
 # 💻 Development
 
