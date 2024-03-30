@@ -3,6 +3,7 @@ import { db } from '../database/db.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
+	tenancyHandler,
 	// validateRequestHandler,
 } from '../app.middlewares.js';
 import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
@@ -52,9 +53,8 @@ web.get(
 web.get(
 	'/admin',
 	tenantIdentityHandler,
+	tenancyHandler,
 	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) throw new NotFoundError();
-
 		return res.status(200).render('admin.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
@@ -65,9 +65,8 @@ web.get(
 web.get(
 	'/user/:username',
 	tenantIdentityHandler,
+	tenancyHandler,
 	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) throw new NotFoundError();
-
 		const user = await db
 			.select('*')
 			.from('users')
@@ -87,9 +86,8 @@ web.get(
 web.post(
 	'/user/:id',
 	tenantIdentityHandler,
+	tenancyHandler,
 	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) throw new NotFoundError();
-
 		if (req.body.method === 'DELETE') {
 			const user = await db
 				.delete()
@@ -108,9 +106,8 @@ web.post(
 web.get(
 	'/login',
 	tenantIdentityHandler,
+	tenancyHandler,
 	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) throw new NotFoundError();
-
 		return res.status(200).render('login.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
@@ -122,9 +119,8 @@ web.get(
 web.post(
 	'/login',
 	tenantIdentityHandler,
+	tenancyHandler,
 	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) throw new NotFoundError();
-
 		if (req.body.message === '' || req.body.email === '') {
 			req.flash('error', 'username or password cannot be empty!');
 			return res.redirect('/login');
@@ -155,9 +151,8 @@ web.post(
 web.get(
 	'/register',
 	tenantIdentityHandler,
+	tenancyHandler,
 	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) throw new NotFoundError();
-
 		return res.status(200).render('register.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
@@ -169,6 +164,7 @@ web.get(
 web.post(
 	'/register',
 	tenantIdentityHandler,
+	tenancyHandler,
 	// validateRequestHandler([
 	// 	body('username')
 	// 		.notEmpty()
@@ -178,8 +174,6 @@ web.post(
 	// 		.withMessage('must be email'),
 	// ]),
 	catchAsyncErrorHandler(async (req, res) => {
-		if (!req.tenant) throw new NotFoundError();
-
 		if (req.body.message === '' || req.body.email === '' || req.body.username === '') {
 			req.flash('error', 'username or password cannot be empty!');
 			return res.redirect('/register');
