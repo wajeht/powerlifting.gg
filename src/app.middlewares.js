@@ -1,4 +1,5 @@
 import { logger } from './utils/logger.js';
+import { validationResult } from 'express-validator';
 import { db } from './database/db.js';
 import { app as appConfig } from './conifg/app.js';
 import {
@@ -9,6 +10,42 @@ import {
 	ValidationError,
 	UnimplementedFunctionError,
 } from './app.errors.js';
+
+export const authorizePermissionHandler = (role, permissions) => {
+	return (req, res, next) => {
+		try {
+			if (req.user.role !== role) {
+				throw new UnauthorizedError();
+			}
+
+			const userPermissions = req.user.permissions || [];
+
+			for (const permission of permissions) {
+				if (!userPermissions.includes(permission)) {
+					throw new ForbiddenError();
+				}
+			}
+
+			next();
+		} catch (e) {
+			next(e);
+		}
+	};
+};
+
+export const validationHandler = (schemas) => {
+	return async (req, res, next) => {
+		try {
+			await Promise.all(schemas.map((schema) => schema.run(req)));
+			const result = validationResult(req);
+			if (result.isEmpty()) return next();
+			const { errors } = result;
+			throw new ValidationError(errors);
+		} catch (err) {
+			next(err);
+		}
+	};
+};
 
 export const catchAsyncErrorHandler = (fn) => {
 	return async (req, res, next) => {
