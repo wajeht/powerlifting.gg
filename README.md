@@ -32,7 +32,7 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [x] dockernize
 - [ ] eslint
 - [ ] auth
-- [ ] email
+- [x] email
 - [ ] swagger
 - [ ] job/queue
 - [ ] web socket
