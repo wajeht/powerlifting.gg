@@ -6,13 +6,13 @@ import cp from 'child_process';
 const server = app.listen(appConfig.port, async () => {
 	logger.info(`Server was started on http://localhost:${appConfig.port}`);
 
-	if (appConfig.env === 'development') {
-		cp.exec('npm run build:tailwind:colors', (err, stdout, stderr) => {
-			if (err) logger.error(err);
-			if (stdout) logger.info(stdout.toString());
-			if (stderr) logger.info(stdout.toString());
-		});
-	}
+	// if (appConfig.env === 'development') {
+	cp.exec('npm run build:tailwind:colors', (err, stdout, stderr) => {
+		if (err) logger.error(err);
+		if (stdout) logger.info(stdout.toString());
+		if (stderr) logger.info(stdout.toString());
+	});
+	// }
 });
 
 function gracefulShutdown() {
