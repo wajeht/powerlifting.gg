@@ -5,7 +5,7 @@ import path from 'path';
 
 (async () => {
 	const tailwindDotHtml = path.resolve(
-		path.join(process.cwd(), 'src', 'views', 'components', 'tailwind.html'),
+		path.join(process.cwd(), 'src', 'web', 'components', 'tailwind.html'),
 	);
 
 	try {
