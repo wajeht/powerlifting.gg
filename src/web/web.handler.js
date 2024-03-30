@@ -58,3 +58,17 @@ export function getLoginHandler() {
 		});
 	};
 }
+
+export async function getUser(WebService, NotFoundError, UnimplementedFunctionError) {
+	return async (req, res) => {
+		if (req.body.method === 'DELETE') {
+			const user = await WebService.getUser();
+
+			if (!user) throw new NotFoundError();
+
+			return res.redirect('/admin');
+		}
+
+		throw new UnimplementedFunctionError();
+	};
+}

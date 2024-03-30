@@ -16,7 +16,10 @@ import {
 	getPrivacyPolicyHandler,
 	getRegiserHanlder,
 	getTermsOfServiceHandler,
+	getUser,
 } from './web.handler.js';
+import { WebRepository } from './web.repository.js';
+import { WebService } from './web.service.js';
 // import { body } from 'express-validator';
 
 const web = express.Router();
@@ -40,6 +43,15 @@ web.get(
 	tenantIdentityHandler,
 	tenancyHandler,
 	catchAsyncErrorHandler(getRegiserHanlder()),
+);
+
+web.post(
+	'/user/:id',
+	tenantIdentityHandler,
+	tenancyHandler,
+	catchAsyncErrorHandler(
+		getUser(WebService(WebRepository(db), NotFoundError, UnimplementedFunctionError)),
+	),
 );
 
 web.get('/admin', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(getAdminHandler()));
@@ -82,26 +94,6 @@ web.get(
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
 		});
-	}),
-);
-
-web.post(
-	'/user/:id',
-	tenantIdentityHandler,
-	tenancyHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		if (req.body.method === 'DELETE') {
-			const user = await db
-				.delete()
-				.from('users')
-				.where({ tenant_id: req.tenant.id, id: req.params.id });
-
-			if (!user) throw new NotFoundError();
-
-			return res.redirect('/admin');
-		}
-
-		throw new UnimplementedFunctionError();
 	}),
 );
 
