@@ -94,7 +94,7 @@ app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'web', 'layouts',
 app.use(localVariables);
 app.use(expressLayouts);
 
-app.use('/api', apiRoutes);
+app.use(apiRoutes);
 app.use(webRoutes);
 
 app.use(notFoundHandler);

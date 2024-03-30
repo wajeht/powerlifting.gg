@@ -4,7 +4,7 @@ import { tenant as tenantRouter } from './tenant/tenant.router.js';
 
 const api = express.Router();
 
-api.use('/users', userRouter);
-api.use('/tenants', tenantRouter);
+api.use('/api/users', userRouter);
+api.use('/api/tenants', tenantRouter);
 
 export { api };
