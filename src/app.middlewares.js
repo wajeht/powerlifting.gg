@@ -1,6 +1,6 @@
 import { logger } from './utils/logger.js';
 import { db } from './database/db.js';
-import { env } from './conifg/env.js';
+import { app as appConfig } from './conifg/app.js';
 import {
 	HttpError,
 	NotFoundError,
@@ -45,16 +45,16 @@ export async function tenantHandler(req, res, next) {
 
 export function localVariables(req, res, next) {
 	res.locals.app = {
-		env: env.env,
+		env: appConfig.env,
 		mainDomain:
-			env.env === 'production'
-				? `https://${env.production_app_url}`
-				: `http://${env.development_app_url}`,
+			appConfig.env === 'production'
+				? `https://${appConfig.production_app_url}`
+				: `http://${appConfig.development_app_url}`,
 		configureDomain: (subdomain) => {
-			if (env.env === 'production') {
-				return `https://${subdomain}.${env.production_app_url}`;
+			if (appConfig.env === 'production') {
+				return `https://${subdomain}.${appConfig.production_app_url}`;
 			}
-			return `http://${subdomain}.${env.development_app_url}`;
+			return `http://${subdomain}.${appConfig.development_app_url}`;
 		},
 	};
 
@@ -118,5 +118,5 @@ export function errorHandler(err, req, res, _next) {
 
 export async function skipOnMyIp(req, _res) {
 	const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
-	return myIp == env.myIp;
+	return myIp == appConfig.myIp;
 }

@@ -14,7 +14,7 @@ import api from './api/api.js';
 
 import { rateLimit } from 'express-rate-limit';
 import { redis } from './database/db.js';
-import { env } from './conifg/env.js';
+import { app as appConfig } from './conifg/app.js';
 import {
 	notFoundHandler,
 	errorHandler,
@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression());
 
-if (env.env === 'production') {
+if (appConfig.env === 'production') {
 	app.use(cors());
 	app.use(
 		helmet({
@@ -69,14 +69,14 @@ if (env.env === 'production') {
 app.use(flash());
 app.use(
 	session({
-		secret: env.session_secret,
+		secret: appConfig.session_secret,
 		resave: true,
 		store: redisStore,
 		saveUninitialized: true,
-		proxy: env.env === 'production',
+		proxy: appConfig.env === 'production',
 		cookie: {
-			httpOnly: env.env === 'production',
-			secure: env.env === 'production',
+			httpOnly: appConfig.env === 'production',
+			secure: appConfig.env === 'production',
 		},
 	}),
 );

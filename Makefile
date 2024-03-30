@@ -7,6 +7,11 @@ push:
 	git push --no-verify
 	./deploy.sh
 
+fix_git:
+	git rm -r --cached .
+	git add .
+	git commit -m "chore: untrack files in .gitignore"
+
 test:
 	docker compose -f docker-compose.dev.yml exec subdomain npm run test
 

@@ -1,12 +1,12 @@
 import { app } from './app.js';
-import { env } from './conifg/env.js';
+import { app as appConfig } from './conifg/app.js';
 import { logger } from './utils/logger.js';
 import cp from 'child_process';
 
-const server = app.listen(env.port, async () => {
-	logger.info(`Server was started on http://localhost:${env.port}`);
+const server = app.listen(appConfig.port, async () => {
+	logger.info(`Server was started on http://localhost:${appConfig.port}`);
 
-	if (env.env === 'development') {
+	if (appConfig.env === 'development') {
 		cp.exec('npm run build:tailwind:colors', (err, stdout, stderr) => {
 			if (err) logger.error(err);
 			if (stdout) logger.info(stdout.toString());

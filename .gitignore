@@ -139,3 +139,5 @@ env.json
 /src/database/db.sqlite
 ./src/database/db.sqlite
 .env
+./public/css/style.css
+/public/css/style.css
