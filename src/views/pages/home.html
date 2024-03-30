@@ -1,8 +1,0 @@
-<div class="flex flex-col gap-5">
-  <% for (const tenant of tenants) { %>
-    <div>
-      <h4><%- tenant.emoji + " " + tenant.name %></h4>
-      <a href="<%- app.configureDomain(tenant.slug) %>"><%- app.configureDomain(tenant.slug) %></a>
-    </div>
-  <% } %>
-</div>

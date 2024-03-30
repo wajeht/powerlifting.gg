@@ -7,4 +7,4 @@ const api = express.Router();
 api.use('/users', userRouter);
 api.use('/tenants', tenantRouter);
 
-export default api;
+export { api };

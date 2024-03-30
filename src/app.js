@@ -9,8 +9,8 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import RedisStore from 'connect-redis';
 
-import routes from './views/routes.js';
-import api from './api/api.js';
+import { web as webRoutes } from './web/web.router.js';
+import { api as apiRoutes } from './api/api.router.js';
 
 import { rateLimit } from 'express-rate-limit';
 import { redis } from './database/db.js';
@@ -88,14 +88,14 @@ app.use(
 );
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
-app.set('views', path.resolve(path.join(process.cwd(), 'src', 'views', 'pages')));
-app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'views', 'layouts', 'main.html')));
+app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'pages')));
+app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'web', 'layouts', 'main.html')));
 
 app.use(localVariables);
 app.use(expressLayouts);
 
-app.use('/api', api);
-app.use(routes);
+app.use('/api', apiRoutes);
+app.use(webRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

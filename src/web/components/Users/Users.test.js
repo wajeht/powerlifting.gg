@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Users from './Users.vue';
-import { it, vi } from 'vitest';
+import { it, vi, expect } from 'vitest';
 import { render, waitFor } from '@testing-library/vue';
 
 vi.mock('axios');

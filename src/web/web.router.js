@@ -10,13 +10,13 @@ import bcrypt from 'bcryptjs';
 import { sendWelcomeEmail } from '../emails/email.js';
 // import { body } from 'express-validator';
 
-const routes = express.Router();
+const web = express.Router();
 
-routes.get('/healthz', (req, res) => {
+web.get('/healthz', (req, res) => {
 	return res.status(200).json({ message: 'ok', date: new Date() });
 });
 
-routes.get(
+web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -31,7 +31,7 @@ routes.get(
 	}),
 );
 
-routes.get(
+web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -46,7 +46,7 @@ routes.get(
 	}),
 );
 
-routes.get(
+web.get(
 	'/',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -64,7 +64,7 @@ routes.get(
 	}),
 );
 
-routes.get(
+web.get(
 	'/admin',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -77,7 +77,7 @@ routes.get(
 	}),
 );
 
-routes.get(
+web.get(
 	'/user/:username',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -99,7 +99,7 @@ routes.get(
 	}),
 );
 
-routes.post(
+web.post(
 	'/user/:id',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -120,7 +120,7 @@ routes.post(
 	}),
 );
 
-routes.get(
+web.get(
 	'/login',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -134,7 +134,7 @@ routes.get(
 	}),
 );
 
-routes.post(
+web.post(
 	'/login',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -167,7 +167,7 @@ routes.post(
 	}),
 );
 
-routes.get(
+web.get(
 	'/register',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -181,7 +181,7 @@ routes.get(
 	}),
 );
 
-routes.post(
+web.post(
 	'/register',
 	tenantIdentityHandler,
 	// validateRequestHandler([
@@ -228,4 +228,4 @@ routes.post(
 	}),
 );
 
-export default routes;
+export { web };

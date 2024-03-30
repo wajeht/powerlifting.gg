@@ -1,13 +1,9 @@
 <header class="flex-0 p-5 bg-[<%- JSON.parse(tenant).color %>]">
 	<div class="text-center">
-		<h1>
-			<%= JSON.parse(tenant).emoji %>
-		</h1>
+		<h1><%= JSON.parse(tenant).emoji %></h1>
 
 		<a href="<%= app.configureDomain(JSON.parse(tenant).slug) %>">
-			<h2>
-				<%= JSON.parse(tenant).name %>
-			</h2>
+			<h2><%= JSON.parse(tenant).name %></h2>
 		</a>
 	</div>
 
