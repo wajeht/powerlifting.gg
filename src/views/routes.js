@@ -1,6 +1,6 @@
 import express from 'express';
 import { db } from '../database/db.js';
-import { tenantHandler } from '../app.middlewares.js';
+import { tenantIdentityHandler, catchAsyncErrorHandler } from '../app.middlewares.js';
 import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
 import { sendWelcomeEmail } from '../emails/email.js';
@@ -11,8 +11,10 @@ routes.get('/healthz', (req, res) => {
 	return res.status(200).json({ message: 'ok', date: new Date() });
 });
 
-routes.get('/privacy-policy', tenantHandler, async (req, res, next) => {
-	try {
+routes.get(
+	'/privacy-policy',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) {
 			return res.status(200).render('privacy-policy.html');
 		}
@@ -21,13 +23,13 @@ routes.get('/privacy-policy', tenantHandler, async (req, res, next) => {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
 		});
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.get('/terms-of-services', tenantHandler, async (req, res, next) => {
-	try {
+routes.get(
+	'/terms-of-services',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) {
 			return res.status(200).render('terms-of-services.html');
 		}
@@ -36,13 +38,13 @@ routes.get('/terms-of-services', tenantHandler, async (req, res, next) => {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
 		});
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.get('/', tenantHandler, async (req, res, next) => {
-	try {
+routes.get(
+	'/',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (req.tenant) {
 			const users = await db.select('*').from('users').where({ tenant_id: req.tenant.id });
 			return res.status(200).render('tenant.html', {
@@ -54,26 +56,26 @@ routes.get('/', tenantHandler, async (req, res, next) => {
 
 		const tenants = await db.select('*').from('tenants');
 		return res.status(200).render('home.html', { tenants });
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.get('/admin', tenantHandler, async (req, res, next) => {
-	try {
+routes.get(
+	'/admin',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		return res.status(200).render('admin.html', {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
 		});
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.get('/user/:username', tenantHandler, async (req, res, next) => {
-	try {
+routes.get(
+	'/user/:username',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		const user = await db
@@ -89,13 +91,13 @@ routes.get('/user/:username', tenantHandler, async (req, res, next) => {
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
 		});
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.post('/user/:id', tenantHandler, async (req, res, next) => {
-	try {
+routes.post(
+	'/user/:id',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		if (req.body.method === 'DELETE') {
@@ -110,13 +112,13 @@ routes.post('/user/:id', tenantHandler, async (req, res, next) => {
 		}
 
 		throw new UnimplementedFunctionError();
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.get('/login', tenantHandler, async (req, res, next) => {
-	try {
+routes.get(
+	'/login',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		return res.status(200).render('login.html', {
@@ -124,13 +126,13 @@ routes.get('/login', tenantHandler, async (req, res, next) => {
 			layout: '../layouts/tenant.html',
 			flashMessages: req.flash(),
 		});
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.post('/login', tenantHandler, async (req, res, next) => {
-	try {
+routes.post(
+	'/login',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		if (req.body.message === '' || req.body.email === '') {
@@ -157,13 +159,13 @@ routes.post('/login', tenantHandler, async (req, res, next) => {
 		}
 
 		return res.redirect('/admin');
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.get('/register', tenantHandler, async (req, res, next) => {
-	try {
+routes.get(
+	'/register',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		return res.status(200).render('register.html', {
@@ -171,13 +173,13 @@ routes.get('/register', tenantHandler, async (req, res, next) => {
 			layout: '../layouts/tenant.html',
 			flashMessages: req.flash(),
 		});
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
-routes.post('/register', tenantHandler, async (req, res, next) => {
-	try {
+routes.post(
+	'/register',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(async (req, res) => {
 		if (!req.tenant) throw new NotFoundError();
 
 		if (req.body.message === '' || req.body.email === '' || req.body.username === '') {
@@ -210,9 +212,7 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 		await sendWelcomeEmail({ email: req.body.email, username: req.body.username });
 
 		return res.redirect('/admin');
-	} catch (error) {
-		next(error);
-	}
-});
+	}),
+);
 
 export default routes;

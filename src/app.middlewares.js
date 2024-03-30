@@ -10,6 +10,16 @@ import {
 	UnimplementedFunctionError,
 } from './app.errors.js';
 
+export const catchAsyncErrorHandler = (fn) => {
+	return async (req, res, next) => {
+		try {
+			await fn(req, res, next);
+		} catch (err) {
+			next(err);
+		}
+	};
+};
+
 export function rateLimitHandler(req, res) {
 	if (req.get('Content-Type') === 'application/json') {
 		return res.json({ message: 'Too many requests, please try again later.' });
@@ -17,7 +27,7 @@ export function rateLimitHandler(req, res) {
 	return res.status(429).render('./rate-limit.html');
 }
 
-export async function tenantHandler(req, res, next) {
+export async function tenantIdentityHandler(req, res, next) {
 	try {
 		const subdomain = req.subdomains.length ? req.subdomains[0] : null;
 
