@@ -72,7 +72,7 @@ app.use(
 		secret: appConfig.session_secret,
 		resave: true,
 		store: redisStore,
-		saveUninitialized: true,
+		saveUninitialized: false,
 		proxy: appConfig.env === 'production',
 		cookie: {
 			httpOnly: appConfig.env === 'production',
