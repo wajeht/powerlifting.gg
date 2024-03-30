@@ -10,8 +10,11 @@ import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
 import { sendWelcomeEmail } from '../emails/email.js';
 import {
+	getAdminHandler,
 	getHealthzHandler,
+	getLoginHandler,
 	getPrivacyPolicyHandler,
+	getRegiserHanlder,
 	getTermsOfServiceHandler,
 } from './web.handler.js';
 // import { body } from 'express-validator';
@@ -33,6 +36,17 @@ web.get(
 );
 
 web.get(
+	'/register',
+	tenantIdentityHandler,
+	tenancyHandler,
+	catchAsyncErrorHandler(getRegiserHanlder()),
+);
+
+web.get('/admin', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(getAdminHandler()));
+
+web.get('/login', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(getLoginHandler()));
+
+web.get(
 	'/',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(async (req, res) => {
@@ -47,18 +61,6 @@ web.get(
 
 		const tenants = await db.select('*').from('tenants');
 		return res.status(200).render('home.html', { tenants });
-	}),
-);
-
-web.get(
-	'/admin',
-	tenantIdentityHandler,
-	tenancyHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		return res.status(200).render('admin.html', {
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-		});
 	}),
 );
 
@@ -103,19 +105,6 @@ web.post(
 	}),
 );
 
-web.get(
-	'/login',
-	tenantIdentityHandler,
-	tenancyHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		return res.status(200).render('login.html', {
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-			flashMessages: req.flash(),
-		});
-	}),
-);
-
 web.post(
 	'/login',
 	tenantIdentityHandler,
@@ -145,19 +134,6 @@ web.post(
 		}
 
 		return res.redirect('/admin');
-	}),
-);
-
-web.get(
-	'/register',
-	tenantIdentityHandler,
-	tenancyHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		return res.status(200).render('register.html', {
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-			flashMessages: req.flash(),
-		});
 	}),
 );
 
