@@ -46,6 +46,7 @@ export async function tenantHandler(req, res, next) {
 export function localVariables(req, res, next) {
 	res.locals.app = {
 		env: appConfig.env,
+		copyRightYear: new Date().getFullYear(),
 		mainDomain:
 			appConfig.env === 'production'
 				? `https://${appConfig.production_app_url}`

@@ -1,14 +1,6 @@
-<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		const year = document.getElementById('year');
-		const currentYear = new Date().getFullYear();
-		year.innerText = currentYear;
-	});
-</script>
-
 <footer class="flex-0 p-5 text-sm">
 	<div class="flex justify-between">
-		<span>Copyright © <span id="year"></span>. Made with ❤️ by
+		<span>Copyright © <%= app.copyRightYear %>. Made with ❤️ by
 			<a href="https://github.com/wajeht/subdomain" title="https://github.com/wajeht/subdomain" target="_blank">@wajeht
 				↗️</a></span>
 
