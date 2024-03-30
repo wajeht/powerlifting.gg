@@ -207,7 +207,7 @@ routes.post('/register', tenantHandler, async (req, res, next) => {
 		});
 
 		// TODO: use job queue
-		await sendWelcomeEmail({ email: req.body.email });
+		await sendWelcomeEmail({ email: req.body.email, username: req.body.username });
 
 		return res.redirect('/admin');
 	} catch (error) {
