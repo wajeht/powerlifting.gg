@@ -11,6 +11,11 @@ import { getTenantUsersHandler } from './user.handler.js';
 
 const user = express.Router();
 
+/**
+ * GET {subdomain}/api/users
+ * @tags users
+ * @summary get all uers
+ */
 user.get(
 	'/',
 	tenantIdentityHandler,
