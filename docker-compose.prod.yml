@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  subdomain:
-    container_name: subdomain
+  powerlifting:
+    container_name: powerlifting
     restart: unless-stopped
     build:
       context: ./
@@ -14,7 +14,7 @@ services:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
     networks:
-      - subdomain-network
+      - powerlifting-network
 
   redis:
     image: 'redis:7.2.3'
@@ -24,7 +24,7 @@ services:
     ports:
       - '${REDIS_PORT}:${REDIS_PORT}'
     networks:
-      - subdomain-network
+      - powerlifting-network
     volumes:
       - 'redis-data:/data'
 
@@ -37,14 +37,14 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - subdomain
+      - powerlifting
     networks:
-      - subdomain-network
+      - powerlifting-network
 
 volumes:
   redis-data:
     driver: local
 
 networks:
-  subdomain-network:
+  powerlifting-network:
     driver: bridge

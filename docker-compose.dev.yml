@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  subdomain:
-    container_name: subdomain
+  powerlifting:
+    container_name: powerlifting
     restart: unless-stopped
     build:
       context: ./
@@ -14,7 +14,7 @@ services:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
     networks:
-      - subdomain-network
+      - powerlifting-network
     environment:
       - CHOKIDAR_USEPOLLING=true
 
@@ -26,7 +26,7 @@ services:
     ports:
       - '${REDIS_PORT}:${REDIS_PORT}'
     networks:
-      - subdomain-network
+      - powerlifting-network
     volumes:
       - 'redis-data:/data'
 
@@ -38,12 +38,12 @@ services:
       - '1025:1025'
       - '8025:8025'
     networks:
-      - subdomain-network
+      - powerlifting-network
 
 volumes:
   redis-data:
     driver: local
 
 networks:
-  subdomain-network:
+  powerlifting-network:
     driver: bridge

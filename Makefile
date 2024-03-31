@@ -13,19 +13,19 @@ fix_git:
 	git commit -m "chore: untrack files in .gitignore"
 
 test:
-	docker compose -f docker-compose.dev.yml exec subdomain npm run test
+	docker compose -f docker-compose.dev.yml exec powerlifting npm run test
 
 test-w:
-	docker compose -f docker-compose.dev.yml exec subdomain npm run test:watch
+	docker compose -f docker-compose.dev.yml exec powerlifting npm run test:watch
 
 format:
-	docker compose -f docker-compose.dev.yml exec subdomain npm run format
+	docker compose -f docker-compose.dev.yml exec powerlifting npm run format
 
 lint:
-	docker compose -f docker-compose.dev.yml exec subdomain npm run lint
+	docker compose -f docker-compose.dev.yml exec powerlifting npm run lint
 
 reset-db:
-	docker compose -f docker-compose.dev.yml exec subdomain npm run db:prepare
+	docker compose -f docker-compose.dev.yml exec powerlifting npm run db:prepare
 
 deploy:
 	./deploy.sh

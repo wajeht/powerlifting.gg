@@ -2,7 +2,7 @@
 
 ssh root@23.88.102.183 << EOF
 
-cd subdomain
+cd powerlifting
 
 git reset HEAD .
 

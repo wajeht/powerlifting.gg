@@ -48,7 +48,7 @@ if (appConfig.env === 'production') {
 						"'self'",
 						"'unsafe-inline'",
 						"'unsafe-eval'",
-						'jaw.lol',
+						'powerlifting.gg',
 						'localhost',
 						'plausible.jaw.dev',
 					],
