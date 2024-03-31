@@ -59,7 +59,23 @@ export function getLoginHandler() {
 	};
 }
 
-export async function getUser(WebService, NotFoundError, UnimplementedFunctionError) {
+export function getIndexHandler(WebRepository) {
+	return async (req, res) => {
+		if (req.tenant) {
+			const users = await WebRepository.getTenantUsers({ tenant_id: req.tenant.id });
+			return res.status(200).render('tenant.html', {
+				tenant: JSON.stringify(req.tenant),
+				layout: '../layouts/tenant.html',
+				users,
+			});
+		}
+
+		const tenants = await WebRepository.getTenants();
+		return res.status(200).render('home.html', { tenants });
+	};
+}
+
+export function getUser(WebService, NotFoundError, UnimplementedFunctionError) {
 	return async (req, res) => {
 		if (req.body.method === 'DELETE') {
 			const user = await WebService.getUser();

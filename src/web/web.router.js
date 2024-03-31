@@ -12,6 +12,7 @@ import { sendWelcomeEmail } from '../emails/email.js';
 import {
 	getAdminHandler,
 	getHealthzHandler,
+	getIndexHandler,
 	getLoginHandler,
 	getPrivacyPolicyHandler,
 	getRegiserHanlder,
@@ -58,23 +59,7 @@ web.get('/admin', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(
 
 web.get('/login', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(getLoginHandler()));
 
-web.get(
-	'/',
-	tenantIdentityHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		if (req.tenant) {
-			const users = await db.select('*').from('users').where({ tenant_id: req.tenant.id });
-			return res.status(200).render('tenant.html', {
-				tenant: JSON.stringify(req.tenant),
-				layout: '../layouts/tenant.html',
-				users,
-			});
-		}
-
-		const tenants = await db.select('*').from('tenants');
-		return res.status(200).render('home.html', { tenants });
-	}),
-);
+web.get('/', tenantIdentityHandler, catchAsyncErrorHandler(getIndexHandler(WebRepository(db))));
 
 web.get(
 	'/user/:username',
