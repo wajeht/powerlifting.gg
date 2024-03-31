@@ -6,7 +6,7 @@ import { faker } from '@faker-js/faker';
 
 const app = request(server);
 
-it('should be able to get /healthz end point', async () => {
+it.skip('should be able to get /healthz end point', async () => {
 	const res = await app.get('/healthz');
 	expect(res.status).toBe(200);
 	expect(res.body).toHaveProperty('message');

@@ -1,6 +1,12 @@
 export function getHealthzHandler() {
 	return (req, res) => {
-		return res.status(200).json({ message: 'ok', date: new Date() });
+		if (req.get('Content-Type') === 'application/json') {
+			return res.status(200).json({ message: 'ok', date: new Date() });
+		}
+
+		return res.status(200).render('healthz.html', {
+			layout: '../layouts/healthz.html',
+		});
 	};
 }
 
