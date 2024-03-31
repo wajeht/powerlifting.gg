@@ -3,7 +3,11 @@ import ejs from 'ejs';
 import path from 'node:path';
 import { sendMail } from '../../mailer.util.js';
 
-export async function sendWelcomeEmail({ email, subject = 'Welcome to powerlifting.gg', username }) {
+export async function sendWelcomeEmail({
+	email,
+	subject = 'Welcome to powerlifting.gg',
+	username,
+}) {
 	try {
 		// prettier-ignore
 		const template = path.resolve(path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome','welcome.html'));
