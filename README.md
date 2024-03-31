@@ -41,6 +41,8 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [ ] test setup for ci
 - [ ] litestream to auto backup sqlite to s3
 - [ ] zero downtime
+- [ ] submit tenant and super-admin approve
+- [ ] reserve known coaches
 
 # 💻 Development
 
