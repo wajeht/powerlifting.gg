@@ -25,7 +25,7 @@ import {
 
 const redisStore = new RedisStore({
 	client: redis,
-	prefix: 'subdomain-session-store:',
+	prefix: 'powerlifting-gg-session-store:',
 });
 
 const app = express();
