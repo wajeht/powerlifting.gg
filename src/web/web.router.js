@@ -25,20 +25,40 @@ import { WebService } from './web.service.js';
 
 const web = express.Router();
 
+/**
+ * GET /healthz
+ * @tags web
+ * @summary get healthz page
+ */
 web.get('/healthz', getHealthzHandler());
 
+/**
+ * GET /privacy-policy
+ * @tags web
+ * @summary get privacy policy page
+ */
 web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(getPrivacyPolicyHandler()),
 );
 
+/**
+ * GET /terms-of-services
+ * @tags web
+ * @summary get terms of services page
+ */
 web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(getTermsOfServiceHandler()),
 );
 
+/**
+ * GET /regiser
+ * @tags web
+ * @summary get register
+ */
 web.get(
 	'/register',
 	tenantIdentityHandler,
@@ -55,10 +75,25 @@ web.post(
 	),
 );
 
+/**
+ * GET /admin
+ * @tags web
+ * @summary get admin page
+ */
 web.get('/admin', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(getAdminHandler()));
 
+/**
+ * GET /login
+ * @tags web
+ * @summary get login page
+ */
 web.get('/login', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(getLoginHandler()));
 
+/**
+ * GET /
+ * @tags web
+ * @summary get index page
+ */
 web.get('/', tenantIdentityHandler, catchAsyncErrorHandler(getIndexHandler(WebRepository(db))));
 
 web.get(
