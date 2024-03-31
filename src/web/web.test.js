@@ -1,32 +1,30 @@
 import request from 'supertest';
-import { it, expect, describe, beforeAll, afterEach, afterAll } from 'vitest';
+import { it, expect, describe } from 'vitest';
 import { app as server } from '../app.js';
 import { db } from '../database/db.js';
 import { faker } from '@faker-js/faker';
+import { refreshDatabase } from '../utils/refresh-db.js';
 
 const app = request(server);
 
-it.skip('should be able to get /healthz end point', async () => {
-	const res = await app.get('/healthz');
+await refreshDatabase();
+
+it('should be able to get /healthz end point with json', async () => {
+	const res = await app.get('/healthz').set('Content-Type', 'application/json');
 	expect(res.status).toBe(200);
+	expect(res.headers['content-type']).toBe('application/json; charset=utf-8');
 	expect(res.body).toHaveProperty('message');
 	expect(res.body).toHaveProperty('date');
 });
 
+it('should be able to get /healthz end point with teml', async () => {
+	const res = await app.get('/healthz');
+	expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
+	expect(res.status).toBe(200);
+	expect(res.text).include('ok');
+});
+
 describe('when visiting / route', () => {
-	beforeAll(async () => {
-		await db.migrate.latest();
-	});
-
-	afterEach(async () => {
-		await db('tenants').del();
-	});
-
-	afterAll(async () => {
-		await db.migrate.rollback();
-		await db.destroy();
-	});
-
 	describe('if there is no tenant', () => {
 		it('should go to the main domain with all the tenants listed in the page', async () => {
 			const tenants = Array.from({ length: 5 }, () => ({
