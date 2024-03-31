@@ -10,6 +10,7 @@ import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
 import { sendWelcomeEmail } from '../emails/email.js';
 import {
+	getContactHandler,
 	getAdminHandler,
 	getHealthzHandler,
 	getIndexHandler,
@@ -53,6 +54,13 @@ web.get(
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(getTermsOfServiceHandler()),
 );
+
+/**
+ * GET /contact
+ * @tags web
+ * @summary get contact page
+ */
+web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHandler()));
 
 /**
  * GET /regiser

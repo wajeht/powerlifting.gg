@@ -12,6 +12,22 @@ export function getHealthzHandler() {
 	};
 }
 
+export function getContactHandler() {
+	return (req, res) => {
+		if (!req.tenant) {
+			return res.status(200).render('contact.html', {
+				flashMessages: req.flash(),
+			});
+		}
+
+		return res.status(200).render('contact.html', {
+			tenant: JSON.stringify(req.tenant),
+			layout: '../layouts/tenant.html',
+			flashMessages: req.flash(),
+		});
+	};
+}
+
 export function getPrivacyPolicyHandler() {
 	return (req, res) => {
 		if (!req.tenant) {

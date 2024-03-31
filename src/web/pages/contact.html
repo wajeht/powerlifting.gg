@@ -1,0 +1,15 @@
+<div>
+  <!-- flash-messages -->
+  <%- include('../components/flash-message.html') %>
+
+  <p>contact</p>
+
+  <form action="/contact" method="post">
+
+    <input type="email" name="email" id="email" placeholder="email" required />
+    <br />
+    <textarea name="message" id="message" cols="30" rows="10" placeholder="message" required></textarea>
+    <br />
+    <input type="submit" value="submit" />
+  </form>
+</div>
