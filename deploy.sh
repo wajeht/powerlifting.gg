@@ -2,7 +2,7 @@
 
 ssh root@23.88.102.183 << EOF
 
-cd powerlifting
+cd powerlifting.gg
 
 git reset HEAD .
 
