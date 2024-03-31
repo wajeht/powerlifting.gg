@@ -4,7 +4,7 @@ process.env.NODE_ENV = 'testing';
 process.env.MY_IP_ADDRESS = '50.26.8.122';
 process.env.DEVELOPMENT_APP_URL = 'app.test';
 process.env.PRODUCTION_APP_URL = 'jaw.lol';
-process.env.SESSION_SECRET = 'subdomain';
+process.env.SESSION_SECRET = 'powerlifting.gg';
 
 process.env.REDIS_HOST = 'redis';
 process.env.REDIS_PORT = 6379;

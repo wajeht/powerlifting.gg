@@ -1,8 +1,8 @@
 {
-	"name": "subdomain",
+	"name": "powerlifting.gg",
 	"version": "0.0.1",
 	"type": "module",
-	"description": "multi-tendency systems using node and express",
+	"description": "multitenancy coaching review systems",
 	"main": "./src/server.js",
 	"scripts": {
 		"start": "NODE_ENV=production && npm run build && npm run db:prepare && node ./src/server.js",
