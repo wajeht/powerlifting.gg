@@ -1,10 +1,12 @@
 export function getHealthzHandler() {
 	return (req, res) => {
+		const uptime = process.uptime();
 		if (req.get('Content-Type') === 'application/json') {
-			return res.status(200).json({ message: 'ok', date: new Date() });
+			return res.status(200).json({ message: 'ok', uptime });
 		}
 
 		return res.status(200).render('healthz.html', {
+			uptime,
 			layout: '../layouts/healthz.html',
 		});
 	};
