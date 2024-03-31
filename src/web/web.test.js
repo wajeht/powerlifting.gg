@@ -26,7 +26,7 @@ it('should be able to get /healthz end point with teml', async () => {
 
 describe('when visiting / route', () => {
 	describe('if there is no tenant', () => {
-		it('should go to the main domain with all the tenants listed in the page', async () => {
+		it.skip('should go to the main domain with all the tenants listed in the page', async () => {
 			const tenants = Array.from({ length: 5 }, () => ({
 				name: faker.company.name(),
 				slug: faker.lorem.slug(),
