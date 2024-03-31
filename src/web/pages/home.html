@@ -1,8 +1,54 @@
-<div class="flex flex-col gap-5 mx-auto max-w-7xl">
-	<% for (const tenant of tenants) { %>
-	<div>
-		<h4><%- tenant.emoji + " " + tenant.name %></h4>
-		<a href="<%- app.configureDomain(tenant.slug) %>"><%- app.configureDomain(tenant.slug) %></a>
+<div class="p-10">
+	<div class="mx-auto max-w-7xl w-fll flex flex-col gap-5 ">
+		<% for (const tenant of tenants) { %>
+			<div>
+				<h4><%- tenant.emoji + " " + tenant.name %></h4>
+				<a href="<%- app.configureDomain(tenant.slug) %>"><%- app.configureDomain(tenant.slug) %></a>
+			</div>
+			<% } %>
 	</div>
-	<% } %>
+</div>
+
+<div class="border border-1 border-neutral-200 p-10">
+	<div class="flex flex-col gap-5 mx-auto max-w-7xl">
+		<p>
+			Pulvinar convallis pharetra volutpat dictumst purus libero accumsan nunc nascetur proin elit ut, porta nullam
+			luctus
+			pellentesque lacus posuere amet montes aenean nisi nam. Natoque justo ac felis cursus curabitur vestibulum proin
+			auctor libero et lobortis ridiculus at mi nostra integer, imperdiet hac tempus sapien platea lectus ante velit
+			quis
+			ultricies ex mattis magna aenean conubia. Dictum condimentum purus platea lectus ipsum semper felis nostra vitae
+			imperdiet nunc quam tincidunt, inceptos ligula dignissim ac blandit lacinia risus rhoncus arcu aenean turpis.
+			Lacus
+			curae nisi arcu torquent magna proin tincidunt augue, nascetur orci lectus leo iaculis dignissim vel ultricies,
+			finibus interdum tempus pellentesque euismod ut nibh. Consectetur potenti massa urna montes imperdiet varius
+			molestie odio integer nisi, habitasse a mi aenean vivamus proin pretium cursus. Platea vivamus curae feugiat porta
+			maximus nisi scelerisque lectus lorem fringilla facilisi, dis molestie faucibus et semper natoque luctus efficitur
+			integer lobortis.
+		</p>
+		<br>
+
+		<p>
+			Aliquet amet senectus placerat fusce quisque orci morbi nullam eget et sit molestie proin, non feugiat ante
+			lobortis
+			fringilla aenean metus per class hendrerit ligula. At nam a euismod ipsum dapibus habitant natoque rutrum conubia
+			duis accumsan tortor, eros hendrerit praesent fringilla ex vitae diam tempus fames etiam. Venenatis fermentum
+			gravida malesuada mus habitant bibendum penatibus vulputate tempor fusce phasellus risus dictum at, taciti
+			adipiscing hendrerit congue vehicula magna dolor egestas ad donec magnis sit libero. Senectus parturient lacus
+			platea nostra per penatibus hendrerit neque pretium ultricies curabitur eleifend vulputate, volutpat ullamcorper
+			odio magnis morbi mattis blandit sem habitasse interdum faucibus nunc.
+		</p>
+		<br>
+
+		<p>
+			Nulla nascetur porttitor aliquet faucibus odio placerat, dignissim cras neque in consectetur. Mattis dui fringilla
+			nulla a adipiscing vel, semper purus ridiculus molestie odio elit proin, dignissim fames convallis pulvinar
+			cubilia.
+			Erat inceptos adipiscing primis nostra habitasse mattis est semper elementum in facilisi neque, morbi finibus diam
+			pulvinar pharetra cubilia posuere nibh ultricies hendrerit. Inceptos integer iaculis dignissim nostra efficitur
+			aliquet condimentum metus montes laoreet rhoncus arcu, suspendisse porta lectus porttitor volutpat dolor nam donec
+			mattis gravida.
+		</p>
+		<br>
+	</div>
 </div>
