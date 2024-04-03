@@ -1,0 +1,23 @@
+<script type="importmap">
+  {
+      "imports": {
+          "vue": "/js/vue.esm-browser.prod.min.js",
+          "axios": "/js/axios.min.js"
+      }
+  }
+</script>
+
+<script type="module">
+  import { createApp } from '/js/vue.esm-browser.prod.min.js';
+
+  import Users from '/js/Users.js';
+  import Search from '/js/Search.js';
+
+  const app = createApp();
+
+  app.component("Users", Users);
+  app.component("Search", Search);
+
+  app.mount("#app");
+
+</script>

@@ -1,1 +1,29 @@
-(function(e,s){typeof exports=="object"&&typeof module<"u"?module.exports=s(require("vue"),require("axios")):typeof define=="function"&&define.amd?define(["vue","axios"],s):(e=typeof globalThis<"u"?globalThis:e||self,e.Users=s(e.Vue,e.axios))})(this,function(e,s){"use strict";const a=(c,n)=>{const o=c.__vccOpts||c;for(const[r,i]of n)o[r]=i;return o},l={class:"flex flex-col gap-5"},d=["href"],p={class:"font-bold"},_={class:"font-bold"};return a({__name:"Users",setup(c){const n=e.reactive({users:[]}),o=e.computed(()=>window.location.origin);return e.onMounted(async()=>{const{data:r}=await s.get("/api/users");n.users=r.data}),(r,i)=>(e.openBlock(),e.createElementBlock("div",l,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(n.users,t=>(e.openBlock(),e.createElementBlock("a",{href:`${o.value}/user/${t.username}`,key:`user-key-${t.id}`,class:"bg-neutral-200 hover:bg-neutral-300 p-5 rounded-md"},[e.createElementVNode("h4",p,e.toDisplayString(t.emoji),1),e.createElementVNode("h4",_,e.toDisplayString(t.username),1),e.createElementVNode("p",null,e.toDisplayString(t.email),1),e.createElementVNode("p",null,e.toDisplayString(t.role),1)],8,d))),128))]))}},[["__file","/usr/src/app/src/web/components/Users/Users.vue"]])});
+import { reactive as l, computed as i, onMounted as u, openBlock as o, createElementBlock as r, Fragment as _, renderList as d, createElementVNode as s, toDisplayString as t } from "vue";
+import m from "axios";
+import { _ as p } from "./_plugin-vue_export-helper.js";
+const f = { class: "flex flex-col gap-5" }, h = ["href"], g = { class: "font-bold" }, x = { class: "font-bold" }, b = {
+  __name: "Users",
+  setup(v) {
+    const n = l({
+      users: []
+    }), c = i(() => window.location.origin);
+    return u(async () => {
+      const { data: a } = await m.get("/api/users");
+      n.users = a.data;
+    }), (a, k) => (o(), r("div", f, [
+      (o(!0), r(_, null, d(n.users, (e) => (o(), r("a", {
+        href: `${c.value}/user/${e.username}`,
+        key: `user-key-${e.id}`,
+        class: "bg-neutral-200 hover:bg-neutral-300 p-5 rounded-md"
+      }, [
+        s("h4", g, t(e.emoji), 1),
+        s("h4", x, t(e.username), 1),
+        s("p", null, t(e.email), 1),
+        s("p", null, t(e.role), 1)
+      ], 8, h))), 128))
+    ]));
+  }
+}, $ = /* @__PURE__ */ p(b, [["__file", "/usr/src/app/src/web/components/Users/Users.vue"]]);
+export {
+  $ as default
+};

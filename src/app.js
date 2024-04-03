@@ -86,6 +86,11 @@ app.use(
 app.use(
 	express.static(path.resolve(path.join(process.cwd(), 'public')), {
 		maxAge: '24h',
+		setHeaders: (res, path, _stat) => {
+			if (path.endsWith('.js')) {
+				res.setHeader('Content-Type', 'application/javascript');
+			}
+		},
 	}),
 );
 app.engine('html', ejs.renderFile);

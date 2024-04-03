@@ -26,12 +26,14 @@ function getComponentEntries(componentDir) {
 export default defineConfig({
 	plugins: [vue()],
 	build: {
+		minify: true,
+		cssMinify: true,
 		outDir: './public',
 		emptyOutDir: false,
 		lib: {
 			entry: resolve(__dirname, 'src/web/components'),
 			name: Object.keys(getComponentEntries(resolve(__dirname, 'src/web/components')))[0],
-			formats: ['umd'],
+			formats: ['es'],
 		},
 		rollupOptions: {
 			input: getComponentEntries(resolve(__dirname, 'src/web/components')),
@@ -45,6 +47,7 @@ export default defineConfig({
 					vue: 'Vue',
 					axios: 'axios',
 				},
+				inlineDynamicImports: false,
 			},
 		},
 	},
