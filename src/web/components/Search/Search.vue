@@ -8,14 +8,25 @@ const states = reactive({
 	data: [],
 });
 
+let timeout;
+
 function computedDomain(slug) {
 	const { protocol, hostname } = window.location;
 	return `${protocol}//${slug}.${hostname}`;
 }
 
+function debounce(func, delay) {
+	clearTimeout(timeout);
+	timeout = setTimeout(func, delay);
+}
+
 async function fetchData() {
 	states.loading = true;
 	try {
+		if (states.search === '') {
+			states.data = [];
+			return;
+		}
 		const response = await axios.get(`/api/search?q=${encodeURIComponent(states.search)}`);
 		states.data = response.data.data;
 	} catch (error) {
@@ -35,7 +46,7 @@ async function fetchData() {
 				autofocus
 				v-model="states.search"
 				placeholder="Search for a coach or a system..."
-				@input.change="fetchData"
+				@input="debounce(fetchData, 500)"
 			/>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"

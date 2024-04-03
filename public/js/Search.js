@@ -1,75 +1,83 @@
-import { reactive as d, openBlock as s, createElementBlock as l, createElementVNode as t, withDirectives as p, vModelText as u, Fragment as m, renderList as h, normalizeClass as f, toDisplayString as c, createCommentVNode as _ } from "vue";
-import g from "axios";
-import { _ as w } from "./_plugin-vue_export-helper.js";
-const x = { class: "flex gap-1 items-center justify-center relative w-[374px]" }, v = { class: "input input-bordered flex items-center gap-2 w-[374px]" }, y = /* @__PURE__ */ t("svg", {
+import { reactive as p, openBlock as s, createElementBlock as l, createElementVNode as r, withDirectives as m, vModelText as f, Fragment as h, renderList as _, normalizeClass as g, toDisplayString as n, createCommentVNode as w } from "vue";
+import x from "axios";
+import { _ as v } from "./_plugin-vue_export-helper.js";
+const y = { class: "flex gap-1 items-center justify-center relative w-[374px]" }, b = { class: "input input-bordered flex items-center gap-2 w-[374px]" }, S = /* @__PURE__ */ r("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 16 16",
   fill: "currentColor",
   class: "w-4 h-4 opacity-70"
 }, [
-  /* @__PURE__ */ t("path", {
+  /* @__PURE__ */ r("path", {
     "fill-rule": "evenodd",
     d: "M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z",
     "clip-rule": "evenodd"
   })
-], -1), b = {
+], -1), $ = {
   key: 0,
   class: "menu absolute top-[55px] w-[374px] bg-neutral-100/50 backdrop-blur-md rounded-md shadow-md"
-}, S = ["href"], k = {
+}, k = ["href"], C = {
   __name: "Search",
-  setup($) {
-    const o = d({
+  setup(D) {
+    const e = p({
       loading: !1,
       search: "",
       data: []
     });
-    function n(a) {
-      const { protocol: r, hostname: e } = window.location;
-      return `${r}//${a}.${e}`;
+    let c;
+    function i(o) {
+      const { protocol: a, hostname: t } = window.location;
+      return `${a}//${o}.${t}`;
     }
-    async function i() {
-      o.loading = !0;
+    function d(o, a) {
+      clearTimeout(c), c = setTimeout(o, a);
+    }
+    async function u() {
+      e.loading = !0;
       try {
-        const a = await g.get(`/api/search?q=${encodeURIComponent(o.search)}`);
-        o.data = a.data.data;
-      } catch (a) {
-        console.error("Error fetching data:", a);
+        if (e.search === "") {
+          e.data = [];
+          return;
+        }
+        const o = await x.get(`/api/search?q=${encodeURIComponent(e.search)}`);
+        e.data = o.data.data;
+      } catch (o) {
+        console.error("Error fetching data:", o);
       } finally {
-        o.loading = !1;
+        e.loading = !1;
       }
     }
-    return (a, r) => (s(), l("div", x, [
-      t("label", v, [
-        p(t("input", {
+    return (o, a) => (s(), l("div", y, [
+      r("label", b, [
+        m(r("input", {
           type: "text",
           class: "grow",
           autofocus: "",
-          "onUpdate:modelValue": r[0] || (r[0] = (e) => o.search = e),
+          "onUpdate:modelValue": a[0] || (a[0] = (t) => e.search = t),
           placeholder: "Search for a coach or a system...",
-          onInput: i
+          onInput: a[1] || (a[1] = (t) => d(u, 500))
         }, null, 544), [
-          [u, o.search]
+          [f, e.search]
         ]),
-        y
+        S
       ]),
-      o.data.length ? (s(), l("ul", b, [
-        (s(!0), l(m, null, h(o.data, (e) => (s(), l("li", {
+      e.data.length ? (s(), l("ul", $, [
+        (s(!0), l(h, null, _(e.data, (t) => (s(), l("li", {
           class: "flex flex-col gap-2",
-          key: e.id
+          key: t.id
         }, [
-          t("a", {
-            href: n(e.slug)
+          r("a", {
+            href: i(t.slug)
           }, [
-            t("div", {
-              class: f(["p-3", `bg-[${e.color}]`])
-            }, c(e.emoji), 3),
-            t("p", null, c(e.name), 1)
-          ], 8, S)
+            r("div", {
+              class: g(["p-3", `bg-[${t.color}]`])
+            }, n(t.emoji), 3),
+            r("p", null, n(t.name), 1)
+          ], 8, k)
         ]))), 128))
-      ])) : _("", !0)
+      ])) : w("", !0)
     ]));
   }
-}, E = /* @__PURE__ */ w(k, [["__file", "/usr/src/app/src/web/components/Search/Search.vue"]]);
+}, T = /* @__PURE__ */ v(C, [["__file", "/usr/src/app/src/web/components/Search/Search.vue"]]);
 export {
-  E as default
+  T as default
 };
