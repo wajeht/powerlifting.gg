@@ -1,68 +1,75 @@
-import { reactive as p, openBlock as o, createElementBlock as s, withDirectives as u, createElementVNode as r, vModelText as m, createCommentVNode as c, Fragment as h, renderList as _, normalizeClass as f, toDisplayString as l } from "vue";
+import { reactive as d, openBlock as s, createElementBlock as l, createElementVNode as t, withDirectives as p, vModelText as u, Fragment as m, renderList as h, normalizeClass as f, toDisplayString as c, createCommentVNode as _ } from "vue";
 import g from "axios";
-import { _ as x } from "./_plugin-vue_export-helper.js";
-const b = { class: "flex gap-1 items-center justify-center relative w-[374px]" }, y = ["disabled"], w = ["disabled"], k = { key: 0 }, v = { key: 1 }, S = {
+import { _ as w } from "./_plugin-vue_export-helper.js";
+const x = { class: "flex gap-1 items-center justify-center relative w-[374px]" }, v = { class: "input input-bordered flex items-center gap-2 w-[374px]" }, y = /* @__PURE__ */ t("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 16 16",
+  fill: "currentColor",
+  class: "w-4 h-4 opacity-70"
+}, [
+  /* @__PURE__ */ t("path", {
+    "fill-rule": "evenodd",
+    d: "M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z",
+    "clip-rule": "evenodd"
+  })
+], -1), b = {
   key: 0,
-  class: "menu absolute top-[55px] w-[374px] bg-neutral-100 rounded-sm"
-}, $ = ["href"], C = {
+  class: "menu absolute top-[55px] w-[374px] bg-neutral-100/50 backdrop-blur-md rounded-md shadow-md"
+}, S = ["href"], k = {
   __name: "Search",
-  setup(D) {
-    const e = p({
+  setup($) {
+    const o = d({
       loading: !1,
       search: "",
       data: []
     });
-    function i(a) {
-      const { protocol: n, hostname: t } = window.location;
-      return `${n}//${a}.${t}`;
+    function n(a) {
+      const { protocol: r, hostname: e } = window.location;
+      return `${r}//${a}.${e}`;
     }
-    async function d() {
-      e.loading = !0;
+    async function i() {
+      o.loading = !0;
       try {
-        const a = await g.get(`/api/search?q=${encodeURIComponent(e.search)}`);
-        e.data = a.data.data;
+        const a = await g.get(`/api/search?q=${encodeURIComponent(o.search)}`);
+        o.data = a.data.data;
       } catch (a) {
         console.error("Error fetching data:", a);
       } finally {
-        e.loading = !1;
+        o.loading = !1;
       }
     }
-    return (a, n) => (o(), s("div", b, [
-      u(r("input", {
-        type: "text",
-        "onUpdate:modelValue": n[0] || (n[0] = (t) => e.search = t),
-        placeholder: "Search for a coach or a system...",
-        class: "input input-bordered w-full max-w-[18rem]",
-        disabled: e.loading
-      }, null, 8, y), [
-        [m, e.search]
+    return (a, r) => (s(), l("div", x, [
+      t("label", v, [
+        p(t("input", {
+          type: "text",
+          class: "grow",
+          autofocus: "",
+          "onUpdate:modelValue": r[0] || (r[0] = (e) => o.search = e),
+          placeholder: "Search for a coach or a system...",
+          onInput: i
+        }, null, 544), [
+          [u, o.search]
+        ]),
+        y
       ]),
-      r("button", {
-        onClick: d,
-        class: "btn btn-neutral",
-        disabled: e.loading
-      }, [
-        e.loading ? c("", !0) : (o(), s("span", k, "Search")),
-        e.loading ? (o(), s("span", v, "...........")) : c("", !0)
-      ], 8, w),
-      e.data.length ? (o(), s("ul", S, [
-        (o(!0), s(h, null, _(e.data, (t) => (o(), s("li", {
+      o.data.length ? (s(), l("ul", b, [
+        (s(!0), l(m, null, h(o.data, (e) => (s(), l("li", {
           class: "flex flex-col gap-2",
-          key: t.id
+          key: e.id
         }, [
-          r("a", {
-            href: i(t.slug)
+          t("a", {
+            href: n(e.slug)
           }, [
-            r("div", {
-              class: f(["p-3", `bg-[${t.color}]`])
-            }, l(t.emoji), 3),
-            r("p", null, l(t.name), 1)
-          ], 8, $)
+            t("div", {
+              class: f(["p-3", `bg-[${e.color}]`])
+            }, c(e.emoji), 3),
+            t("p", null, c(e.name), 1)
+          ], 8, S)
         ]))), 128))
-      ])) : c("", !0)
+      ])) : _("", !0)
     ]));
   }
-}, B = /* @__PURE__ */ x(C, [["__file", "/usr/src/app/src/web/components/Search/Search.vue"]]);
+}, E = /* @__PURE__ */ w(k, [["__file", "/usr/src/app/src/web/components/Search/Search.vue"]]);
 export {
-  B as default
+  E as default
 };

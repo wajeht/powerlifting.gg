@@ -5,7 +5,7 @@
 export function up(knex) {
 	return knex.schema.createTable('tenants', function (table) {
 		table.increments('id').primary();
-		table.string('name').notNullable();
+		table.string('name').notNullable().index();
 		table.string('slug').notNullable().unique();
 		table.string('emoji').nullable().defaultTo('💡');
 		table.string('color').nullable().defaultTo('black');
