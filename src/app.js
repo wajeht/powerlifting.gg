@@ -83,16 +83,12 @@ app.use(
 	}),
 );
 
-app.use(
-	express.static(path.resolve(path.join(process.cwd(), 'public')), {
-		maxAge: '24h',
-		setHeaders: (res, path, _stat) => {
-			if (path.endsWith('.js')) {
-				res.setHeader('Content-Type', 'application/javascript');
-			}
-		},
-	}),
-);
+if (appConfig.env === 'production') {
+	app.use(express.static(path.resolve(path.join(process.cwd(), 'public')), { maxAge: '24h' }));
+} else {
+	app.use(express.static(path.resolve(path.join(process.cwd(), 'public'))));
+}
+
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'pages')));

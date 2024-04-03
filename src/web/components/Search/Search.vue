@@ -1,9 +1,8 @@
 <script setup>
-import { computed, onMounted, reactive } from 'vue';
+import { onMounted } from 'vue';
 
 onMounted(() => {
-	console.log('xxxx');
-	console.log('xxxx');
+	console.log('live js');
 });
 </script>
 

@@ -11,10 +11,10 @@ const r = { class: "flex gap-1 w-full items-center justify-center" }, n = /* @__
   __name: "Search",
   setup(p) {
     return t(() => {
-      console.log("xxxx"), console.log("xxxx");
+      console.log("live js");
     }), (u, i) => (o(), c("div", r, [...l]));
   }
-}, m = /* @__PURE__ */ s(_, [["__file", "/usr/src/app/src/web/components/Search/Search.vue"]]);
+}, d = /* @__PURE__ */ s(_, [["__file", "/usr/src/app/src/web/components/Search/Search.vue"]]);
 export {
-  m as default
+  d as default
 };
