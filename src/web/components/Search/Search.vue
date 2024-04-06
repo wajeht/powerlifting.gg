@@ -62,10 +62,7 @@ async function fetchData() {
 			</svg>
 		</label>
 
-		<ul
-			v-if="states.data.length"
-			class="menu absolute top-[55px] w-[374px] bg-neutral-100/50 backdrop-blur-md rounded-md shadow-md"
-		>
+		<ul v-if="states.data.length" class="menu absolute top-[55px] w-[374px] rounded-md shadow-md">
 			<li class="flex flex-col gap-2" v-for="tenant in states.data" :key="tenant.id">
 				<a :href="computedDomain(tenant.slug)">
 					<div class="p-3" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>

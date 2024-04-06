@@ -1,4 +1,4 @@
-import { reactive as p, openBlock as s, createElementBlock as l, createElementVNode as r, withDirectives as m, vModelText as f, Fragment as h, renderList as _, normalizeClass as g, toDisplayString as n, createCommentVNode as w } from "vue";
+import { reactive as u, openBlock as s, createElementBlock as l, createElementVNode as r, withDirectives as m, vModelText as f, Fragment as h, renderList as _, normalizeClass as g, toDisplayString as n, createCommentVNode as w } from "vue";
 import x from "axios";
 import { _ as v } from "./_plugin-vue_export-helper.js";
 const y = { class: "flex gap-1 items-center justify-center relative w-[374px]" }, b = { class: "input input-bordered flex items-center gap-2 w-[374px]" }, S = /* @__PURE__ */ r("svg", {
@@ -14,11 +14,11 @@ const y = { class: "flex gap-1 items-center justify-center relative w-[374px]" }
   })
 ], -1), $ = {
   key: 0,
-  class: "menu absolute top-[55px] w-[374px] bg-neutral-100/50 backdrop-blur-md rounded-md shadow-md"
+  class: "menu absolute top-[55px] w-[374px] rounded-md shadow-md"
 }, k = ["href"], C = {
   __name: "Search",
   setup(D) {
-    const e = p({
+    const e = u({
       loading: !1,
       search: "",
       data: []
@@ -31,7 +31,7 @@ const y = { class: "flex gap-1 items-center justify-center relative w-[374px]" }
     function d(o, a) {
       clearTimeout(c), c = setTimeout(o, a);
     }
-    async function u() {
+    async function p() {
       e.loading = !0;
       try {
         if (e.search === "") {
@@ -54,7 +54,7 @@ const y = { class: "flex gap-1 items-center justify-center relative w-[374px]" }
           autofocus: "",
           "onUpdate:modelValue": a[0] || (a[0] = (t) => e.search = t),
           placeholder: "Search for a coach or a system...",
-          onInput: a[1] || (a[1] = (t) => d(u, 500))
+          onInput: a[1] || (a[1] = (t) => d(p, 500))
         }, null, 544), [
           [f, e.search]
         ]),
