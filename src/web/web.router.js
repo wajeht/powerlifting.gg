@@ -14,6 +14,7 @@ import {
 	getAdminHandler,
 	getHealthzHandler,
 	getIndexHandler,
+	getSearchHandler,
 	getLoginHandler,
 	getPrivacyPolicyHandler,
 	getRegiserHanlder,
@@ -61,6 +62,13 @@ web.get(
  * @summary get contact page
  */
 web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHandler()));
+
+/**
+ * GET /search
+ * @tags web
+ * @summary get search page
+ */
+web.get('/search', catchAsyncErrorHandler(getSearchHandler()));
 
 /**
  * GET /regiser

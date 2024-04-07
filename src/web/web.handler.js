@@ -12,6 +12,12 @@ export function getHealthzHandler() {
 	};
 }
 
+export function getSearchHandler() {
+	return (req, res) => {
+		return res.status(200).render('search.html');
+	};
+}
+
 export function getContactHandler() {
 	return (req, res) => {
 		if (!req.tenant) {

@@ -11,12 +11,12 @@
   import { createApp } from '/js/vue.esm-browser.prod.min.js';
 
   import Users from '/js/Users.js';
-  import Search from '/js/Search.js';
+  import GlobalSearch from '/js/GlobalSearch.js';
 
   const app = createApp();
 
   app.component("Users", Users);
-  app.component("Search", Search);
+  app.component("GlobalSearch", GlobalSearch);
 
   app.mount("#app");
 </script>
