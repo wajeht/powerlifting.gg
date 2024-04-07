@@ -80,6 +80,7 @@ window.addEventListener('keydown', function (event) {
 });
 
 function search() {
+	return;
 	const { protocol, hostname } = window.location;
 
 	// app.test
