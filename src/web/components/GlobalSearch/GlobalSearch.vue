@@ -80,7 +80,6 @@ window.addEventListener('keydown', function (event) {
 });
 
 function search() {
-	return;
 	const { protocol, hostname } = window.location;
 
 	// app.test
@@ -141,17 +140,15 @@ function go(slug) {
 	// app.test
 	if (hostname.split('.').length === 2) {
 		url = `${protocol}//${slug}.${hostname}`;
-		console.log(hostname.split('.'), url);
+		window.location.href = url;
 	}
 
 	// sub.app.test
 	if (hostname.split('.').length === 3) {
 		const [_, domain, tld] = hostname.split('.');
 		url = `${protocol}//${slug}.${domain}.${tld}`;
-		console.log(hostname.split('.'), url);
+		window.location.href = url;
 	}
-
-	// window.location.href = url;
 }
 </script>
 
