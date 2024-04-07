@@ -21,7 +21,7 @@ const A = {
 ], -1), K = { class: "px-5 py-4 max-h-sm overflow-y-scroll bg-[#E8E9EA]" }, V = {
   key: 0,
   class: "flex flex-col gap-2"
-}, T = ["href"], U = { class: "flex flex-col gap-1" }, z = { class: "flex-1" }, R = { class: "rating rating-xs" }, Z = {
+}, T = ["href"], U = { class: "flex-1 h-full" }, z = { class: "flex flex-col gap-1" }, R = { class: "rating rating-xs" }, Z = {
   key: 0,
   class: "flex-0"
 }, j = {
@@ -120,34 +120,36 @@ const A = {
                   class: r(["p-3 flex-0", `bg-[${a.color}]`])
                 }, h(a.emoji), 3),
                 s("div", U, [
-                  s("p", z, h(a.name), 1),
-                  s("div", R, [
-                    s("input", {
-                      type: "radio",
-                      name: "rating-1",
-                      class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
-                    }, null, 2),
-                    s("input", {
-                      type: "radio",
-                      name: "rating-1",
-                      class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]]),
-                      checked: ""
-                    }, null, 2),
-                    s("input", {
-                      type: "radio",
-                      name: "rating-1",
-                      class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
-                    }, null, 2),
-                    s("input", {
-                      type: "radio",
-                      name: "rating-1",
-                      class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
-                    }, null, 2),
-                    s("input", {
-                      type: "radio",
-                      name: "rating-1",
-                      class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
-                    }, null, 2)
+                  s("div", z, [
+                    s("p", null, h(a.name), 1),
+                    s("div", R, [
+                      s("input", {
+                        type: "radio",
+                        name: "rating-1",
+                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                      }, null, 2),
+                      s("input", {
+                        type: "radio",
+                        name: "rating-1",
+                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]]),
+                        checked: ""
+                      }, null, 2),
+                      s("input", {
+                        type: "radio",
+                        name: "rating-1",
+                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                      }, null, 2),
+                      s("input", {
+                        type: "radio",
+                        name: "rating-1",
+                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                      }, null, 2),
+                      s("input", {
+                        type: "radio",
+                        name: "rating-1",
+                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                      }, null, 2)
+                    ])
                   ])
                 ]),
                 e.selectedIndex === l ? (n(), c("span", Z, "↩")) : i("", !0)

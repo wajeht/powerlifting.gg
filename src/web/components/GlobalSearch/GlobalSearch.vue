@@ -152,40 +152,42 @@ function go(slug) {
 					>
 						<a class="flex gap-2" :href="computedDomain(tenant.slug)">
 							<div class="p-3 flex-0" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
-							<div class="flex flex-col gap-1">
-								<p class="flex-1">{{ tenant.name }}</p>
-								<div class="rating rating-xs">
-									<input
-										type="radio"
-										name="rating-1"
-										class="mask mask-star"
-										:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-									/>
-									<input
-										type="radio"
-										name="rating-1"
-										class="mask mask-star"
-										checked
-										:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-									/>
-									<input
-										type="radio"
-										name="rating-1"
-										class="mask mask-star"
-										:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-									/>
-									<input
-										type="radio"
-										name="rating-1"
-										class="mask mask-star"
-										:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-									/>
-									<input
-										type="radio"
-										name="rating-1"
-										class="mask mask-star"
-										:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-									/>
+							<div class="flex-1 h-full">
+								<div class="flex flex-col gap-1">
+									<p>{{ tenant.name }}</p>
+									<div class="rating rating-xs">
+										<input
+											type="radio"
+											name="rating-1"
+											class="mask mask-star"
+											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
+										/>
+										<input
+											type="radio"
+											name="rating-1"
+											class="mask mask-star"
+											checked
+											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
+										/>
+										<input
+											type="radio"
+											name="rating-1"
+											class="mask mask-star"
+											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
+										/>
+										<input
+											type="radio"
+											name="rating-1"
+											class="mask mask-star"
+											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
+										/>
+										<input
+											type="radio"
+											name="rating-1"
+											class="mask mask-star"
+											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
+										/>
+									</div>
 								</div>
 							</div>
 							<span class="flex-0" v-if="states.selectedIndex === idx">↩</span>
