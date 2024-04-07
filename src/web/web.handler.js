@@ -12,9 +12,13 @@ export function getHealthzHandler() {
 	};
 }
 
-export function getSearchHandler() {
-	return (req, res) => {
-		return res.status(200).render('search.html');
+export function getSearchHandler(SearchService) {
+	return async (req, res) => {
+		const tenants = await SearchService.search(req.query.q);
+		return res.status(200).render('search.html', {
+			q: req.query.q,
+			tenants,
+		});
 	};
 }
 

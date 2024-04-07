@@ -23,6 +23,7 @@ import {
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
+import { SearchService } from '../api/search/search.service.js';
 // import { body } from 'express-validator';
 
 const web = express.Router();
@@ -68,7 +69,7 @@ web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHand
  * @tags web
  * @summary get search page
  */
-web.get('/search', catchAsyncErrorHandler(getSearchHandler()));
+web.get('/search', catchAsyncErrorHandler(getSearchHandler(SearchService(db))));
 
 /**
  * GET /regiser

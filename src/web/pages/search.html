@@ -1,3 +1,89 @@
-<div>
-  <h1>search</h1>
+<div class="p-10">
+
+  <div class="mx-auto max-w-7xl w-full prose">
+    <h2>Search</h2>
+
+    <!-- search -->
+	  <form action="/search" method="get" class="flex gap-1 items-center justify-center relative w-[374px]">
+		  <label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
+			  <input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." />
+			  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
+				  <path fill-rule="evenodd"
+					  d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+					  clip-rule="evenodd" />
+			  </svg>
+		  </label>
+	  </form>
+
+    <!-- searched items -->
+    <% if (tenants.length){ %>
+      <div class="flex flex-col gap-5 mt-8">
+        <% for (const tenant of tenants) {  %>
+          <div class="flex gap-2 p-3 shadow-sm rounded-md bg-[#E8E9EA]">
+
+            <!-- left -->
+            <div class="p-3 flex-0 bg-[<%=tenant.color%>] min-h-full">
+              <%= tenant.emoji %>
+            </div>
+
+            <!-- mid -->
+            <div class="flex-1 h-full">
+          		<div class="flex flex-col gap-1">
+                <!-- name -->
+                <p><%= tenant.name %></p>
+                <!-- ratin -->
+                <div class="rating rating-xs">
+                  <input
+                    type="radio"
+                    name="rating-1"
+                    class="mask mask-star"
+                  />
+                  <input
+                    type="radio"
+                    name="rating-1"
+                    class="mask mask-star"
+                    checked
+                  />
+                  <input
+                    type="radio"
+                    name="rating-1"
+                    class="mask mask-star"
+                  />
+                  <input
+                    type="radio"
+                    name="rating-1"
+                    class="mask mask-star"
+                  />
+                  <input
+                    type="radio"
+                    name="rating-1"
+                    class="mask mask-star"
+                  />
+                </div>
+
+                <!-- link -->
+                <a href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug)  %></a>
+              </div>
+            </div>
+
+            <!-- right -->
+            <div class="flex-0">xxx ratings</div>
+          </div>
+        <% } %>
+      </div>
+    <% } %>
+
+    <!-- not found -->
+    <% if (!tenants.length){ %>
+      <div class="flex flex-col gap-8 mt-8">
+        <div>No tenant with <span class="font-bold">"<%- q %>"</span> in its name. </div>
+
+        <div class="bg-neutral-200 p-5 rounded-md flex flex-col gap-4 justify-center items-center">
+          <span>Don't see the tenant you're looking for?</span>
+          <span><a role="button" class="btn btn-neutral text-white" href="/add-tenant">Add a tenant</a></span>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
 </div>
