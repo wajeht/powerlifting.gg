@@ -1,20 +1,23 @@
 <script setup>
 import axios from 'axios';
-import { nextTick, reactive, ref, onMounted, computed } from 'vue';
+import { nextTick, reactive, ref, onMounted, computed, watch } from 'vue';
 
 const states = reactive({
 	search: '',
 	data: [],
 	open: false,
+	selectedIndex: null,
 });
 
 const inputRef = ref(null);
 
+// remove modal on click outside of modal
 document.addEventListener('click', (event) => {
 	const searchModal = document.getElementById('search-modal');
 	if (searchModal && !searchModal.contains(event.target)) {
 		states.open = false;
 		states.search = '';
+		states.selectedIndex = null;
 	}
 });
 
@@ -35,6 +38,25 @@ window.addEventListener('keydown', function (event) {
 	if (event.key === 'Escape') {
 		states.open = false;
 		states.search = '';
+		states.selectedIndex = null;
+	}
+
+	// select searched items with arrow key
+	if (states.open && ['ArrowUp', 'ArrowDown'].includes(event.key)) {
+		event.preventDefault();
+		const currentIndex = states.selectedIndex !== null ? states.selectedIndex : -1;
+		if (event.key === 'ArrowUp') {
+			states.selectedIndex = Math.max(currentIndex - 1, 0);
+		} else if (event.key === 'ArrowDown') {
+			states.selectedIndex = Math.min(currentIndex + 1, computedSearchedData.value.length - 1);
+		}
+	}
+
+	// go to selected item on enter
+	if (event.key === 'Enter' && states.selectedIndex !== null) {
+		event.preventDefault();
+		const selectedSlug = computedSearchedData.value[states.selectedIndex].slug;
+		go(selectedSlug);
 	}
 });
 
@@ -62,9 +84,25 @@ const computedSearchedData = computed(() => {
 	});
 });
 
+// reset arrow position after selecting on diff searches
+watch(
+	() => states.search,
+	(curr, prev) => {
+		if (curr !== prev) {
+			states.selectedIndex = null;
+		}
+	},
+);
+
 function computedDomain(slug) {
 	const { protocol, hostname } = window.location;
 	return `${protocol}//${slug}.${hostname}`;
+}
+
+function go(slug) {
+	const { protocol, hostname } = window.location;
+	const url = `${protocol}//${slug}.${hostname}`;
+	window.location.href = url;
 }
 </script>
 
@@ -110,6 +148,7 @@ function computedDomain(slug) {
 						class="p-3 shadow-sm bg-white rounded-md hover:bg-neutral hover:text-white"
 						v-for="(tenant, idx) in computedSearchedData"
 						:key="tenant.id"
+						:class="{ 'bg-[#2B3440] text-white': states.selectedIndex === idx }"
 					>
 						<a class="flex gap-2" :href="computedDomain(tenant.slug)">
 							<div class="p-3" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
@@ -129,7 +168,7 @@ function computedDomain(slug) {
 					class="text-center text-neutral-400 text-sm py-10"
 				>
 					<span class="text-sm"
-						>No resutls for <span class="font-bold">{{ `"${states.search}"` }}</span></span
+						>No results for <span class="font-bold">{{ `"${states.search}"` }}</span></span
 					>
 				</div>
 			</div>
