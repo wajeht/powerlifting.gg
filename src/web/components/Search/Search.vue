@@ -11,21 +11,6 @@ const states = reactive({
 
 let timeout;
 
-window.addEventListener('keydown', function (event) {
-	if (event.ctrlKey && event.key === 'k') {
-		console.log('Ctrl + K detected');
-		states.searchModalOpen = true;
-	}
-	if (event.metaKey && event.key === 'k') {
-		console.log('Cmd + K detected');
-		states.searchModalOpen = true;
-	}
-	if (event.key === 'Escape') {
-		console.log('Escape key detected');
-		states.searchModalOpen = false;
-	}
-});
-
 function computedDomain(slug) {
 	const { protocol, hostname } = window.location;
 	return `${protocol}//${slug}.${hostname}`;
@@ -85,7 +70,7 @@ async function fetchData() {
 
 		<ul
 			v-if="states.data.length"
-			class="menu absolute top-[55px] w-[374px] rounded-md shadow-md bg-whte"
+			class="menu absolute top-[55px] w-[374px] rounded-md shadow-md bg-white"
 		>
 			<li class="flex flex-col gap-2" v-for="tenant in states.data" :key="tenant.id">
 				<a :href="computedDomain(tenant.slug)">
