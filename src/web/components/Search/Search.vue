@@ -6,9 +6,25 @@ const states = reactive({
 	loading: false,
 	search: '',
 	data: [],
+	searchModalOpen: false,
 });
 
 let timeout;
+
+window.addEventListener('keydown', function (event) {
+	if (event.ctrlKey && event.key === 'k') {
+		console.log('Ctrl + K detected');
+		states.searchModalOpen = true;
+	}
+	if (event.metaKey && event.key === 'k') {
+		console.log('Cmd + K detected');
+		states.searchModalOpen = true;
+	}
+	if (event.key === 'Escape') {
+		console.log('Escape key detected');
+		states.searchModalOpen = false;
+	}
+});
 
 function computedDomain(slug) {
 	const { protocol, hostname } = window.location;
@@ -18,6 +34,10 @@ function computedDomain(slug) {
 function debounce(func, delay) {
 	clearTimeout(timeout);
 	timeout = setTimeout(func, delay);
+}
+
+function search() {
+	window.location.href = `${window.location.origin}/search?q=${states.search}`;
 }
 
 async function fetchData() {
@@ -45,7 +65,8 @@ async function fetchData() {
 				class="grow"
 				autofocus
 				v-model="states.search"
-				placeholder="Search for a coach or a system..."
+				placeholder="Search for a coach or a systems..."
+				@keydown.enter="search"
 				@input="debounce(fetchData, 500)"
 			/>
 			<svg
@@ -62,7 +83,10 @@ async function fetchData() {
 			</svg>
 		</label>
 
-		<ul v-if="states.data.length" class="menu absolute top-[55px] w-[374px] rounded-md shadow-md">
+		<ul
+			v-if="states.data.length"
+			class="menu absolute top-[55px] w-[374px] rounded-md shadow-md bg-whte"
+		>
 			<li class="flex flex-col gap-2" v-for="tenant in states.data" :key="tenant.id">
 				<a :href="computedDomain(tenant.slug)">
 					<div class="p-3" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
