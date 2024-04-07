@@ -1,5 +1,6 @@
 <script setup>
-import { nextTick, reactive, ref } from 'vue';
+import axios from 'axios';
+import { nextTick, reactive, ref, onMounted, computed } from 'vue';
 
 const states = reactive({
 	search: '',
@@ -40,6 +41,31 @@ window.addEventListener('keydown', function (event) {
 function search() {
 	window.location.href = `${window.location.origin}/search?q=${states.search}`;
 }
+
+async function getAllCoaches() {
+	try {
+		const response = await axios.get('/api/tenants');
+		return response.data.data;
+	} catch (error) {
+		return [];
+	}
+}
+
+onMounted(async () => {
+	states.data = await getAllCoaches();
+});
+
+const computedSearchedData = computed(() => {
+	return states.data.filter((tenant) => {
+		const searchContent = tenant.name + ' ' + tenant.slug;
+		return searchContent.toLowerCase().includes(states.search.toLowerCase());
+	});
+});
+
+function computedDomain(slug) {
+	const { protocol, hostname } = window.location;
+	return `${protocol}//${slug}.${hostname}`;
+}
 </script>
 
 <template>
@@ -77,10 +103,31 @@ function search() {
 				</label>
 			</div>
 
-			<!-- empty/not-found -->
-			<div class="px-5 pb-4">
-				<div class="text-center text-neutral-400 text-sm py-10">
+			<div class="px-5 py-4 max-h-sm overflow-y-scroll bg-[#E8E9EA]">
+				<!-- searched -->
+				<ul v-if="computedSearchedData.length && states.search.length" class="flex flex-col gap-2">
+					<li
+						class="p-3 shadow-sm bg-white rounded-md hover:bg-neutral hover:text-white"
+						v-for="tenant in computedSearchedData"
+						:key="tenant.id"
+					>
+						<a class="flex gap-2" :href="computedDomain(tenant.slug)">
+							<div class="p-3" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
+							<p>{{ tenant.name }}</p>
+						</a>
+					</li>
+				</ul>
+
+				<!-- empty -->
+				<div v-if="!states.search.length" class="text-center text-neutral-400 text-sm py-10">
 					<span class="text-sm">No recent searches</span>
+				</div>
+
+				<!-- not found -->
+				<div
+					v-if="!computedSearchedData.length && states.search.length"
+					class="text-center text-neutral-400 text-sm py-10"
+				>
 					<span class="text-sm"
 						>No resutls for <span class="font-bold">{{ `"${states.search}"` }}</span></span
 					>
@@ -88,7 +135,7 @@ function search() {
 			</div>
 
 			<!-- footer -->
-			<div class="border-t border-1 border-solid text-center px-5 py-3">
+			<div class="border-t border-1 border-solid text-center p-5">
 				press <kbd class="kbd kbd-sm">esc</kbd> to close.
 			</div>
 		</div>
