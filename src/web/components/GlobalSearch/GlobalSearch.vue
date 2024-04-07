@@ -145,14 +145,15 @@ function go(slug) {
 				<!-- searched -->
 				<ul v-if="computedSearchedData.length && states.search.length" class="flex flex-col gap-2">
 					<li
-						class="p-3 shadow-sm bg-white rounded-md hover:bg-neutral hover:text-white"
+						class="p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white"
 						v-for="(tenant, idx) in computedSearchedData"
 						:key="tenant.id"
-						:class="{ 'bg-[#2B3440] text-white': states.selectedIndex === idx }"
+						:class="[states.selectedIndex === idx ? 'bg-neutral text-white' : 'bg-white']"
 					>
 						<a class="flex gap-2" :href="computedDomain(tenant.slug)">
-							<div class="p-3" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
-							<p>{{ tenant.name }}</p>
+							<div class="p-3 flex-0" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
+							<p class="flex-1">{{ tenant.name }}</p>
+							<span class="flex-0" v-if="states.selectedIndex === idx">↩</span>
 						</a>
 					</li>
 				</ul>
