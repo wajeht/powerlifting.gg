@@ -85,7 +85,7 @@ const L = {
         ]),
         s("div", G, [
           d.value.length && e.search.length ? (r(), c("ul", K, [
-            (r(!0), c(k, null, E(d.value, (o) => (r(), c("li", {
+            (r(!0), c(k, null, E(d.value, (o, U) => (r(), c("li", {
               class: "p-3 shadow-sm bg-white rounded-md hover:bg-neutral hover:text-white",
               key: o.id
             }, [
@@ -112,7 +112,7 @@ const L = {
       ])
     ])) : n("", !0);
   }
-}, O = /* @__PURE__ */ $(F, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
+}, P = /* @__PURE__ */ $(F, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
 export {
-  O as default
+  P as default
 };

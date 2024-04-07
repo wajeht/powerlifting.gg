@@ -108,7 +108,7 @@ function computedDomain(slug) {
 				<ul v-if="computedSearchedData.length && states.search.length" class="flex flex-col gap-2">
 					<li
 						class="p-3 shadow-sm bg-white rounded-md hover:bg-neutral hover:text-white"
-						v-for="tenant in computedSearchedData"
+						v-for="(tenant, idx) in computedSearchedData"
 						:key="tenant.id"
 					>
 						<a class="flex gap-2" :href="computedDomain(tenant.slug)">
