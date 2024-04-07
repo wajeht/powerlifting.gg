@@ -22,6 +22,12 @@ export function getSearchHandler(SearchService) {
 	};
 }
 
+export function getTenantsNewHandler() {
+	return async (req, res) => {
+		return res.status(200).render('tenants-new.html', {});
+	};
+}
+
 export function getContactHandler() {
 	return (req, res) => {
 		if (!req.tenant) {

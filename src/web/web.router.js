@@ -18,6 +18,7 @@ import {
 	getLoginHandler,
 	getPrivacyPolicyHandler,
 	getRegiserHanlder,
+	getTenantsNewHandler,
 	getTermsOfServiceHandler,
 	getUser,
 } from './web.handler.js';
@@ -70,6 +71,13 @@ web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHand
  * @summary get search page
  */
 web.get('/search', catchAsyncErrorHandler(getSearchHandler(SearchService(db))));
+
+/**
+ * GET /tenants/new
+ * @tags web
+ * @summary get tenants new page
+ */
+web.get('/tenants/new', catchAsyncErrorHandler(getTenantsNewHandler()));
 
 /**
  * GET /regiser

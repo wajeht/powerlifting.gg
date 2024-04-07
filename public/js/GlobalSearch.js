@@ -78,7 +78,9 @@ const R = {
       }
     }
     I(async () => {
-      e.data = await _();
+      setTimeout(async () => {
+        e.data = await _();
+      }, 500);
     });
     const d = E(() => e.data.filter((t) => (t.name + " " + t.slug).toLowerCase().includes(e.search.toLowerCase())));
     C(

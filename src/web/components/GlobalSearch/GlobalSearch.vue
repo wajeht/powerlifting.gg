@@ -93,7 +93,9 @@ async function getAllCoaches() {
 }
 
 onMounted(async () => {
-	states.data = await getAllCoaches();
+	setTimeout(async () => {
+		states.data = await getAllCoaches();
+	}, 500);
 });
 
 const computedSearchedData = computed(() => {
