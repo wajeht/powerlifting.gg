@@ -36,25 +36,30 @@ window.addEventListener('keydown', function (event) {
 		states.search = '';
 	}
 });
+
+function search() {
+	window.location.href = `${window.location.origin}/search?q=${states.search}`;
+}
 </script>
 
 <template>
 	<div
-		v-show="states.open"
-		class="absolute h-screen w-screen z-10 bg-black/30 backdrop-blur-sm top-0 left-0"
+		v-if="states.open"
+		class="absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10"
 	>
 		<div
 			id="search-modal"
-			class="flex flex-col relative mx-auto max-w-lg bg-white -top-1/4 rounded-md shadow-md"
+			class="flex flex-col relative mx-auto max-w-lg bg-white top-1/4 rounded-md shadow-md"
 		>
 			<!-- input -->
 			<div class="p-5">
-				<label class="input input-bordered flex items-center gap-2 w-[374px]">
+				<label class="input input-bordered flex items-center gap-2">
 					<input
 						ref="inputRef"
 						type="text"
 						class="grow"
 						v-model="states.search"
+						@keydown.enter="search"
 						placeholder="Search for a coach or a systems..."
 					/>
 					<svg
@@ -73,8 +78,8 @@ window.addEventListener('keydown', function (event) {
 			</div>
 
 			<!-- empty/not-found -->
-			<div class="p-5">
-				<div class="text-center text-neutral-400 text-sm pb-3">
+			<div class="px-5 pb-4">
+				<div class="text-center text-neutral-400 text-sm py-10">
 					<span class="text-sm">No recent searches</span>
 					<span class="text-sm"
 						>No resutls for <span class="font-bold">{{ `"${states.search}"` }}</span></span
