@@ -141,7 +141,7 @@ function go(slug) {
 				</label>
 			</div>
 
-			<div class="px-5 py-4 max-h-sm overflow-y-scroll bg-[#E8E9EA]">
+			<div class="px-5 py-4 max-h-80 overflow-y-scroll bg-[#E8E9EA]">
 				<!-- searched -->
 				<ul v-if="computedSearchedData.length && states.search.length" class="flex flex-col gap-2">
 					<li
