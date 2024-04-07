@@ -145,6 +145,7 @@ function go(slug) {
 	// sub.app.test
 	if (hostname.split('.').length === 3) {
 		const [_, domain, tld] = hostname.split('.');
+		console.log(hostname.split('.'));
 		url = `${protocol}//${slug}.${domain}.${tld}`;
 	}
 

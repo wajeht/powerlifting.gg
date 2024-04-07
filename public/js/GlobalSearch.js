@@ -107,7 +107,7 @@ const R = {
       let l;
       if (s.split(".").length === 2 && (l = `${n}//${t}.${s}`), s.split(".").length === 3) {
         const [d, h, p] = s.split(".");
-        l = `${n}//${t}.${h}.${p}`;
+        console.log(s.split(".")), l = `${n}//${t}.${h}.${p}`;
       }
       window.location.href = l;
     }
