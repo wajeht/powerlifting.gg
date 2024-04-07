@@ -2,7 +2,7 @@ import { NotFoundError } from '../../app.errors.js';
 
 export function getAllTenantHandler(tenantService) {
 	return async (req, res) => {
-		const tenants = await tenantService.getAllTenant();
+		const tenants = await tenantService.getAllTenant({ cache: true });
 		return res.status(200).json({
 			message: 'ok',
 			data: tenants,
