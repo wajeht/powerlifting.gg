@@ -116,7 +116,7 @@ function go(slug) {
 			class="flex flex-col relative mx-auto max-w-lg bg-white top-1/4 rounded-md shadow-md"
 		>
 			<!-- input -->
-			<div class="p-5">
+			<div class="p-5 border-b border-1 border-solid">
 				<label class="input input-bordered flex items-center gap-2">
 					<input
 						ref="inputRef"

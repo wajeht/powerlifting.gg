@@ -1,4 +1,4 @@
-import { reactive as g, ref as k, nextTick as m, onMounted as y, computed as b, watch as v, openBlock as n, createElementBlock as c, createElementVNode as s, withDirectives as I, withKeys as E, vModelText as $, Fragment as C, renderList as D, normalizeClass as r, toDisplayString as h, createCommentVNode as i, createTextVNode as p } from "vue";
+import { reactive as g, ref as k, nextTick as m, onMounted as y, computed as b, watch as v, openBlock as n, createElementBlock as r, createElementVNode as s, withDirectives as I, withKeys as E, vModelText as $, Fragment as C, renderList as D, normalizeClass as c, toDisplayString as h, createCommentVNode as i, createTextVNode as p } from "vue";
 import S from "axios";
 import { _ as M } from "./_plugin-vue_export-helper.js";
 const A = {
@@ -7,7 +7,7 @@ const A = {
 }, L = {
   id: "search-modal",
   class: "flex flex-col relative mx-auto max-w-lg bg-white top-1/4 rounded-md shadow-md"
-}, N = { class: "p-5" }, B = { class: "input input-bordered flex items-center gap-2" }, G = /* @__PURE__ */ s("svg", {
+}, N = { class: "p-5 border-b border-1 border-solid" }, B = { class: "input input-bordered flex items-center gap-2" }, G = /* @__PURE__ */ s("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 16 16",
   fill: "currentColor",
@@ -88,7 +88,7 @@ const A = {
       const { protocol: o, hostname: a } = window.location, l = `${o}//${t}.${a}`;
       window.location.href = l;
     }
-    return (t, o) => e.open ? (n(), c("div", A, [
+    return (t, o) => e.open ? (n(), r("div", A, [
       s("div", L, [
         s("div", N, [
           s("label", B, [
@@ -107,9 +107,9 @@ const A = {
           ])
         ]),
         s("div", K, [
-          d.value.length && e.search.length ? (n(), c("ul", V, [
-            (n(!0), c(C, null, D(d.value, (a, l) => (n(), c("li", {
-              class: r(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === l ? "bg-neutral text-white" : "bg-white"]]),
+          d.value.length && e.search.length ? (n(), r("ul", V, [
+            (n(!0), r(C, null, D(d.value, (a, l) => (n(), r("li", {
+              class: c(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === l ? "bg-neutral text-white" : "bg-white"]]),
               key: a.id
             }, [
               s("a", {
@@ -117,7 +117,7 @@ const A = {
                 href: _(a.slug)
               }, [
                 s("div", {
-                  class: r(["p-3 flex-0", `bg-[${a.color}]`])
+                  class: c(["p-3 flex-0", `bg-[${a.color}]`])
                 }, h(a.emoji), 3),
                 s("div", U, [
                   s("div", z, [
@@ -126,38 +126,38 @@ const A = {
                       s("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                        class: c(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
                       }, null, 2),
                       s("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]]),
+                        class: c(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]]),
                         checked: ""
                       }, null, 2),
                       s("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                        class: c(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
                       }, null, 2),
                       s("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                        class: c(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
                       }, null, 2),
                       s("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                        class: c(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
                       }, null, 2)
                     ])
                   ])
                 ]),
-                e.selectedIndex === l ? (n(), c("span", Z, "↩")) : i("", !0)
+                e.selectedIndex === l ? (n(), r("span", Z, "↩")) : i("", !0)
               ], 8, T)
             ], 2))), 128))
           ])) : i("", !0),
-          e.search.length ? i("", !0) : (n(), c("div", j, [...F])),
-          !d.value.length && e.search.length ? (n(), c("div", H, [
+          e.search.length ? i("", !0) : (n(), r("div", j, [...F])),
+          !d.value.length && e.search.length ? (n(), r("div", H, [
             s("span", J, [
               p("No results for "),
               s("span", O, h(`"${e.search}"`), 1)
