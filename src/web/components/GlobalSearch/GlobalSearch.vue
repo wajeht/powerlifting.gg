@@ -9,19 +9,29 @@ const states = reactive({
 
 const inputRef = ref(null);
 
+document.addEventListener('click', (event) => {
+	const searchModal = document.getElementById('search-modal');
+	if (searchModal && !searchModal.contains(event.target)) {
+		states.open = false;
+		states.search = '';
+	}
+});
+
 window.addEventListener('keydown', function (event) {
+	// ctrl + k
 	if (event.ctrlKey && event.key === 'k') {
-		// console.log('Ctrl + K detected');
 		states.open = true;
 		nextTick(() => inputRef.value.focus());
 	}
+
+	// cmd + k
 	if (event.metaKey && event.key === 'k') {
-		// console.log('Cmd + K detected');
 		states.open = true;
 		nextTick(() => inputRef.value.focus());
 	}
+
+	// esc
 	if (event.key === 'Escape') {
-		// console.log('Escape key detected');
 		states.open = false;
 		states.search = '';
 	}
@@ -33,7 +43,10 @@ window.addEventListener('keydown', function (event) {
 		v-show="states.open"
 		class="absolute h-screen w-screen z-10 bg-black/30 backdrop-blur-sm top-0 left-0"
 	>
-		<div class="flex flex-col relative mx-auto max-w-lg bg-white -top-1/4 rounded-md shadow-md">
+		<div
+			id="search-modal"
+			class="flex flex-col relative mx-auto max-w-lg bg-white -top-1/4 rounded-md shadow-md"
+		>
 			<!-- input -->
 			<div class="p-5">
 				<label class="input input-bordered flex items-center gap-2 w-[374px]">
