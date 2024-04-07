@@ -46,19 +46,19 @@ const R = {
       selectedIndex: null
     }), m = v(null);
     document.addEventListener("click", (t) => {
-      const n = document.getElementById("search-modal");
-      n && !n.contains(t.target) && (e.open = !1, e.search = "", e.selectedIndex = null);
+      const l = document.getElementById("search-modal");
+      l && !l.contains(t.target) && (e.open = !1, e.search = "", e.selectedIndex = null);
     }), window.addEventListener("keydown", function(t) {
       if (t.ctrlKey && t.key === "k" && (e.open = !0, w(() => m.value.focus())), t.metaKey && t.key === "k" && (e.open = !0, w(() => m.value.focus())), t.key === "Escape" && (e.open = !1, e.search = "", e.selectedIndex = null), e.open && ["ArrowUp", "ArrowDown"].includes(t.key)) {
         t.preventDefault();
         const s = e.selectedIndex !== null ? e.selectedIndex : -1;
-        t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), n()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, i.value.length - 1), n());
+        t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), l()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, i.value.length - 1), l());
       }
-      function n() {
+      function l() {
         const s = document.querySelector(".selected");
         if (s) {
-          const l = s.parentElement.parentElement, d = s.getBoundingClientRect(), h = l.getBoundingClientRect(), p = s.offsetHeight + 216;
-          d.bottom > h.bottom ? l.scrollBy(0, p) : d.top < h.top && l.scrollBy(0, -p);
+          const n = s.parentElement.parentElement, d = s.getBoundingClientRect(), h = n.getBoundingClientRect(), p = s.offsetHeight + 216;
+          d.bottom > h.bottom ? n.scrollBy(0, p) : d.top < h.top && n.scrollBy(0, -p);
         }
       }
       if (t.key === "Enter" && e.selectedIndex !== null) {
@@ -68,14 +68,14 @@ const R = {
       }
     });
     function _() {
-      const { protocol: t, hostname: n } = window.location;
-      if (n.split(".").length === 2) {
+      const { protocol: t, hostname: l } = window.location;
+      if (l.split(".").length === 2) {
         window.location.href = `${window.location.origin}/search?q=${e.search}`;
         return;
       }
-      if (n.split(".").length === 3) {
-        const [s, l, d] = n.split(".");
-        window.location.href = `${t}//${l}.${d}/search?q=${e.search}`;
+      if (l.split(".").length === 3) {
+        const [s, n, d] = l.split(".");
+        window.location.href = `${t}//${n}.${d}/search?q=${e.search}`;
         return;
       }
     }
@@ -94,24 +94,23 @@ const R = {
     const i = $(() => e.data.filter((t) => (t.name + " " + t.slug).toLowerCase().includes(e.search.toLowerCase())));
     E(
       () => e.search,
-      (t, n) => {
-        t !== n && (e.selectedIndex = null);
+      (t, l) => {
+        t !== l && (e.selectedIndex = null);
       }
     );
     function y(t) {
-      const { protocol: n, hostname: s } = window.location;
-      return `${n}//${t}.${s}`;
+      const { protocol: l, hostname: s } = window.location;
+      return `${l}//${t}.${s}`;
     }
     function k(t) {
-      const { protocol: n, hostname: s } = window.location;
-      let l;
-      if (s.split(".").length === 2 && (l = `${n}//${t}.${s}`), s.split(".").length === 3) {
+      const { protocol: l, hostname: s } = window.location;
+      let n;
+      if (s.split(".").length === 2 && (n = `${l}//${t}.${s}`, console.log(s.split("."), n)), s.split(".").length === 3) {
         const [d, h, p] = s.split(".");
-        console.log(s.split(".")), l = `${n}//${t}.${h}.${p}`;
+        n = `${l}//${t}.${h}.${p}`, console.log(s.split("."), n);
       }
-      window.location.href = l;
     }
-    return (t, n) => e.open ? (a(), c("div", R, [
+    return (t, l) => e.open ? (a(), c("div", R, [
       o("div", L, [
         o("div", V, [
           o("label", G, [
@@ -120,7 +119,7 @@ const R = {
               ref: m,
               type: "text",
               class: "grow",
-              "onUpdate:modelValue": n[0] || (n[0] = (s) => e.search = s),
+              "onUpdate:modelValue": l[0] || (l[0] = (s) => e.search = s),
               onKeydown: S(_, ["enter"]),
               placeholder: "Search for a coach or a systems..."
             }, null, 544), [
@@ -131,8 +130,8 @@ const R = {
         ]),
         o("div", T, [
           i.value.length && e.search.length ? (a(), c("ul", q, [
-            (a(!0), c(D, null, M(i.value, (s, l) => (a(), c("li", {
-              class: r(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === l ? "bg-neutral text-white selected" : "bg-white"]]),
+            (a(!0), c(D, null, M(i.value, (s, n) => (a(), c("li", {
+              class: r(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === n ? "bg-neutral text-white selected" : "bg-white"]]),
               key: s.id
             }, [
               o("a", {
@@ -149,33 +148,33 @@ const R = {
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                        class: r(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]])
                       }, null, 2),
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]]),
+                        class: r(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]]),
                         checked: ""
                       }, null, 2),
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                        class: r(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]])
                       }, null, 2),
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                        class: r(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]])
                       }, null, 2),
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: r(["mask mask-star", [e.selectedIndex === l ? "bg-white" : ""]])
+                        class: r(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]])
                       }, null, 2)
                     ])
                   ])
                 ]),
-                e.selectedIndex === l ? (a(), c("span", j, "↩")) : u("", !0)
+                e.selectedIndex === n ? (a(), c("span", j, "↩")) : u("", !0)
               ], 8, U)
             ], 2))), 128))
           ])) : u("", !0),
@@ -191,7 +190,7 @@ const R = {
       ])
     ])) : u("", !0);
   }
-}, ne = /* @__PURE__ */ N(Y, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
+}, le = /* @__PURE__ */ N(Y, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
 export {
-  ne as default
+  le as default
 };

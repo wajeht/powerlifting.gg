@@ -140,16 +140,17 @@ function go(slug) {
 	// app.test
 	if (hostname.split('.').length === 2) {
 		url = `${protocol}//${slug}.${hostname}`;
+		console.log(hostname.split('.'), url);
 	}
 
 	// sub.app.test
 	if (hostname.split('.').length === 3) {
 		const [_, domain, tld] = hostname.split('.');
-		console.log(hostname.split('.'));
 		url = `${protocol}//${slug}.${domain}.${tld}`;
+		console.log(hostname.split('.'), url);
 	}
 
-	window.location.href = url;
+	// window.location.href = url;
 }
 </script>
 
