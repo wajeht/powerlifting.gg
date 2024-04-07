@@ -47,8 +47,27 @@ window.addEventListener('keydown', function (event) {
 		const currentIndex = states.selectedIndex !== null ? states.selectedIndex : -1;
 		if (event.key === 'ArrowUp') {
 			states.selectedIndex = Math.max(currentIndex - 1, 0);
+			scrollIntoViewIfNeeded();
 		} else if (event.key === 'ArrowDown') {
 			states.selectedIndex = Math.min(currentIndex + 1, computedSearchedData.value.length - 1);
+			scrollIntoViewIfNeeded();
+		}
+	}
+
+	function scrollIntoViewIfNeeded() {
+		const selectedItem = document.querySelector('.selected');
+
+		if (selectedItem) {
+			const container = selectedItem.parentElement.parentElement;
+			const selectedItemRect = selectedItem.getBoundingClientRect();
+			const containerRect = container.getBoundingClientRect();
+			const itemHeight = selectedItem.offsetHeight + 216;
+
+			if (selectedItemRect.bottom > containerRect.bottom) {
+				container.scrollBy(0, itemHeight);
+			} else if (selectedItemRect.top < containerRect.top) {
+				container.scrollBy(0, -itemHeight);
+			}
 		}
 	}
 
@@ -141,14 +160,14 @@ function go(slug) {
 				</label>
 			</div>
 
-			<div class="px-5 py-4 max-h-80 overflow-y-scroll bg-[#E8E9EA]">
+			<div class="px-5 py-4 max-h-[335px] overflow-y-scroll bg-[#E8E9EA]">
 				<!-- searched -->
 				<ul v-if="computedSearchedData.length && states.search.length" class="flex flex-col gap-2">
 					<li
 						class="p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white"
 						v-for="(tenant, idx) in computedSearchedData"
 						:key="tenant.id"
-						:class="[states.selectedIndex === idx ? 'bg-neutral text-white' : 'bg-white']"
+						:class="[states.selectedIndex === idx ? 'bg-neutral text-white selected' : 'bg-white']"
 					>
 						<a class="flex gap-2" :href="computedDomain(tenant.slug)">
 							<div class="p-3 flex-0" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
