@@ -80,7 +80,20 @@ window.addEventListener('keydown', function (event) {
 });
 
 function search() {
-	window.location.href = `${window.location.origin}/search?q=${states.search}`;
+	const { protocol, hostname } = window.location;
+
+	// app.test
+	if (hostname.split('.').length === 2) {
+		window.location.href = `${window.location.origin}/search?q=${states.search}`;
+		return;
+	}
+
+	// sub.app.test
+	if (hostname.split('.').length === 3) {
+		const [_, domain, tld] = hostname.split('.');
+		window.location.href = `${protocol}//${domain}.${tld}/search?q=${states.search}`;
+		return;
+	}
 }
 
 async function getAllCoaches() {
@@ -122,7 +135,19 @@ function computedDomain(slug) {
 
 function go(slug) {
 	const { protocol, hostname } = window.location;
-	const url = `${protocol}//${slug}.${hostname}`;
+	let url;
+
+	// app.test
+	if (hostname.split('.').length === 2) {
+		url = `${protocol}//${slug}.${hostname}`;
+	}
+
+	// sub.app.test
+	if (hostname.split('.').length === 3) {
+		const [_, domain, tld] = hostname.split('.');
+		url = `${protocol}//${slug}.${domain}.${tld}`;
+	}
+
 	window.location.href = url;
 }
 </script>
