@@ -2,9 +2,12 @@ import { app } from './app.js';
 import { app as appConfig } from './conifg/app.js';
 import { logger } from './utils/logger.js';
 import cp from 'child_process';
+import { redis } from './database/db.js';
 
 const server = app.listen(appConfig.port, async () => {
 	logger.info(`Server was started on http://localhost:${appConfig.port}`);
+
+	await redis.flushall();
 
 	if (appConfig.env === 'development') {
 		cp.exec('npm run build:tailwind:colors', (err, stdout, stderr) => {
