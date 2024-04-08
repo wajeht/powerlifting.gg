@@ -135,18 +135,17 @@ function computedDomain(slug) {
 
 function go(slug) {
 	const { protocol, hostname } = window.location;
-	let url;
 
 	// app.test
 	if (hostname.split('.').length === 2) {
-		url = `${protocol}//${slug}.${hostname}`;
+		const url = `${protocol}//${slug}.${hostname}`;
 		window.location.href = url;
 	}
 
 	// sub.app.test
 	if (hostname.split('.').length === 3) {
 		const [_, domain, tld] = hostname.split('.');
-		url = `${protocol}//${slug}.${domain}.${tld}`;
+		const url = `${protocol}//${slug}.${domain}.${tld}`;
 		window.location.href = url;
 	}
 }

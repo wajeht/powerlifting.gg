@@ -52,18 +52,18 @@ const R = {
       if (t.ctrlKey && t.key === "k" && (e.open = !0, g(() => m.value.focus())), t.metaKey && t.key === "k" && (e.open = !0, g(() => m.value.focus())), t.key === "Escape" && (e.open = !1, e.search = "", e.selectedIndex = null), e.open && ["ArrowUp", "ArrowDown"].includes(t.key)) {
         t.preventDefault();
         const s = e.selectedIndex !== null ? e.selectedIndex : -1;
-        t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), n()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, i.value.length - 1), n());
+        t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), n()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, d.value.length - 1), n());
       }
       function n() {
         const s = document.querySelector(".selected");
         if (s) {
-          const l = s.parentElement.parentElement, d = s.getBoundingClientRect(), h = l.getBoundingClientRect(), p = s.offsetHeight + 216;
-          d.bottom > h.bottom ? l.scrollBy(0, p) : d.top < h.top && l.scrollBy(0, -p);
+          const l = s.parentElement.parentElement, i = s.getBoundingClientRect(), h = l.getBoundingClientRect(), p = s.offsetHeight + 216;
+          i.bottom > h.bottom ? l.scrollBy(0, p) : i.top < h.top && l.scrollBy(0, -p);
         }
       }
       if (t.key === "Enter" && e.selectedIndex !== null) {
         t.preventDefault();
-        const s = i.value[e.selectedIndex].slug;
+        const s = d.value[e.selectedIndex].slug;
         k(s);
       }
     });
@@ -74,8 +74,8 @@ const R = {
         return;
       }
       if (n.split(".").length === 3) {
-        const [s, l, d] = n.split(".");
-        window.location.href = `${t}//${l}.${d}/search?q=${e.search}`;
+        const [s, l, i] = n.split(".");
+        window.location.href = `${t}//${l}.${i}/search?q=${e.search}`;
         return;
       }
     }
@@ -91,7 +91,7 @@ const R = {
         e.data = await x();
       }, 500);
     });
-    const i = $(() => e.data.filter((t) => (t.name + " " + t.slug).toLowerCase().includes(e.search.toLowerCase())));
+    const d = $(() => e.data.filter((t) => (t.name + " " + t.slug).toLowerCase().includes(e.search.toLowerCase())));
     E(
       () => e.search,
       (t, n) => {
@@ -104,10 +104,13 @@ const R = {
     }
     function k(t) {
       const { protocol: n, hostname: s } = window.location;
-      let l;
-      if (s.split(".").length === 2 && (l = `${n}//${t}.${s}`, window.location.href = l), s.split(".").length === 3) {
-        const [d, h, p] = s.split(".");
-        l = `${n}//${t}.${h}.${p}`, window.location.href = l;
+      if (s.split(".").length === 2) {
+        const l = `${n}//${t}.${s}`;
+        window.location.href = l;
+      }
+      if (s.split(".").length === 3) {
+        const [l, i, h] = s.split("."), p = `${n}//${t}.${i}.${h}`;
+        window.location.href = p;
       }
     }
     return (t, n) => e.open ? (a(), c("div", R, [
@@ -129,8 +132,8 @@ const R = {
           ])
         ]),
         o("div", T, [
-          i.value.length && e.search.length ? (a(), c("ul", q, [
-            (a(!0), c(D, null, M(i.value, (s, l) => (a(), c("li", {
+          d.value.length && e.search.length ? (a(), c("ul", q, [
+            (a(!0), c(D, null, M(d.value, (s, l) => (a(), c("li", {
               class: r(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === l ? "bg-neutral text-white selected" : "bg-white"]]),
               key: s.id
             }, [
@@ -179,7 +182,7 @@ const R = {
             ], 2))), 128))
           ])) : u("", !0),
           e.search.length ? u("", !0) : (a(), c("div", F, [...O])),
-          !i.value.length && e.search.length ? (a(), c("div", P, [
+          !d.value.length && e.search.length ? (a(), c("div", P, [
             o("span", Q, [
               w("No results for "),
               o("span", W, f(`"${e.search}"`), 1)
