@@ -1,4 +1,4 @@
-import { reactive as b, ref as v, nextTick as g, onMounted as I, computed as $, watch as E, openBlock as a, createElementBlock as c, createElementVNode as o, withDirectives as C, withKeys as S, vModelText as B, Fragment as D, renderList as M, normalizeClass as r, toDisplayString as f, createCommentVNode as u, createTextVNode as w } from "vue";
+import { reactive as k, ref as v, nextTick as _, onMounted as I, computed as $, watch as E, openBlock as c, createElementBlock as a, createElementVNode as o, withDirectives as C, withKeys as S, vModelText as B, Fragment as D, renderList as M, normalizeClass as r, toDisplayString as f, createCommentVNode as u, createTextVNode as w } from "vue";
 import A from "axios";
 import { _ as N } from "./_plugin-vue_export-helper.js";
 const R = {
@@ -18,28 +18,30 @@ const R = {
     d: "M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z",
     "clip-rule": "evenodd"
   })
-], -1), T = { class: "px-5 py-4 max-h-[335px] overflow-y-scroll bg-[#E8E9EA]" }, q = {
+], -1), T = [
+  K
+], q = { class: "px-5 py-4 max-h-[335px] overflow-y-scroll bg-[#E8E9EA]" }, U = {
   key: 0,
   class: "flex flex-col gap-2"
-}, U = ["href"], z = { class: "flex-1 h-full" }, H = { class: "flex flex-col gap-1" }, Z = { class: "rating rating-xs" }, j = {
+}, j = ["href"], z = { class: "flex-1 h-full" }, H = { class: "flex flex-col gap-1" }, Z = { class: "rating rating-xs" }, F = {
   key: 0,
   class: "flex-0"
-}, F = {
+}, J = {
   key: 1,
   class: "text-center text-neutral-400 text-sm py-10"
-}, J = /* @__PURE__ */ o("span", { class: "text-sm" }, "No recent searches", -1), O = [
-  J
-], P = {
+}, O = /* @__PURE__ */ o("span", { class: "text-sm" }, "No recent searches", -1), P = [
+  O
+], Q = {
   key: 2,
   class: "text-center text-neutral-400 text-sm py-10"
-}, Q = { class: "text-sm" }, W = { class: "font-bold" }, X = /* @__PURE__ */ o("div", { class: "border-t border-1 border-solid text-center p-5" }, [
+}, W = { class: "text-sm" }, X = { class: "font-bold" }, Y = /* @__PURE__ */ o("div", { class: "border-t border-1 border-solid text-center p-5" }, [
   /* @__PURE__ */ w(" press "),
   /* @__PURE__ */ o("kbd", { class: "kbd kbd-sm" }, "esc"),
   /* @__PURE__ */ w(" to close. ")
-], -1), Y = {
+], -1), ee = {
   __name: "GlobalSearch",
-  setup(ee) {
-    const e = b({
+  setup(te) {
+    const e = k({
       search: "",
       data: [],
       open: !1,
@@ -49,7 +51,7 @@ const R = {
       const n = document.getElementById("search-modal");
       n && !n.contains(t.target) && (e.open = !1, e.search = "", e.selectedIndex = null);
     }), window.addEventListener("keydown", function(t) {
-      if (t.ctrlKey && t.key === "k" && (e.open = !0, g(() => m.value.focus())), t.metaKey && t.key === "k" && (e.open = !0, g(() => m.value.focus())), t.key === "Escape" && (e.open = !1, e.search = "", e.selectedIndex = null), e.open && ["ArrowUp", "ArrowDown"].includes(t.key)) {
+      if (t.ctrlKey && t.key === "k" && (e.open = !0, _(() => m.value.focus())), t.metaKey && t.key === "k" && (e.open = !0, _(() => m.value.focus())), t.key === "Escape" && (e.open = !1, e.search = "", e.selectedIndex = null), e.open && ["ArrowUp", "ArrowDown"].includes(t.key)) {
         t.preventDefault();
         const s = e.selectedIndex !== null ? e.selectedIndex : -1;
         t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), n()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, d.value.length - 1), n());
@@ -64,10 +66,10 @@ const R = {
       if (t.key === "Enter" && e.selectedIndex !== null) {
         t.preventDefault();
         const s = d.value[e.selectedIndex].slug;
-        k(s);
+        b(s);
       }
     });
-    function _() {
+    function g() {
       const { protocol: t, hostname: n } = window.location;
       if (n.split(".").length === 2) {
         window.location.href = `${window.location.origin}/search?q=${e.search}`;
@@ -102,7 +104,7 @@ const R = {
       const { protocol: n, hostname: s } = window.location;
       return `${n}//${t}.${s}`;
     }
-    function k(t) {
+    function b(t) {
       const { protocol: n, hostname: s } = window.location;
       if (s.split(".").length === 2) {
         const l = `${n}//${t}.${s}`;
@@ -113,7 +115,7 @@ const R = {
         window.location.href = p;
       }
     }
-    return (t, n) => e.open ? (a(), c("div", R, [
+    return (t, n) => e.open ? (c(), a("div", R, [
       o("div", L, [
         o("div", V, [
           o("label", G, [
@@ -123,17 +125,20 @@ const R = {
               type: "text",
               class: "grow",
               "onUpdate:modelValue": n[0] || (n[0] = (s) => e.search = s),
-              onKeydown: S(_, ["enter"]),
+              onKeydown: S(g, ["enter"]),
               placeholder: "Search for a coach or a systems..."
             }, null, 544), [
               [B, e.search]
             ]),
-            K
+            o("button", {
+              onClick: g,
+              class: "hover:bg-neutral hover:text-white h-8 w-8 flex justify-center items-center rounded-md"
+            }, [...T])
           ])
         ]),
-        o("div", T, [
-          d.value.length && e.search.length ? (a(), c("ul", q, [
-            (a(!0), c(D, null, M(d.value, (s, l) => (a(), c("li", {
+        o("div", q, [
+          d.value.length && e.search.length ? (c(), a("ul", U, [
+            (c(!0), a(D, null, M(d.value, (s, l) => (c(), a("li", {
               class: r(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === l ? "bg-neutral text-white selected" : "bg-white"]]),
               key: s.id
             }, [
@@ -177,23 +182,23 @@ const R = {
                     ])
                   ])
                 ]),
-                e.selectedIndex === l ? (a(), c("span", j, "↩")) : u("", !0)
-              ], 8, U)
+                e.selectedIndex === l ? (c(), a("span", F, "↩")) : u("", !0)
+              ], 8, j)
             ], 2))), 128))
           ])) : u("", !0),
-          e.search.length ? u("", !0) : (a(), c("div", F, [...O])),
-          !d.value.length && e.search.length ? (a(), c("div", P, [
-            o("span", Q, [
+          e.search.length ? u("", !0) : (c(), a("div", J, [...P])),
+          !d.value.length && e.search.length ? (c(), a("div", Q, [
+            o("span", W, [
               w("No results for "),
-              o("span", W, f(`"${e.search}"`), 1)
+              o("span", X, f(`"${e.search}"`), 1)
             ])
           ])) : u("", !0)
         ]),
-        X
+        Y
       ])
     ])) : u("", !0);
   }
-}, ne = /* @__PURE__ */ N(Y, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
+}, le = /* @__PURE__ */ N(ee, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
 export {
-  ne as default
+  le as default
 };
