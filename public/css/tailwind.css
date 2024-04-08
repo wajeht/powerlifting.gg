@@ -1,4 +1,5 @@
 @import "./typography.min.css";
+@import "./animate.min.css";
 
 @tailwind base;
 @tailwind components;
@@ -22,4 +23,8 @@
 
 ::-webkit-scrollbar {
   width: 0;
+}
+
+.animate__veryfast {
+  --animate-duration: 250ms !important;
 }

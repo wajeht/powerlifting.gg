@@ -154,11 +154,19 @@ function go(slug) {
 <template>
 	<div
 		v-if="states.open"
-		class="absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10"
+		class="absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast"
+		:class="{
+			animate__fadeIn: !states.open,
+			animate__fadeIn: states.open,
+		}"
 	>
 		<div
 			id="search-modal"
-			class="flex flex-col relative mx-auto max-w-lg bg-white top-1/4 rounded-md shadow-md"
+			class="flex flex-col relative mx-auto max-w-lg bg-white top-1/4 rounded-md shadow-md animate__animated animate__veryfast"
+			:class="{
+				animate__zoomIn: states.open,
+				animate__zoomOut: !states.open,
+			}"
 		>
 			<!-- input -->
 			<div class="p-5 border-b border-1 border-solid">
