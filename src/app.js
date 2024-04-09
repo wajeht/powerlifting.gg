@@ -44,16 +44,14 @@ if (appConfig.env === 'production') {
 				directives: {
 					...helmet.contentSecurityPolicy.getDefaultDirectives(),
 					'default-src': ["'self'", 'plausible.jaw.dev'],
-					'script-src': [
+					'script-src': ["'self'", 'plausible.jaw.dev'],
+					'script-src-elem': [
 						"'self'",
-						"'unsafe-inline'",
-						"'unsafe-eval'",
 						'powerlifting.gg',
 						'localhost',
 						'plausible.jaw.dev',
+						"'unsafe-inline'",
 					],
-					'script-src-attr': ["'none'"],
-					'script-src-elem': ["'self'", 'powerlifting.gg', 'localhost', 'plausible.jaw.dev'],
 				},
 			},
 		}),
