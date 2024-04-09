@@ -131,7 +131,7 @@ export function getIndexHandler(WebRepository) {
 			});
 		}
 
-		const tenants = await WebRepository.getRandomTenants({ size: 5 });
+		const tenants = await WebRepository.getRandomTenants({ size: 4 });
 		return res.status(200).render('home.html', { tenants, title: '/' });
 	};
 }
