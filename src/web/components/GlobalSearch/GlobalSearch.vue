@@ -2,6 +2,9 @@
 import axios from 'axios';
 import { nextTick, reactive, ref, onMounted, computed, watch } from 'vue';
 
+const backdropRef = ref(null);
+const modalRef = ref(null);
+
 const states = reactive({
 	search: '',
 	data: [],
@@ -13,7 +16,7 @@ const inputRef = ref(null);
 
 // remove modal on click outside of modal
 document.addEventListener('click', (event) => {
-	const searchModal = document.getElementById('search-modal');
+	const searchModal = document.getElementById('modal');
 	if (searchModal && !searchModal.contains(event.target)) {
 		states.open = false;
 		states.search = '';
@@ -36,9 +39,15 @@ window.addEventListener('keydown', function (event) {
 
 	// esc
 	if (event.key === 'Escape') {
-		states.open = false;
-		states.search = '';
-		states.selectedIndex = null;
+		if (backdropRef.value || modalRef.value) {
+			backdropRef.value.classList.add('animate__fadeOut');
+			modalRef.value.classList.add('animate__zoomOut');
+			setTimeout(() => {
+				states.open = false;
+				states.search = '';
+				states.selectedIndex = null;
+			}, 250);
+		}
 	}
 
 	// select searched items with arrow key
@@ -153,19 +162,20 @@ function go(slug) {
 
 <template>
 	<div
+		ref="backdropRef"
 		v-if="states.open"
+		id="backdrop"
 		class="absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast"
 		:class="{
 			animate__fadeIn: !states.open,
-			animate__fadeIn: states.open,
 		}"
 	>
 		<div
-			id="search-modal"
+			ref="modalRef"
+			id="modal"
 			class="flex flex-col relative mx-auto max-w-lg bg-white top-1/4 rounded-md shadow-md animate__animated animate__veryfast"
 			:class="{
 				animate__zoomIn: states.open,
-				animate__zoomOut: !states.open,
 			}"
 		>
 			<!-- input -->
@@ -177,6 +187,8 @@ function go(slug) {
 						class="grow"
 						v-model="states.search"
 						@keydown.enter="search"
+						id="search"
+						name="search"
 						placeholder="Search for a coach or a systems..."
 					/>
 					<button
