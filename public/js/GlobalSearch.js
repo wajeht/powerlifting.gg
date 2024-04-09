@@ -72,12 +72,12 @@ const T = { class: "p-5 border-b border-1 border-solid" }, z = { class: "input i
         return;
       const { protocol: t, hostname: a } = window.location, s = "current_page=1&per_page=25&sort=asc";
       if (a.split(".").length === 2) {
-        window.location.href = `${window.location.origin}/search?q=${e.search}&${s}`;
+        window.location.href = `${window.location.origin}/tenants?q=${e.search}&${s}`;
         return;
       }
       if (a.split(".").length === 3) {
         const [n, i, d] = a.split(".");
-        window.location.href = `${t}//${i}.${d}/search?q=${e.search}&${s}`;
+        window.location.href = `${t}//${i}.${d}/tenants?q=${e.search}&${s}`;
         return;
       }
     }

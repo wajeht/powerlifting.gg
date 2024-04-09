@@ -12,7 +12,7 @@ export function getHealthzHandler() {
 	};
 }
 
-export function getSearchHandler(SearchService) {
+export function getTenantsHandler(SearchService) {
 	return async (req, res) => {
 		const { q, per_page, current_page, sort } = req.query;
 		const tenants = await SearchService.search(q, {
@@ -22,7 +22,7 @@ export function getSearchHandler(SearchService) {
 		});
 
 		console.log(tenants);
-		return res.status(200).render(`search.html`, {
+		return res.status(200).render('tenants.html', {
 			q: req.query.q,
 			tenants,
 		});
@@ -86,7 +86,7 @@ export function getAdminHandler() {
 	};
 }
 
-export function getRegiserHanlder() {
+export function getRegisterHandler() {
 	return (req, res) => {
 		return res.status(200).render('register.html', {
 			tenant: JSON.stringify(req.tenant),

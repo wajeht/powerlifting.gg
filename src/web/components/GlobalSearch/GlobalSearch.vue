@@ -103,14 +103,14 @@ function search() {
 
 	// app.test
 	if (hostname.split('.').length === 2) {
-		window.location.href = `${window.location.origin}/search?q=${states.search}&${pagination}`;
+		window.location.href = `${window.location.origin}/tenants?q=${states.search}&${pagination}`;
 		return;
 	}
 
 	// sub.app.test
 	if (hostname.split('.').length === 3) {
 		const [_, domain, tld] = hostname.split('.');
-		window.location.href = `${protocol}//${domain}.${tld}/search?q=${states.search}&${pagination}`;
+		window.location.href = `${protocol}//${domain}.${tld}/tenants?q=${states.search}&${pagination}`;
 		return;
 	}
 }
