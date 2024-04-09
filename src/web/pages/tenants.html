@@ -5,7 +5,25 @@
       document.getElementById('q').value = search.get('q');
     }
   });
+
+  window.addEventListener('scroll', function() {
+    const button = document.getElementById('scroll-top-button');
+    if (window.scrollY > 100) {
+      button.classList.remove('hidden');
+    } else {
+      button.classList.add('hidden');
+    }
+  });
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
 </script>
+
+<button id="scroll-top-button" class="fixed bottom-5 right-5 hidden btn btn-neutral" onclick="scrollToTop()">Top</button>
 
 <div class="p-10">
   <div class="mx-auto max-w-7xl w-full prose">
