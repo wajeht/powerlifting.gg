@@ -115,8 +115,9 @@ export function getIndexHandler(WebRepository) {
 			});
 		}
 
+		// TODO: grab top 5 coaches
 		const tenants = await WebRepository.getTenants();
-		return res.status(200).render('home.html', { tenants });
+		return res.status(200).render('home.html', { tenants: tenants.slice(0, 5) });
 	};
 }
 
