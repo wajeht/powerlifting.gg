@@ -18,9 +18,15 @@ const inputRef = ref(null);
 document.addEventListener('click', (event) => {
 	const searchModal = document.getElementById('modal');
 	if (searchModal && !searchModal.contains(event.target)) {
-		states.open = false;
-		states.search = '';
-		states.selectedIndex = null;
+		if (backdropRef.value || modalRef.value) {
+			backdropRef.value.classList.add('animate__fadeOut');
+			modalRef.value.classList.add('animate__zoomOut');
+			setTimeout(() => {
+				states.open = false;
+				states.search = '';
+				states.selectedIndex = null;
+			}, 250);
+		}
 	}
 });
 
@@ -89,18 +95,22 @@ window.addEventListener('keydown', function (event) {
 });
 
 function search() {
+	if (states.search === '') return;
+
 	const { protocol, hostname } = window.location;
+
+	const pagination = `current_page=1&per_page=25&sort=asc`;
 
 	// app.test
 	if (hostname.split('.').length === 2) {
-		window.location.href = `${window.location.origin}/search?q=${states.search}`;
+		window.location.href = `${window.location.origin}/search?q=${states.search}&${pagination}`;
 		return;
 	}
 
 	// sub.app.test
 	if (hostname.split('.').length === 3) {
 		const [_, domain, tld] = hostname.split('.');
-		window.location.href = `${protocol}//${domain}.${tld}/search?q=${states.search}`;
+		window.location.href = `${protocol}//${domain}.${tld}/search?q=${states.search}&${pagination}`;
 		return;
 	}
 }

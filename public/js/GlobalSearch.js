@@ -1,7 +1,7 @@
-import { ref as w, reactive as $, nextTick as k, onMounted as E, computed as C, watch as R, openBlock as c, createElementBlock as r, normalizeClass as l, createElementVNode as o, withDirectives as S, withKeys as B, vModelText as D, Fragment as L, renderList as M, toDisplayString as g, createCommentVNode as u, createTextVNode as x } from "vue";
+import { ref as g, reactive as $, nextTick as k, onMounted as E, computed as C, watch as R, openBlock as c, createElementBlock as r, normalizeClass as l, createElementVNode as o, withDirectives as L, withKeys as S, vModelText as B, Fragment as D, renderList as M, toDisplayString as w, createCommentVNode as p, createTextVNode as x } from "vue";
 import A from "axios";
 import { _ as N } from "./_plugin-vue_export-helper.js";
-const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input input-bordered flex items-center gap-2" }, z = /* @__PURE__ */ o("svg", {
+const T = { class: "p-5 border-b border-1 border-solid" }, z = { class: "input input-bordered flex items-center gap-2" }, V = /* @__PURE__ */ o("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 16 16",
   fill: "currentColor",
@@ -13,11 +13,11 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
     "clip-rule": "evenodd"
   })
 ], -1), G = [
-  z
-], K = { class: "px-5 py-4 max-h-[335px] overflow-y-scroll bg-[#E8E9EA]" }, q = {
+  V
+], K = { class: "px-5 py-4 max-h-[335px] overflow-y-scroll bg-[#E8E9EA]" }, O = {
   key: 0,
   class: "flex flex-col gap-2"
-}, U = ["href"], j = { class: "flex-1 h-full" }, H = { class: "flex flex-col gap-1" }, O = { class: "rating rating-xs" }, Z = {
+}, q = ["href"], U = { class: "flex-1 h-full" }, j = { class: "flex flex-col gap-1" }, H = { class: "rating rating-xs" }, Z = {
   key: 0,
   class: "flex-0"
 }, F = {
@@ -35,45 +35,49 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
 ], -1), ee = {
   __name: "GlobalSearch",
   setup(te) {
-    const p = w(null), f = w(null), e = $({
+    const u = g(null), h = g(null), e = $({
       search: "",
       data: [],
       open: !1,
       selectedIndex: null
-    }), _ = w(null);
+    }), _ = g(null);
     document.addEventListener("click", (t) => {
-      const n = document.getElementById("modal");
-      n && !n.contains(t.target) && (e.open = !1, e.search = "", e.selectedIndex = null);
+      const a = document.getElementById("modal");
+      a && !a.contains(t.target) && (u.value || h.value) && (u.value.classList.add("animate__fadeOut"), h.value.classList.add("animate__zoomOut"), setTimeout(() => {
+        e.open = !1, e.search = "", e.selectedIndex = null;
+      }, 250));
     }), window.addEventListener("keydown", function(t) {
-      if (t.ctrlKey && t.key === "k" && (e.open = !0, k(() => _.value.focus())), t.metaKey && t.key === "k" && (e.open = !0, k(() => _.value.focus())), t.key === "Escape" && (p.value || f.value) && (p.value.classList.add("animate__fadeOut"), f.value.classList.add("animate__zoomOut"), setTimeout(() => {
+      if (t.ctrlKey && t.key === "k" && (e.open = !0, k(() => _.value.focus())), t.metaKey && t.key === "k" && (e.open = !0, k(() => _.value.focus())), t.key === "Escape" && (u.value || h.value) && (u.value.classList.add("animate__fadeOut"), h.value.classList.add("animate__zoomOut"), setTimeout(() => {
         e.open = !1, e.search = "", e.selectedIndex = null;
       }, 250)), e.open && ["ArrowUp", "ArrowDown"].includes(t.key)) {
         t.preventDefault();
         const s = e.selectedIndex !== null ? e.selectedIndex : -1;
-        t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), n()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, d.value.length - 1), n());
+        t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), a()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, m.value.length - 1), a());
       }
-      function n() {
+      function a() {
         const s = document.querySelector(".selected");
         if (s) {
-          const a = s.parentElement.parentElement, i = s.getBoundingClientRect(), h = a.getBoundingClientRect(), m = s.offsetHeight + 216;
-          i.bottom > h.bottom ? a.scrollBy(0, m) : i.top < h.top && a.scrollBy(0, -m);
+          const n = s.parentElement.parentElement, i = s.getBoundingClientRect(), d = n.getBoundingClientRect(), f = s.offsetHeight + 216;
+          i.bottom > d.bottom ? n.scrollBy(0, f) : i.top < d.top && n.scrollBy(0, -f);
         }
       }
       if (t.key === "Enter" && e.selectedIndex !== null) {
         t.preventDefault();
-        const s = d.value[e.selectedIndex].slug;
+        const s = m.value[e.selectedIndex].slug;
         I(s);
       }
     });
     function y() {
-      const { protocol: t, hostname: n } = window.location;
-      if (n.split(".").length === 2) {
-        window.location.href = `${window.location.origin}/search?q=${e.search}`;
+      if (e.search === "")
+        return;
+      const { protocol: t, hostname: a } = window.location, s = "current_page=1&per_page=25&sort=asc";
+      if (a.split(".").length === 2) {
+        window.location.href = `${window.location.origin}/search?q=${e.search}&${s}`;
         return;
       }
-      if (n.split(".").length === 3) {
-        const [s, a, i] = n.split(".");
-        window.location.href = `${t}//${a}.${i}/search?q=${e.search}`;
+      if (a.split(".").length === 3) {
+        const [n, i, d] = a.split(".");
+        window.location.href = `${t}//${i}.${d}/search?q=${e.search}&${s}`;
         return;
       }
     }
@@ -89,32 +93,32 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
         e.data = await b();
       }, 500);
     });
-    const d = C(() => e.data.filter((t) => (t.name + " " + t.slug).toLowerCase().includes(e.search.toLowerCase())));
+    const m = C(() => e.data.filter((t) => (t.name + " " + t.slug).toLowerCase().includes(e.search.toLowerCase())));
     R(
       () => e.search,
-      (t, n) => {
-        t !== n && (e.selectedIndex = null);
+      (t, a) => {
+        t !== a && (e.selectedIndex = null);
       }
     );
     function v(t) {
-      const { protocol: n, hostname: s } = window.location;
-      return `${n}//${t}.${s}`;
+      const { protocol: a, hostname: s } = window.location;
+      return `${a}//${t}.${s}`;
     }
     function I(t) {
-      const { protocol: n, hostname: s } = window.location;
+      const { protocol: a, hostname: s } = window.location;
       if (s.split(".").length === 2) {
-        const a = `${n}//${t}.${s}`;
-        window.location.href = a;
+        const n = `${a}//${t}.${s}`;
+        window.location.href = n;
       }
       if (s.split(".").length === 3) {
-        const [a, i, h] = s.split("."), m = `${n}//${t}.${i}.${h}`;
-        window.location.href = m;
+        const [n, i, d] = s.split("."), f = `${a}//${t}.${i}.${d}`;
+        window.location.href = f;
       }
     }
-    return (t, n) => e.open ? (c(), r("div", {
+    return (t, a) => e.open ? (c(), r("div", {
       key: 0,
       ref_key: "backdropRef",
-      ref: p,
+      ref: u,
       id: "backdrop",
       class: l(["absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast", {
         animate__fadeIn: !e.open
@@ -122,26 +126,26 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
     }, [
       o("div", {
         ref_key: "modalRef",
-        ref: f,
+        ref: h,
         id: "modal",
         class: l(["flex flex-col relative mx-auto max-w-lg bg-white top-1/4 rounded-md shadow-md animate__animated animate__veryfast", {
           animate__zoomIn: e.open
         }])
       }, [
         o("div", T, [
-          o("label", V, [
-            S(o("input", {
+          o("label", z, [
+            L(o("input", {
               ref_key: "inputRef",
               ref: _,
               type: "text",
               class: "grow",
-              "onUpdate:modelValue": n[0] || (n[0] = (s) => e.search = s),
-              onKeydown: B(y, ["enter"]),
+              "onUpdate:modelValue": a[0] || (a[0] = (s) => e.search = s),
+              onKeydown: S(y, ["enter"]),
               id: "search",
               name: "search",
               placeholder: "Search for a coach or a systems..."
             }, null, 544), [
-              [D, e.search]
+              [B, e.search]
             ]),
             o("button", {
               onClick: y,
@@ -150,9 +154,9 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
           ])
         ]),
         o("div", K, [
-          d.value.length && e.search.length ? (c(), r("ul", q, [
-            (c(!0), r(L, null, M(d.value, (s, a) => (c(), r("li", {
-              class: l(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === a ? "bg-neutral text-white selected" : "bg-white"]]),
+          m.value.length && e.search.length ? (c(), r("ul", O, [
+            (c(!0), r(D, null, M(m.value, (s, n) => (c(), r("li", {
+              class: l(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === n ? "bg-neutral text-white selected" : "bg-white"]]),
               key: s.id
             }, [
               o("a", {
@@ -161,57 +165,57 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
               }, [
                 o("div", {
                   class: l(["p-3 flex-0", `bg-[${s.color}]`])
-                }, g(s.emoji), 3),
-                o("div", j, [
-                  o("div", H, [
-                    o("p", null, g(s.name), 1),
-                    o("div", O, [
+                }, w(s.emoji), 3),
+                o("div", U, [
+                  o("div", j, [
+                    o("p", null, w(s.name), 1),
+                    o("div", H, [
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: l(["mask mask-star", [e.selectedIndex === a ? "bg-white" : ""]])
+                        class: l(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]])
                       }, null, 2),
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: l(["mask mask-star", [e.selectedIndex === a ? "bg-white" : ""]]),
+                        class: l(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]]),
                         checked: ""
                       }, null, 2),
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: l(["mask mask-star", [e.selectedIndex === a ? "bg-white" : ""]])
+                        class: l(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]])
                       }, null, 2),
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: l(["mask mask-star", [e.selectedIndex === a ? "bg-white" : ""]])
+                        class: l(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]])
                       }, null, 2),
                       o("input", {
                         type: "radio",
                         name: "rating-1",
-                        class: l(["mask mask-star", [e.selectedIndex === a ? "bg-white" : ""]])
+                        class: l(["mask mask-star", [e.selectedIndex === n ? "bg-white" : ""]])
                       }, null, 2)
                     ])
                   ])
                 ]),
-                e.selectedIndex === a ? (c(), r("span", Z, "↩")) : u("", !0)
-              ], 8, U)
+                e.selectedIndex === n ? (c(), r("span", Z, "↩")) : p("", !0)
+              ], 8, q)
             ], 2))), 128))
-          ])) : u("", !0),
-          e.search.length ? u("", !0) : (c(), r("div", F, [...P])),
-          !d.value.length && e.search.length ? (c(), r("div", Q, [
+          ])) : p("", !0),
+          e.search.length ? p("", !0) : (c(), r("div", F, [...P])),
+          !m.value.length && e.search.length ? (c(), r("div", Q, [
             o("span", W, [
               x("No results for "),
-              o("span", X, g(`"${e.search}"`), 1)
+              o("span", X, w(`"${e.search}"`), 1)
             ])
-          ])) : u("", !0)
+          ])) : p("", !0)
         ]),
         Y
       ], 2)
-    ], 2)) : u("", !0);
+    ], 2)) : p("", !0);
   }
-}, ae = /* @__PURE__ */ N(ee, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
+}, ne = /* @__PURE__ */ N(ee, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
 export {
-  ae as default
+  ne as default
 };
