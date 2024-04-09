@@ -133,9 +133,9 @@
     <!-- not found -->
     <% if (!tenants.data.length){ %>
       <div class="flex flex-col gap-8 mt-8">
-        <div>No tenant with <span class="font-bold">"<%- q %>"</span> in its name. </div>
+        <div class="py-16">No tenant with <span class="font-bold">"<%- q %>"</span> in its name. </div>
 
-        <div class="bg-neutral-200 p-5 rounded-md flex flex-col gap-4 justify-center items-center">
+        <div class="p-16 rounded-md flex flex-col gap-4 justify-center items-center border">
           <span>Don't see the tenant you're looking for?</span>
           <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Add a tenant</a>
         </div>

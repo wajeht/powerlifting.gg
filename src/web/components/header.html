@@ -22,12 +22,12 @@
 
 				<!-- contact -->
 				<li>
-					<a href="/contact" title="contact">Contact</a>
+					<a class="<%= title === '/contact' ? 'active' : '' %>" href="/contact" title="contact">Contact</a>
 				</li>
 
 				<!-- tenants -->
-				<li class="ml-2">
-					<a class="bg-neutral text-white hover:bg-[#222932]" href="/tenants" title="tenants">Tenants</a>
+				<li>
+					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="/tenants" title="tenants">Tenants</a>
 				</li>
 			</ul>
 		</div>

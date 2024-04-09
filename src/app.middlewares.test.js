@@ -26,6 +26,7 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Oops! Something went wrong.',
 			statusCode: 500,
+			title: '/undefined',
 		});
 	});
 
@@ -38,6 +39,7 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Oops! Something went wrong.',
 			statusCode: 500,
+			title: '/undefined',
 		});
 	});
 
@@ -52,6 +54,7 @@ describe('errorHandler', () => {
 			tenant: JSON.stringify(mockReq.tenant),
 			layout: '../layouts/tenant.html',
 			error: expect.anything(),
+			title: '/undefined',
 		});
 	});
 
@@ -63,6 +66,7 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Oops! The page you are looking for cannot be found.',
 			statusCode: 404,
+			title: '/undefined',
 		});
 	});
 
@@ -74,6 +78,7 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Forbidden',
 			statusCode: 403,
+			title: '/undefined',
 		});
 	});
 
@@ -85,6 +90,7 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Unauthorized',
 			statusCode: 401,
+			title: '/undefined',
 		});
 	});
 
@@ -95,6 +101,7 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Validation Error',
 			statusCode: 422,
+			title: '/undefined',
 		});
 	});
 
@@ -106,6 +113,7 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Unimplemented Function',
 			statusCode: 501,
+			title: '/undefined',
 		});
 	});
 });
