@@ -6,7 +6,7 @@
     <!-- search -->
     <form action="/search" method="get" class="flex gap-1 items-center justify-center relative w-[374px]">
       <label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
-        <input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." />
+        <input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." required />
         <input type="hidden" name="current_page" id="current_page" value="<%= tenants.pagination.currentPage %>">
         <input type="hidden" name="per_page" id="per_page" value="<%= tenants.pagination.perPage %>">
         <button type="submit"

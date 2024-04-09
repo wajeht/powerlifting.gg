@@ -89,6 +89,8 @@ window.addEventListener('keydown', function (event) {
 });
 
 function search() {
+	if (states.search === '') return;
+
 	const { protocol, hostname } = window.location;
 
 	const pagination = `current_page=1&per_page=25`;

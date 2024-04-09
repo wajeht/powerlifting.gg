@@ -66,6 +66,8 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
       }
     });
     function y() {
+      if (e.search === "")
+        return;
       const { protocol: t, hostname: n } = window.location, s = "current_page=1&per_page=25";
       if (n.split(".").length === 2) {
         window.location.href = `${window.location.origin}/search?q=${e.search}&${s}`;
