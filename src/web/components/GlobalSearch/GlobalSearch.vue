@@ -93,7 +93,7 @@ function search() {
 
 	const { protocol, hostname } = window.location;
 
-	const pagination = `current_page=1&per_page=25`;
+	const pagination = `current_page=1&per_page=25&sort=asc`;
 
 	// app.test
 	if (hostname.split('.').length === 2) {
