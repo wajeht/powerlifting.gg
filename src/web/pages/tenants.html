@@ -1,3 +1,12 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const search = new URLSearchParams(window.location.search);
+    if (search.get('q')) {
+      document.getElementById('q').value = search.get('q');
+    }
+  });
+</script>
+
 <div class="p-10">
   <div class="mx-auto max-w-7xl w-full prose">
     <h2>Tenants</h2>
