@@ -1,7 +1,7 @@
 import { logger } from './utils/logger.js';
 import { validationResult } from 'express-validator';
 import { db } from './database/db.js';
-import { app as appConfig } from './conifg/app.js';
+import { app as appConfig } from './config/app.js';
 import {
 	HttpError,
 	NotFoundError,

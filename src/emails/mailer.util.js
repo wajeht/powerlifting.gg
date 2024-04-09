@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-import { email as emailConfig } from '../conifg/email.js';
+import { email as emailConfig } from '../config/email.js';
 
 const transporter = nodemailer.createTransport(emailConfig);
 

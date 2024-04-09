@@ -1,7 +1,7 @@
 import { app } from './app.js';
-import { app as appConfig } from './conifg/app.js';
+import { app as appConfig } from './config/app.js';
 import { logger } from './utils/logger.js';
-import cp from 'child_process';
+// import cp from 'child_process';
 import { redis } from './database/db.js';
 
 const server = app.listen(appConfig.port, async () => {
@@ -9,13 +9,13 @@ const server = app.listen(appConfig.port, async () => {
 
 	await redis.flushall();
 
-	if (appConfig.env === 'development') {
-		cp.exec('npm run build:tailwind:colors', (err, stdout, stderr) => {
-			if (err) logger.error(err);
-			if (stdout) logger.info(stdout.toString());
-			if (stderr) logger.info(stdout.toString());
-		});
-	}
+	// if (appConfig.env === 'development') {
+	// 	cp.exec('npm run build:tailwind:colors', (err, stdout, stderr) => {
+	// 		if (err) logger.error(err);
+	// 		if (stdout) logger.info(stdout.toString());
+	// 		if (stderr) logger.info(stdout.toString());
+	// 	});
+	// }
 });
 
 function gracefulShutdown() {

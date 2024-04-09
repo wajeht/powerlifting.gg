@@ -10,13 +10,13 @@ import flash from 'connect-flash';
 import RedisStore from 'connect-redis';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
 
-import { swagger as swaggerConfig } from './conifg/swagger.js';
+import { swagger as swaggerConfig } from './config/swagger.js';
 import { web as webRoutes } from './web/web.router.js';
 import { api as apiRoutes } from './api/api.router.js';
 
 import { rateLimit } from 'express-rate-limit';
 import { redis } from './database/db.js';
-import { app as appConfig } from './conifg/app.js';
+import { app as appConfig } from './config/app.js';
 import {
 	notFoundHandler,
 	errorHandler,

@@ -4,7 +4,7 @@ import { it, expect } from 'vitest';
 import { faker } from '@faker-js/faker';
 
 import { app as server } from '../../app.js';
-import { app as appEnv } from '../../conifg/app.js';
+import { app as appEnv } from '../../config/app.js';
 import { refreshDatabase } from '../../utils/refresh-db.js';
 
 const app = request(server);
