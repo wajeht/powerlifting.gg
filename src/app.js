@@ -43,7 +43,7 @@ if (appConfig.env === 'production') {
 			contentSecurityPolicy: {
 				directives: {
 					...helmet.contentSecurityPolicy.getDefaultDirectives(),
-					'default-src': ["'self'", 'plausible.jaw.dev '],
+					'default-src': ["'self'", 'plausible.jaw.dev'],
 					'script-src': [
 						"'self'",
 						"'unsafe-inline'",
@@ -52,6 +52,8 @@ if (appConfig.env === 'production') {
 						'localhost',
 						'plausible.jaw.dev',
 					],
+					'script-src-attr': ["'none'"],
+					'script-src-elem': ["'self'", 'powerlifting.gg', 'localhost', 'plausible.jaw.dev'],
 				},
 			},
 		}),
