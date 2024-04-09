@@ -20,8 +20,6 @@ export function getTenantsHandler(SearchService) {
 			currentPage: parseInt(current_page ?? 1),
 			sort: sort ?? 'asc',
 		});
-
-		console.log(tenants);
 		return res.status(200).render('tenants.html', {
 			q: req.query.q,
 			tenants,
