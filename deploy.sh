@@ -14,9 +14,9 @@ git reset HEAD .
 
 git checkout -- .
 
-git checkout feature/stuff
-
 git pull
+
+git checkout feature/stuff
 
 docker compose -f docker-compose.prod.yml build
 
