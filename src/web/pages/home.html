@@ -33,17 +33,18 @@
 		</div>
 	</div>
 
-		<div class="p-10 py-16 bg-gray-100">
-			<div class="mx-auto max-w-7xl w-full text-center prose flex flex-col justify-center items-center py-20">
+	<div class="p-10 py-16 border-y">
+		<div class="mx-auto max-w-7xl w-full text-center prose flex flex-col justify-center items-center py-20">
 				<!-- title -->
 			<h2 class="text-5xl font-extrabold">Featured Coaches</h2>
 
 			<!-- desc -->
 			<p class="text-xl text-[#6B7280] max-w-2xl text-center">Meet the coaches who are making a difference in the lives of their clients.</p>
 
+			<!-- coaches -->
 			<div class="flex gap-6 justify-between w-full">
 				<% for(const tenant of tenants) { %>
-					<div class="flex flex-col gap-3 items-center justify-center bg-white p-5 rounded-md w-full">
+					<div class="flex flex-col gap-3 items-center justify-center bg-white p-5 rounded-md w-full border border-1">
 						<!-- img -->
 						<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center" style="background-color: <%= tenant.color %>;"><%= tenant.emoji %></div>
 

@@ -175,7 +175,7 @@ function go(slug) {
 		ref="backdropRef"
 		v-if="states.open"
 		id="backdrop"
-		class="absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast"
+		class="fixed h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast overflow-hidden"
 		:class="{
 			animate__fadeIn: !states.open,
 		}"

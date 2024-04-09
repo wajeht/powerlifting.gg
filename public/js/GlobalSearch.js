@@ -120,7 +120,7 @@ const T = { class: "p-5 border-b border-1 border-solid" }, z = { class: "input i
       ref_key: "backdropRef",
       ref: u,
       id: "backdrop",
-      class: l(["absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast", {
+      class: l(["fixed h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast overflow-hidden", {
         animate__fadeIn: !e.open
       }])
     }, [
