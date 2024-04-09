@@ -40,7 +40,17 @@
             <a class="join-item btn no-underline" href="/tenants?<%- tenants.pagination.prevPageLink %>">«</a>
           <% } %>
 
-          <a class="join-item btn no-underline" href="#">Page <%= tenants.pagination.currentPage %></a>
+          <details class="dropdown">
+            <summary class="join-item btn">Page <%= tenants.pagination.currentPage %></summary>
+            <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[162px] -left-[44px]">
+              <% for (let i=0; i < tenants.pagination.links.length; i++) { %>
+                <!-- skip current page -->
+                <% if ((i + 1) !== tenants.pagination.currentPage) { %>
+                  <a class="no-underline btn btn-sm btn-ghost" href="/tenants?<%= tenants.pagination.links[i] %>">Page <%= i + 1%></a>
+                <% } %>
+              <% } %>
+            </ul>
+          </details>
 
           <% if (tenants.pagination.nextPage === null) { %>
             <a class="join-item btn no-underline" disabled>»</a>
