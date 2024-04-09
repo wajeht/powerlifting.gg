@@ -18,9 +18,15 @@ const inputRef = ref(null);
 document.addEventListener('click', (event) => {
 	const searchModal = document.getElementById('modal');
 	if (searchModal && !searchModal.contains(event.target)) {
-		states.open = false;
-		states.search = '';
-		states.selectedIndex = null;
+		if (backdropRef.value || modalRef.value) {
+			backdropRef.value.classList.add('animate__fadeOut');
+			modalRef.value.classList.add('animate__zoomOut');
+			setTimeout(() => {
+				states.open = false;
+				states.search = '';
+				states.selectedIndex = null;
+			}, 250);
+		}
 	}
 });
 
