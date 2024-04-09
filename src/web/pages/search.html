@@ -1,9 +1,10 @@
 <div class="p-10">
   <div class="mx-auto max-w-7xl w-full prose">
-    <h2>Coaches</h2>
+    <h2>Tenants</h2>
 
     <!-- search -->
     <div class="flex justify-between items-center">
+      <!-- left -->
       <form action="/search" method="get" class="flex gap-1 items-center justify-center relative w-[374px]">
         <label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
           <input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." required />
@@ -24,21 +25,29 @@
         </label>
       </form>
 
-      <!-- pagination -->
-      <div class="join">
-        <% if (tenants.pagination.prevPage === null) { %>
-          <a class="join-item btn no-underline" disabled>«</a>
-        <% } else { %>
-          <a class="join-item btn no-underline" href="/search?<%- tenants.pagination.prevPageLink %>">«</a>
+      <!-- right -->
+      <div class="flex gap-3">
+        <!-- button -->
+        <% if (tenants.data.length){ %>
+          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Add a Tenant</a>
         <% } %>
 
-        <a class="join-item btn no-underline" href="#">Page <%= tenants.pagination.currentPage %></a>
+        <!-- pagination -->
+        <div class="join">
+          <% if (tenants.pagination.prevPage === null) { %>
+            <a class="join-item btn no-underline" disabled>«</a>
+          <% } else { %>
+            <a class="join-item btn no-underline" href="/search?<%- tenants.pagination.prevPageLink %>">«</a>
+          <% } %>
 
-        <% if (tenants.pagination.nextPage === null) { %>
-          <a class="join-item btn no-underline" disabled>»</a>
-        <% } else { %>
-          <a class="join-item btn no-underline" href="/search?<%- tenants.pagination.nextPageLink %>">»</a>
-        <% } %>
+          <a class="join-item btn no-underline" href="#">Page <%= tenants.pagination.currentPage %></a>
+
+          <% if (tenants.pagination.nextPage === null) { %>
+            <a class="join-item btn no-underline" disabled>»</a>
+          <% } else { %>
+            <a class="join-item btn no-underline" href="/search?<%- tenants.pagination.nextPageLink %>">»</a>
+          <% } %>
+        </div>
       </div>
     </div>
 
@@ -91,7 +100,7 @@
 
         <div class="bg-neutral-200 p-5 rounded-md flex flex-col gap-4 justify-center items-center">
           <span>Don't see the tenant you're looking for?</span>
-          <span><a role="button" class="btn btn-neutral text-white" href="/tenants/new">Add a tenant</a></span>
+          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Add a tenant</a>
         </div>
       </div>
     <% } %>
