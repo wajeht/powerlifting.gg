@@ -16,10 +16,12 @@ export function getSearchHandler(SearchService) {
 	return async (req, res) => {
 		const { q, per_page, current_page, sort } = req.query;
 		const tenants = await SearchService.search(q, {
-			perPage: parseInt(per_page),
-			currentPage: parseInt(current_page),
-			sort,
+			perPage: parseInt(per_page ?? 25),
+			currentPage: parseInt(current_page ?? 1),
+			sort: sort ?? 'asc',
 		});
+
+		console.log(tenants);
 		return res.status(200).render(`search.html`, {
 			q: req.query.q,
 			tenants,

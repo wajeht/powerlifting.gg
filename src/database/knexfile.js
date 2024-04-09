@@ -14,6 +14,7 @@ const knexConfig = {
 		tableName: 'knex_migrations',
 		directory: path.resolve(__dirname, './migrations'),
 	},
+	debug: true,
 	seeds: { directory: path.resolve(__dirname, './seeds') },
 	pool: {
 		afterCreate: (conn, done) => {
