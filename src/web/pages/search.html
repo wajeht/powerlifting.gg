@@ -1,11 +1,9 @@
 <div class="p-10">
-
   <div class="mx-auto max-w-7xl w-full prose">
     <h2>Coaches</h2>
 
     <!-- search -->
     <div class="flex justify-between items-center">
-
       <form action="/search" method="get" class="flex gap-1 items-center justify-center relative w-[374px]">
         <label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
           <input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." required />
@@ -50,20 +48,21 @@
     <% if (tenants.data.length){ %>
       <div class="flex flex-col gap-5 mt-8">
         <% for (const tenant of tenants.data) { %>
-          <div class="flex gap-2 p-3 shadow-sm rounded-md bg-[#E8E9EA]">
+          <div class="flex gap-2 p-5 shadow-sm rounded-md bg-[#E8E9EA]">
 
             <!-- left -->
-            <div class="p-3 flex-0 min-h-full" style="background-color: <%= tenant.color %>;">
-              <%= tenant.emoji %>
+            <div class="flex-0 min-h-full max-w-40 flex justify-center items-center">
+              <div class="w-32 h-32 rounded-full flex justify-center items-center" style="background-color: <%= tenant.color %>;">
+                <%= tenant.emoji %>
+              </div>
             </div>
 
             <!-- mid -->
-            <div class="flex-1 h-full">
+            <div class="flex-1 h-full p-5">
               <div class="flex flex-col gap-1">
                 <!-- name -->
-                <h3>
-                  <%= tenant.name %>
-                </h3>
+                <h3><%= tenant.name %></h3>
+
                 <!-- stars -->
                 <div class="rating rating-xs">
                   <input type="radio" name="rating-1" class="mask mask-star" />
@@ -74,14 +73,12 @@
                 </div>
 
                 <!-- link -->
-                <a href="<%- app.configureDomain(tenant.slug) %>">
-                  <%= app.configureDomain(tenant.slug) %>
-                </a>
+                <a href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %></a>
               </div>
             </div>
 
             <!-- right -->
-            <div class="flex-0">xxx ratings</div>
+            <div class="flex-0 p-5">xxx ratings</div>
           </div>
         <% } %>
       </div>
@@ -99,5 +96,4 @@
       </div>
     <% } %>
   </div>
-
 </div>
