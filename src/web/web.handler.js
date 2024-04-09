@@ -14,9 +14,9 @@ export function getHealthzHandler() {
 
 export function getSearchHandler(SearchService) {
 	return async (req, res) => {
-		const tenants = await SearchService.search(req.query.q);
-		console.log(tenants);
-		return res.status(200).render('search.html', {
+		const { q, per_page, current_page } = req.query;
+		const tenants = await SearchService.search(q, { perPage: per_page, currentPage: current_page });
+		return res.status(200).render(`search.html`, {
 			q: req.query.q,
 			tenants,
 		});

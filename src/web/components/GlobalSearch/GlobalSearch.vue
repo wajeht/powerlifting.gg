@@ -91,16 +91,18 @@ window.addEventListener('keydown', function (event) {
 function search() {
 	const { protocol, hostname } = window.location;
 
+	const pagination = `current_page=1&per_page=25`;
+
 	// app.test
 	if (hostname.split('.').length === 2) {
-		window.location.href = `${window.location.origin}/search?q=${states.search}`;
+		window.location.href = `${window.location.origin}/search?q=${states.search}&${pagination}`;
 		return;
 	}
 
 	// sub.app.test
 	if (hostname.split('.').length === 3) {
 		const [_, domain, tld] = hostname.split('.');
-		window.location.href = `${protocol}//${domain}.${tld}/search?q=${states.search}`;
+		window.location.href = `${protocol}//${domain}.${tld}/search?q=${states.search}&${pagination}`;
 		return;
 	}
 }

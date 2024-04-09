@@ -1,4 +1,4 @@
-import { ref as w, reactive as $, nextTick as k, onMounted as E, computed as C, watch as R, openBlock as c, createElementBlock as r, normalizeClass as l, createElementVNode as o, withDirectives as S, withKeys as B, vModelText as D, Fragment as L, renderList as M, toDisplayString as g, createCommentVNode as u, createTextVNode as x } from "vue";
+import { ref as g, reactive as $, nextTick as k, onMounted as E, computed as C, watch as R, openBlock as c, createElementBlock as r, normalizeClass as l, createElementVNode as o, withDirectives as S, withKeys as B, vModelText as D, Fragment as L, renderList as M, toDisplayString as w, createCommentVNode as h, createTextVNode as x } from "vue";
 import A from "axios";
 import { _ as N } from "./_plugin-vue_export-helper.js";
 const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input input-bordered flex items-center gap-2" }, z = /* @__PURE__ */ o("svg", {
@@ -35,45 +35,45 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
 ], -1), ee = {
   __name: "GlobalSearch",
   setup(te) {
-    const p = w(null), f = w(null), e = $({
+    const m = g(null), f = g(null), e = $({
       search: "",
       data: [],
       open: !1,
       selectedIndex: null
-    }), _ = w(null);
+    }), _ = g(null);
     document.addEventListener("click", (t) => {
       const n = document.getElementById("modal");
       n && !n.contains(t.target) && (e.open = !1, e.search = "", e.selectedIndex = null);
     }), window.addEventListener("keydown", function(t) {
-      if (t.ctrlKey && t.key === "k" && (e.open = !0, k(() => _.value.focus())), t.metaKey && t.key === "k" && (e.open = !0, k(() => _.value.focus())), t.key === "Escape" && (p.value || f.value) && (p.value.classList.add("animate__fadeOut"), f.value.classList.add("animate__zoomOut"), setTimeout(() => {
+      if (t.ctrlKey && t.key === "k" && (e.open = !0, k(() => _.value.focus())), t.metaKey && t.key === "k" && (e.open = !0, k(() => _.value.focus())), t.key === "Escape" && (m.value || f.value) && (m.value.classList.add("animate__fadeOut"), f.value.classList.add("animate__zoomOut"), setTimeout(() => {
         e.open = !1, e.search = "", e.selectedIndex = null;
       }, 250)), e.open && ["ArrowUp", "ArrowDown"].includes(t.key)) {
         t.preventDefault();
         const s = e.selectedIndex !== null ? e.selectedIndex : -1;
-        t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), n()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, d.value.length - 1), n());
+        t.key === "ArrowUp" ? (e.selectedIndex = Math.max(s - 1, 0), n()) : t.key === "ArrowDown" && (e.selectedIndex = Math.min(s + 1, u.value.length - 1), n());
       }
       function n() {
         const s = document.querySelector(".selected");
         if (s) {
-          const a = s.parentElement.parentElement, i = s.getBoundingClientRect(), h = a.getBoundingClientRect(), m = s.offsetHeight + 216;
-          i.bottom > h.bottom ? a.scrollBy(0, m) : i.top < h.top && a.scrollBy(0, -m);
+          const a = s.parentElement.parentElement, i = s.getBoundingClientRect(), d = a.getBoundingClientRect(), p = s.offsetHeight + 216;
+          i.bottom > d.bottom ? a.scrollBy(0, p) : i.top < d.top && a.scrollBy(0, -p);
         }
       }
       if (t.key === "Enter" && e.selectedIndex !== null) {
         t.preventDefault();
-        const s = d.value[e.selectedIndex].slug;
+        const s = u.value[e.selectedIndex].slug;
         I(s);
       }
     });
     function y() {
-      const { protocol: t, hostname: n } = window.location;
+      const { protocol: t, hostname: n } = window.location, s = "current_page=1&per_page=25";
       if (n.split(".").length === 2) {
-        window.location.href = `${window.location.origin}/search?q=${e.search}`;
+        window.location.href = `${window.location.origin}/search?q=${e.search}&${s}`;
         return;
       }
       if (n.split(".").length === 3) {
-        const [s, a, i] = n.split(".");
-        window.location.href = `${t}//${a}.${i}/search?q=${e.search}`;
+        const [a, i, d] = n.split(".");
+        window.location.href = `${t}//${i}.${d}/search?q=${e.search}&${s}`;
         return;
       }
     }
@@ -89,7 +89,7 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
         e.data = await b();
       }, 500);
     });
-    const d = C(() => e.data.filter((t) => (t.name + " " + t.slug).toLowerCase().includes(e.search.toLowerCase())));
+    const u = C(() => e.data.filter((t) => (t.name + " " + t.slug).toLowerCase().includes(e.search.toLowerCase())));
     R(
       () => e.search,
       (t, n) => {
@@ -107,14 +107,14 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
         window.location.href = a;
       }
       if (s.split(".").length === 3) {
-        const [a, i, h] = s.split("."), m = `${n}//${t}.${i}.${h}`;
-        window.location.href = m;
+        const [a, i, d] = s.split("."), p = `${n}//${t}.${i}.${d}`;
+        window.location.href = p;
       }
     }
     return (t, n) => e.open ? (c(), r("div", {
       key: 0,
       ref_key: "backdropRef",
-      ref: p,
+      ref: m,
       id: "backdrop",
       class: l(["absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast", {
         animate__fadeIn: !e.open
@@ -150,8 +150,8 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
           ])
         ]),
         o("div", K, [
-          d.value.length && e.search.length ? (c(), r("ul", q, [
-            (c(!0), r(L, null, M(d.value, (s, a) => (c(), r("li", {
+          u.value.length && e.search.length ? (c(), r("ul", q, [
+            (c(!0), r(L, null, M(u.value, (s, a) => (c(), r("li", {
               class: l(["p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white", [e.selectedIndex === a ? "bg-neutral text-white selected" : "bg-white"]]),
               key: s.id
             }, [
@@ -161,10 +161,10 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
               }, [
                 o("div", {
                   class: l(["p-3 flex-0", `bg-[${s.color}]`])
-                }, g(s.emoji), 3),
+                }, w(s.emoji), 3),
                 o("div", j, [
                   o("div", H, [
-                    o("p", null, g(s.name), 1),
+                    o("p", null, w(s.name), 1),
                     o("div", O, [
                       o("input", {
                         type: "radio",
@@ -195,21 +195,21 @@ const T = { class: "p-5 border-b border-1 border-solid" }, V = { class: "input i
                     ])
                   ])
                 ]),
-                e.selectedIndex === a ? (c(), r("span", Z, "↩")) : u("", !0)
+                e.selectedIndex === a ? (c(), r("span", Z, "↩")) : h("", !0)
               ], 8, U)
             ], 2))), 128))
-          ])) : u("", !0),
-          e.search.length ? u("", !0) : (c(), r("div", F, [...P])),
-          !d.value.length && e.search.length ? (c(), r("div", Q, [
+          ])) : h("", !0),
+          e.search.length ? h("", !0) : (c(), r("div", F, [...P])),
+          !u.value.length && e.search.length ? (c(), r("div", Q, [
             o("span", W, [
               x("No results for "),
-              o("span", X, g(`"${e.search}"`), 1)
+              o("span", X, w(`"${e.search}"`), 1)
             ])
-          ])) : u("", !0)
+          ])) : h("", !0)
         ]),
         Y
       ], 2)
-    ], 2)) : u("", !0);
+    ], 2)) : h("", !0);
   }
 }, ae = /* @__PURE__ */ N(ee, [["__file", "/usr/src/app/src/web/components/GlobalSearch/GlobalSearch.vue"]]);
 export {
