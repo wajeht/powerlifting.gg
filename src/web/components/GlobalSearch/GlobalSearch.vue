@@ -115,19 +115,14 @@ function search() {
 	}
 }
 
-async function getAllCoaches() {
-	try {
-		const response = await axios.get('/api/tenants');
-		return response.data.data;
-	} catch (error) {
-		return [];
-	}
-}
-
 onMounted(async () => {
-	setTimeout(async () => {
-		states.data = await getAllCoaches();
-	}, 500);
+	// Fetch data if not cached or cache expired
+	if (!isDataCached() || isCacheExpired()) {
+		states.data = await fetchData();
+	} else {
+		// Retrieve data from cache
+		states.data = getCachedData();
+	}
 });
 
 const computedSearchedData = computed(() => {
@@ -166,6 +161,38 @@ function go(slug) {
 		const [_, domain, tld] = hostname.split('.');
 		const url = `${protocol}//${slug}.${domain}.${tld}`;
 		window.location.href = url;
+	}
+}
+
+function isDataCached() {
+	return (
+		localStorage.getItem('cachedData') !== null && localStorage.getItem('cacheTimestamp') !== null
+	);
+}
+
+function isCacheExpired() {
+	const currentTime = new Date().getTime();
+	const cacheTimestamp = parseInt(localStorage.getItem('cacheTimestamp'));
+	const expirationTime = 24 * 60 * 60 * 1000; // 24 hours
+	return currentTime - cacheTimestamp > expirationTime;
+}
+
+function getCachedData() {
+	return JSON.parse(localStorage.getItem('cachedData'));
+}
+
+// Function to fetch data from the API
+async function fetchData() {
+	try {
+		const response = await axios.get('/api/tenants');
+		const responseData = response.data.data;
+		// Cache the response data and current timestamp in local storage
+		localStorage.setItem('cachedData', JSON.stringify(responseData));
+		localStorage.setItem('cacheTimestamp', new Date().getTime().toString());
+		return responseData;
+	} catch (error) {
+		console.error('Error fetching data:', error);
+		return [];
 	}
 }
 </script>
@@ -215,7 +242,7 @@ function go(slug) {
 								fill-rule="evenodd"
 								d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
 								clip-rule="evenodd"
-							/>
+							></path>
 						</svg>
 					</button>
 				</label>
@@ -238,34 +265,11 @@ function go(slug) {
 									<div class="rating rating-xs">
 										<input
 											type="radio"
-											name="rating-1"
+											v-for="starIndex in 5"
+											:key="starIndex"
+											:name="`rating-${idx}`"
 											class="mask mask-star"
-											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-										/>
-										<input
-											type="radio"
-											name="rating-1"
-											class="mask mask-star"
-											checked
-											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-										/>
-										<input
-											type="radio"
-											name="rating-1"
-											class="mask mask-star"
-											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-										/>
-										<input
-											type="radio"
-											name="rating-1"
-											class="mask mask-star"
-											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
-										/>
-										<input
-											type="radio"
-											name="rating-1"
-											class="mask mask-star"
-											:class="[states.selectedIndex === idx ? 'bg-white' : '']"
+											:class="{ 'bg-white': states.selectedIndex === idx }"
 										/>
 									</div>
 								</div>
