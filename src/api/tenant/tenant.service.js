@@ -19,5 +19,11 @@ export function TenantService(db, redis) {
 
 			return tenants;
 		},
+		updateRatings: async (tenantId) => {
+			const reviews = await db('reviews').where({ tenant_id: tenantId });
+			const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
+			const averageRating = reviews.length ? totalRating / reviews.length : null;
+			await db('tenants').where({ id: tenantId }).update({ ratings: averageRating });
+		},
 	};
 }

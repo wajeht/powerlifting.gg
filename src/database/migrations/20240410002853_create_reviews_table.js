@@ -10,8 +10,10 @@ export function up(knex) {
 		table.integer('tenant_id').unsigned().notNullable();
 		table.foreign('tenant_id').references('id').inTable('tenants');
 		table.text('comment').notNullable();
-		table.integer('rating').notNullable();
+		table.float('ratings').nullable();
 		table.timestamps(true, true);
+
+		table.index('tenant_id');
 	});
 }
 
