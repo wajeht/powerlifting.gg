@@ -58,7 +58,12 @@
 						</div>
 
 						<!-- name -->
-						<h4 class="mt-3"><%= tenant.name %></h4>
+						<div class="flex items-center mt-3">
+							<h4 class="m-0 p-0"><%= tenant.name %></h4>
+							<% if (tenant.verified) { %>
+								<img class="w-5 h-5 p-0 m-0" src="/img/verified.png" alt="verified" />
+							<% } %>
+						</div>
 
 						<!-- button -->
 						<a class="btn btn-sm btn-neutral no-underline text-white w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>

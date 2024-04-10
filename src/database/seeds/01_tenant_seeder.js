@@ -6,8 +6,8 @@ export async function seed(db) {
 		slug: faker.lorem.slug(),
 		emoji: faker.internet.emoji(),
 		color: faker.color.rgb(),
-		verified: faker.datatype.boolean(),
-		rating: faker.number.int(),
+		verified: Math.random() < 0.5,
+		ratings: faker.number.float(),
 	}));
 
 	await db('tenants').insert(tenants);
