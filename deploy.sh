@@ -16,7 +16,7 @@ git checkout -- .
 
 git pull
 
-# git checkout feature/stuff
+git checkout main
 
 docker compose -f docker-compose.prod.yml build
 
