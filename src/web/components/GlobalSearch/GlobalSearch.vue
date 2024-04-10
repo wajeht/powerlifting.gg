@@ -127,8 +127,7 @@ onMounted(async () => {
 
 const computedSearchedData = computed(() => {
 	return states.data.filter((tenant) => {
-		const searchContent = tenant.name + ' ' + tenant.slug;
-		return searchContent.toLowerCase().includes(states.search.toLowerCase());
+		return tenant.name.toLowerCase().includes(states.search.toLowerCase());
 	});
 });
 
@@ -254,7 +253,7 @@ async function fetchData() {
 					<li
 						class="p-3 shadow-sm rounded-md hover:bg-neutral hover:text-white"
 						v-for="(tenant, idx) in computedSearchedData"
-						:key="tenant.id"
+						:key="`${tenant.slug}-tenant-${tenant.id}`"
 						:class="[states.selectedIndex === idx ? 'bg-neutral text-white selected' : 'bg-white']"
 					>
 						<a class="flex gap-2" :href="computedDomain(tenant.slug)">
@@ -266,8 +265,9 @@ async function fetchData() {
 										<input
 											type="radio"
 											v-for="starIndex in 5"
-											:key="starIndex"
-											:name="`rating-${idx}`"
+											:id="`${tenant.slug}-star-${starIndex}`"
+											:key="`${tenant.slug}-star-${starIndex}`"
+											:name="`${tenant.slug}-star-${starIndex}`"
 											class="mask mask-star"
 											:class="{ 'bg-white': states.selectedIndex === idx }"
 										/>
