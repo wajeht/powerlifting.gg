@@ -141,3 +141,6 @@ env.json
 .env
 ./public/css/style.css
 /public/css/style.css
+/public/js/_plugin-vue_export-helper.js
+/public/js/GlobalSearch.js
+/public/js/Users.js
