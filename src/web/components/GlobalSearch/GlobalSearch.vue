@@ -180,12 +180,10 @@ function getCachedData() {
 	return JSON.parse(localStorage.getItem('cachedData'));
 }
 
-// Function to fetch data from the API
 async function fetchData() {
 	try {
 		const response = await axios.get('/api/tenants');
 		const responseData = response.data.data;
-		// Cache the response data and current timestamp in local storage
 		localStorage.setItem('cachedData', JSON.stringify(responseData));
 		localStorage.setItem('cacheTimestamp', new Date().getTime().toString());
 		return responseData;
@@ -256,11 +254,16 @@ async function fetchData() {
 						:key="`${tenant.slug}-tenant-${tenant.id}`"
 						:class="[states.selectedIndex === idx ? 'bg-neutral text-white selected' : 'bg-white']"
 					>
-						<a class="flex gap-2" :href="computedDomain(tenant.slug)">
+						<a class="flex gap-2 justify-center" :href="computedDomain(tenant.slug)">
+							<!-- left -->
 							<div class="p-3 flex-0" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
+
+							<!-- mid -->
 							<div class="flex-1 h-full">
 								<div class="flex flex-col gap-1">
+									<!-- name -->
 									<p>{{ tenant.name }}</p>
+									<!-- ratings -->
 									<div class="rating rating-xs">
 										<input
 											type="radio"
@@ -274,6 +277,14 @@ async function fetchData() {
 									</div>
 								</div>
 							</div>
+
+							<!-- left -->
+							<p class="flex gap-1 text-xs p-1">
+								<span>{{ tenant.reviews_count }}</span>
+								<span v-if="tenant.reviews_count > 1">Reviews</span>
+								<span v-else>Review</span>
+							</p>
+							<!-- enter -->
 							<span class="flex-0" v-if="states.selectedIndex === idx">↩</span>
 						</a>
 					</li>

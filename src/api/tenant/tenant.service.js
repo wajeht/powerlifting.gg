@@ -18,13 +18,25 @@ export function TenantService(db, redis) {
 		},
 		getAllTenant: async ({ cache = true }) => {
 			if (!cache) {
-				return await db.select('*').from('tenants');
+				return await db
+					.select('tenants.*')
+					.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+					.groupBy('tenants.id')
+					.orderBy('name')
+					.count('reviews.id as reviews_count')
+					.from('tenants');
 			}
 
 			let tenants = await redis.get('tenants');
 
 			if (!tenants) {
-				tenants = await db.select('*').from('tenants');
+				tenants = await db
+					.select('tenants.*')
+					.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+					.groupBy('tenants.id')
+					.orderBy('name')
+					.count('reviews.id as reviews_count')
+					.from('tenants');
 				await redis.set('tenants', JSON.stringify(tenants));
 			} else {
 				tenants = JSON.parse(tenants);
