@@ -1,9 +1,22 @@
 export function TenantService(db, redis) {
 	return {
-		getTenant: async (tenantId) => {
-			return await db.select('*').from('tenants').where({ id: tenantId }).first();
+		getTenant: async ({ tenantId, cache = true }) => {
+			if (!cache) {
+				return await db.select('*').from('tenants').where({ id: tenantId }).first();
+			}
+
+			let tenant = await redis.get(`tenant:${tenantId}`);
+
+			if (!tenant) {
+				tenant = await db.select('*').from('tenants').where({ id: tenantId }).first();
+				await redis.set(`tenant:${tenantId}`, JSON.stringify(tenant));
+			} else {
+				tenant = JSON.parse(tenant);
+			}
+
+			return tenant;
 		},
-		getAllTenant: async ({ cache = true } = {}) => {
+		getAllTenant: async ({ cache = true }) => {
 			if (!cache) {
 				return await db.select('*').from('tenants');
 			}
@@ -19,7 +32,30 @@ export function TenantService(db, redis) {
 
 			return tenants;
 		},
-		updateRatings: async (tenantId) => {
+		getTenantReviews: async ({ tenantId, cache = true }) => {
+			if (!cache) {
+				return await db('reviews')
+					.select('reviews.*', 'users.username as reviewer_username')
+					.leftJoin('users', 'reviews.user_id', 'users.id')
+					.where('tenant_id', tenantId);
+			}
+
+			let reviews = await redis.get(`tenant:${tenantId}:reviews`);
+
+			if (!reviews) {
+				reviews = await db('reviews')
+					.select('reviews.*', 'users.username as reviewer_username')
+					.leftJoin('users', 'reviews.user_id', 'users.id')
+					.where('tenant_id', tenantId);
+
+				await redis.set(`tenant:${tenantId}:reviews`, JSON.stringify(reviews));
+			} else {
+				reviews = JSON.parse(reviews);
+			}
+
+			return reviews;
+		},
+		updateRatings: async ({ tenantId }) => {
 			const reviews = await db('reviews').where({ tenant_id: tenantId });
 			const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
 			const averageRating = reviews.length ? totalRating / reviews.length : null;
