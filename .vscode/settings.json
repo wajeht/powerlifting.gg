@@ -3,6 +3,7 @@
 		"flushall",
 		"healthz",
 		"knexfile",
+		"mailhot",
 		"multitenancy",
 		"powerlifting",
 		"resave",

@@ -27,7 +27,7 @@ import {
 
 const redisStore = new RedisStore({
 	client: redis,
-	prefix: 'powerlifting-gg-session-store:',
+	prefix: appConfig.session.store_prefix,
 });
 
 const app = express();
@@ -73,7 +73,7 @@ if (appConfig.env === 'production') {
 app.use(flash());
 app.use(
 	session({
-		secret: appConfig.session_secret,
+		secret: appConfig.session.secret,
 		resave: true,
 		store: redisStore,
 		saveUninitialized: false,

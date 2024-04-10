@@ -2,6 +2,7 @@ import express from 'express';
 
 import { catchAsyncErrorHandler } from '../../app.middlewares.js';
 import { redis } from '../../database/db.js';
+import { app as appConfig } from '../../config/app.js';
 
 const cache = express.Router();
 
@@ -16,7 +17,7 @@ cache.get(
 			for (const key of keys) {
 				const value = await redis.get(key);
 
-				if (!key.includes('powerlifting-gg-session-store')) {
+				if (!key.includes(appConfig.session.store_prefix)) {
 					data[key] = value;
 				}
 			}
@@ -29,7 +30,7 @@ cache.get(
 
 		return res.status(200).json({
 			message: 'ok',
-			data: keys.filter((key) => !key.includes('powerlifting-gg-session-store')),
+			data: keys.filter((key) => !key.includes(appConfig.session.store_prefix)),
 		});
 	}),
 );
