@@ -1,14 +1,20 @@
 import { faker } from '@faker-js/faker';
 
 export async function seed(db) {
-	const tenants = Array.from({ length: 100 }, () => ({
-		name: faker.company.name(),
-		slug: faker.lorem.slug(),
-		emoji: faker.internet.emoji(),
-		color: faker.color.rgb(),
-		verified: Math.random() < 0.5,
-		ratings: faker.number.float(),
-	}));
+	const batchSize = 100;
+	const totalTenants = 500;
+	const batches = Math.ceil(totalTenants / batchSize);
 
-	await db('tenants').insert(tenants);
+	for (let i = 0; i < batches; i++) {
+		const tenants = Array.from({ length: batchSize }, () => ({
+			name: faker.company.name(),
+			slug: faker.lorem.slug(),
+			emoji: faker.internet.emoji(),
+			color: faker.color.rgb(),
+			verified: Math.random() < 0.5,
+			ratings: faker.number.float(),
+		}));
+
+		await db.batchInsert('tenants', tenants);
+	}
 }
