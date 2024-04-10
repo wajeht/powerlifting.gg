@@ -12,6 +12,8 @@ export function SearchService(db) {
 				isLengthAware: true,
 			});
 
+			tenants.pagination.sort = pagination.sort;
+
 			tenants.pagination.links = Array.from(
 				{ length: tenants.pagination.lastPage },
 				(_, i) =>
