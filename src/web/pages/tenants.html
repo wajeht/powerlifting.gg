@@ -120,13 +120,14 @@
 
                 <!-- stars -->
                 <div class="rating rating-xs">
-                  <input
-                    type="radio"
-                    v-for="starIndex in 5"
-                    :key="starIndex"
-                    :name="`rating-${idx}`"
-                    class="mask mask-star"
-                  />
+                  <% for (let i = 0; i < 5; i++) { %>
+                    <input
+                      type="radio"
+                      id="<%= tenant.slug %>-star-<%= i + 1 %>"
+                      name="<%= tenant.slug %>-star-<%= i + 1 %>"
+                      class="mask mask-star"
+                    />
+                  <% } %>
                 </div>
 
                 <!-- link -->
@@ -134,7 +135,13 @@
             </div>
 
             <!-- right -->
-            <div class="flex-0 p-5">xxx ratings</div>
+            <div class="flex-0 p-5"><%= tenant.reviews_count %>
+              <% if (tenant.reviews_count > 0) { %>
+                <span>Reviews</span>
+              <% } else { %>
+                <span>Review</span>
+              <% } %>
+            </div>
           </div>
         <% } %>
       </div>

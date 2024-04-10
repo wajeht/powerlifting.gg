@@ -13,7 +13,12 @@ export function SearchService(db, redis) {
 				}
 			}
 
-			let query = db.select('*').from('tenants').orderBy('name', pagination.sort);
+			const query = db('tenants')
+				.select('tenants.*')
+				.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+				.groupBy('tenants.id')
+				.orderBy('name', pagination.sort)
+				.count('reviews.id as reviews_count');
 
 			if (q.trim() !== '') {
 				query.where('name', 'like', `%${q}%`);
