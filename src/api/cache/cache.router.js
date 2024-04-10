@@ -29,7 +29,7 @@ cache.get(
 
 		return res.status(200).json({
 			message: 'ok',
-			data: keys,
+			data: keys.filter((key) => !key.includes('powerlifting-gg-session-store')),
 		});
 	}),
 );
