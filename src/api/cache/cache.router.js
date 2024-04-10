@@ -12,9 +12,13 @@ cache.get(
 
 		if (req.query.data === 'true') {
 			const data = {};
+
 			for (const key of keys) {
 				const value = await redis.get(key);
-				data[key] = value;
+
+				if (!key.includes('powerlifting-gg-session-store')) {
+					data[key] = value;
+				}
 			}
 
 			return res.status(200).json({
