@@ -72,12 +72,12 @@ const T = { class: "p-5 border-b border-1 border-solid" }, z = { class: "input i
         return;
       const { protocol: t, hostname: a } = window.location, s = "current_page=1&per_page=25&sort=asc";
       if (a.split(".").length === 2) {
-        window.location.href = `${window.location.origin}/search?q=${e.search}&${s}`;
+        window.location.href = `${window.location.origin}/tenants?q=${e.search}&${s}`;
         return;
       }
       if (a.split(".").length === 3) {
         const [n, i, d] = a.split(".");
-        window.location.href = `${t}//${i}.${d}/search?q=${e.search}&${s}`;
+        window.location.href = `${t}//${i}.${d}/tenants?q=${e.search}&${s}`;
         return;
       }
     }
@@ -120,7 +120,7 @@ const T = { class: "p-5 border-b border-1 border-solid" }, z = { class: "input i
       ref_key: "backdropRef",
       ref: u,
       id: "backdrop",
-      class: l(["absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast", {
+      class: l(["fixed h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast overflow-hidden", {
         animate__fadeIn: !e.open
       }])
     }, [

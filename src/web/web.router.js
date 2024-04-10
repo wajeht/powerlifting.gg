@@ -14,10 +14,10 @@ import {
 	getAdminHandler,
 	getHealthzHandler,
 	getIndexHandler,
-	getSearchHandler,
+	getTenantsHandler,
 	getLoginHandler,
 	getPrivacyPolicyHandler,
-	getRegiserHanlder,
+	getRegisterHandler,
 	getTenantsNewHandler,
 	getTermsOfServiceHandler,
 	getUser,
@@ -66,11 +66,11 @@ web.get(
 web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHandler()));
 
 /**
- * GET /search
+ * GET /tenants
  * @tags web
- * @summary get search page
+ * @summary get tenants page
  */
-web.get('/search', catchAsyncErrorHandler(getSearchHandler(SearchService(db))));
+web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db))));
 
 /**
  * GET /tenants/new
@@ -80,7 +80,7 @@ web.get('/search', catchAsyncErrorHandler(getSearchHandler(SearchService(db))));
 web.get('/tenants/new', catchAsyncErrorHandler(getTenantsNewHandler()));
 
 /**
- * GET /regiser
+ * GET /register
  * @tags web
  * @summary get register
  */
@@ -88,7 +88,7 @@ web.get(
 	'/register',
 	tenantIdentityHandler,
 	tenancyHandler,
-	catchAsyncErrorHandler(getRegiserHanlder()),
+	catchAsyncErrorHandler(getRegisterHandler()),
 );
 
 web.post(

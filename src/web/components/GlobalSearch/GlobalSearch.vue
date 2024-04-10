@@ -103,14 +103,14 @@ function search() {
 
 	// app.test
 	if (hostname.split('.').length === 2) {
-		window.location.href = `${window.location.origin}/search?q=${states.search}&${pagination}`;
+		window.location.href = `${window.location.origin}/tenants?q=${states.search}&${pagination}`;
 		return;
 	}
 
 	// sub.app.test
 	if (hostname.split('.').length === 3) {
 		const [_, domain, tld] = hostname.split('.');
-		window.location.href = `${protocol}//${domain}.${tld}/search?q=${states.search}&${pagination}`;
+		window.location.href = `${protocol}//${domain}.${tld}/tenants?q=${states.search}&${pagination}`;
 		return;
 	}
 }
@@ -175,7 +175,7 @@ function go(slug) {
 		ref="backdropRef"
 		v-if="states.open"
 		id="backdrop"
-		class="absolute h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast"
+		class="fixed h-screen w-screen bg-black/30 backdrop-blur-sm top-0 left-0 z-10 animate__animated animate__veryfast overflow-hidden"
 		:class="{
 			animate__fadeIn: !states.open,
 		}"

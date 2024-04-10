@@ -1,5 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { app as appConfig } from '../config/app.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,7 @@ const knexConfig = {
 		tableName: 'knex_migrations',
 		directory: path.resolve(__dirname, './migrations'),
 	},
-	debug: true,
+	debug: appConfig.env !== 'production',
 	seeds: { directory: path.resolve(__dirname, './seeds') },
 	pool: {
 		afterCreate: (conn, done) => {

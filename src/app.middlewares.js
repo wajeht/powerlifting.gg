@@ -1,7 +1,7 @@
 import { logger } from './utils/logger.js';
 import { validationResult } from 'express-validator';
 import { db } from './database/db.js';
-import { app as appConfig } from './conifg/app.js';
+import { app as appConfig } from './config/app.js';
 import {
 	HttpError,
 	NotFoundError,
@@ -124,12 +124,15 @@ export async function notFoundHandler(req, res, _next) {
 	const subdomain = req.subdomains.length ? req.subdomains[0] : null;
 
 	if (!subdomain) {
-		return res.status(404).render('./not-found.html');
+		return res.status(404).render('./not-found.html', {
+			title: `/${req.originalUrl}`,
+		});
 	}
 
 	const tenant = await db.select('*').from('tenants').where({ slug: subdomain }).first();
 
 	return res.status(404).render('./not-found.html', {
+		title: `/${req.originalUrl}`,
 		tenant: JSON.stringify(tenant),
 		layout: '../layouts/tenant.html',
 	});
@@ -165,6 +168,7 @@ export function errorHandler(err, req, res, _next) {
 
 	if (req.tenant) {
 		return res.status(statusCode).render('./error.html', {
+			title: `/${req.originalUrl}`,
 			tenant: JSON.stringify(req.tenant),
 			layout: '../layouts/tenant.html',
 			error: errorMessage,
@@ -172,7 +176,9 @@ export function errorHandler(err, req, res, _next) {
 		});
 	}
 
-	return res.status(statusCode).render('error.html', { error: errorMessage, statusCode });
+	return res
+		.status(statusCode)
+		.render('error.html', { error: errorMessage, statusCode, title: `/${req.originalUrl}` });
 }
 
 export async function skipOnMyIp(req, _res) {

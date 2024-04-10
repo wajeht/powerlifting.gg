@@ -1,5 +1,5 @@
 import { logger } from '../utils/logger.js';
-import { redis as redisConfig } from '../conifg/redis.js';
+import { redis as redisConfig } from '../config/redis.js';
 import Redis from 'ioredis';
 import RedisMock from 'ioredis-mock';
 

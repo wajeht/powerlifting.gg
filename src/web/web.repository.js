@@ -9,5 +9,8 @@ export function WebRepository(db) {
 		getTenantUsers: async ({ tenant_id }) => {
 			return await db.select('*').from('users').where({ tenant_id });
 		},
+		getRandomTenants: async ({ size = 5 } = {}) => {
+			return await db.select('*').from('tenants').orderByRaw('RANDOM()').limit(size);
+		},
 	};
 }
