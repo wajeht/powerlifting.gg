@@ -27,41 +27,31 @@ export async function seed(db) {
 		},
 	];
 
-	await db('users').insert(fixedUsers.map((user) => ({ ...user, tenant_id: tenants[0] })));
+	for (const user of fixedUsers) {
+		const existingUser = await db('users').where('email', user.email).first();
+		if (!existingUser) {
+			await db('users').insert({ ...user, tenant_id: tenants[0] });
+		}
+	}
 
-	for (const tenant_id of tenants) {
+	for (const tenantId of tenants) {
 		const users = [];
-		const existingUsernames = new Set();
-		const existingEmails = new Set();
-
-		// Generate unique users
 		for (let i = 0; i < 3; i++) {
-			let username = faker.internet.userName();
 			let email = faker.internet.email();
-
-			// Ensure username uniqueness
-			while (existingUsernames.has(username)) {
-				username = faker.internet.userName();
-			}
-			existingUsernames.add(username);
-
-			// Ensure email uniqueness
-			while (existingEmails.has(email)) {
+			const existingUser = await db('users').where('email', email).first();
+			while (existingUser) {
 				email = faker.internet.email();
 			}
-			existingEmails.add(email);
-
+			const username = faker.internet.userName();
 			users.push({
 				username: username,
 				email: email,
 				password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 				role: 'USER',
 				emoji: faker.internet.emoji(),
-				tenant_id: tenant_id,
+				tenant_id: tenantId,
 			});
 		}
-
-		// Bulk insert generated users
 		await db('users').insert(users);
 	}
 }
