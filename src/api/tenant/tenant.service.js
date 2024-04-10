@@ -32,6 +32,24 @@ export function TenantService(db, redis) {
 
 			return tenants;
 		},
+		addReviewToTenant: async ({ tenantId, userId, comment, rating }) => {
+			const [reviewId] = await db('reviews').insert({
+				tenant_id: tenantId,
+				user_id: userId,
+				comment,
+				rating,
+			});
+
+			const review = await db('reviews')
+				.select('reviews.*', 'users.username as reviewer_username')
+				.leftJoin('users', 'reviews.user_id', 'users.id')
+				.where('reviews.id', reviewId)
+				.first();
+
+			await redis.del(`tenant:${tenantId}:reviews`);
+
+			return review;
+		},
 		getTenantReviews: async ({ tenantId, cache = true }) => {
 			if (!cache) {
 				return await db('reviews')
