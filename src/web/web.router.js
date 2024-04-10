@@ -1,5 +1,5 @@
 import express from 'express';
-import { db } from '../database/db.js';
+import { db, redis } from '../database/db.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
@@ -70,7 +70,7 @@ web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHand
  * @tags web
  * @summary get tenants page
  */
-web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db))));
+web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db, redis))));
 
 /**
  * GET /tenants/new

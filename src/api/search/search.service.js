@@ -1,6 +1,18 @@
-export function SearchService(db) {
+export function SearchService(db, redis) {
 	return {
-		search: async (q = '', pagination = { perPage: 25, currentPage: 1, sort: 'asc' }) => {
+		search: async (
+			q = '',
+			pagination = { perPage: 25, currentPage: 1, sort: 'asc', cache: true },
+		) => {
+			const cacheKey = `search?q=${encodeURIComponent(q)}&per_page=${pagination.perPage}&current_page=${pagination.currentPage}&sort=${pagination.sort}`;
+
+			if (pagination.cache) {
+				let cachedData = await redis.get(cacheKey);
+				if (cachedData) {
+					return JSON.parse(cachedData);
+				}
+			}
+
 			let query = db.select('*').from('tenants').orderBy('name', pagination.sort);
 
 			if (q.trim() !== '') {
@@ -26,6 +38,10 @@ export function SearchService(db) {
 
 			if (tenants.pagination.nextPage !== null) {
 				tenants.pagination.nextPageLink = `q=${q}&current_page=${pagination.currentPage + 1}&per_page=${pagination.perPage}&sort=${pagination.sort}`;
+			}
+
+			if (pagination.cache) {
+				await redis.set(cacheKey, JSON.stringify(tenants));
 			}
 
 			return tenants;
