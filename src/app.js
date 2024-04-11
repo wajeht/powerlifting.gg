@@ -28,11 +28,12 @@ import {
 const redisStore = new RedisStore({
 	client: redis,
 	prefix: appConfig.session.store_prefix,
+	disableTouch: true,
 });
 
 const app = express();
-
-app.use(express.json());
+app.set('trust proxy', 1);
+app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(compression());
 
@@ -74,13 +75,14 @@ app.use(flash());
 app.use(
 	session({
 		secret: appConfig.session.secret,
-		resave: true,
+		resave: false,
 		store: redisStore,
 		saveUninitialized: false,
 		proxy: appConfig.env === 'production',
 		cookie: {
 			httpOnly: appConfig.env === 'production',
 			secure: appConfig.env === 'production',
+			sameSite: 'lax',
 		},
 	}),
 );
