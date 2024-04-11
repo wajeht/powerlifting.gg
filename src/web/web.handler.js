@@ -88,16 +88,6 @@ export function getTermsOfServiceHandler() {
 	};
 }
 
-export function getAdminHandler() {
-	return (req, res) => {
-		return res.status(200).render('admin.html', {
-			title: '/admin',
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-		});
-	};
-}
-
 export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {

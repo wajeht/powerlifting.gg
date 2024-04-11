@@ -10,7 +10,6 @@ import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
 import {
 	getContactHandler,
-	getAdminHandler,
 	getHealthzHandler,
 	getIndexHandler,
 	getTenantsHandler,
@@ -87,13 +86,6 @@ web.post(
 		getUser(WebService(WebRepository(db), NotFoundError, UnimplementedFunctionError)),
 	),
 );
-
-/**
- * GET /admin
- * @tags web
- * @summary get admin page
- */
-web.get('/admin', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(getAdminHandler()));
 
 /**
  * GET /
