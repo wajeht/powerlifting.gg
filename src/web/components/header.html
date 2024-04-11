@@ -28,11 +28,15 @@
 				<!-- login -->
 				<% if (app.env === 'development') { %>
 					<li>
-						<a href="http://localhost:80/oauth/google" title="login with google">Login</a>
+						<div class="tooltip tooltip-bottom" data-tip="login with google">
+							<a href="http://localhost:80/oauth/google" title="login with google">Login</a>
+						</div>
 					</li>
 				<% } else { %>
 					<li>
-						<a href="/oauth/google" title="login with google">Login</a>
+						<div class="tooltip" data-tip="login with google">
+							<a href="/oauth/google" title="login with google">Login</a>
+						</div>
 					</li>
 				<% } %>
 			</ul>
