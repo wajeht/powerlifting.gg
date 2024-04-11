@@ -64,21 +64,23 @@ export function TenantService(db, redis) {
 		},
 		getTenantReviews: async ({ tenantId, cache = true }) => {
 			if (!cache) {
-				return await db('reviews')
-					.select('reviews.*', 'users.username as reviewer_username')
+				return await db
+					.select('*')
+					.from('reviews')
 					.leftJoin('users', 'reviews.user_id', 'users.id')
-					.where('tenant_id', tenantId);
+					.where('reviews.tenant_id', tenantId);
 			}
 
-			let reviews = await redis.get(`tenant:${tenantId}:reviews`);
+			let reviews = await redis.get(`tenant-${tenantId}-reviews`);
 
 			if (!reviews) {
-				reviews = await db('reviews')
-					.select('reviews.*', 'users.username as reviewer_username')
+				reviews = await db
+					.select('*')
+					.from('reviews')
 					.leftJoin('users', 'reviews.user_id', 'users.id')
-					.where('tenant_id', tenantId);
+					.where('reviews.tenant_id', tenantId);
 
-				await redis.set(`tenant:${tenantId}:reviews`, JSON.stringify(reviews));
+				await redis.set(`tenant-${tenantId}-reviews`, JSON.stringify(reviews));
 			} else {
 				reviews = JSON.parse(reviews);
 			}

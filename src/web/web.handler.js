@@ -120,12 +120,17 @@ export function getLoginHandler() {
 	};
 }
 
-export function getIndexHandler(WebRepository) {
+export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {
 			const users = await WebRepository.getTenantUsers({ tenant_id: req.tenant.id });
+			const reviews = await TenantService.getTenantReviews({
+				tenantId: req.tenant.id,
+				cache: true,
+			});
 			return res.status(200).render('tenant.html', {
 				tenant: JSON.stringify(req.tenant),
+				reviews,
 				layout: '../layouts/tenant.html',
 				users,
 				title: '/',

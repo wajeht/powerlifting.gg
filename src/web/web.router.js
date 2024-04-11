@@ -24,6 +24,7 @@ import {
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
+import { TenantService } from '../api/tenant/tenant.service.js';
 import { SearchService } from '../api/search/search.service.js';
 // import { body } from 'express-validator';
 
@@ -119,7 +120,11 @@ web.get('/login', tenantIdentityHandler, tenancyHandler, catchAsyncErrorHandler(
  * @tags web
  * @summary get index page
  */
-web.get('/', tenantIdentityHandler, catchAsyncErrorHandler(getIndexHandler(WebRepository(db))));
+web.get(
+	'/',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis))),
+);
 
 web.get(
 	'/user/:username',
