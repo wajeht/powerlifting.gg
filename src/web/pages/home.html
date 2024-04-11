@@ -87,7 +87,9 @@
 				<% for(const tenant of tenants) { %>
 					<div class="flex flex-col gap-3 items-center justify-center bg-white p-5 rounded-md w-full border border-1">
 						<!-- img -->
-						<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center" style="background-color: <%= tenant.color %>;"><%= tenant.emoji %></div>
+						<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center" style="background-color: <%= tenant.color %>;">
+							<img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
+						</div>
 
 						<!-- rating -->
 						<div class="rating rating-xs mt-2">

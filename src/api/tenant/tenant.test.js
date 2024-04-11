@@ -16,7 +16,6 @@ it.skip('should be able to get subdomain /api/tenant/:id end point', async () =>
 		.insert({
 			name: faker.company.name(),
 			slug: faker.lorem.slug(),
-			emoji: faker.internet.emoji(),
 			color: faker.color.rgb(),
 		})
 		.returning('*');

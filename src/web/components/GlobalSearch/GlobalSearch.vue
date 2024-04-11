@@ -256,7 +256,9 @@ async function fetchData() {
 					>
 						<a class="flex gap-2 justify-center" :href="computedDomain(tenant.slug)">
 							<!-- left -->
-							<div class="p-3 flex-0" :class="`bg-[${tenant.color}]`">{{ tenant.emoji }}</div>
+							<div class="flex-0 w-[60px] h-[60x]" :class="`bg-[${tenant.color}]`">
+								<img class="rounded-full" :src="`${tenant.logo}`" alt="logo" />
+							</div>
 
 							<!-- mid -->
 							<div class="flex-1 h-full">

@@ -30,7 +30,6 @@ describe('when visiting / route', () => {
 			const tenants = Array.from({ length: 5 }, () => ({
 				name: faker.company.name(),
 				slug: faker.lorem.slug(),
-				emoji: faker.internet.emoji(),
 				color: faker.internet.color(),
 			}));
 
