@@ -6,8 +6,8 @@ export function getHealthzHandler() {
 		}
 
 		return res.status(200).render('healthz.html', {
-			title: '/healthz',
 			uptime,
+			title: '/healthz',
 			layout: '../layouts/healthz.html',
 		});
 	};
@@ -17,15 +17,15 @@ export function getTenantsHandler(SearchService) {
 	return async (req, res) => {
 		const { q, per_page, current_page, sort } = req.query;
 		const tenants = await SearchService.search(q, {
+			cache: true,
+			sort: sort ?? 'asc',
 			perPage: parseInt(per_page ?? 25),
 			currentPage: parseInt(current_page ?? 1),
-			sort: sort ?? 'asc',
-			cache: true,
 		});
 		return res.status(200).render('tenants.html', {
-			title: '/tenants',
-			q: req.query.q,
 			tenants,
+			q: req.query.q,
+			title: '/tenants',
 		});
 	};
 }
@@ -49,9 +49,9 @@ export function getContactHandler() {
 
 		return res.status(200).render('contact.html', {
 			title: '/contact',
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
 			flashMessages: req.flash(),
+			layout: '../layouts/tenant.html',
+			tenant: JSON.stringify(req.tenant),
 		});
 	};
 }
@@ -98,10 +98,10 @@ export function getIndexHandler(WebRepository, TenantService) {
 			});
 			return res.status(200).render('tenant.html', {
 				tenant: JSON.stringify(req.tenant),
-				reviews,
-				layout: '../layouts/tenant.html',
 				users,
+				reviews,
 				title: '/',
+				layout: '../layouts/tenant.html',
 			});
 		}
 
