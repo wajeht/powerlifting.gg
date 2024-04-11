@@ -3,10 +3,8 @@ import { db, redis } from '../database/db.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
-	tenancyHandler,
 	// validateRequestHandler,
 } from '../app.middlewares.js';
-import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
 import {
 	getContactHandler,
@@ -16,10 +14,8 @@ import {
 	getPrivacyPolicyHandler,
 	getTenantsNewHandler,
 	getTermsOfServiceHandler,
-	getUser,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
-import { WebService } from './web.service.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
 import { SearchService } from '../api/search/search.service.js';
 // import { body } from 'express-validator';
@@ -78,15 +74,6 @@ web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db, r
  */
 web.get('/tenants/new', catchAsyncErrorHandler(getTenantsNewHandler()));
 
-web.post(
-	'/user/:id',
-	tenantIdentityHandler,
-	tenancyHandler,
-	catchAsyncErrorHandler(
-		getUser(WebService(WebRepository(db), NotFoundError, UnimplementedFunctionError)),
-	),
-);
-
 /**
  * GET /
  * @tags web
@@ -96,27 +83,6 @@ web.get(
 	'/',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis))),
-);
-
-web.get(
-	'/user/:username',
-	tenantIdentityHandler,
-	tenancyHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		const user = await db
-			.select('*')
-			.from('users')
-			.where({ tenant_id: req.tenant.id, username: req.params.username })
-			.first();
-
-		if (!user) throw new NotFoundError();
-
-		return res.status(200).render('user.html', {
-			user,
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-		});
-	}),
 );
 
 export { web };

@@ -109,17 +109,3 @@ export function getIndexHandler(WebRepository, TenantService) {
 		return res.status(200).render('home.html', { tenants, title: '/' });
 	};
 }
-
-export function getUser(WebService, NotFoundError, UnimplementedFunctionError) {
-	return async (req, res) => {
-		if (req.body.method === 'DELETE') {
-			const user = await WebService.getUser();
-
-			if (!user) throw new NotFoundError();
-
-			return res.redirect('/admin');
-		}
-
-		throw new UnimplementedFunctionError();
-	};
-}
