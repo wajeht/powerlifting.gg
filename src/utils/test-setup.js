@@ -5,6 +5,10 @@ process.env.MY_IP_ADDRESS = '50.26.8.122';
 process.env.DEVELOPMENT_APP_URL = 'app.test';
 process.env.PRODUCTION_APP_URL = 'powerlifting.gg';
 
+process.env.GOOGLE_ID = 'something';
+process.env.GOOGLE_SECRET = 'gains';
+process.env.GOOGLE_REDIRECT_URL = 'http://localhost:80/oauth/google/callback';
+
 process.env.SESSION_STORE_PREFIX = 'powerlifting.gg';
 process.env.SESSION_SECRET = 'powerlifting.gg';
 
