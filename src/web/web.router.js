@@ -22,6 +22,9 @@ import { SearchService } from '../api/search/search.service.js';
 
 const web = express.Router();
 
+/**
+ * @tags oauth
+ */
 web.use(oauthRouter);
 
 /**

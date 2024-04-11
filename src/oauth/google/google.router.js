@@ -5,10 +5,20 @@ import { db } from '../../database/db.js';
 
 const google = express.Router();
 
+/**
+ * GET /oauth/google
+ * @tags oauth/google
+ * @summary get healthz page
+ */
 google.get('/', (req, res) => {
 	return res.redirect(getGoogleOAuthURL());
 });
 
+/**
+ * GET /oauth/google/redirect
+ * @tags oauth/google
+ * @summary get healthz page
+ */
 google.get('/redirect', async (req, res) => {
 	const code = req.query.code;
 
