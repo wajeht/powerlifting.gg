@@ -91,14 +91,12 @@ export function getTermsOfServiceHandler() {
 export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {
-			const users = await WebRepository.getTenantUsers({ tenant_id: req.tenant.id });
 			const reviews = await TenantService.getTenantReviews({
 				tenantId: req.tenant.id,
 				cache: true,
 			});
 			return res.status(200).render('tenant.html', {
 				tenant: JSON.stringify(req.tenant),
-				users,
 				reviews,
 				title: '/',
 				layout: '../layouts/tenant.html',
