@@ -8,6 +8,7 @@ import {
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
 import {
 	getContactHandler,
+	postContactHandler,
 	getHealthzHandler,
 	getIndexHandler,
 	getTenantsHandler,
@@ -62,6 +63,13 @@ web.get(
  * @summary get contact page
  */
 web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHandler()));
+
+/**
+ * POST /contact
+ * @tags web
+ * @summary post contact
+ */
+web.post('/contact', tenantIdentityHandler, catchAsyncErrorHandler(postContactHandler()));
 
 /**
  * GET /tenants

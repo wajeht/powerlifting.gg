@@ -38,6 +38,13 @@ export function getTenantsNewHandler() {
 	};
 }
 
+export function postContactHandler() {
+	return (req, res) => {
+		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
+		return res.redirect('/contact');
+	};
+}
+
 export function getContactHandler() {
 	return (req, res) => {
 		if (!req.tenant) {

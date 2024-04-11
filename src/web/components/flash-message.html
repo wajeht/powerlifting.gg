@@ -1,5 +1,7 @@
 <% if (Object.keys(flashMessages).length) { %>
   <% for (const message in flashMessages) { %>
-    <p><%= flashMessages[message] %></p>
+    <div role="alert" class="alert <%= flashMessages[message].type === 'error' ? 'alert-error' : flashMessages[message].type === 'info' ? 'alert-info' : 'alert-success' %>">
+        <span><%= flashMessages[message] %></span>
+    </div>
   <% } %>
 <% } %>
