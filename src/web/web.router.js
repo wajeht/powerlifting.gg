@@ -8,6 +8,7 @@ import {
 } from '../app.middlewares.js';
 import { NotFoundError, UnimplementedFunctionError } from '../app.errors.js';
 import bcrypt from 'bcryptjs';
+import { oauth as oauthRouter } from '../oauth/oauth.router.js';
 import { sendWelcomeEmail } from '../emails/email.js';
 import {
 	getContactHandler,
@@ -29,6 +30,8 @@ import { SearchService } from '../api/search/search.service.js';
 // import { body } from 'express-validator';
 
 const web = express.Router();
+
+web.use(oauthRouter);
 
 /**
  * GET /healthz
