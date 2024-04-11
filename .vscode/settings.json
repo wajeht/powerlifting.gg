@@ -5,6 +5,7 @@
 		"dnsmasq",
 		"flushall",
 		"healthz",
+		"importmap",
 		"knexfile",
 		"litestream",
 		"mailhot",
