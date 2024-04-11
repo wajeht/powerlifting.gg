@@ -31,6 +31,8 @@ google.get('/redirect', async (req, res) => {
 
 	const found = await db.select('*').from('users').where({ email: googleUser.email });
 
+	// await sendWelcomeEmail({ email: req.body.email, username: req.body.username });
+
 	if (!found) {
 		// const createdUser = await User.create({
 		//   email: googleUser.email,

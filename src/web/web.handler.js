@@ -98,28 +98,6 @@ export function getAdminHandler() {
 	};
 }
 
-export function getRegisterHandler() {
-	return (req, res) => {
-		return res.status(200).render('register.html', {
-			title: '/register',
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-			flashMessages: req.flash(),
-		});
-	};
-}
-
-export function getLoginHandler() {
-	return (req, res) => {
-		return res.status(200).render('login.html', {
-			title: '/login',
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
-			flashMessages: req.flash(),
-		});
-	};
-}
-
 export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {
