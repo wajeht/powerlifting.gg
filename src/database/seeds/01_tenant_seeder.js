@@ -36,7 +36,7 @@ export async function seed(db) {
 				slug: slug,
 				color: faker.color.rgb(),
 				verified: Math.random() < 0.5,
-				ratings: faker.number.float(),
+				ratings: faker.number.int({ min: 1, max: 5 }),
 			});
 		}
 

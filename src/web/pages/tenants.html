@@ -59,7 +59,7 @@
       <div class="flex gap-3">
         <!-- button -->
         <% if (tenants.data.length){ %>
-          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Add a Tenant</a>
+          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Submit a Tenant</a>
         <% } %>
 
         <!-- pagination -->
@@ -99,48 +99,51 @@
     <% if (tenants.data.length){ %>
       <div class="flex flex-col gap-5 mt-8">
         <% for (const tenant of tenants.data) { %>
-          <div class="flex gap-2 p-5 shadow-sm rounded-md border border-1">
-
-            <!-- left -->
-            <div class="flex-0 min-h-full max-w-40 flex justify-center items-center">
-              <div class="w-32 h-32 rounded-full flex justify-center items-center" style="background-color: <%= tenant.color %>;">
-                <img class="w-32 h-32 rounded-full " src="<%= tenant.logo %>" alt="logo">
+          <div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat"  style="background-image: url(<%= tenant.banner %>);">
+            <!-- blur -->
+            <div class="flex gap-2 p-5 backdrop-blur-sm bg-black/50 rounded-md">
+              <!-- left -->
+              <div class="flex-0 min-h-full max-w-40 flex justify-center items-center">
+                <div class="w-32 h-32 rounded-full flex justify-center items-center ring-white ring-[2px]" style="background-color: <%= tenant.color %>;">
+                  <img class="w-32 h-32 rounded-full " src="<%= tenant.logo %>" alt="logo">
+                </div>
               </div>
-            </div>
 
-            <!-- mid -->
-            <div class="flex-1 p-5 flex flex-col gap-2">
-                <!-- name -->
-                <div class="flex items-center">
-                  <h3 class="p-0 m-0"><%= tenant.name %></h3>
-                  <% if (tenant.verified) { %>
-                    <img class="w-6 h-6 p-0 m-0" src="/img/verified.png" alt="verified" />
-                  <% } %>
-                </div>
+              <!-- mid -->
+              <div class="flex-1 p-5 flex flex-col gap-2">
+                  <!-- name -->
+                  <div class="flex items-center">
+                    <h3 class="p-0 m-0 text-white drop-shadow-sm"><%= tenant.name %></h3>
+                    <% if (tenant.verified) { %>
+                      <img class="w-6 h-6 p-0 m-0" src="/img/verified.png" alt="verified" />
+                    <% } %>
+                  </div>
 
-                <!-- stars -->
-                <div class="rating rating-xs">
-                  <% for (let i = 0; i < 5; i++) { %>
-                    <input
-                      type="radio"
-                      id="<%= tenant.slug %>-star-<%= i + 1 %>"
-                      name="<%= tenant.slug %>-star-<%= i + 1 %>"
-                      class="mask mask-star"
-                    />
-                  <% } %>
-                </div>
+                  <!-- stars -->
+                  <div class="rating rating-xs">
+                    <% for (let i = 0; i < 5; i++) { %>
+                      <input
+                        type="radio"
+                        id="<%= tenant.slug %>-star-<%= i + 1 %>"
+                        name="<%= tenant.slug %>-star-<%= i + 1 %>"
+                        class="mask mask-star <%= i + 1 < Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+                        disabled
+                      />
+                    <% } %>
+                  </div>
 
-                <!-- link -->
-                <a href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %></a>
-            </div>
+                  <!-- link -->
+                  <a class="text-white drop-shadow-sm" href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %></a>
+              </div>
 
-            <!-- right -->
-            <div class="flex-0 p-5"><%= tenant.reviews_count %>
-              <% if (tenant.reviews_count > 0) { %>
-                <span>Reviews</span>
-              <% } else { %>
-                <span>Review</span>
-              <% } %>
+              <!-- right -->
+              <div class="flex-0 p-5 text-white"><%= tenant.reviews_count %>
+                <% if (tenant.reviews_count > 0) { %>
+                  <span>Reviews</span>
+                <% } else { %>
+                  <span>Review</span>
+                <% } %>
+              </div>
             </div>
           </div>
         <% } %>
@@ -154,7 +157,7 @@
 
         <div class="p-16 rounded-md flex flex-col gap-4 justify-center items-center border">
           <span>Don't see the tenant you're looking for?</span>
-          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Add a tenant</a>
+          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Submit a tenant</a>
         </div>
       </div>
     <% } %>

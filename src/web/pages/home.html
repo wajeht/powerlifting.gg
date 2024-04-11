@@ -85,34 +85,39 @@
 			<!-- coaches -->
 			<div class="flex gap-10 justify-between w-full mt-2">
 				<% for(const tenant of tenants) { %>
-					<div class="flex flex-col gap-3 items-center justify-center bg-white p-5 rounded-md w-full border border-1">
-						<!-- img -->
-						<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center" style="background-color: <%= tenant.color %>;">
-							<img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
-						</div>
+					<!-- background -->
+					<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full"  style="background-image: url(<%= tenant.banner %>);">
+						<!-- blur -->
+						<div class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm bg-black/50 rounded-md h-full">
+							<!-- img -->
+							<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center ring-white ring-[2px]" style="background-color: <%= tenant.color %>;">
+								<img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
+							</div>
 
-						<!-- rating -->
-						<div class="rating rating-xs mt-2">
-							<% for (let i = 0; i < 5; i++) { %>
-								<input
-									type="radio"
-									id="<%= tenant.slug %>-star-<%= i + 1 %>"
-									name="<%= tenant.slug %>-star-<%= i + 1 %>"
-									class="mask mask-star"
-								/>
-							<% } %>
-						</div>
+							<!-- rating -->
+							<div class="rating rating-xs mt-2">
+								<% for (let i = 0; i < 5; i++) { %>
+									<input
+										type="radio"
+										id="<%= tenant.slug %>-star-<%= i + 1 %>"
+										name="<%= tenant.slug %>-star-<%= i + 1 %>"
+										class="mask mask-star <%= i + 1 < Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+										disabled
+									/>
+								<% } %>
+							</div>
 
-						<!-- name -->
-						<div class="flex items-center mt-3">
-							<h4 class="m-0 p-0"><%= tenant.name %></h4>
-							<% if (tenant.verified) { %>
-								<img class="w-5 h-5 p-0 m-0" src="/img/verified.png" alt="verified" />
-							<% } %>
-						</div>
+							<!-- name -->
+							<div class="flex items-center mt-3">
+								<h4 class="m-0 p-0 text-white drop-shadow-sm"><%= tenant.name %></h4>
+								<% if (tenant.verified) { %>
+									<img class="w-5 h-5 p-0 m-0" src="/img/verified.png" alt="verified" />
+								<% } %>
+							</div>
 
-						<!-- button -->
-						<a class="btn btn-sm btn-neutral no-underline text-white w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>
+							<!-- button -->
+							<a class="btn btn-sm btn-outline no-underline text-white drop-shadow-sm w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>
+						</div>
 					</div>
 				<% } %>
 			</div>
