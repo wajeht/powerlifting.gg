@@ -1,3 +1,5 @@
-<% if (Object.keys(flashMessages).length) { %> <% for (const m in flashMessages) { %>
-<p><%= flashMessages[m] %></p>
-<% } %> <% } %>
+<% if (Object.keys(flashMessages).length) { %>
+  <% for (const message in flashMessages) { %>
+    <p><%= flashMessages[message] %></p>
+  <% } %>
+<% } %>
