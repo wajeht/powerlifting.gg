@@ -29,15 +29,15 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [x] tailwind
 - [x] vue
 - [x] hot reload for vue/tailwind/express
-- [x] dockernize
+- [x] dockerize
 - [ ] eslint
-- [ ] auth
+- [x] oauth
 - [x] email
 - [ ] swagger
 - [ ] job/queue
 - [ ] web socket
 - [ ] rbac
-- [ ] playright
+- [ ] playwright
 - [ ] test setup for ci
 - [ ] litestream to auto backup sqlite to s3
 - [ ] zero downtime
