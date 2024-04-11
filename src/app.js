@@ -102,8 +102,8 @@ expressJSDocSwagger(app)(swaggerConfig);
 app.use(localVariables);
 app.use(expressLayouts);
 
-app.use(webRoutes);
 app.use(apiRoutes);
+app.use(webRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
