@@ -26,9 +26,15 @@
 				</li>
 
 				<!-- login -->
-				<li>
-					<a href="http://localhost:80/oauth/google" title="login">Login</a>
-				</li>
+				<% if (app.env === 'development') { %>
+					<li>
+						<a href="http://localhost:80/oauth/google" title="login with google">Login</a>
+					</li>
+				<% } else { %>
+					<li>
+						<a href="/oauth/google" title="login with google">Login</a>
+					</li>
+				<% } %>
 			</ul>
 		</div>
 	</div>
