@@ -3,7 +3,7 @@
 	<div class="mx-auto max-w-7xl flex justify-between w-full">
 		<!-- left -->
 		<div class="flex-1">
-			<a href="/" title="powerlifting.gg" class="text-2xl font-extrabold">Powerlifting.gg</a>
+			<a href="<%= app.mainDomain %>" title="powerlifting.gg" class="text-2xl font-extrabold">Powerlifting.gg</a>
 		</div>
 
 		<!-- right -->
@@ -11,12 +11,12 @@
 			<ul class="menu menu-horizontal px-1">
 				<!-- tenants -->
 				<li>
-					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="/tenants" title="tenants">Tenants</a>
+					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="<%= app.mainDomain %>/tenants" title="tenants">Tenants</a>
 				</li>
 
 				<!-- contact -->
 				<li>
-					<a class="<%= title === '/contact' ? 'active' : '' %>" href="/contact" title="contact">Contact</a>
+					<a class="<%= title === '/contact' ? 'active' : '' %>" href="<%= app.mainDomain %>/contact" title="contact">Contact</a>
 				</li>
 
 
