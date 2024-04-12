@@ -47,10 +47,34 @@
 
 		<div class="flex flex-col gap-5 rounded-md">
 			<% for(const review of reviews ) { %>
-				<div class="border boreder-2 p-5 rounded-md bg-white">
-					<p>
-						<%= review.comment %>
-					</p>
+				<div class="border boreder-2 p-3 rounded-md bg-white flex gap-1">
+					<!-- image -->
+					<div class="p-2 flex-0 justify-center">
+						<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= review.profile_picture %>" alt="logo">
+					</div>
+
+					<!-- comment -->
+					<div class="flex flex-col p-2 flex-1 justify-center">
+						<!-- name -->
+						<div class="flex justify-between items-center">
+							<h4 class="mt-3"><%= review.username %></h4>
+							<small class="text-[#4A5569] opacity-70"><%= review.created_at %></small>
+						</div>
+						<!-- ratings -->
+						<div class="rating rating-xs">
+							<% for (let i = 0; i < 5; i++) { %>
+								<input
+									type="radio"
+									id="<%= review.username %>-star-<%= i + 1 %>"
+									name="<%= review.username %>-star-<%= i + 1 %>"
+									class="mask mask-star <%= i + 1 < Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+									disabled
+								/>
+							<% } %>
+						</div>
+						<!-- comment -->
+						<p class="my-2"><%= review.comment %></p>
+					</div>
 				</div>
 				<% } %>
 		</div>

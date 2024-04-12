@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
 import {
@@ -20,6 +22,8 @@ import { WebRepository } from './web.repository.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
 import { SearchService } from '../api/search/search.service.js';
 // import { body } from 'express-validator';
+
+dayjs.extend(relativeTime);
 
 const web = express.Router();
 
@@ -93,7 +97,7 @@ web.get('/tenants/create', catchAsyncErrorHandler(getTenantsNewHandler()));
 web.get(
 	'/',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis))),
+	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs))),
 );
 
 export { web };

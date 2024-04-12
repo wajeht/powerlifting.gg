@@ -1,4 +1,4 @@
-export function TenantService(db, redis) {
+export function TenantService(db, redis, dayjs) {
 	return {
 		getTenant: async ({ tenantId, cache = true }) => {
 			if (!cache) {
@@ -64,11 +64,14 @@ export function TenantService(db, redis) {
 		},
 		getTenantReviews: async ({ tenantId, cache = true }) => {
 			if (!cache) {
-				return await db
+				let reviews = await db
 					.select('*')
 					.from('reviews')
 					.leftJoin('users', 'reviews.user_id', 'users.id')
+					.orderBy('reviews.created_at', 'desc')
 					.where('reviews.tenant_id', tenantId);
+				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).fromNow() }));
+				return reviews;
 			}
 
 			let reviews = await redis.get(`tenants-${tenantId}-reviews`);
@@ -78,7 +81,9 @@ export function TenantService(db, redis) {
 					.select('*')
 					.from('reviews')
 					.leftJoin('users', 'reviews.user_id', 'users.id')
+					.orderBy('reviews.created_at', 'desc')
 					.where('reviews.tenant_id', tenantId);
+				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).fromNow() }));
 
 				await redis.set(`tenants-${tenantId}-reviews`, JSON.stringify(reviews));
 			} else {
