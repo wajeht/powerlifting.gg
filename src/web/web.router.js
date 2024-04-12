@@ -5,6 +5,7 @@ import { db, redis } from '../database/db.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
+	authenticationHandler,
 	// validateRequestHandler,
 } from '../app.middlewares.js';
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
@@ -17,6 +18,8 @@ import {
 	getPrivacyPolicyHandler,
 	getTenantsNewHandler,
 	getTermsOfServiceHandler,
+	getLoginHandler,
+	getLogoutHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
@@ -62,6 +65,20 @@ web.get(
 );
 
 /**
+ * GET /login
+ * @tags web
+ * @summary get login url
+ */
+web.get('/login', tenantIdentityHandler, catchAsyncErrorHandler(getLoginHandler()));
+
+/**
+ * GET /logout
+ * @tags web
+ * @summary get logout url
+ */
+web.get('/logout', tenantIdentityHandler, catchAsyncErrorHandler(getLogoutHandler()));
+
+/**
  * GET /contact
  * @tags web
  * @summary get contact page
@@ -87,7 +104,7 @@ web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db, r
  * @tags web
  * @summary get tenants new page
  */
-web.get('/tenants/create', catchAsyncErrorHandler(getTenantsNewHandler()));
+web.get('/tenants/create', authenticationHandler, catchAsyncErrorHandler(getTenantsNewHandler()));
 
 /**
  * GET /

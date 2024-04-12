@@ -57,6 +57,17 @@ export const catchAsyncErrorHandler = (fn) => {
 	};
 };
 
+export function authenticationHandler(req, res, next) {
+	try {
+		if (!req.session.user) {
+			return res.redirect('/login');
+		}
+		next();
+	} catch (error) {
+		next(error);
+	}
+}
+
 export function tenancyHandler(req, res, next) {
 	try {
 		if (!req.tenant) {
@@ -105,10 +116,8 @@ export function localVariables(req, res, next) {
 	res.locals.app = {
 		env: appConfig.env,
 		copyRightYear: new Date().getFullYear(),
-		mainDomain:
-			appConfig.env === 'production'
-				? `https://${appConfig.production_app_url}`
-				: `http://${appConfig.development_app_url}`,
+		// prettier-ignore
+		mainDomain: appConfig.env === 'production' ? `https://${appConfig.production_app_url}` : `http://${appConfig.development_app_url}`,
 		configureDomain: (subdomain) => {
 			if (appConfig.env === 'production') {
 				return `https://${subdomain}.${appConfig.production_app_url}`;
@@ -116,6 +125,10 @@ export function localVariables(req, res, next) {
 			return `http://${subdomain}.${appConfig.development_app_url}`;
 		},
 	};
+
+	if (req.session.user) {
+		res.locals.app['user'] = req.session.user;
+	}
 
 	return next();
 }

@@ -39,20 +39,23 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 		throw new UnauthorizedError('Something went wrong while authenticating with Google');
 	}
 
-	const found = await db.select('*').from('users').where({ email: googleUser.email }).first();
+	let foundUser = await db.select('*').from('users').where({ email: googleUser.email }).first();
 
-	if (!found) {
+	if (!foundUser) {
 		const username = googleUser.email.split('@')[0];
-		await db('users').insert({
-			username: googleUser.email.split('@')[0],
-			email: googleUser.email,
-			profile_picture: googleUser.picture,
-		});
-
-		await sendWelcomeEmail({ email: googleUser.verified_email, username });
+		foundUser = await db('users')
+			.insert({
+				username: googleUser.email.split('@')[0],
+				email: googleUser.email,
+				profile_picture: googleUser.picture,
+			})
+			.returning('*');
+		foundUser = foundUser[0];
+		await sendWelcomeEmail({ email: googleUser.email, username });
 	}
 
-	// Todo: redirect back to where they came from
+	req.session.user = foundUser;
+	req.session.save();
 
 	return res.redirect('/register');
 });

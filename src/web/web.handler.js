@@ -38,6 +38,27 @@ export function getTenantsNewHandler() {
 	};
 }
 
+export function getLoginHandler() {
+	return async (req, res) => {
+		return res.redirect('/oauth/google');
+	};
+}
+
+export function getLogoutHandler() {
+	return async (req, res) => {
+		if (req.session && req.session.user) {
+			req.session.user = undefined;
+			req.session.destroy((error) => {
+				if (error) {
+					throw new Error(error);
+				}
+			});
+		}
+
+		return res.redirect('/');
+	};
+}
+
 export function postContactHandler() {
 	return (req, res) => {
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");

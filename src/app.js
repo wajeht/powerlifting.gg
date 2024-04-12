@@ -34,13 +34,12 @@ const redisStore = new RedisStore({
 const app = express();
 app.set('trust proxy', true);
 app.disable('x-powered-by');
-app.use(flash());
 app.use(
 	session({
 		secret: appConfig.session.secret,
 		resave: false,
-		store: redisStore,
 		saveUninitialized: false,
+		store: redisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
 			httpOnly: appConfig.env === 'production',
@@ -49,6 +48,7 @@ app.use(
 		},
 	}),
 );
+app.use(flash());
 
 app.use(compression());
 
