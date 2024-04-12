@@ -196,5 +196,5 @@ export function errorHandler(err, req, res, _next) {
 
 export async function skipOnMyIp(req, _res) {
 	const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
-	return myIp == appConfig.myIp;
+	return myIp == appConfig.myIp || process.env.NODE_ENV === 'development';
 }
