@@ -20,16 +20,9 @@
 						<a href="/logout" title="logout">Logout</a>
 					</li>
 				<% } else { %>
-					<!-- login -->
-					<% if (app.env === 'development') { %>
-						<li>
-							<a href="http://localhost:80/oauth/google" title="login with google">Login</a>
-						</li>
-					<% } else { %>
-						<li>
-							<a href="/oauth/google" title="login with google">Login</a>
-						</li>
-					<% } %>
+					<li>
+						<a href="/login" title="login with google">Login</a>
+					</li>
 				<% } %>
 			</ul>
 		</div>
