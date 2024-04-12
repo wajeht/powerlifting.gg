@@ -7,19 +7,16 @@ export async function seed(db) {
 		{
 			username: 'super-admin',
 			email: 'super-admin@test.com',
-			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 			role: 'SUPER_ADMIN',
 		},
 		{
 			username: 'admin',
 			email: 'admin@test.com',
-			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 			role: 'ADMIN',
 		},
 		{
 			username: 'user',
 			email: 'user@test.com',
-			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 			role: 'USER',
 		},
 	];
@@ -43,7 +40,6 @@ export async function seed(db) {
 			users.push({
 				username: username,
 				email: email,
-				password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 				role: 'USER',
 				tenant_id: tenantId,
 			});

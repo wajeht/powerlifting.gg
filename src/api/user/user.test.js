@@ -22,7 +22,6 @@ it('should be able to get subdomain /api/users end point', async () => {
 	let user = {
 		username: faker.internet.userName(),
 		email: faker.internet.email(),
-		password: faker.internet.password(),
 		role: 'USER',
 		tenant_id: tenant[0].id,
 	};

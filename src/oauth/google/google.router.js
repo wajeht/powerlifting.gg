@@ -23,7 +23,6 @@ google.get('/redirect', async (req, res) => {
 	const code = req.query.code;
 
 	if (!code) {
-		// if no code is provided
 		throw new UnauthorizedError('Something went wrong while authenticating with Google');
 	}
 
@@ -34,10 +33,7 @@ google.get('/redirect', async (req, res) => {
 		access_token,
 	});
 
-	console.log(googleUser);
-
 	if (!googleUser.verified_email) {
-		// if email is not verified
 		throw new UnauthorizedError('Something went wrong while authenticating with Google');
 	}
 
