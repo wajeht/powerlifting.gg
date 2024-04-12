@@ -18,6 +18,10 @@ export async function seed(db) {
 				tenant_id: tenantId,
 				comment: faker.lorem.sentence(),
 				ratings: faker.number.int({ min: 1, max: 5 }),
+				created_at: faker.date.between({
+					from: '2020-01-01T00:00:00.000Z',
+					to: '2030-01-01T00:00:00.000Z',
+				}),
 			});
 		}
 	}
