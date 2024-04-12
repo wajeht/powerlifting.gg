@@ -32,7 +32,7 @@ const redisStore = new RedisStore({
 });
 
 const app = express();
-app.set('trust proxy', 1);
+app.enable('trust proxy');
 app.use(
 	session({
 		secret: appConfig.session.secret,
@@ -41,7 +41,7 @@ app.use(
 		store: redisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
-			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
+			sameSite: 'none',
 			httpOnly: appConfig.env === 'production',
 			secure: appConfig.env === 'production',
 		},
