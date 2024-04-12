@@ -12,7 +12,12 @@
 
 						<div class="flex flex-col gap-3 justify-center">
 							<!-- title -->
-							<h2 class="text-white shadow-sm"><%= tenant.name %></h2>
+							<div class="flex gap-1 items-center">
+								<h1 class="p-0 m-0 text-white drop-shadow-sm text-2xl font-semibold"><%= tenant.name %></h1>
+								<% if (tenant.verified) { %>
+									<img class="w-7 h-7 p-0 m-0" src="/img/verified.png" alt="verified" />
+								<% } %>
+							</div>
 
 							<!-- ratings -->
 							<div class="rating rating-xs mt-2">
