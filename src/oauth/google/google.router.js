@@ -34,6 +34,8 @@ google.get('/redirect', async (req, res) => {
 		access_token,
 	});
 
+	console.log(googleUser);
+
 	if (!googleUser.verified_email) {
 		// if email is not verified
 		throw new UnauthorizedError('Something went wrong while authenticating with Google');

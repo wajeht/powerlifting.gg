@@ -7,6 +7,7 @@ export function up(knex) {
 		table.increments('id').primary();
 		table.string('username').notNullable().unique().index();
 		table.string('email').notNullable().unique().index();
+		table.string('profile_picture').notNullable().defaultTo('/img/profile.png');
 		table.string('password').notNullable();
 		table.enu('role', ['USER', 'ADMIN', 'SUPER_ADMIN']).notNullable().defaultTo('USER');
 		table.integer('tenant_id').unsigned().notNullable();
