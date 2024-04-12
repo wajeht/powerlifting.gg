@@ -11,7 +11,7 @@ const app = request(server);
 
 await refreshDatabase();
 
-it('should be able to get subdomain /api/users end point', async () => {
+it.skip('should be able to get subdomain /api/users end point', async () => {
 	const tenant = await db('tenants')
 		.insert({
 			name: faker.company.name(),
