@@ -53,8 +53,8 @@ app.disable('x-powered-by');
 
 app.use(
 	cors({
+		origin: ['http://app.test', 'https://powerlifting.gg'],
 		credentials: true,
-		origin: true,
 	}),
 );
 app.use(
