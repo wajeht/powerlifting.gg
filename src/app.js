@@ -44,7 +44,6 @@ app.use(
 		cookie: {
 			httpOnly: appConfig.env === 'production',
 			secure: appConfig.env === 'production',
-			sameSite: 'lax',
 		},
 	}),
 );
