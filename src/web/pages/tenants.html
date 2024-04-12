@@ -90,7 +90,10 @@
     <% if (tenants.data.length){ %>
       <div class="flex flex-col gap-5 mt-8">
         <% for (const tenant of tenants.data) { %>
-          <div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat"  style="background-image: url(<%= tenant.banner %>);">
+          <div
+            id="<%= tenant.slug %>-tenant-card"
+            class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat"
+            style="background-image: url(<%= tenant.banner %>);">
             <!-- blur -->
             <div class="flex gap-2 p-5 backdrop-blur-sm bg-black/70 rounded-md">
               <!-- left -->
