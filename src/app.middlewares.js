@@ -132,8 +132,8 @@ export async function notFoundHandler(req, res, _next) {
 	const tenant = await db.select('*').from('tenants').where({ slug: subdomain }).first();
 
 	return res.status(404).render('./not-found.html', {
+		tenant,
 		title: `/${req.originalUrl}`,
-		tenant: JSON.stringify(tenant),
 		layout: '../layouts/tenant.html',
 	});
 }
