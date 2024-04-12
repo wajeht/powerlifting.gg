@@ -1,6 +1,8 @@
 import express from 'express';
+import { sendWelcomeEmail } from '../../emails/email.js';
 import { getGoogleOAuthURL, getGoogleOauthToken, getGoogleUser } from './google.util.js';
 import { UnauthorizedError } from '../../app.errors.js';
+import { tenantIdentityHandler } from '../../app.middlewares.js';
 import { db } from '../../database/db.js';
 
 const google = express.Router();
@@ -19,7 +21,7 @@ google.get('/', (req, res) => {
  * @tags oauth/google
  * @summary get healthz page
  */
-google.get('/redirect', async (req, res) => {
+google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 	const code = req.query.code;
 
 	if (!code) {
@@ -37,34 +39,20 @@ google.get('/redirect', async (req, res) => {
 		throw new UnauthorizedError('Something went wrong while authenticating with Google');
 	}
 
-	const found = await db.select('*').from('users').where({ email: googleUser.email });
-
-	// await sendWelcomeEmail({ email: req.body.email, username: req.body.username });
+	const found = await db.select('*').from('users').where({ email: googleUser.email }).first();
 
 	if (!found) {
-		// const createdUser = await User.create({
-		//   email: googleUser.email,
-		//   name: googleUser.name,
-		//   verification_token: access_token,
-		//   verified: true,
-		//   verified_at: new Date(),
-		// });
+		const username = googleUser.email.split('@')[0];
+		await db('users').insert({
+			username: googleUser.email.split('@')[0],
+			email: googleUser.email,
+			profile_picture: googleUser.picture,
+		});
 
-		// sendWelcomeEmail({
-		//   name: createdUser.name,
-		//   email: createdUser.email,
-		//   userId: createdUser.id,
-		// });
-
-		req.flash('success', 'We will send you an API key to your email very shortly!');
-
-		return res.redirect('/register');
+		await sendWelcomeEmail({ email: googleUser.verified_email, username });
 	}
 
-	req.flash(
-		'error',
-		"Email already exist, please click on 'Forgot api key?' to request a new one!",
-	);
+	// Todo: redirect back to where they came from
 
 	return res.redirect('/register');
 });
