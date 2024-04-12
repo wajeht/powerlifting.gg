@@ -32,7 +32,7 @@ const redisStore = new RedisStore({
 });
 
 const app = express();
-app.enable('trust proxy');
+app.set('trust proxy', 1);
 app.use(
 	session({
 		secret: appConfig.session.secret,
@@ -41,7 +41,7 @@ app.use(
 		store: redisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
-			sameSite: 'none',
+			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			httpOnly: appConfig.env === 'production',
 			secure: appConfig.env === 'production',
 		},
@@ -53,8 +53,8 @@ app.disable('x-powered-by');
 
 app.use(
 	cors({
-		origin: ['http://app.test', 'https://powerlifting.gg'],
 		credentials: true,
+		origin: true,
 	}),
 );
 app.use(
