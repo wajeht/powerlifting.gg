@@ -2,19 +2,45 @@
   <div class="mx-auto max-w-7xl w-full prose">
     <h1>Contact</h1>
 
-    <!-- form -->
-    <form action="/contact" method="post" class="flex flex-col gap-3 max-w-xl">
+    <div class="mb-5 max-w-sm">
       <!-- flash-messages -->
       <%- include('../components/flash-message.html') %>
+    </div>
 
-      <!-- email -->
-      <input type="email" name="email" id="email" placeholder="Email" class="input input-bordered" required />
+    <div class="grid grid-cols-3 gap-10">
+      <!-- contact form -->
+      <form action="/contact" method="post" class="flex flex-col gap-3 col-span-2">
 
-      <!-- message -->
-      <textarea id="message" name="message" class="textarea textarea-bordered h-[200px]" placeholder="Message" required></textarea>
+        <!-- email -->
+        <label class="form-control w-full" for="email">
+          <div class="label"><span class="label-text">Email</span></div>
+          <input type="email" name="email" id="email" placeholder="Email" class="input input-bordered max-w-sm" required />
+        </label>
 
-      <!-- submit -->
-      <div><input type="submit" value="Submit" class="btn btn-neutral" /></div>
-    </form>
+        <!-- message -->
+        <label class="form-control w-full" for="message">
+          <div class="label"><span class="label-text">Message</span></div>
+          <textarea id="message" name="message" class="textarea textarea-bordered min-h-[400px]" placeholder="Message"
+            required></textarea>
+        </label>
+
+        <!-- submit -->
+        <div><input type="submit" value="Submit" class="btn btn-neutral text-white" /></div>
+      </form>
+
+      <!-- help -->
+      <div>
+        <p class="mt-0 pt-0">
+          Use the contact form to get in touch or email us at
+          <a href="mailto:mail@powerlifting.gg">mail@powerlifting.gg</a>
+           We'll get back to you asap.
+          Want to know more about our platform?
+        </p>
+
+        <div class="flex justify-center items-center">
+        <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Submit a Tenant</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
