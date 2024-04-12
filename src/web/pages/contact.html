@@ -9,7 +9,7 @@
 
     <div class="grid grid-cols-3 gap-10">
       <!-- contact form -->
-      <form action="/contact" method="post" class="flex flex-col gap-3 col-span-2">
+      <form action="<%= app.mainDomain %>/contact" method="post" class="flex flex-col gap-3 col-span-2">
 
         <!-- email -->
         <label class="form-control w-full" for="email">
@@ -31,9 +31,8 @@
       <!-- help -->
       <div>
         <p class="mt-0 pt-0">Use the contact form to get in touch or email us at <a href="mailto:mail@powerlifting.gg">mail@powerlifting.gg</a> We'll get back to you asap. Want to help us out?</p>
-
         <div class="flex justify-center items-center">
-        <a class="btn btn-neutral text-white no-underline" href="/tenants/create">Submit a Tenant</a>
+        <a class="btn btn-neutral text-white no-underline" href="<%= app.mainDomain %>/tenants/create">Submit a Tenant</a>
         </div>
       </div>
     </div>
