@@ -29,6 +29,13 @@
 			<div class="flex gap-3">
 				<button class="btn btn-neutral">Submit A Review</button>
 
+				<!-- login -->
+				<% if (app.env === 'development') { %>
+					<a class="btn btn-neutral no-underline text-white" href="http://localhost:80/oauth/google" title="login with google">Login</a>
+				<% } else { %>
+					<a class="btn btn-neutral no-underline text-white" href="https://powerlifting.gg/oauth/google" title="login with google">Login</a>
+				<% } %>
+
 				<div class="join">
 					<button class="join-item btn">«</button>
 					<button class="join-item btn">Page 1</button>

@@ -79,11 +79,11 @@ web.post('/contact', tenantIdentityHandler, catchAsyncErrorHandler(postContactHa
 web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db, redis))));
 
 /**
- * GET /tenants/new
+ * GET /tenants/create
  * @tags web
  * @summary get tenants new page
  */
-web.get('/tenants/new', catchAsyncErrorHandler(getTenantsNewHandler()));
+web.get('/tenants/create', catchAsyncErrorHandler(getTenantsNewHandler()));
 
 /**
  * GET /

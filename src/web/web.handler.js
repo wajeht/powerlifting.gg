@@ -32,8 +32,8 @@ export function getTenantsHandler(SearchService) {
 
 export function getTenantsNewHandler() {
 	return async (req, res) => {
-		return res.status(200).render('tenants-new.html', {
-			title: '/tenants/new',
+		return res.status(200).render('tenants-create.html', {
+			title: '/tenants/create',
 		});
 	};
 }
