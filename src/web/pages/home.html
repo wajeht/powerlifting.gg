@@ -88,9 +88,9 @@
 					<!-- background -->
 					<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full"  style="background-image: url(<%= tenant.banner %>);">
 						<!-- blur -->
-						<div class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm bg-black/50 rounded-md h-full">
+						<div class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm bg-black/70 rounded-md h-full">
 							<!-- img -->
-							<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center ring-white ring-[2px]" style="background-color: <%= tenant.color %>;">
+							<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm" style="background-color: <%= tenant.color %>;">
 								<img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
 							</div>
 
@@ -116,7 +116,7 @@
 							</div>
 
 							<!-- button -->
-							<a class="btn btn-sm btn-outline no-underline text-white drop-shadow-sm w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>
+							<a class="btn btn-sm btn-outline hover:bg-white hover:text-neutral no-underline text-white drop-shadow-sm w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>
 						</div>
 					</div>
 				<% } %>
