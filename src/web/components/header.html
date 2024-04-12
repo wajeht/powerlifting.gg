@@ -3,7 +3,7 @@
 	<div class="mx-auto max-w-7xl flex justify-between w-full">
 		<!-- left -->
 		<div class="flex-1">
-			<a href="<%= app.mainDomain %>" title="powerlifting.gg" class="text-2xl font-extrabold">Powerlifting.gg</a>
+			<a href="/" title="powerlifting.gg" class="text-2xl font-extrabold">Powerlifting.gg</a>
 		</div>
 
 		<!-- right -->
@@ -11,13 +11,13 @@
 			<ul class="menu menu-horizontal px-1">
 				<!-- tenants -->
 				<li>
-					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="<%= app.mainDomain %>/tenants" title="tenants">Tenants</a>
+					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="/tenants" title="tenants">Tenants</a>
 				</li>
 
 				<!-- logout -->
 				<% if (app.user) { %>
 					<li>
-						<a href="<%= app.mainDomain %>/logout" title="logout">Logout</a>
+						<a href="/logout" title="logout">Logout</a>
 					</li>
 				<% } else { %>
 					<!-- login -->
@@ -27,7 +27,7 @@
 						</li>
 					<% } else { %>
 						<li>
-							<a href="https://powerlifting.gg/oauth/google" title="login with google">Login</a>
+							<a href="/oauth/google" title="login with google">Login</a>
 						</li>
 					<% } %>
 				<% } %>
