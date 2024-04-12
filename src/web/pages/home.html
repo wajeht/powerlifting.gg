@@ -1,12 +1,15 @@
 <div class="flex flex-col">
+	<!-- search -->
 	<div class="p-10 py-16">
 		<div class="mx-auto max-w-7xl w-full text-center prose flex flex-col justify-center items-center py-20">
 			<!-- title -->
-			<h2 class="text-5xl font-extrabold">Find Your Perfect Coach</h2>
+			<h2 class="text-5xl font-extrabold mt-0">Let's Find Your Perfect Coach</h2>
 
 			<!-- desc -->
-			<p class="text-xl text-[#6B7280] max-w-2xl ">Search for the best strength coaches in your area. Read
-				reviews from other clients. Make an informed decision.</p>
+			<div>
+				<p class="text-xl text-[#6B7280] my-0 py-0">Search for the best strength coaches in your area. Read reviews from other clients.</p>
+				<p class="text-xl text-[#6B7280] mt-0 py-0">Make an informed decision.</p>
+			</div>
 
 			<!-- search -->
 			<form action="/tenants" method="get" class="flex gap-1 items-center justify-center w-[374px]">
@@ -15,24 +18,56 @@
 					<input type="hidden" name="current_page" id="current_page" value="1">
 					<input type="hidden" name="per_page" id="per_page" value="25">
 					<input type="hidden" name="sort" id="sort" value="asc">
-					<button type="submit" id="search" class="hover:bg-neutral hover:text-white h-8 w-8 flex justify-center items-center rounded-md">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
-							<path fill-rule="evenodd"
-								d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-								clip-rule="evenodd" />
-						</svg>
-					</button>
 				</label>
+				<input id="home-search" type="submit" value="Search" class="btn btn-neutral" />
 			</form>
 
 			<!-- global search -->
-			<span class="text-xs text-neutral-600 mt-5">
+			<span class="text-xs text-[#6B7280] mt-5">
 				<span>press <kbd class="kbd kbd-xs">cmd/ctrl</kbd> <kbd class="kbd kbd-xs">k</kbd> for global search</span>
 			</span>
 
 		</div>
 	</div>
 
+	<!-- why -->
+	<div class="p-10 py-16 border-y">
+		<div class="mx-auto max-w-7xl w-full flex gap-5 justify-evenly py-20">
+			<!-- title -->
+			<div>
+				<h2 class="text-5xl font-extrabold">Why Choose Us?</h2>
+			</div>
+
+			<div class="prose">
+				<div>
+					<h4 class="mt-0 pt-0">Real Talk Reviews</h4>
+					<p>Get the lowdown from folks who've actually sweated it out with our coaches – no filter, just straight-up truth.</p>
+				</div>
+
+				<div>
+						<h4>Honest AF Feedback</h4>
+						<p>We're all about keeping it real – our reviews dish out the good, the bad, and the gains, so you know exactly what you're getting into.</p>
+				</div>
+
+				<div>
+						<h4>Diverse Vibes</h4>
+						<p>Whether you're into powerlifting, CrossFit, or just want to get ripped, our reviews cover all bases, representing every kind of gym junkie out there.</p>
+				</div>
+
+				<div>
+						<h4>Legit Ratings</h4>
+						<p>We don't mess around with fake reviews – every rating is legit, so you can trust what you're seeing.</p>
+				</div>
+
+				<div>
+						<h4>Help Us Level Up</h4>
+						<p>Share your own experience and help us keep raising the bar – your feedback is what keeps us on our toes.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- feature -->
 	<div class="p-10 py-16 border-y">
 		<div class="mx-auto max-w-7xl w-full text-center prose flex flex-col justify-center items-center py-20">
 			<!-- title -->
@@ -44,35 +79,53 @@
 			<!-- coaches -->
 			<div class="flex gap-10 justify-between w-full mt-2">
 				<% for(const tenant of tenants) { %>
-					<div class="flex flex-col gap-3 items-center justify-center bg-white p-5 rounded-md w-full border border-1">
-						<!-- img -->
-						<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center" style="background-color: <%= tenant.color %>;"><%= tenant.emoji %></div>
+					<!-- background -->
+					<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full"  style="background-image: url(<%= tenant.banner %>);">
+						<!-- blur -->
+						<div class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm bg-black/70 rounded-md h-full">
+							<!-- img -->
+							<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm" style="background-color: <%= tenant.color %>;">
+								<img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
+							</div>
 
-						<!-- rating -->
-						<div class="rating rating-xs mt-2">
-							<% for (let i = 0; i < 5; i++) { %>
-								<input
-									type="radio"
-									id="<%= tenant.slug %>-star-<%= i + 1 %>"
-									name="<%= tenant.slug %>-star-<%= i + 1 %>"
-									class="mask mask-star"
-								/>
-							<% } %>
+							<!-- rating -->
+							<div class="rating rating-xs mt-2">
+								<% for (let i = 0; i < 5; i++) { %>
+									<input
+										type="radio"
+										id="<%= tenant.slug %>-star-<%= i + 1 %>"
+										name="<%= tenant.slug %>-star-<%= i + 1 %>"
+										class="mask mask-star <%= i + 1 < Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+										disabled
+									/>
+								<% } %>
+							</div>
+
+							<!-- name -->
+							<div class="flex items-center mt-3">
+								<h4 class="m-0 p-0 text-white drop-shadow-sm"><%= tenant.name %></h4>
+								<% if (tenant.verified) { %>
+									<img class="w-5 h-5 p-0 m-0" src="/img/verified.png" alt="verified" />
+								<% } %>
+							</div>
+
+							<!-- button -->
+							<a class="btn btn-sm btn-outline hover:bg-white hover:text-neutral no-underline text-white drop-shadow-sm w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>
 						</div>
-
-						<!-- name -->
-						<div class="flex items-center mt-3">
-							<h4 class="m-0 p-0"><%= tenant.name %></h4>
-							<% if (tenant.verified) { %>
-								<img class="w-5 h-5 p-0 m-0" src="/img/verified.png" alt="verified" />
-							<% } %>
-						</div>
-
-						<!-- button -->
-						<a class="btn btn-sm btn-neutral no-underline text-white w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>
 					</div>
 				<% } %>
 			</div>
 		</div>
 	</div>
+
+	<!-- cta -->
+	<div class="p-10 py-16 border-y">
+		<div class="mx-auto max-w-7xl w-full flex gap-5 justify-evenly py-20">
+			<div>
+				<h2 class="text-5xl font-extrabold">Let's get started</h2>
+			</div>
+			<a class="btn btn-neutral" href="/tenants" title="tenants">Review Now</a>
+		</div>
+	</div>
+
 </div>

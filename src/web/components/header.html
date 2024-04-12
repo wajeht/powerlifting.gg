@@ -1,4 +1,4 @@
-<header class="navbar p-10">
+<header id="header" class="navbar p-10 sticky top-0 z-10 backdrop-blur-sm bg-white/70 border border-b">
 	<!-- wrapper -->
 	<div class="mx-auto max-w-7xl flex justify-between w-full">
 		<!-- left -->
@@ -9,26 +9,26 @@
 		<!-- right -->
 		<div class="flex-none">
 			<ul class="menu menu-horizontal px-1">
-				<!-- resources -->
-				<!-- <li>
-					<details>
-						<summary>Resource</summary>
-						<ul class="p-2 bg-base-100 rounded-t-none">
-							<li><a href="/privacy-policy" title="privacy policy">Privacy</a></li>
-							<li><a href="/terms-of-services" title="terms of services">Terms</a></li>
-						</ul>
-					</details>
-				</li> -->
+				<!-- tenants -->
+				<li>
+					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="/tenants" title="tenants">Tenants</a>
+				</li>
 
 				<!-- contact -->
 				<li>
 					<a class="<%= title === '/contact' ? 'active' : '' %>" href="/contact" title="contact">Contact</a>
 				</li>
 
-				<!-- tenants -->
-				<li>
-					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="/tenants" title="tenants">Tenants</a>
-				</li>
+				<!-- login -->
+				<% if (app.env === 'development') { %>
+					<li>
+						<a href="http://localhost:80/oauth/google" title="login with google">Login</a>
+					</li>
+				<% } else { %>
+					<li>
+						<a href="https://powerlifting.gg/oauth/google" title="login with google">Login</a>
+					</li>
+				<% } %>
 			</ul>
 		</div>
 	</div>

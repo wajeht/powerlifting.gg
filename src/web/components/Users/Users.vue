@@ -24,7 +24,6 @@ onMounted(async () => {
 			:key="`user-key-${user.id}`"
 			class="bg-neutral-200 hover:bg-neutral-300 p-5 rounded-md"
 		>
-			<h4 class="font-bold">{{ user.emoji }}</h4>
 			<h4 class="font-bold">{{ user.username }}</h4>
 			<p>{{ user.email }}</p>
 			<p>{{ user.role }}</p>

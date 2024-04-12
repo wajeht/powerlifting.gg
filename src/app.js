@@ -28,12 +28,28 @@ import {
 const redisStore = new RedisStore({
 	client: redis,
 	prefix: appConfig.session.store_prefix,
+	disableTouch: true,
 });
 
 const app = express();
+app.set('trust proxy', true);
+app.disable('x-powered-by');
+app.use(flash());
+app.use(
+	session({
+		secret: appConfig.session.secret,
+		resave: false,
+		store: redisStore,
+		saveUninitialized: false,
+		proxy: appConfig.env === 'production',
+		cookie: {
+			httpOnly: appConfig.env === 'production',
+			secure: appConfig.env === 'production',
+			sameSite: 'lax',
+		},
+	}),
+);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(compression());
 
 if (appConfig.env === 'production') {
@@ -70,20 +86,8 @@ if (appConfig.env === 'production') {
 	);
 }
 
-app.use(flash());
-app.use(
-	session({
-		secret: appConfig.session.secret,
-		resave: true,
-		store: redisStore,
-		saveUninitialized: false,
-		proxy: appConfig.env === 'production',
-		cookie: {
-			httpOnly: appConfig.env === 'production',
-			secure: appConfig.env === 'production',
-		},
-	}),
-);
+app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ extended: true }));
 
 if (appConfig.env === 'production') {
 	app.use(express.static(path.resolve(path.join(process.cwd(), 'public')), { maxAge: '24h' }));

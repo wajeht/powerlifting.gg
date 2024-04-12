@@ -27,11 +27,11 @@
   }
 </script>
 
-<button id="scroll-top-button" class="fixed bottom-5 right-5 hidden btn btn-neutral">Top</button>
+<button id="scroll-top-button" class="fixed bottom-5 right-5 hidden btn btn-neutral ring-white ring-1 z-20">Top</button>
 
 <div class="p-10">
   <div class="mx-auto max-w-7xl w-full prose">
-    <h2>Tenants</h2>
+    <h1>Tenants</h1>
 
     <!-- search -->
     <div class="flex justify-between items-center">
@@ -42,24 +42,15 @@
           <input type="hidden" name="current_page" id="current_page" value="<%= tenants.pagination.currentPage %>">
           <input type="hidden" name="per_page" id="per_page" value="<%= tenants.pagination.perPage %>">
           <input type="hidden" name="sort" id="sort" value="<%= tenants.pagination.sort %>">
-          <button
-            type="submit"
-            id="search"
-            class="hover:bg-neutral hover:text-white h-8 w-8 flex justify-center items-center rounded-md">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
-              <path fill-rule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clip-rule="evenodd" />
-            </svg>
-          </button>
         </label>
+				<input type="submit" value="Search" id="tenants-search" class="btn btn-neutral" />
       </form>
 
       <!-- right -->
       <div class="flex gap-3">
         <!-- button -->
         <% if (tenants.data.length){ %>
-          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Add a Tenant</a>
+          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Submit a Tenant</a>
         <% } %>
 
         <!-- pagination -->
@@ -99,48 +90,51 @@
     <% if (tenants.data.length){ %>
       <div class="flex flex-col gap-5 mt-8">
         <% for (const tenant of tenants.data) { %>
-          <div class="flex gap-2 p-5 shadow-sm rounded-md border border-1">
-
-            <!-- left -->
-            <div class="flex-0 min-h-full max-w-40 flex justify-center items-center">
-              <div class="w-32 h-32 rounded-full flex justify-center items-center" style="background-color: <%= tenant.color %>;">
-                <%= tenant.emoji %>
+          <div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat"  style="background-image: url(<%= tenant.banner %>);">
+            <!-- blur -->
+            <div class="flex gap-2 p-5 backdrop-blur-sm bg-black/70 rounded-md">
+              <!-- left -->
+              <div class="flex-0 min-h-full max-w-40 flex justify-center items-center">
+                <div class="w-32 h-32 rounded-full flex justify-center items-center shadow-white shadow-sm" style="background-color: <%= tenant.color %>;">
+                  <img class="w-32 h-32 rounded-full " src="<%= tenant.logo %>" alt="logo">
+                </div>
               </div>
-            </div>
 
-            <!-- mid -->
-            <div class="flex-1 p-5 flex flex-col gap-2">
-                <!-- name -->
-                <div class="flex items-center">
-                  <h3 class="p-0 m-0"><%= tenant.name %></h3>
-                  <% if (tenant.verified) { %>
-                    <img class="w-6 h-6 p-0 m-0" src="/img/verified.png" alt="verified" />
-                  <% } %>
-                </div>
+              <!-- mid -->
+              <div class="flex-1 p-5 flex flex-col gap-2">
+                  <!-- name -->
+                  <div class="flex items-center">
+                    <h3 class="p-0 m-0 text-white drop-shadow-sm"><%= tenant.name %></h3>
+                    <% if (tenant.verified) { %>
+                      <img class="w-6 h-6 p-0 m-0" src="/img/verified.png" alt="verified" />
+                    <% } %>
+                  </div>
 
-                <!-- stars -->
-                <div class="rating rating-xs">
-                  <% for (let i = 0; i < 5; i++) { %>
-                    <input
-                      type="radio"
-                      id="<%= tenant.slug %>-star-<%= i + 1 %>"
-                      name="<%= tenant.slug %>-star-<%= i + 1 %>"
-                      class="mask mask-star"
-                    />
-                  <% } %>
-                </div>
+                  <!-- stars -->
+                  <div class="rating rating-xs">
+                    <% for (let i = 0; i < 5; i++) { %>
+                      <input
+                        type="radio"
+                        id="<%= tenant.slug %>-star-<%= i + 1 %>"
+                        name="<%= tenant.slug %>-star-<%= i + 1 %>"
+                        class="mask mask-star <%= i + 1 < Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+                        disabled
+                      />
+                    <% } %>
+                  </div>
 
-                <!-- link -->
-                <a href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %></a>
-            </div>
+                  <!-- link -->
+                  <a class="text-white drop-shadow-sm" href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %></a>
+              </div>
 
-            <!-- right -->
-            <div class="flex-0 p-5"><%= tenant.reviews_count %>
-              <% if (tenant.reviews_count > 0) { %>
-                <span>Reviews</span>
-              <% } else { %>
-                <span>Review</span>
-              <% } %>
+              <!-- right -->
+              <div class="flex-0 p-5 text-white"><%= tenant.reviews_count %>
+                <% if (tenant.reviews_count > 0) { %>
+                  <span>Reviews</span>
+                <% } else { %>
+                  <span>Review</span>
+                <% } %>
+              </div>
             </div>
           </div>
         <% } %>
@@ -154,7 +148,7 @@
 
         <div class="p-16 rounded-md flex flex-col gap-4 justify-center items-center border">
           <span>Don't see the tenant you're looking for?</span>
-          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Add a tenant</a>
+          <a class="btn btn-neutral text-white no-underline" href="/tenants/new">Submit a tenant</a>
         </div>
       </div>
     <% } %>

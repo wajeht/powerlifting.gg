@@ -16,7 +16,6 @@ it('should be able to get subdomain /api/users end point', async () => {
 		.insert({
 			name: faker.company.name(),
 			slug: faker.lorem.slug(),
-			emoji: faker.internet.emoji(),
 			color: faker.color.rgb(),
 		})
 		.returning('*');
@@ -26,7 +25,6 @@ it('should be able to get subdomain /api/users end point', async () => {
 		email: faker.internet.email(),
 		password: faker.internet.password(),
 		role: 'USER',
-		emoji: faker.internet.emoji(),
 		tenant_id: tenant[0].id,
 	};
 

@@ -9,21 +9,18 @@ export async function seed(db) {
 			email: 'super-admin@test.com',
 			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 			role: 'SUPER_ADMIN',
-			emoji: '💪',
 		},
 		{
 			username: 'admin',
 			email: 'admin@test.com',
 			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 			role: 'ADMIN',
-			emoji: '👨‍💼',
 		},
 		{
 			username: 'user',
 			email: 'user@test.com',
 			password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 			role: 'USER',
-			emoji: '🤓',
 		},
 	];
 
@@ -48,7 +45,6 @@ export async function seed(db) {
 				email: email,
 				password: '$2a$10$gc6r7krvlLBEakYQYz5cZupxF5tuO3uGqmj/cJly4gzGmeiNEco8O',
 				role: 'USER',
-				emoji: faker.internet.emoji(),
 				tenant_id: tenantId,
 			});
 		}

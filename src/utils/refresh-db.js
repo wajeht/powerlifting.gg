@@ -14,7 +14,7 @@ export async function refreshDatabase() {
 
 	afterEach(async () => {
 		// list in order to take care of foreign_key
-		const tables = ['users', 'tenants'];
+		const tables = ['users', 'tenants', 'reviews'];
 
 		for (const table of tables) {
 			await db(table).truncate();

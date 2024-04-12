@@ -17,7 +17,7 @@ it('should be able to get /healthz end point with json', async () => {
 	expect(res.body).toHaveProperty('uptime');
 });
 
-it('should be able to get /healthz end point with teml', async () => {
+it('should be able to get /healthz end point with html', async () => {
 	const res = await app.get('/healthz');
 	expect(res.headers['content-type']).toBe('text/html; charset=utf-8');
 	expect(res.status).toBe(200);
@@ -30,7 +30,6 @@ describe('when visiting / route', () => {
 			const tenants = Array.from({ length: 5 }, () => ({
 				name: faker.company.name(),
 				slug: faker.lorem.slug(),
-				emoji: faker.internet.emoji(),
 				color: faker.internet.color(),
 			}));
 

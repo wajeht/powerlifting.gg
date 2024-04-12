@@ -1,11 +1,16 @@
 {
 	"cSpell.words": [
 		"autocannon",
+		"daisyui",
+		"dnsmasq",
 		"flushall",
 		"healthz",
+		"importmap",
 		"knexfile",
+		"litestream",
 		"mailhot",
 		"multitenancy",
+		"Nuxt",
 		"powerlifting",
 		"resave",
 		"sluggify",

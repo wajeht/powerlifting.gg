@@ -58,7 +58,7 @@ export function TenantService(db, redis) {
 				.where('reviews.id', reviewId)
 				.first();
 
-			await redis.del(`tenant:${tenantId}:reviews`);
+			await redis.del(`tenants-${tenantId}-reviews`);
 
 			return review;
 		},
@@ -71,7 +71,7 @@ export function TenantService(db, redis) {
 					.where('reviews.tenant_id', tenantId);
 			}
 
-			let reviews = await redis.get(`tenant-${tenantId}-reviews`);
+			let reviews = await redis.get(`tenants-${tenantId}-reviews`);
 
 			if (!reviews) {
 				reviews = await db
@@ -80,7 +80,7 @@ export function TenantService(db, redis) {
 					.leftJoin('users', 'reviews.user_id', 'users.id')
 					.where('reviews.tenant_id', tenantId);
 
-				await redis.set(`tenant-${tenantId}-reviews`, JSON.stringify(reviews));
+				await redis.set(`tenants-${tenantId}-reviews`, JSON.stringify(reviews));
 			} else {
 				reviews = JSON.parse(reviews);
 			}
