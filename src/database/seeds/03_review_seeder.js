@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { comments } from '../../utils/comments.js';
 
 export async function seed(db) {
 	const users = await db.select('*').from('users');
@@ -10,10 +11,12 @@ export async function seed(db) {
 
 		for (let i = 0; i < numberOfReviews; i++) {
 			const tenant = await db.select('*').from('tenants').orderByRaw('RANDOM()').first();
+			const randomComment = comments[Math.floor(Math.random() * comments.length)];
+
 			reviews.push({
 				tenant_id: tenant.id,
 				user_id: user.id,
-				comment: faker.lorem.sentence(),
+				comment: randomComment,
 				ratings: faker.number.int({ min: 1, max: 5 }),
 				created_at: faker.date
 					.between({
