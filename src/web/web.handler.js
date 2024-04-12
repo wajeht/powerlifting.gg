@@ -103,7 +103,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 				cache: true,
 			});
 			return res.status(200).render('tenant.html', {
-				tenant: JSON.stringify(req.tenant),
+				tenant: req.tenant,
 				reviews,
 				title: '/',
 				layout: '../layouts/tenant.html',

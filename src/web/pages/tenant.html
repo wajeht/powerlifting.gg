@@ -1,5 +1,6 @@
-<div class="flex flex-col">
-	<p>Welcome from tenant <%- JSON.parse(tenant).name %>!</p>
+<div class="fade-in p-10">
+  <div class="mx-auto max-w-7xl w-full prose">
+	<p>Welcome from tenant <%- tenant.name %>!</p>
 
 	<% for(const review of reviews ) { %>
 		<pre><%= JSON.stringify(review) %></pre>
