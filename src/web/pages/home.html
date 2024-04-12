@@ -85,11 +85,11 @@
 			<div class="flex gap-10 justify-between w-full mt-2">
 				<% for(const tenant of tenants) { %>
 					<!-- background -->
-					<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full min-h-[288px]"  style="background-image: url(<%= tenant.banner %>);">
+					<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full min-h-[288px]" style="background-image: url(<%= tenant.banner %>);">
 						<!-- blur -->
 						<div class="flex flex-col gap-3 items-center justify-between p-5 backdrop-blur-sm bg-black/70 rounded-md h-fulli min-h-[288px]">
 							<!-- img -->
-							<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm" style="background-color: <%= tenant.color %>;">
+							<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm">
 								<img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
 							</div>
 

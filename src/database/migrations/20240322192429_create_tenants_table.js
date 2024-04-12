@@ -9,7 +9,6 @@ export function up(knex) {
 		table.string('slug').notNullable().unique();
 		table.string('banner').nullable().defaultTo('/img/crowd.jpg');
 		table.string('logo').nullable().defaultTo('/img/west-side.jpg');
-		table.string('color').nullable().defaultTo('black');
 		table.boolean('verified').notNullable().defaultTo(false);
 		table.float('ratings').nullable();
 		table.timestamps(true, true);

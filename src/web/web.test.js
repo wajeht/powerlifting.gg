@@ -30,7 +30,6 @@ describe('when visiting / route', () => {
 			const tenants = Array.from({ length: 5 }, () => ({
 				name: faker.company.name(),
 				slug: faker.lorem.slug(),
-				color: faker.internet.color(),
 			}));
 
 			await db('tenants').insert(tenants);

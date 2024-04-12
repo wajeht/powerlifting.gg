@@ -16,7 +16,6 @@ it('should be able to get subdomain /api/users end point', async () => {
 		.insert({
 			name: faker.company.name(),
 			slug: faker.lorem.slug(),
-			color: faker.color.rgb(),
 		})
 		.returning('*');
 
