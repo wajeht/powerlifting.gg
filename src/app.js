@@ -32,27 +32,32 @@ const redisStore = new RedisStore({
 });
 
 const app = express();
-app.set('trust proxy', true);
-app.disable('x-powered-by');
+app.set('trust proxy', 1);
 app.use(
 	session({
 		secret: appConfig.session.secret,
 		resave: false,
-		saveUninitialized: false,
+		saveUninitialized: true,
 		store: redisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
+			sameSite: appConfig.env === 'production',
 			httpOnly: appConfig.env === 'production',
 			secure: appConfig.env === 'production',
 		},
 	}),
 );
 app.use(flash());
-
 app.use(compression());
+app.disable('x-powered-by');
 
 if (appConfig.env === 'production') {
-	app.use(cors());
+	app.use(
+		cors({
+			credentials: true,
+			origin: true,
+		}),
+	);
 	app.use(
 		helmet({
 			contentSecurityPolicy: {
