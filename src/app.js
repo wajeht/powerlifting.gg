@@ -39,13 +39,13 @@ app.use(
 		resave: true,
 		saveUninitialized: true,
 		store: redisStore,
-		// proxy: appConfig.env === 'production',
+		proxy: appConfig.env === 'production',
 		cookie: {
 			httpOnly: false,
-			domain: '.powerlifting.gg',
+			domain: process.env.NODE_ENV === 'production' ? '.powerlifting.gg' : '.localhost',
 			maxAge: 1000 * 60 * 24, // 24 hours
-			// httpOnly: appConfig.env === 'production',
 			// // TODO: fix why this aint working for production
+			// httpOnly: appConfig.env === 'production',
 			// sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			// secure: appConfig.env === 'production',
 		},
