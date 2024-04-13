@@ -44,6 +44,7 @@ app.use(
 			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			httpOnly: appConfig.env === 'production',
 			secure: appConfig.env === 'production',
+			domain: 'powerlifting.gg',
 		},
 	}),
 );
