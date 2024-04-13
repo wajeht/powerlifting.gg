@@ -42,8 +42,8 @@ app.use(
 		proxy: appConfig.env === 'production',
 		cookie: {
 			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
-			// httpOnly: appConfig.env === 'production',
-			secure: appConfig.env === 'production',
+			httpOnly: appConfig.env === 'production',
+			// secure: appConfig.env === 'production',
 		},
 	}),
 );
