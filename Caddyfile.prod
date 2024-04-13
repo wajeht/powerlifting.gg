@@ -1,24 +1,7 @@
-{
-  email mail@powerlifting.gg
-  on_demand_tls {
-    ask https://yourapp.com/api/domain/verify
-  }
-}
-
-:443 {
-  tls {
-    on_demand
-  }
-  reverse_proxy http://powerlifting:8080
-  encode gzip
-}
-
 *.powerlifting.gg {
   reverse_proxy http://powerlifting:8080
-  encode gzip
 }
 
 powerlifting.gg {
   reverse_proxy http://powerlifting:8080
-	encode gzip
 }
