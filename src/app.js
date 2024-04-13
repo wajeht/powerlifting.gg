@@ -41,8 +41,9 @@ app.use(
 		store: redisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
-			// sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			httpOnly: appConfig.env === 'production',
+			// // TODO: fix why this aint working for production
+			// sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			// secure: appConfig.env === 'production',
 		},
 	}),
