@@ -30,7 +30,8 @@
 		"db:migrate:latest": "knex migrate:latest --knexfile=./src/database/knexfile.js",
 		"db:migrate:rollback": "knex migrate:rollback --knexfile=./src/database/knexfile.js",
 		"db:seed:make": "knex seed:make --knexfile=./src/database/knexfile.js",
-		"db:seed:run": "knex seed:run --knexfile=./src/database/knexfile.js"
+		"db:seed:run": "knex seed:run --knexfile=./src/database/knexfile.js",
+		"rmds": "find . -name '.DS_Store' -delete"
 	},
 	"keywords": [
 		"node",
