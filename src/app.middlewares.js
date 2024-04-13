@@ -110,6 +110,10 @@ export async function tenantIdentityHandler(req, res, next) {
 			throw new NotFoundError();
 		}
 
+		if (req.session.user) {
+			res.locals.app['user'] = req.session.user;
+		}
+
 		req.tenant = tenant;
 		res.locals.app = {
 			...res.locals.app,
@@ -123,7 +127,6 @@ export async function tenantIdentityHandler(req, res, next) {
 }
 
 export function localVariables(req, res, next) {
-	console.log(req.session);
 	res.locals.app = {
 		env: appConfig.env,
 		copyRightYear: new Date().getFullYear(),
