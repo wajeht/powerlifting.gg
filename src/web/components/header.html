@@ -14,12 +14,13 @@
 					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="/tenants" title="tenants">Tenants</a>
 				</li>
 
-				<!-- logout -->
 				<% if (app.user) { %>
+					<!-- logout -->
 					<li>
 						<a href="/logout" title="logout">Logout</a>
 					</li>
 				<% } else { %>
+					<!-- login -->
 					<li>
 						<a href="/login" title="login with google">Login</a>
 					</li>
