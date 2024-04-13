@@ -30,9 +30,15 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [x] vue
 - [x] hot reload for vue/tailwind/express
 - [x] dockerize
-- [ ] eslint
 - [x] oauth
 - [x] email
+- [ ] ig oauth
+- [ ] scrape usapl db
+- [ ] reserve known coaches
+- [ ] eslint
+- [ ] seo/social cards
+- [ ] api keys
+- [ ] a11y
 - [ ] swagger
 - [ ] job/queue
 - [ ] web socket
@@ -42,7 +48,6 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [ ] litestream to auto backup sqlite to s3
 - [ ] zero downtime
 - [ ] submit tenant and super-admin approve
-- [ ] reserve known coaches
 
 # 💻 Development
 

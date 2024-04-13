@@ -14,19 +14,14 @@
 					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="/tenants" title="tenants">Tenants</a>
 				</li>
 
-				<!-- contact -->
-				<li>
-					<a class="<%= title === '/contact' ? 'active' : '' %>" href="/contact" title="contact">Contact</a>
-				</li>
-
-				<!-- login -->
-				<% if (app.env === 'development') { %>
+				<!-- logout -->
+				<% if (app.user) { %>
 					<li>
-						<a href="http://localhost:80/oauth/google" title="login with google">Login</a>
+						<a href="/logout" title="logout">Logout</a>
 					</li>
 				<% } else { %>
 					<li>
-						<a href="https://powerlifting.gg/oauth/google" title="login with google">Login</a>
+						<a href="/login" title="login with google">Login</a>
 					</li>
 				<% } %>
 			</ul>

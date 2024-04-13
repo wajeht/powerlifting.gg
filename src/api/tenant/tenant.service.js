@@ -1,4 +1,4 @@
-export function TenantService(db, redis) {
+export function TenantService(db, redis, dayjs) {
 	return {
 		getTenant: async ({ tenantId, cache = true }) => {
 			if (!cache) {
@@ -64,27 +64,31 @@ export function TenantService(db, redis) {
 		},
 		getTenantReviews: async ({ tenantId, cache = true }) => {
 			if (!cache) {
-				return await db
-					.select('*')
+				let reviews = await db
+					.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
 					.from('reviews')
 					.leftJoin('users', 'reviews.user_id', 'users.id')
+					.orderBy('reviews.id', 'desc')
 					.where('reviews.tenant_id', tenantId);
+				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).toNow() }));
+				return reviews;
 			}
 
 			let reviews = await redis.get(`tenants-${tenantId}-reviews`);
 
 			if (!reviews) {
 				reviews = await db
-					.select('*')
+					.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
 					.from('reviews')
 					.leftJoin('users', 'reviews.user_id', 'users.id')
+					.orderBy('reviews.id', 'desc')
 					.where('reviews.tenant_id', tenantId);
+				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).toNow() }));
 
 				await redis.set(`tenants-${tenantId}-reviews`, JSON.stringify(reviews));
 			} else {
 				reviews = JSON.parse(reviews);
 			}
-
 			return reviews;
 		},
 		updateRatings: async ({ tenantId }) => {

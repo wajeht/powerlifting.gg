@@ -1,15 +1,5 @@
-/* eslint-disable no-useless-escape */
 import { faker } from '@faker-js/faker';
-
-function sluggify(str) {
-	return str
-		.toLowerCase() // Convert to lowercase
-		.replace(/\s+/g, '-') // Replace spaces with hyphens
-		.replace(/[^\w\-]+/g, '') // Remove non-word characters except hyphens
-		.replace(/\-\-+/g, '-') // Replace multiple hyphens with single hyphen
-		.replace(/^-+/, '') // Remove leading hyphens
-		.replace(/-+$/, ''); // Remove trailing hyphens
-}
+import { sluggify } from '../../utils/sluggify.js';
 
 export async function seed(db) {
 	const batchSize = 10;

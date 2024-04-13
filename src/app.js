@@ -32,36 +32,41 @@ const redisStore = new RedisStore({
 });
 
 const app = express();
-app.set('trust proxy', true);
-app.disable('x-powered-by');
-app.use(flash());
+app.set('trust proxy', 1);
 app.use(
 	session({
 		secret: appConfig.session.secret,
 		resave: false,
+		saveUninitialized: true,
 		store: redisStore,
-		saveUninitialized: false,
 		proxy: appConfig.env === 'production',
 		cookie: {
+			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			httpOnly: appConfig.env === 'production',
 			secure: appConfig.env === 'production',
-			sameSite: 'lax',
 		},
 	}),
 );
-
+app.use(flash());
 app.use(compression());
+app.disable('x-powered-by');
 
 if (appConfig.env === 'production') {
-	app.use(cors());
+	app.use(
+		cors({
+			credentials: true,
+			origin: true,
+		}),
+	);
 	app.use(
 		helmet({
 			contentSecurityPolicy: {
 				directives: {
 					...helmet.contentSecurityPolicy.getDefaultDirectives(),
-					'default-src': ["'self'", 'plausible.jaw.dev', 'powerlifting.gg'],
+					'default-src': ["'self'", 'plausible.jaw.dev', 'powerlifting.gg', 'app.test'],
 					'script-src': [
 						"'self'",
+						'app.test',
 						"'unsafe-inline'",
 						'plausible.jaw.dev',
 						"'unsafe-eval'",

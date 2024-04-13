@@ -1,23 +1,29 @@
 import { faker } from '@faker-js/faker';
+import { comments } from '../../utils/comments.js';
 
 export async function seed(db) {
-	const tenantIds = await db('tenants').pluck('id');
+	const users = await db.select('*').from('users');
 
 	const reviews = [];
 
-	for (const tenantId of tenantIds) {
-		const userIds = await db('users').where('tenant_id', tenantId).pluck('id');
-
-		const numberOfReviews = faker.number.int({ min: 1, max: 5 });
+	for (const user of users) {
+		const numberOfReviews = faker.number.int({ min: 1, max: 100 });
 
 		for (let i = 0; i < numberOfReviews; i++) {
-			const randomIndex = faker.number.int({ min: 0, max: userIds.length - 1 });
-			const randomUserId = userIds[randomIndex];
+			const tenant = await db.select('*').from('tenants').orderByRaw('RANDOM()').first();
+			const randomComment = comments[Math.floor(Math.random() * comments.length)];
+
 			reviews.push({
-				user_id: randomUserId,
-				tenant_id: tenantId,
-				comment: faker.lorem.sentence(),
+				tenant_id: tenant.id,
+				user_id: user.id,
+				comment: randomComment,
 				ratings: faker.number.int({ min: 1, max: 5 }),
+				created_at: faker.date
+					.between({
+						from: '2020-01-01T00:00:00.000Z',
+						to: '2030-01-01T00:00:00.000Z',
+					})
+					.toISOString(),
 			});
 		}
 	}

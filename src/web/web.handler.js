@@ -32,9 +32,30 @@ export function getTenantsHandler(SearchService) {
 
 export function getTenantsNewHandler() {
 	return async (req, res) => {
-		return res.status(200).render('tenants-new.html', {
-			title: '/tenants/new',
+		return res.status(200).render('tenants-create.html', {
+			title: '/tenants/create',
 		});
+	};
+}
+
+export function getLoginHandler() {
+	return async (req, res) => {
+		return res.redirect('/oauth/google');
+	};
+}
+
+export function getLogoutHandler() {
+	return async (req, res) => {
+		if (req.session && req.session.user) {
+			req.session.user = undefined;
+			req.session.destroy((error) => {
+				if (error) {
+					throw new Error(error);
+				}
+			});
+		}
+
+		return res.redirect('/');
 	};
 }
 

@@ -1,8 +1,11 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
+	authenticationHandler,
 	// validateRequestHandler,
 } from '../app.middlewares.js';
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
@@ -15,11 +18,15 @@ import {
 	getPrivacyPolicyHandler,
 	getTenantsNewHandler,
 	getTermsOfServiceHandler,
+	getLoginHandler,
+	getLogoutHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
 import { SearchService } from '../api/search/search.service.js';
 // import { body } from 'express-validator';
+
+dayjs.extend(relativeTime);
 
 const web = express.Router();
 
@@ -58,6 +65,20 @@ web.get(
 );
 
 /**
+ * GET /login
+ * @tags web
+ * @summary get login url
+ */
+web.get('/login', tenantIdentityHandler, catchAsyncErrorHandler(getLoginHandler()));
+
+/**
+ * GET /logout
+ * @tags web
+ * @summary get logout url
+ */
+web.get('/logout', tenantIdentityHandler, catchAsyncErrorHandler(getLogoutHandler()));
+
+/**
  * GET /contact
  * @tags web
  * @summary get contact page
@@ -79,11 +100,11 @@ web.post('/contact', tenantIdentityHandler, catchAsyncErrorHandler(postContactHa
 web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db, redis))));
 
 /**
- * GET /tenants/new
+ * GET /tenants/create
  * @tags web
  * @summary get tenants new page
  */
-web.get('/tenants/new', catchAsyncErrorHandler(getTenantsNewHandler()));
+web.get('/tenants/create', authenticationHandler, catchAsyncErrorHandler(getTenantsNewHandler()));
 
 /**
  * GET /
@@ -93,7 +114,7 @@ web.get('/tenants/new', catchAsyncErrorHandler(getTenantsNewHandler()));
 web.get(
 	'/',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis))),
+	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs))),
 );
 
 export { web };

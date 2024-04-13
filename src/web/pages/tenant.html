@@ -1,24 +1,23 @@
 <div class="fade-in p-10">
 	<div class="mx-auto max-w-7xl w-full prose">
 
-		<div class="text-sm breadcrumbs">
-			<ul>
-				<li><a href="<%= app.mainDomain %>/tenants">Tenants</a></li>
-				<li><a href="/">
-						<%= tenant.name %>
-					</a></li>
-			</ul>
+		<div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>">Home</a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="#4A5569" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"/></svg>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/tenants">Tenants</a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="#4A5569" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"/></svg>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="/"><%= tenant.name %></a>
 		</div>
 
 		<h1>Welcome from tenant <%- tenant.name %>!</h1>
 
 		<div class="flex justify-between items-center">
 			<!-- search -->
-			<form action="/search" method="post" class="flex gap-1 justify-between w-full">
+			<form action="/search" method="post" class="flex gap-1 justify-between">
 				<!-- left -->
 				<div class="flex gap-1">
 					<label class="input input-bordered flex items-center gap-2 w-[350px]" for="q">
-						<input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." required />
+						<input type="text" class="grow" id="q" name="q" placeholder="Search for a review..." required />
 					</label>
 					<input id="home-search" type="submit" value="Search" class="btn btn-neutral" />
 				</div>
@@ -29,6 +28,13 @@
 			<div class="flex gap-3">
 				<button class="btn btn-neutral">Submit A Review</button>
 
+				<!-- login -->
+				<% if (app.env === 'development') { %>
+					<a class="btn btn-neutral no-underline text-white" href="http://localhost:80/oauth/google" title="login with google">Login</a>
+				<% } else { %>
+					<a class="btn btn-neutral no-underline text-white" href="https://powerlifting.gg/oauth/google" title="login with google">Login</a>
+				<% } %>
+
 				<div class="join">
 					<button class="join-item btn">«</button>
 					<button class="join-item btn">Page 1</button>
@@ -37,14 +43,43 @@
 			</div>
 		</div>
 
-		<p>Showing 0 to 10 of 100 entries</p>
+		<p>Showing 0 to 10 of 100 reviews</p>
 
+		<!-- comments -->
 		<div class="flex flex-col gap-5 rounded-md">
 			<% for(const review of reviews ) { %>
-				<div class="border boreder-2 p-5 rounded-md bg-white">
-					<p>
-						<%= review.comment %>
-					</p>
+				<div
+					id="review-card-<%= review.id %>"
+					class="border boreder-2 px-2 rounded-md bg-white flex gap-1">
+
+					<!-- image -->
+					<div class="px-2 flex-0 justify-center">
+						<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= review.profile_picture %>" alt="logo">
+					</div>
+
+					<!-- comment -->
+					<div class="flex flex-col px-2 flex-1 justify-center">
+						<!-- name -->
+						<div class="flex justify-between items-center">
+							<h4 class="mt-2"><%= review.username %></h4>
+							<small class="text-[#4A5569] opacity-70"><%= review.created_at %></small>
+						</div>
+						<!-- ratings -->
+						<div class="rating rating-xs">
+							<% for (let i = 0; i < 5; i++) { %>
+								<input
+									type="radio"
+									id="<%= review.id %>-star-<%= i + 1 %>"
+									name="<%= review.id %>-star-<%= i + 1 %>"
+									class="mask mask-star <%= i + 1 < Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+									disabled
+								/>
+							<% } %>
+						</div>
+						<!-- comment -->
+						<p class="mt-3 mb-0 p-3 border border-dashed rounded-md bg-gray-50 italic text-sm"><%= review.comment %></p>
+					</div>
+
 				</div>
 				<% } %>
 		</div>
