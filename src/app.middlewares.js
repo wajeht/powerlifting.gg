@@ -88,7 +88,17 @@ export function rateLimitHandler(req, res) {
 
 export async function tenantIdentityHandler(req, res, next) {
 	try {
-		const subdomain = req.subdomains.length ? req.subdomains[0] : null;
+		let subdomain = null;
+
+		if (process.env.NODE_ENV === 'development') {
+			const list = req.host.split('.');
+			if (list.length === 1 && list[0] === 'localhost') {
+				return next();
+			}
+			subdomain = req.host.split('.')[0];
+		} else {
+			subdomain = req.subdomains.length ? req.subdomains[0] : null;
+		}
 
 		if (!subdomain) {
 			return next();
@@ -113,6 +123,7 @@ export async function tenantIdentityHandler(req, res, next) {
 }
 
 export function localVariables(req, res, next) {
+	console.log(req.session);
 	res.locals.app = {
 		env: appConfig.env,
 		copyRightYear: new Date().getFullYear(),

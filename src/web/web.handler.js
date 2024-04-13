@@ -40,6 +40,9 @@ export function getTenantsNewHandler() {
 
 export function getLoginHandler() {
 	return async (req, res) => {
+		if (req.session.user) {
+			return res.redirect('back');
+		}
 		return res.redirect('/oauth/google');
 	};
 }

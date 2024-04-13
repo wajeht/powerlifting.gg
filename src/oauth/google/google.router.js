@@ -10,16 +10,19 @@ const google = express.Router();
 /**
  * GET /oauth/google
  * @tags oauth/google
- * @summary get healthz page
+ * @summary get google oauth url
  */
 google.get('/', (req, res) => {
+	if (req.session.user) {
+		return res.redirect('back');
+	}
 	return res.redirect(getGoogleOAuthURL());
 });
 
 /**
  * GET /oauth/google/redirect
  * @tags oauth/google
- * @summary get healthz page
+ * @summary get google oauth redirect url
  */
 google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 	const code = req.query.code;

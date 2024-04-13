@@ -11,6 +11,8 @@
 
 		<h1>Welcome from tenant <%- tenant.name %>!</h1>
 
+		<pre><%= JSON.stringify(app) %></pre>
+
 		<div class="flex justify-between items-center">
 			<!-- search -->
 			<form action="/search" method="post" class="flex gap-1 justify-between">
@@ -26,13 +28,8 @@
 
 			<!-- right -->
 			<div class="flex gap-3">
-				<button class="btn btn-neutral">Submit A Review</button>
-
-				<!-- login -->
-				<% if (app.env === 'development') { %>
-					<a class="btn btn-neutral no-underline text-white" href="http://localhost:80/oauth/google" title="login with google">Login</a>
-				<% } else { %>
-					<a class="btn btn-neutral no-underline text-white" href="https://powerlifting.gg/oauth/google" title="login with google">Login</a>
+				<% if (!app.user) { %>
+					<a class="btn btn-neutral text-white no-underline" href="/login" title="login with google">Submit a Review</a>
 				<% } %>
 
 				<div class="join">
@@ -45,8 +42,26 @@
 
 		<p>Showing 0 to 10 of 100 reviews</p>
 
-		<!-- comments -->
 		<div class="flex flex-col gap-5 rounded-md">
+			<!-- submit a review form -->
+			<% if (app.user) { %>
+				<div
+					id="submit-review-card"
+					class="border boreder-2 px-2 rounded-md bg-white flex gap-1">
+
+					<div class="px-2 flex-0 justify-center">
+						<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= user.profile_picture %>" alt="logo">
+					</div>
+
+					<div class="flex flex-col px-2 flex-1 justify-center">
+						<div class="flex justify-between items-center">
+							<h4 class="mt-2"><%= user.username %></h4>
+						</div>
+						<div class="rating rating-xs"></div>
+					</div>
+				</div>
+			<% } %>
+
 			<% for(const review of reviews ) { %>
 				<div
 					id="review-card-<%= review.id %>"
