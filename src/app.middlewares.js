@@ -88,17 +88,7 @@ export function rateLimitHandler(req, res) {
 
 export async function tenantIdentityHandler(req, res, next) {
 	try {
-		let subdomain = null;
-
-		if (process.env.NODE_ENV === 'development') {
-			const list = req.host.split('.');
-			if (list.length === 1 && list[0] === 'localhost') {
-				return next();
-			}
-			subdomain = req.host.split('.')[0];
-		} else {
-			subdomain = req.subdomains.length ? req.subdomains[0] : null;
-		}
+		const subdomain = req.subdomains.length ? req.subdomains[0] : null;
 
 		if (req.session.user) {
 			res.locals.app['user'] = req.session.user;

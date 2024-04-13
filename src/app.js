@@ -67,14 +67,14 @@ if (appConfig.env === 'production') {
 			contentSecurityPolicy: {
 				directives: {
 					...helmet.contentSecurityPolicy.getDefaultDirectives(),
-					'default-src': ["'self'", 'plausible.jaw.dev', 'powerlifting.gg', 'localhost'],
+					'default-src': ["'self'", 'plausible.jaw.dev', 'powerlifting.gg', 'app.run'],
 					'script-src': [
 						"'self'",
 						"'unsafe-inline'",
 						'plausible.jaw.dev',
 						"'unsafe-eval'",
 						'powerlifting.gg',
-						'localhost',
+						'app.run',
 						'blob:',
 						'text/javascript',
 					],
