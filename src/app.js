@@ -41,10 +41,9 @@ app.use(
 		store: redisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
-			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
-			httpOnly: appConfig.env === 'production',
-			secure: appConfig.env === 'production',
-			domain: 'powerlifting.gg',
+			// sameSite: appConfig.env === 'production' ? 'none' : 'lax',
+			// httpOnly: appConfig.env === 'production',
+			// secure: appConfig.env === 'production',
 		},
 	}),
 );
