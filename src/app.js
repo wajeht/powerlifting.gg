@@ -41,15 +41,12 @@ app.use(
 		store: redisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
+			// prettier-ignore
+			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}` : `.${appConfig.development_app_url}`,
 			httpOnly: false,
-			domain:
-				appConfig.env === 'production'
-					? `.${appConfig.production_app_url}`
-					: `.${appConfig.development_app_url}`,
+			secure: false,
 			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			maxAge: 1000 * 60 * 24, // 24 hours
-			secure: false,
-			// secure: appConfig.env === 'production',
 		},
 	}),
 );
