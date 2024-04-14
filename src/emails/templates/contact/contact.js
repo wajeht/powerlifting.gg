@@ -1,8 +1,7 @@
-import { logger } from '../../../utils/logger.js';
 import ejs from 'ejs';
 import path from 'node:path';
 import { sendMail } from '../../mailer.util.js';
-import { email as emailConfig } from '../../../config/email.js';
+import { logger } from '../../../utils/logger.js';
 
 export async function sendContactEmail({ email, subject = 'Contact', message }) {
 	try {
@@ -13,7 +12,6 @@ export async function sendContactEmail({ email, subject = 'Contact', message }) 
 
 		await sendMail({
 			from: email,
-			to: `powerlifting.gg <${emailConfig.email_alias}>`,
 			subject,
 			html,
 		});

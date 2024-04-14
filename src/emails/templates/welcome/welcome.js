@@ -1,7 +1,7 @@
-import { logger } from '../../../utils/logger.js';
 import ejs from 'ejs';
 import path from 'node:path';
 import { sendMail } from '../../mailer.util.js';
+import { logger } from '../../../utils/logger.js';
 
 export async function sendWelcomeEmail({
 	email,
@@ -9,8 +9,9 @@ export async function sendWelcomeEmail({
 	username,
 }) {
 	try {
-		// prettier-ignore
-		const template = path.resolve(path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome','welcome.html'));
+		const template = path.resolve(
+			path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome', 'welcome.html'),
+		);
 		const html = await ejs.renderFile(template, { username });
 
 		await sendMail({
