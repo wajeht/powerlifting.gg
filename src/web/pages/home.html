@@ -84,12 +84,14 @@ window.addEventListener('DOMContentLoaded', () => {
 				<h2 class="text-5xl font-extrabold">Why Choose Us?</h2>
 
 				<% for (let i = 0; i < reviews.length; i++) { %>
-					<div class="review animate__animated border border-dashed border-1 p-10 bg-gray-50 rounded-md max-w-lg flex flex-col gap-5 prose text-[#4A5568] hidden animate__fadeIn">
-						<p class="m-0 p-0"><%= reviews[i].comment %></p>
-						<span class="flex justify-end">
-							<p class="m-0 p-0">-- <%= reviews[i].username %></p>
-						</span>
-					</div>
+					<span class="review hidden animate__animated animate__fadeIn">
+						<div class="border border-dashed border-1 p-10 bg-gray-50 rounded-md max-w-lg flex flex-col gap-5 prose text-[#4A5568] w-full">
+							<p class="m-0 p-0"><%= reviews[i].comment %></p>
+							<span class="flex justify-end">
+								<p class="m-0 p-0">-- <%= reviews[i].username %></p>
+							</span>
+						</div>
+					</span>
 				<% } %>
 
 			</div>
