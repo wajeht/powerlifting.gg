@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ssh root@5.78.109.1 << EOF
+ssh -t root@5.78.109.1 << EOF
 
 cd powerlifting.gg
 
