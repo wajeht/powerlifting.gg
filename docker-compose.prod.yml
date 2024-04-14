@@ -33,7 +33,7 @@ services:
       restart: unless-stopped
       build:
         context: .
-        dockerfile: ./Dockerfile
+        dockerfile: ./Dockerfile.caddy
       ports:
         - '80:80'
         - '443:443'
