@@ -20,8 +20,8 @@ export async function seed(db) {
 				ratings: faker.number.int({ min: 1, max: 5 }),
 				created_at: faker.date
 					.between({
-						from: '2020-01-01T00:00:00.000Z',
-						to: '2030-01-01T00:00:00.000Z',
+						from: '2012-01-01T00:00:00.000Z',
+						to: '2024-01-03T00:00:00.000Z',
 					})
 					.toISOString(),
 			});

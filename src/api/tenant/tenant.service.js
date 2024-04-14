@@ -68,7 +68,7 @@ export function TenantService(db, redis, dayjs) {
 					.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
 					.from('reviews')
 					.leftJoin('users', 'reviews.user_id', 'users.id')
-					.orderBy('reviews.id', 'desc')
+					.orderBy('reviews.created_at', 'desc')
 					.where('reviews.tenant_id', tenantId);
 				reviews = reviews.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
 				return reviews;
@@ -81,7 +81,7 @@ export function TenantService(db, redis, dayjs) {
 					.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
 					.from('reviews')
 					.leftJoin('users', 'reviews.user_id', 'users.id')
-					.orderBy('reviews.id', 'desc')
+					.orderBy('reviews.created_at', 'desc')
 					.where('reviews.tenant_id', tenantId);
 				reviews = reviews.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
 

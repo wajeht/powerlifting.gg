@@ -9,6 +9,23 @@
   display: none;
 }
 
+.underlined {
+  position: relative;
+  display: inline-block !important;
+}
+
+.underlined::before {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  height: 7px;
+  width: 100% !important;
+  border: solid 8px #FB923D;
+  border-color: #FB923D transparent transparent transparent;
+  border-radius: 50%;
+}
+
 * {
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
