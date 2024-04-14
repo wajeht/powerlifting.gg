@@ -1,11 +1,10 @@
 push:
-	# npm run test
-	# npm run lint
-	# npm run format
+	npm run test
+	npm run lint
+	npm run format
 	git add -A
 	./commit.sh
 	git push --no-verify
-	# ./deploy.sh
 
 fix_git:
 	git rm -r --cached .

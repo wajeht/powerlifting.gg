@@ -142,7 +142,6 @@ export function getIndexHandler(WebRepository, TenantService) {
 
 export function postCommentHandler(TenantService) {
 	return async (req, res) => {
-
 		const { user_id, tenant_id, comment, ratings } = req.body;
 
 		if (comment.trim() === '') {
