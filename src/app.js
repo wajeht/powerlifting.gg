@@ -45,6 +45,7 @@ app.use(
 			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}` : `.${appConfig.development_app_url}`,
 			httpOnly: false,
 			secure: false,
+			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			maxAge: 1000 * 60 * 24, // 24 hours
 		},
 	}),
