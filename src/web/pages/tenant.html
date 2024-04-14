@@ -138,7 +138,7 @@
 										type="radio"
 										id="<%= review.id %>-star-<%= i + 1 %>"
 										name="<%= review.id %>-star-<%= i + 1 %>"
-										class="mask mask-star-2 <%= i + 1 < Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+										class="mask mask-star-2 <%= i + 1 <= Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
 										disabled
 									/>
 								<% } %>

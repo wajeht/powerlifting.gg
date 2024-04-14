@@ -274,7 +274,7 @@ async function fetchData() {
 											:key="`${tenant.slug}-star-${starIndex}`"
 											:name="`${tenant.slug}-star-${starIndex}`"
 											class="mask mask-star bg-orange-200"
-											:class="{ 'bg-orange-400': starIndex + 1 < Math.floor(tenant.ratings) }"
+											:class="{ 'bg-orange-400': starIndex + 1 <= Math.floor(tenant.ratings) }"
 										/>
 									</div>
 								</div>
