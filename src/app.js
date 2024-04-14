@@ -48,8 +48,7 @@ app.use(
 					: `.${appConfig.development_app_url}`,
 			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			maxAge: 1000 * 60 * 24, // 24 hours
-			// // TODO: fix why this aint working for production
-			// httpOnly: appConfig.env === 'production',
+			secure: false,
 			// secure: appConfig.env === 'production',
 		},
 	}),
@@ -75,11 +74,9 @@ if (appConfig.env === 'production') {
 						'plausible.jaw.dev',
 						'powerlifting.gg',
 						'localtest.me',
-						'googleusercontent.com',
 						'jaw.lol',
 					],
 					'script-src': [
-						'googleusercontent.com',
 						"'self'",
 						"'unsafe-inline'",
 						'plausible.jaw.dev',
