@@ -29,16 +29,20 @@ services:
       - 'redis-data:/data'
 
   caddy:
-    container_name: caddy
-    restart: unless-stopped
-    image: caddy:2.7.5-alpine
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ./Caddyfile.prod:/etc/caddy/Caddyfile
-    networks:
-      - powerlifting-network
+      container_name: caddy
+      restart: unless-stopped
+      build:
+        context: .
+        dockerfile: ./Dockerfile
+      ports:
+        - '80:80'
+        - '443:443'
+      volumes:
+        - ./Caddyfile.prod:/etc/caddy/Caddyfile
+      environment:
+        - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      networks:
+        - powerlifting-network
 
 volumes:
   redis-data:
