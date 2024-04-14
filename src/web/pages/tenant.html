@@ -1,4 +1,24 @@
+<script>
+	document.addEventListener('DOMContentLoaded', ()=> {
+		const inputs = document.getElementsByName('ratings');
+    inputs.forEach(input => {
+        input.addEventListener('click', function() {
+            handleRatingSelection(this);
+        });
+    });
 
+    function handleRatingSelection(element) {
+        let selectedIndex = Array.from(inputs).indexOf(element);
+        inputs.forEach((input, index) => {
+            if (index <= selectedIndex) {
+                input.classList.add('bg-orange-400');
+            } else {
+                input.classList.remove('bg-orange-400');
+            }
+        });
+    }
+	})
+</script>
 
 <div class="fade-in p-10">
 	<div class="mx-auto max-w-7xl w-full prose">
@@ -24,7 +44,7 @@
 				method="post"
 				action="/comments"
 				id="comment-card"
-				class="border boreder-2 px-2 rounded-md flex shadow-sm">
+				class="border boreder-2 px-2 rounded-md flex">
 
 				<input type="hidden" id="user_id" name="user_id" value="<%= app.user.id %>">
 				<input type="hidden" id="tenant_id" name="tenant_id" value="<%= tenant.id %>">
@@ -52,26 +72,6 @@
 						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="4" onclick="handleRatingSelection(this)" required/>
 						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="5" onclick="handleRatingSelection(this)" required/>
 					</div>
-
-					<script>
-						function handleRatingSelection(element) {
-							const inputs = document.getElementsByName('ratings');
-							let selectedIndex = 0;
-							for (let i = 0; i < inputs.length; i++) {
-									if (inputs[i] === element) {
-											selectedIndex = i;
-											break;
-									}
-							}
-							for (let j = 0; j < inputs.length; j++) {
-									if (j <= selectedIndex) {
-											inputs[j].classList.add('bg-orange-400');
-									} else {
-											inputs[j].classList.remove('bg-orange-400');
-									}
-							}
-						}
-					</script>
 
 					<!-- comment -->
 					<textarea id="comment" name="comment" placeholder="say something.." class="my-4 p-3 border border-dashed rounded-md bg-gray-50 italic text-sm" required></textarea>
@@ -111,41 +111,45 @@
 
 		<div class="flex flex-col gap-5 rounded-md p-5 bg-gray-100 border border-1">
 
-			<% for(const review of reviews ) { %>
-				<div
-					id="review-card-<%= review.id %>"
-					class="border boreder-2 px-2 rounded-md bg-white flex gap-1">
+			<% if (reviews.length) { %>
+				<% for(const review of reviews ) { %>
+					<div
+						id="review-card-<%= review.id %>"
+						class="border boreder-2 px-2 rounded-md bg-white flex gap-1">
 
-					<!-- image -->
-					<div class="px-2 flex-0 justify-center">
-						<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= review.profile_picture %>" alt="logo">
-					</div>
+						<!-- image -->
+						<div class="px-2 flex-0 justify-center">
+							<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= review.profile_picture %>" alt="logo">
+						</div>
 
-					<!-- comment -->
-					<div class="flex flex-col px-2 flex-1 justify-center">
-						<!-- name -->
-						<div class="flex justify-between items-center">
-							<h4 class="mt-2"><%= review.username %></h4>
-							<small class="text-[#4A5569] opacity-70"><%= review.created_at %></small>
-						</div>
-						<!-- ratings -->
-						<div class="rating rating-xs">
-							<% for (let i = 0; i < 5; i++) { %>
-								<input
-									type="radio"
-									id="<%= review.id %>-star-<%= i + 1 %>"
-									name="<%= review.id %>-star-<%= i + 1 %>"
-									class="mask mask-star-2 <%= i + 1 < Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
-									disabled
-								/>
-							<% } %>
-						</div>
 						<!-- comment -->
-						<p class="mt-3 mb-0 p-3 border border-dashed rounded-md bg-gray-50 italic text-sm"><%= review.comment %></p>
-					</div>
+						<div class="flex flex-col px-2 flex-1 justify-center">
+							<!-- name -->
+							<div class="flex justify-between items-center">
+								<h4 class="mt-2"><%= review.username %></h4>
+								<small class="text-[#4A5569] opacity-70"><%= review.created_at %></small>
+							</div>
+							<!-- ratings -->
+							<div class="rating rating-xs">
+								<% for (let i = 0; i < 5; i++) { %>
+									<input
+										type="radio"
+										id="<%= review.id %>-star-<%= i + 1 %>"
+										name="<%= review.id %>-star-<%= i + 1 %>"
+										class="mask mask-star-2 <%= i + 1 < Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+										disabled
+									/>
+								<% } %>
+							</div>
+							<!-- comment -->
+							<p class="mt-3 mb-0 p-3 border border-dashed rounded-md bg-gray-50 italic text-sm"><%= review.comment %></p>
+						</div>
 
-				</div>
+					</div>
 				<% } %>
+			<% } else { %>
+				<span class="p-60 text-sm text-center italic">Nothing to see here!</span>
+			<% } %>
 		</div>
 
 	</div>
