@@ -42,12 +42,14 @@ app.use(
 		proxy: appConfig.env === 'production',
 		cookie: {
 			httpOnly: false,
-			// prettier-ignore
-			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}`: `.${appConfig.development_app_url}`,
+			domain:
+				appConfig.env === 'production'
+					? `.${appConfig.production_app_url}`
+					: `.${appConfig.development_app_url}`,
+			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			maxAge: 1000 * 60 * 24, // 24 hours
 			// // TODO: fix why this aint working for production
 			// httpOnly: appConfig.env === 'production',
-			// sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			// secure: appConfig.env === 'production',
 		},
 	}),
@@ -88,7 +90,6 @@ if (appConfig.env === 'production') {
 						'blob:',
 						'text/javascript',
 					],
-					'img-src': ["'self'", 'googleusercontent.com', 'data:'],
 				},
 			},
 		}),
