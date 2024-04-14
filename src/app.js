@@ -42,7 +42,8 @@ app.use(
 		proxy: appConfig.env === 'production',
 		cookie: {
 			httpOnly: false,
-			domain: process.env.NODE_ENV === 'production' ? '.powerlifting.gg' : '.localtest.me',
+			// prettier-ignore
+			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}`: `.${appConfig.development_app_url}`,
 			maxAge: 1000 * 60 * 24, // 24 hours
 			// // TODO: fix why this aint working for production
 			// httpOnly: appConfig.env === 'production',
@@ -67,7 +68,13 @@ if (appConfig.env === 'production') {
 			contentSecurityPolicy: {
 				directives: {
 					...helmet.contentSecurityPolicy.getDefaultDirectives(),
-					'default-src': ["'self'", 'plausible.jaw.dev', 'powerlifting.gg', 'localtest.me'],
+					'default-src': [
+						"'self'",
+						'plausible.jaw.dev',
+						'powerlifting.gg',
+						'localtest.me',
+						'jaw.lol',
+					],
 					'script-src': [
 						"'self'",
 						"'unsafe-inline'",
@@ -75,6 +82,7 @@ if (appConfig.env === 'production') {
 						"'unsafe-eval'",
 						'powerlifting.gg',
 						'localtest.me',
+						'jaw.lol',
 						'blob:',
 						'text/javascript',
 					],
