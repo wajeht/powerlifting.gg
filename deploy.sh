@@ -6,7 +6,7 @@ cd powerlifting.gg
 
 git fetch origin
 
-git reset --hard origin/feature/cookie
+git reset --hard origin/main
 
 docker compose -f docker-compose.prod.yml up -d --build
 
