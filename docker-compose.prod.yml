@@ -29,9 +29,9 @@ services:
       - 'redis-data:/data'
 
   nginx:
+    image: nginx:alpine3.18
     container_name: nginx
     restart: unless-stopped
-    image: nginx:alpine3.18
     ports:
       - '80:80'
     volumes:
