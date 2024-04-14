@@ -60,7 +60,7 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 	req.session.user = foundUser;
 	req.session.save();
 
-	return res.redirect('/register');
+	return res.redirect('/');
 });
 
 export { google };
