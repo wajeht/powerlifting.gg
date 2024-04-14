@@ -39,12 +39,12 @@ app.use(
 		resave: false,
 		saveUninitialized: true,
 		store: redisStore,
-		proxy: true,
+		proxy: appConfig.env === 'production',
 		cookie: {
 			// prettier-ignore
-			domain: '.powerlifting.gg',
-			httpOnly: false,
-			secure: false,
+			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}` : `.${appConfig.development_app_url}`,
+			httpOnly: true,
+			secure: true,
 			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			maxAge: 1000 * 60 * 24, // 24 hours
 		},
