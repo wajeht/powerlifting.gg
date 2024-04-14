@@ -1,7 +1,6 @@
 import { app } from './app.js';
 import { app as appConfig } from './config/app.js';
 import { logger } from './utils/logger.js';
-// import cp from 'child_process';
 import { redis } from './database/db.js';
 
 const server = app.listen(appConfig.port, async () => {
