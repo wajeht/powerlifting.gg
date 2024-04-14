@@ -4,30 +4,8 @@
     if (search.get('q')) {
       document.getElementById('q').value = search.get('q');
     }
-
-    const button = document.getElementById('scroll-top-button');
-    button.addEventListener('click', () => {
-      scrollToTop();
-    });
-
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 400) {
-        button.classList.remove('hidden');
-      } else {
-        button.classList.add('hidden');
-      }
-    });
   });
-
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }
 </script>
-
-<button id="scroll-top-button" class="fixed bottom-5 right-5 hidden btn btn-neutral ring-white ring-1 z-20">Top</button>
 
 <div class="fade-in p-10">
   <div class="mx-auto max-w-7xl w-full prose">
