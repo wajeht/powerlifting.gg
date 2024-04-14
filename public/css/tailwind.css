@@ -26,6 +26,11 @@
   border-radius: 50%;
 }
 
+.tooltip-warning {
+  --tooltip-color: #FB923D;
+  --tooltip-text-color: black;
+}
+
 * {
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
