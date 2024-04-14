@@ -5,6 +5,7 @@
 		"daisyui",
 		"dnsmasq",
 		"flushall",
+		"googleusercontent",
 		"healthz",
 		"importmap",
 		"knexfile",

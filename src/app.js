@@ -73,9 +73,11 @@ if (appConfig.env === 'production') {
 						'plausible.jaw.dev',
 						'powerlifting.gg',
 						'localtest.me',
+						'googleusercontent.com',
 						'jaw.lol',
 					],
 					'script-src': [
+						'googleusercontent.com',
 						"'self'",
 						"'unsafe-inline'",
 						'plausible.jaw.dev',
