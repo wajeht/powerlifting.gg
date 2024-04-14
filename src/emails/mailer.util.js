@@ -1,14 +1,18 @@
 import nodemailer from 'nodemailer';
 
 import { email as emailConfig } from '../config/email.js';
+import { app as appConfig } from '../config/app.js';
 
 const transporter = nodemailer.createTransport(emailConfig);
 
+const url =
+	appConfig.env === 'production' ? appConfig.production_app_url : appConfig.development_app_url;
+
 export async function sendMail({
-	to = `powerlifting.gg <${emailConfig.email_alias}>`,
+	to = `${url} <${emailConfig.email_alias}>`,
 	subject,
 	html,
-	from = `powerlifting.gg <${emailConfig.email_alias}>`,
+	from = `${url} <${emailConfig.email_alias}>`,
 }) {
 	return await transporter.sendMail({
 		from,
