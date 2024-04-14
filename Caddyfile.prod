@@ -2,17 +2,11 @@
   tls {
     on_demand
   }
-
   reverse_proxy http://powerlifting:8080
-  encode gzip
 }
 
 *.powerlifting.gg {
-  tls {
-    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-  }
   reverse_proxy http://powerlifting:8080
-  encode gzip
 }
 
 powerlifting.gg {
