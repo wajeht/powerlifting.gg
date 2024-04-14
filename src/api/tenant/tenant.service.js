@@ -44,12 +44,12 @@ export function TenantService(db, redis, dayjs) {
 
 			return tenants;
 		},
-		addReviewToTenant: async ({ tenantId, userId, comment, rating }) => {
+		addReviewToTenant: async ({ tenant_id, user_id, comment, ratings }) => {
 			const [reviewId] = await db('reviews').insert({
-				tenant_id: tenantId,
-				user_id: userId,
+				tenant_id,
+				user_id,
 				comment,
-				rating,
+				ratings,
 			});
 
 			const review = await db('reviews')
@@ -58,7 +58,7 @@ export function TenantService(db, redis, dayjs) {
 				.where('reviews.id', reviewId)
 				.first();
 
-			await redis.del(`tenants-${tenantId}-reviews`);
+			await redis.del(`tenants-${tenant_id}-reviews`);
 
 			return review;
 		},
@@ -70,7 +70,7 @@ export function TenantService(db, redis, dayjs) {
 					.leftJoin('users', 'reviews.user_id', 'users.id')
 					.orderBy('reviews.id', 'desc')
 					.where('reviews.tenant_id', tenantId);
-				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).toNow() }));
+				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).fromNow() }));
 				return reviews;
 			}
 
@@ -83,7 +83,7 @@ export function TenantService(db, redis, dayjs) {
 					.leftJoin('users', 'reviews.user_id', 'users.id')
 					.orderBy('reviews.id', 'desc')
 					.where('reviews.tenant_id', tenantId);
-				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).toNow() }));
+				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).fromNow() }));
 
 				await redis.set(`tenants-${tenantId}-reviews`, JSON.stringify(reviews));
 			} else {

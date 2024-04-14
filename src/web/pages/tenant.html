@@ -1,3 +1,5 @@
+
+
 <div class="fade-in p-10">
 	<div class="mx-auto max-w-7xl w-full prose">
 
@@ -11,6 +13,74 @@
 
 		<h1>Welcome from tenant <%- tenant.name %>!</h1>
 
+		<!-- submit a review form -->
+		<% if (app.user) { %>
+    	<div class="mb-5 max-w-sm">
+      	<!-- flash-messages -->
+      	<%- include('../components/flash-message.html') %>
+    	</div>
+
+			<form
+				method="post"
+				action="/comments"
+				id="comment-card"
+				class="border boreder-2 px-2 rounded-md flex shadow-sm">
+
+				<input type="hidden" id="user_id" name="user_id" value="<%= app.user.id %>">
+				<input type="hidden" id="tenant_id" name="tenant_id" value="<%= tenant.id %>">
+
+				<!-- image -->
+				<div class="px-2 flex-0 justify-center">
+					<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= app.user.profile_picture %>" alt="logo">
+				</div>
+
+				<!-- comment -->
+				<div class="flex flex-col px-2 flex-1 justify-center">
+					<!-- name -->
+					<div class="flex justify-between items-center">
+						<h4><%= app.user.username %></h4>
+						<div class="flex items-end h-full">
+							<input type="submit" value="submit" class="btn btn-sm btn-neutral m-0">
+						</div>
+					</div>
+
+					<!-- ratings -->
+					<div class="rating rating-xs">
+						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="1" onclick="handleRatingSelection(this)" required />
+						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="2" onclick="handleRatingSelection(this)" required/>
+						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="3" onclick="handleRatingSelection(this)" required/>
+						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="4" onclick="handleRatingSelection(this)" required/>
+						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="5" onclick="handleRatingSelection(this)" required/>
+					</div>
+
+					<script>
+						function handleRatingSelection(element) {
+							const inputs = document.getElementsByName('ratings');
+							let selectedIndex = 0;
+							for (let i = 0; i < inputs.length; i++) {
+									if (inputs[i] === element) {
+											selectedIndex = i;
+											break;
+									}
+							}
+							for (let j = 0; j < inputs.length; j++) {
+									if (j <= selectedIndex) {
+											inputs[j].classList.add('bg-orange-400');
+									} else {
+											inputs[j].classList.remove('bg-orange-400');
+									}
+							}
+						}
+					</script>
+
+					<!-- comment -->
+					<textarea id="comment" name="comment" placeholder="say something.." class="my-4 p-3 border border-dashed rounded-md bg-gray-50 italic text-sm" required></textarea>
+				</div>
+			</form>
+
+			<hr>
+		<% } %>
+
 		<div class="flex justify-between items-center">
 			<!-- search -->
 			<form action="/search" method="post" class="flex gap-1 justify-between">
@@ -19,7 +89,7 @@
 					<label class="input input-bordered flex items-center gap-2 w-[350px]" for="q">
 						<input type="text" class="grow" id="q" name="q" placeholder="Search for a review..." required />
 					</label>
-					<input id="home-search" type="submit" value="Search" class="btn btn-neutral" />
+					<input id="home-search" type="Submit" value="Search" class="btn btn-neutral" />
 				</div>
 			</form>
 
@@ -39,25 +109,7 @@
 
 		<p>Showing 0 to 10 of 100 reviews</p>
 
-		<div class="flex flex-col gap-5 rounded-md">
-			<!-- submit a review form -->
-			<% if (app.user) { %>
-				<div
-					id="submit-review-card"
-					class="border boreder-2 px-2 rounded-md bg-white flex gap-1">
-
-					<div class="px-2 flex-0 justify-center">
-						<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= app.user.profile_picture %>" alt="logo">
-					</div>
-
-					<div class="flex flex-col px-2 flex-1 justify-center">
-						<div class="flex justify-between items-center">
-							<h4 class="mt-2"><%= app.user.username %></h4>
-						</div>
-						<div class="rating rating-xs"></div>
-					</div>
-				</div>
-			<% } %>
+		<div class="flex flex-col gap-5 rounded-md p-5 bg-gray-100 border border-1">
 
 			<% for(const review of reviews ) { %>
 				<div
@@ -83,7 +135,7 @@
 									type="radio"
 									id="<%= review.id %>-star-<%= i + 1 %>"
 									name="<%= review.id %>-star-<%= i + 1 %>"
-									class="mask mask-star <%= i + 1 < Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+									class="mask mask-star-2 <%= i + 1 < Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
 									disabled
 								/>
 							<% } %>
