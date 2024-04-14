@@ -127,7 +127,9 @@
 							<!-- name -->
 							<div class="flex justify-between items-center">
 								<h4 class="mt-2"><%= review.username %></h4>
-								<small class="text-[#4A5569] opacity-70"><%= review.created_at %></small>
+								<div class="tooltip" data-tip="<%= review.created_at%>">
+									<small class="text-[#4A5569] opacity-70"><%= review.time_ago %></small>
+								</div>
 							</div>
 							<!-- ratings -->
 							<div class="rating rating-xs">

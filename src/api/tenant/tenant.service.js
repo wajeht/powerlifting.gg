@@ -70,7 +70,7 @@ export function TenantService(db, redis, dayjs) {
 					.leftJoin('users', 'reviews.user_id', 'users.id')
 					.orderBy('reviews.id', 'desc')
 					.where('reviews.tenant_id', tenantId);
-				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).fromNow() }));
+				reviews = reviews.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
 				return reviews;
 			}
 
@@ -83,7 +83,7 @@ export function TenantService(db, redis, dayjs) {
 					.leftJoin('users', 'reviews.user_id', 'users.id')
 					.orderBy('reviews.id', 'desc')
 					.where('reviews.tenant_id', tenantId);
-				reviews = reviews.map((r) => ({ ...r, created_at: dayjs(r.created_at).fromNow() }));
+				reviews = reviews.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
 
 				await redis.set(`tenants-${tenantId}-reviews`, JSON.stringify(reviews));
 			} else {
