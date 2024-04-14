@@ -1,15 +1,7 @@
-:443 {
-  tls {
-    on_demand
-  }
-  reverse_proxy http://powerlifting:8080
-}
-
 *.powerlifting.gg {
   reverse_proxy http://powerlifting:8080
 }
 
 powerlifting.gg {
   reverse_proxy http://powerlifting:8080
-	encode gzip
 }
