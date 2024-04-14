@@ -12,5 +12,12 @@ export function WebRepository(db) {
 		getRandomTenants: async ({ size = 5 } = {}) => {
 			return await db.select('*').from('tenants').orderByRaw('RANDOM()').limit(size);
 		},
+		getRandomReviews: async ({ size = 5 }) => {
+			return await db('reviews')
+				.select('reviews.*', 'users.username')
+				.join('users', 'reviews.user_id', 'users.id')
+				.orderByRaw('RANDOM()')
+				.limit(size);
+		},
 	};
 }

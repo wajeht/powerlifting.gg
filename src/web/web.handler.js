@@ -137,7 +137,8 @@ export function getIndexHandler(WebRepository, TenantService) {
 		}
 
 		const tenants = await WebRepository.getRandomTenants({ size: 5 });
-		return res.status(200).render('home.html', { tenants, title: '/' });
+		const reviews = await WebRepository.getRandomReviews({ size: 5 });
+		return res.status(200).render('home.html', { tenants, reviews, title: '/' });
 	};
 }
 
