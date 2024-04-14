@@ -153,7 +153,7 @@ export function postCommentHandler(TenantService) {
 			user_id: parseInt(user_id),
 			tenant_id: parseInt(tenant_id),
 			ratings: parseInt(ratings),
-			comment,
+			comment: `${comment}`,
 		});
 
 		return res.redirect('back');

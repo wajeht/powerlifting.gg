@@ -125,6 +125,7 @@ web.get(
  */
 web.post(
 	'/comments',
+	authenticationHandler,
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(postCommentHandler(TenantService(db, redis))),
 );
