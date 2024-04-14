@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
+import { sendContactEmail } from '../emails/email.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
@@ -91,7 +92,11 @@ web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHand
  * @tags web
  * @summary post contact
  */
-web.post('/contact', tenantIdentityHandler, catchAsyncErrorHandler(postContactHandler()));
+web.post(
+	'/contact',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(postContactHandler(sendContactEmail)),
+);
 
 /**
  * GET /tenants

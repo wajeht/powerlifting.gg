@@ -62,8 +62,9 @@ export function getLogoutHandler() {
 	};
 }
 
-export function postContactHandler() {
+export function postContactHandler(sendContactEmail) {
 	return (req, res) => {
+		sendContactEmail(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
 		return res.redirect('/contact');
 	};
