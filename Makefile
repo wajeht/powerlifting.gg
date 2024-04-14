@@ -5,7 +5,6 @@ push:
 	git add -A
 	./commit.sh
 	git push --no-verify
-	# ./deploy.sh
 
 fix_git:
 	git rm -r --cached .

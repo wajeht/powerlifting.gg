@@ -40,6 +40,9 @@ export function getTenantsNewHandler() {
 
 export function getLoginHandler() {
 	return async (req, res) => {
+		if (req.session.user) {
+			return res.redirect('back');
+		}
 		return res.redirect('/oauth/google');
 	};
 }
@@ -126,6 +129,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 			return res.status(200).render('tenant.html', {
 				tenant: req.tenant,
 				reviews,
+				flashMessages: req.flash(),
 				title: '/',
 				layout: '../layouts/tenant.html',
 			});
@@ -133,5 +137,25 @@ export function getIndexHandler(WebRepository, TenantService) {
 
 		const tenants = await WebRepository.getRandomTenants({ size: 5 });
 		return res.status(200).render('home.html', { tenants, title: '/' });
+	};
+}
+
+export function postCommentHandler(TenantService) {
+	return async (req, res) => {
+		const { user_id, tenant_id, comment, ratings } = req.body;
+
+		if (comment.trim() === '') {
+			req.flash('error', 'for real, say some!');
+			return res.redirect('back');
+		}
+
+		await TenantService.addReviewToTenant({
+			user_id: parseInt(user_id),
+			tenant_id: parseInt(tenant_id),
+			ratings: parseInt(ratings),
+			comment,
+		});
+
+		return res.redirect('back');
 	};
 }

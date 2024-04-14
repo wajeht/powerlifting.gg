@@ -20,6 +20,7 @@ import {
 	getTermsOfServiceHandler,
 	getLoginHandler,
 	getLogoutHandler,
+	postCommentHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
@@ -115,6 +116,17 @@ web.get(
 	'/',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs))),
+);
+
+/**
+ * POST <subdomain>/comments
+ * @tags web
+ * @summary post <subdomain>/comments
+ */
+web.post(
+	'/comments',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(postCommentHandler(TenantService(db, redis))),
 );
 
 export { web };

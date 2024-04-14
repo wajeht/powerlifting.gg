@@ -90,6 +90,10 @@ export async function tenantIdentityHandler(req, res, next) {
 	try {
 		const subdomain = req.subdomains.length ? req.subdomains[0] : null;
 
+		if (req.session.user) {
+			res.locals.app['user'] = req.session.user;
+		}
+
 		if (!subdomain) {
 			return next();
 		}
@@ -101,10 +105,7 @@ export async function tenantIdentityHandler(req, res, next) {
 		}
 
 		req.tenant = tenant;
-		res.locals.app = {
-			...res.locals.app,
-			tenant,
-		};
+		res.locals.app['tenant'] = tenant;
 
 		return next();
 	} catch (error) {

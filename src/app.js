@@ -36,13 +36,17 @@ app.set('trust proxy', true);
 app.use(
 	session({
 		secret: appConfig.session.secret,
-		resave: false,
+		resave: true,
 		saveUninitialized: true,
 		store: redisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
-			httpOnly: appConfig.env === 'production',
+			httpOnly: false,
+			// prettier-ignore
+			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}`: `.${appConfig.development_app_url}`,
+			maxAge: 1000 * 60 * 24, // 24 hours
 			// // TODO: fix why this aint working for production
+			// httpOnly: appConfig.env === 'production',
 			// sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			// secure: appConfig.env === 'production',
 		},
@@ -64,18 +68,27 @@ if (appConfig.env === 'production') {
 			contentSecurityPolicy: {
 				directives: {
 					...helmet.contentSecurityPolicy.getDefaultDirectives(),
-					'default-src': ["'self'", 'plausible.jaw.dev', 'powerlifting.gg', 'app.test'],
-					'script-src': [
+					'default-src': [
 						"'self'",
-						'app.test',
+						'plausible.jaw.dev',
+						'powerlifting.gg',
+						'localtest.me',
+						'googleusercontent.com',
+						'jaw.lol',
+					],
+					'script-src': [
+						'googleusercontent.com',
+						"'self'",
 						"'unsafe-inline'",
 						'plausible.jaw.dev',
 						"'unsafe-eval'",
 						'powerlifting.gg',
-						'localhost',
+						'localtest.me',
+						'jaw.lol',
 						'blob:',
 						'text/javascript',
 					],
+					'img-src': ["'self'", 'googleusercontent.com', 'data:'],
 				},
 			},
 		}),

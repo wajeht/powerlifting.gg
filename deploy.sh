@@ -4,22 +4,10 @@ ssh root@5.78.109.1 << EOF
 
 cd powerlifting.gg
 
-docker compose -f docker-compose.prod.yml down --rmi all
+git fetch origin
 
-docker stop $(docker ps -aq) && docker system prune -af --volumes
+git reset --hard origin/main
 
-docker system prune -a --volumes -f
-
-git reset HEAD .
-
-git checkout -- .
-
-git pull
-
-git checkout main
-
-docker compose -f docker-compose.prod.yml build
-
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d --build
 
 EOF
