@@ -42,7 +42,7 @@ app.use(
 		proxy: true,
 		cookie: {
 			// prettier-ignore
-			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}` : `.${appConfig.development_app_url}`,
+			domain: '.powerlifting.gg',
 			httpOnly: false,
 			secure: false,
 			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
