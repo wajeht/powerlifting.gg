@@ -88,6 +88,7 @@ if (appConfig.env === 'production') {
 						'blob:',
 						'text/javascript',
 					],
+					'img-src': ["'self'", 'googleusercontent.com', 'data:'],
 				},
 			},
 		}),
