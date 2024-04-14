@@ -36,16 +36,15 @@ app.set('trust proxy', true);
 app.use(
 	session({
 		secret: appConfig.session.secret,
-		resave: true,
+		resave: false,
 		saveUninitialized: true,
 		store: redisStore,
-		proxy: appConfig.env === 'production',
+		proxy: true,
 		cookie: {
 			// prettier-ignore
 			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}` : `.${appConfig.development_app_url}`,
 			httpOnly: false,
 			secure: false,
-			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			maxAge: 1000 * 60 * 24, // 24 hours
 		},
 	}),
