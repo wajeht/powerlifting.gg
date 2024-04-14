@@ -1,3 +1,41 @@
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const reviews = document.querySelectorAll('.review');
+    let currentIndex = 0;
+
+    function fadeNextReview() {
+        if (reviews.length === 0) return; // Ensure reviews exist
+
+        // Hide current review with fade-out effect
+        reviews[currentIndex].classList.add('animate__fadeOut');
+
+        // Wait for fade-out animation to complete
+        setTimeout(() => {
+            reviews[currentIndex].classList.add('hidden');
+            reviews[currentIndex].classList.remove('animate__fadeOut');
+
+            // Increment index or loop back to 0 if at the end
+            currentIndex = (currentIndex + 1) % reviews.length;
+
+            // Show next review with a fade-in effect
+            reviews[currentIndex].classList.remove('hidden');
+            reviews[currentIndex].classList.add('animate__fadeIn');
+
+            // Wait for the fade-in animation to complete before removing the class
+            setTimeout(() => {
+                reviews[currentIndex].classList.remove('animate__fadeIn');
+            }, 1000); // Adjust the time based on the duration of the fade-in animation
+        }, 1000); // Adjust the time based on the duration of the fade-out animation
+    }
+
+    // Initial fade-in for the first review
+    reviews[currentIndex].classList.remove('hidden');
+    reviews[currentIndex].classList.add('animate__fadeIn');
+
+    setInterval(fadeNextReview, 8000);
+});
+</script>
+
 <div class="flex flex-col">
 	<!-- search -->
 	<div class="bg-no-repeat bg-center bg-cover" style="background-image: url('/img/crowd.jpg');">
@@ -44,12 +82,16 @@
 			<!-- title -->
 			<div class="flex-1 flex flex-col gap-10 items-center">
 				<h2 class="text-5xl font-extrabold">Why Choose Us?</h2>
-				<div class="border border-dashed border-1 p-10 bg-gray-50 rounded-md max-w-lg flex flex-col gap-5 prose text-[#4A5568]">
-					<p class="m-0 p-0">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Explicabo excepturi, maiores similique a quaerat, cupiditate ea, dolorem veritatis labore consequatur eligendi doloribus dicta praesentium. Veritatis eos ullam deleniti in libero!</p>
-					<span class="flex justify-end">
-						<p class="m-0 p-0">-- jaw</p>
-					</span>
-				</div>
+
+				<% for (let i = 0; i < reviews.length; i++) { %>
+					<div class="review animate__animated border border-dashed border-1 p-10 bg-gray-50 rounded-md max-w-lg flex flex-col gap-5 prose text-[#4A5568] hidden animate__fadeIn">
+						<p class="m-0 p-0"><%= reviews[i].comment %></p>
+						<span class="flex justify-end">
+							<p class="m-0 p-0">-- <%= reviews[i].username %></p>
+						</span>
+					</div>
+				<% } %>
+
 			</div>
 
 			<div class="prose flex-1">
