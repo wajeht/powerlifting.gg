@@ -1,13 +1,21 @@
-*.powerlifting.gg {
-  reverse_proxy http://powerlifting:8080
-  header {
-    Strict-Transport-Security "max-age=31536000;"
+:443 {
+  tls {
+    on_demand
   }
+
+  reverse_proxy http://powerlifting:8080
+  encode gzip
+}
+
+*.powerlifting.gg {
+  tls {
+    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+  }
+  reverse_proxy http://powerlifting:8080
+  encode gzip
 }
 
 powerlifting.gg {
   reverse_proxy http://powerlifting:8080
-  header {
-    Strict-Transport-Security "max-age=31536000;"
-  }
+	encode gzip
 }
