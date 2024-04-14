@@ -54,7 +54,7 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 			})
 			.returning('*');
 		foundUser = foundUser[0];
-		await sendWelcomeEmail({ email: googleUser.email, username });
+		sendWelcomeEmail({ email: googleUser.email, username });
 	}
 
 	req.session.user = foundUser;
