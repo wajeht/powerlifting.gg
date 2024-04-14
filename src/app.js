@@ -42,7 +42,7 @@ app.use(
 		proxy: appConfig.env === 'production',
 		cookie: {
 			httpOnly: false,
-			domain: process.env.NODE_ENV === 'production' ? '.powerlifting.gg' : '.localhost',
+			domain: process.env.NODE_ENV === 'production' ? '.powerlifting.gg' : '.localtest.me',
 			maxAge: 1000 * 60 * 24, // 24 hours
 			// // TODO: fix why this aint working for production
 			// httpOnly: appConfig.env === 'production',
@@ -67,14 +67,14 @@ if (appConfig.env === 'production') {
 			contentSecurityPolicy: {
 				directives: {
 					...helmet.contentSecurityPolicy.getDefaultDirectives(),
-					'default-src': ["'self'", 'plausible.jaw.dev', 'powerlifting.gg', 'app.run'],
+					'default-src': ["'self'", 'plausible.jaw.dev', 'powerlifting.gg', 'localtest.me'],
 					'script-src': [
 						"'self'",
 						"'unsafe-inline'",
 						'plausible.jaw.dev',
 						"'unsafe-eval'",
 						'powerlifting.gg',
-						'app.run',
+						'localtest.me',
 						'blob:',
 						'text/javascript',
 					],

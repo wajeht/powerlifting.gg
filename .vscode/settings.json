@@ -9,6 +9,7 @@
 		"importmap",
 		"knexfile",
 		"litestream",
+		"localtest",
 		"mailhot",
 		"multitenancy",
 		"Nuxt",

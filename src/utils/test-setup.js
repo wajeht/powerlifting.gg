@@ -2,7 +2,7 @@ process.env.DEBUG = true;
 process.env.PORT = 8081;
 process.env.NODE_ENV = 'testing';
 process.env.MY_IP_ADDRESS = '50.26.8.122';
-process.env.DEVELOPMENT_APP_URL = 'localhost';
+process.env.DEVELOPMENT_APP_URL = 'localtest.me';
 process.env.PRODUCTION_APP_URL = 'powerlifting.gg';
 
 process.env.GOOGLE_ID = 'something';
