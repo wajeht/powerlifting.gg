@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', () => {
     reviews[currentIndex].classList.remove('hidden');
     reviews[currentIndex].classList.add('animate__fadeIn');
 
-    setInterval(fadeNextReview, 10000);
+    setInterval(fadeNextReview, 8000);
 });
 </script>
 
@@ -80,15 +80,15 @@ window.addEventListener('DOMContentLoaded', () => {
 	<div class="fade-in p-10 py-16 border-y">
 		<div class="mx-auto max-w-7xl w-full flex gap-10 justify-evenly py-20">
 			<!-- title -->
-			<div class="flex-1 flex flex-col gap-10 items-center">
+			<div class="flex-1 flex flex-col gap-10 items-center w-full">
 				<h2 class="text-5xl font-extrabold">Why Choose Us?</h2>
 
 				<% for (let i = 0; i < reviews.length; i++) { %>
-					<span class="review hidden animate__animated animate__fadeIn">
+					<span class="review hidden animate__animated animate__fadeIn w-full px-10 font-light italic">
 						<div class="border border-dashed border-1 p-10 bg-gray-50 rounded-md max-w-lg flex flex-col gap-5 prose text-[#4A5568] w-full">
 							<p class="m-0 p-0"><%= reviews[i].comment %></p>
 							<span class="flex justify-end">
-								<p class="m-0 p-0">-- <%= reviews[i].username %></p>
+								<p class="m-0 p-0 text-sm">-- <%= reviews[i].username %></p>
 							</span>
 						</div>
 					</span>
