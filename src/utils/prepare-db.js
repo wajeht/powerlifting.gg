@@ -15,21 +15,23 @@ fs.access(dbPath, fs.constants.F_OK, async (err) => {
 		try {
 			await db.migrate.latest();
 			logger.info('Migrations are up to date.');
-
-			await db.seed.run();
-			logger.info('Database seeding complete.');
 		} catch (error) {
 			logger.error(`Error running migrations or seeding: ${error}`);
 		}
+
 		await db.destroy();
 	} else {
 		logger.info('Database exists. Running migrations if needed...');
+
 		try {
 			await db.migrate.latest();
 			logger.info('Migrations are up to date.');
 		} catch (error) {
 			logger.error(`Error running migrations: ${error}`);
 		}
+
 		await db.destroy();
 	}
+
+	process.exit();
 });
