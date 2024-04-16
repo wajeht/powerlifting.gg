@@ -2,6 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import { db } from '../database/db.js';
 import { logger } from '../utils/logger.js';
+import { app as appConfig } from '../config/app.js';
+
+if (appConfig.env !== 'production') {
+	throw new Error('cannot use prepare-db.js in none production environment!');
+}
 
 const dbPath = path.resolve(path.join(process.cwd(), 'src', 'database', 'db.sqlite'));
 
