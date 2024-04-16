@@ -20,6 +20,11 @@ const knexConfig = {
 	pool: {
 		afterCreate: (conn, done) => {
 			conn.run('PRAGMA foreign_keys = ON', done);
+			conn.run('PRAGMA journal_mode = WAL', done);
+			conn.run('PRAGMA synchronous = NORMAL', done);
+			conn.run('PRAGMA cache_size = 10000', done); // Adjusts the number of pages in the memory cache
+			conn.run('PRAGMA temp_store = MEMORY', done); // Stores temp objects in memory
+			conn.run('PRAGMA busy_timeout = 5000', done); // Wait for 5000 ms before timing out
 		},
 	},
 };

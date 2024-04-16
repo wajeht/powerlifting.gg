@@ -144,3 +144,5 @@ env.json
 /public/js/_plugin-vue_export-helper.js
 /public/js/GlobalSearch.js
 /public/js/Users.js
+/src/database/db.sqlite-shm
+/src/database/db.sqlite-wal
