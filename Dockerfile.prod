@@ -1,24 +1,39 @@
-FROM node:20.6.1-alpine as build
-
+# Base image
+FROM node:20.6.1-alpine AS base
 WORKDIR /usr/src/app
 
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
+# Build stage
+FROM base AS build
 COPY . .
+RUN npm run build  # Assuming you have a build script in your package.json
 
-FROM node:20.6.1-alpine
+# Runtime stage
+FROM node:20.6.1-alpine AS runtime
 
-RUN apk update && apk upgrade && apk add curl
+# Update and install curl
+RUN apk update && apk add curl
 
-# USER node
-
+# Set up the runtime environment
 WORKDIR /usr/src/app
 
-COPY --chown=node:node --from=build /usr/src/app .
+# Copy built files and node modules from the build stage
+COPY --from=build /usr/src/app .
 
+# Litestream integration
+COPY --from=litestream/litestream:latest /usr/local/bin/litestream /usr/local/bin/litestream
+COPY --from=build /usr/src/app/litestream.yml /etc/litestream.yml
+
+# Optional: if you have a specific directory or files to copy for Litestream
+# COPY --from=build /usr/src/app/your-directory /your-directory
+
+# Expose the port your app runs on and set up the health check
 EXPOSE 8080
 
 HEALTHCHECK CMD curl -f http://localhost:8080/healthz || exit 1
 
+# Command to start your application
 CMD ["npm", "run", "start"]
