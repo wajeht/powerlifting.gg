@@ -32,7 +32,7 @@
 
 <% for (let i = 0; i < reviews.length; i++) { %>
   <span class="review hidden animate__animated animate__fadeIn w-full px-10 font-light italic">
-    <div class="border border-dashed border-1 p-10 bg-gray-50 rounded-md max-w-lg flex flex-col gap-5 prose text-[#4A5568] w-full">
+    <div class="p-10 bg-neutral/90 rounded-md max-w-lg flex flex-col gap-5 prose text-white w-full shadow-sm">
       <p class="m-0 p-0"><%= reviews[i].comment %></p>
       <span class="flex justify-end">
         <p class="m-0 p-0 text-sm">-- <%= reviews[i].username %></p>
