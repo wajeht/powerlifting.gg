@@ -1,3 +1,31 @@
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const inputs = document.getElementsByName('ratings');
+		const checkedInput = document.querySelector('input[name="ratings"]:checked');
+
+		function handleRatingSelection(element) {
+			let selectedIndex = Array.from(inputs).indexOf(element);
+			inputs.forEach((input, index) => {
+				if (index <= selectedIndex) {
+						input.classList.add('bg-orange-400');
+				} else {
+						input.classList.remove('bg-orange-400');
+				}
+			});
+		}
+
+		if (checkedInput) {
+			handleRatingSelection(checkedInput);
+		}
+
+		inputs.forEach(input => {
+			input.addEventListener('click', function() {
+					handleRatingSelection(this);
+			});
+		});
+	});
+</script>
+
 <div class="mb-5 max-w-sm">
   <!-- flash-messages -->
   <%- include('../components/flash-message.html') %>

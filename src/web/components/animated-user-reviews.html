@@ -1,0 +1,42 @@
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const reviews = document.querySelectorAll('.review');
+    let currentIndex = 0;
+
+    function fadeNextReview() {
+      if (reviews.length === 0) return;
+
+      reviews[currentIndex].classList.add('animate__fadeOut');
+
+      setTimeout(() => {
+        reviews[currentIndex].classList.add('hidden');
+        reviews[currentIndex].classList.remove('animate__fadeOut');
+
+        currentIndex = (currentIndex + 1) % reviews.length;
+
+        reviews[currentIndex].classList.remove('hidden');
+        reviews[currentIndex].classList.add('animate__fadeIn');
+
+        setTimeout(() => {
+          reviews[currentIndex].classList.remove('animate__fadeIn');
+        }, 1000);
+      }, 1000);
+    }
+
+    reviews[currentIndex].classList.remove('hidden');
+    reviews[currentIndex].classList.add('animate__fadeIn');
+
+    setInterval(fadeNextReview, 8000);
+  });
+</script>
+
+<% for (let i = 0; i < reviews.length; i++) { %>
+  <span class="review hidden animate__animated animate__fadeIn w-full px-10 font-light italic">
+    <div class="border border-dashed border-1 p-10 bg-gray-50 rounded-md max-w-lg flex flex-col gap-5 prose text-[#4A5568] w-full">
+      <p class="m-0 p-0"><%= reviews[i].comment %></p>
+      <span class="flex justify-end">
+        <p class="m-0 p-0 text-sm">-- <%= reviews[i].username %></p>
+      </span>
+    </div>
+  </span>
+<% } %>
