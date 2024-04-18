@@ -134,9 +134,10 @@ web.get(
 );
 
 /**
- * POST <subdomain>/reviews
- * @tags <subdomain>/reviews
- * @summary post <subdomain>/reviews
+ * POST /{subdomain}/reviews
+ * @tags {subdomain}/reviews
+ * @summary post /{subdomain}/reviews
+ * @param {string} subdomain.path.required - the subdomain - application/x-www-form-urlencoded
  */
 web.post(
 	'/reviews',
