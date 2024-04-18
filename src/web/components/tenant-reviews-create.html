@@ -1,0 +1,48 @@
+<div class="mb-5 max-w-sm">
+  <!-- flash-messages -->
+  <%- include('../components/flash-message.html') %>
+</div>
+
+<!-- reviews form -->
+<form
+  method="post"
+  action="/reviews"
+  id="comment-card"
+  class="border boreder-2 px-2 rounded-md flex">
+  <!-- csrf -->
+  <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+
+  <!-- user_id -->
+  <input type="hidden" id="user_id" name="user_id" value="<%= app.user.id %>">
+
+  <!-- tenant_id -->
+  <input type="hidden" id="tenant_id" name="tenant_id" value="<%= tenant.id %>">
+
+  <!-- image -->
+  <div class="px-2 flex-0 justify-center">
+    <img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= app.user.profile_picture %>" alt="logo">
+  </div>
+
+  <!-- comment -->
+  <div class="flex flex-col px-2 flex-1 justify-center">
+    <!-- name -->
+    <div class="flex justify-between items-center">
+      <h4><%= app.user.username %></h4>
+      <div class="flex items-end h-full">
+        <input type="submit" value="Submit" class="btn btn-sm btn-neutral m-0">
+      </div>
+    </div>
+
+    <!-- ratings -->
+    <div class="rating rating-xs">
+      <input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="1" checked required />
+      <input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="2" required/>
+      <input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="3" required/>
+      <input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="4" required/>
+      <input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="5" required/>
+    </div>
+
+    <!-- comment -->
+    <textarea id="comment" name="comment" placeholder="say something.." class="my-4 p-3 border border-dashed rounded-md bg-gray-100 italic text-sm whitespace-pre-line" required></textarea>
+  </div>
+</form>
