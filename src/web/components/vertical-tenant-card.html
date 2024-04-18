@@ -1,0 +1,33 @@
+<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full min-h-[288px]" style="background-image: url(<%= tenant.banner %>);">
+  <!-- blur -->
+  <div class="flex flex-col gap-3 items-center justify-between p-5 backdrop-blur-sm bg-black/70 rounded-md h-fulli min-h-[288px]">
+    <!-- img -->
+    <div class="h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm">
+      <img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
+    </div>
+
+    <!-- rating -->
+    <div class="rating rating-xs mt-2">
+      <% for (let i = 0; i < 5; i++) { %>
+        <input
+          type="radio"
+          id="<%= tenant.slug %>-star-<%= i + 1 %>"
+          name="<%= tenant.slug %>-star-<%= i + 1 %>"
+          class="mask mask-star-2 <%= (i + 1) <= Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+          disabled
+        />
+      <% } %>
+    </div>
+
+    <!-- name -->
+    <div class="flex items-center mt-3">
+      <h4 class="m-0 p-0 text-white drop-shadow-sm"><%= tenant.name %></h4>
+      <% if (tenant.verified) { %>
+        <img class="w-5 h-5 p-0 m-0" src="/img/verified.png" alt="verified" />
+      <% } %>
+    </div>
+
+    <!-- button -->
+    <a class="btn btn-sm btn-outline hover:bg-white hover:text-neutral no-underline text-white drop-shadow-sm w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>
+  </div>
+</div>
