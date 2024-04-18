@@ -26,7 +26,6 @@ import {
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
-import { SearchService } from '../api/search/search.service.js';
 // import { body } from 'express-validator';
 
 dayjs.extend(relativeTime);
@@ -107,7 +106,7 @@ web.post(
  * @tags tenants
  * @summary get tenants page
  */
-web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db, redis))));
+web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(TenantService(db, redis))));
 
 /**
  * GET /tenants/create
