@@ -8,8 +8,11 @@ git fetch origin main
 
 git reset --hard origin/main
 
-docker compose -f docker-compose.prod.yml build --no-cache powerlifting
+make down
+make clean
+make wipe
+make all
 
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d --build
 
 EOF
