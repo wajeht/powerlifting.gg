@@ -9,7 +9,7 @@ const google = express.Router();
 
 /**
  * GET /oauth/google
- * @tags auth
+ * @tags oauth
  * @summary get google oauth url
  */
 google.get('/', (req, res) => {
@@ -21,7 +21,7 @@ google.get('/', (req, res) => {
 
 /**
  * GET /oauth/google/redirect
- * @tags auth
+ * @tags oauth
  * @summary get google oauth redirect url
  */
 google.get('/redirect', tenantIdentityHandler, async (req, res) => {

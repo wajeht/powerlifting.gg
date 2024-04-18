@@ -22,7 +22,7 @@ import {
 	getTermsOfServiceHandler,
 	getLoginHandler,
 	getLogoutHandler,
-	postCommentHandler,
+	postReviewHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
@@ -117,6 +117,12 @@ web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db, r
 web.get('/tenants/create', authenticationHandler, catchAsyncErrorHandler(getTenantsNewHandler()));
 
 /**
+ * GET <subdomain>/
+ * @tags <subdomain>/reviews
+ * @summary get tenant reviews page
+ */
+
+/**
  * GET /
  * @tags web
  * @summary get index page
@@ -129,16 +135,16 @@ web.get(
 );
 
 /**
- * POST <subdomain>/comments
- * @tags web
- * @summary post <subdomain>/comments
+ * POST <subdomain>/reviews
+ * @tags <subdomain>/reviews
+ * @summary post <subdomain>/reviews
  */
 web.post(
-	'/comments',
+	'/reviews',
 	authenticationHandler,
 	tenantIdentityHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(postCommentHandler(TenantService(db, redis))),
+	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis))),
 );
 
 export { web };

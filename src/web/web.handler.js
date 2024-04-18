@@ -142,7 +142,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 	};
 }
 
-export function postCommentHandler(TenantService) {
+export function postReviewHandler(TenantService) {
 	return async (req, res) => {
 		const { user_id, tenant_id, comment, ratings } = req.body;
 
