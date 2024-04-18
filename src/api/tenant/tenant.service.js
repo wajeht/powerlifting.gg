@@ -1,3 +1,5 @@
+import { NotFoundError } from '../../app.errors.js';
+
 export function TenantService(db, redis, dayjs) {
 	return {
 		getTenant: async ({ tenantId, cache = true }) => {
@@ -5,11 +7,16 @@ export function TenantService(db, redis, dayjs) {
 				return await db.select('*').from('tenants').where({ id: tenantId }).first();
 			}
 
-			let tenant = await redis.get(`tenant:${tenantId}`);
+			let tenant = await redis.get(`tenants-${tenantId}`);
 
 			if (!tenant) {
 				tenant = await db.select('*').from('tenants').where({ id: tenantId }).first();
-				await redis.set(`tenant:${tenantId}`, JSON.stringify(tenant));
+
+				if (!tenant) {
+					throw new NotFoundError();
+				}
+
+				await redis.set(`tenants-${tenantId}`, JSON.stringify(tenant));
 			} else {
 				tenant = JSON.parse(tenant);
 			}
