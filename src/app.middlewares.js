@@ -198,7 +198,7 @@ export function errorHandler(err, req, res, _next) {
 	if (req.tenant) {
 		return res.status(statusCode).render('./error.html', {
 			title: `/${req.originalUrl}`,
-			tenant: JSON.stringify(req.tenant),
+			tenant: req.tenant,
 			layout: '../layouts/tenant.html',
 			error: errorMessage,
 			statusCode,
