@@ -1,3 +1,4 @@
+import { NotFoundError } from '../app.errors.js';
 import path from 'path';
 import fs from 'fs/promises';
 
@@ -67,6 +68,9 @@ export function getLogoutHandler() {
 
 export function postContactHandler(sendContactEmail) {
 	return (req, res) => {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
 		sendContactEmail(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
 		return res.redirect('/contact');
@@ -75,60 +79,45 @@ export function postContactHandler(sendContactEmail) {
 
 export function getContactHandler() {
 	return (req, res) => {
-		if (!req.tenant) {
-			return res.status(200).render('contact.html', {
-				title: '/contact',
-				flashMessages: req.flash(),
-			});
+		if (req.tenant) {
+			throw new NotFoundError();
 		}
 
 		return res.status(200).render('contact.html', {
 			title: '/contact',
 			flashMessages: req.flash(),
-			layout: '../layouts/tenant.html',
-			tenant: JSON.stringify(req.tenant),
 		});
 	};
 }
 
 export function getPrivacyPolicyHandler(marked) {
 	return async (req, res) => {
-		if (!req.tenant) {
-			let content = path.resolve(
-				path.join(process.cwd(), 'src', 'web', 'pages', 'privacy-policy.md'),
-			);
-			content = await fs.readFile(content, 'utf8');
-			return res.status(200).render('markdown.html', {
-				title: '/privacy-policy',
-				content: marked(content),
-			});
+		if (req.tenant) {
+			throw new NotFoundError();
 		}
-
-		return res.status(200).render('privacy-policy.html', {
+		let content = path.resolve(
+			path.join(process.cwd(), 'src', 'web', 'pages', 'privacy-policy.md'),
+		);
+		content = await fs.readFile(content, 'utf8');
+		return res.status(200).render('markdown.html', {
 			title: '/privacy-policy',
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
+			content: marked(content),
 		});
 	};
 }
 
 export function getTermsOfServiceHandler(marked) {
 	return async (req, res) => {
-		if (!req.tenant) {
-			let content = path.resolve(
-				path.join(process.cwd(), 'src', 'web', 'pages', 'terms-of-services.md'),
-			);
-			content = await fs.readFile(content, 'utf8');
-			return res.status(200).render('markdown.html', {
-				title: '/terms-of-services',
-				content: marked(content),
-			});
+		if (req.tenant) {
+			throw new NotFoundError();
 		}
-
-		return res.status(200).render('terms-of-services.html', {
+		let content = path.resolve(
+			path.join(process.cwd(), 'src', 'web', 'pages', 'terms-of-services.md'),
+		);
+		content = await fs.readFile(content, 'utf8');
+		return res.status(200).render('markdown.html', {
 			title: '/terms-of-services',
-			tenant: JSON.stringify(req.tenant),
-			layout: '../layouts/tenant.html',
+			content: marked(content),
 		});
 	};
 }
