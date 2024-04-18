@@ -50,6 +50,7 @@
 		"connect-flash": "^0.1.1",
 		"connect-redis": "^7.1.1",
 		"cors": "^2.8.5",
+		"csrf-sync": "^4.0.3",
 		"dayjs": "^1.11.10",
 		"dotenv": "^16.4.5",
 		"ejs": "^3.1.10",

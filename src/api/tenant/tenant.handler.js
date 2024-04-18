@@ -1,5 +1,3 @@
-import { NotFoundError } from '../../app.errors.js';
-
 export function getAllTenantHandler(tenantService) {
 	return async (req, res) => {
 		const tenants = await tenantService.getAllTenant({ cache: true });
@@ -12,9 +10,7 @@ export function getAllTenantHandler(tenantService) {
 
 export function getTenantHandler(tenantService) {
 	return async (req, res) => {
-		if (!req.tenant) throw new NotFoundError();
-
-		const tenants = await tenantService.getTenant(req.tenant.id);
+		const tenants = await tenantService.getTenant({ tenantId: req.params.id, cache: true });
 		return res.status(200).json({
 			message: 'ok',
 			data: tenants,

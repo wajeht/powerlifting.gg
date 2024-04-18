@@ -1,3 +1,4 @@
+import { csrfSync } from 'csrf-sync';
 import { logger } from './utils/logger.js';
 import { validationResult } from 'express-validator';
 import { db } from './database/db.js';
@@ -46,6 +47,20 @@ export const validateRequestHandler = (schemas) => {
 		}
 	};
 };
+
+export const csrfHandler = (() => {
+	const { csrfSynchronisedProtection } = csrfSync({
+		getTokenFromRequest: (req) => req.body.csrfToken,
+	});
+
+	return [
+		csrfSynchronisedProtection,
+		(req, res, next) => {
+			res.locals.csrfToken = req.csrfToken();
+			next();
+		},
+	];
+})();
 
 export const catchAsyncErrorHandler = (fn) => {
 	return async (req, res, next) => {
@@ -183,7 +198,7 @@ export function errorHandler(err, req, res, _next) {
 	if (req.tenant) {
 		return res.status(statusCode).render('./error.html', {
 			title: `/${req.originalUrl}`,
-			tenant: JSON.stringify(req.tenant),
+			tenant: req.tenant,
 			layout: '../layouts/tenant.html',
 			error: errorMessage,
 			statusCode,

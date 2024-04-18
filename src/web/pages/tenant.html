@@ -1,34 +1,5 @@
-<script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const inputs = document.getElementsByName('ratings');
-		const checkedInput = document.querySelector('input[name="ratings"]:checked');
-
-		function handleRatingSelection(element) {
-			let selectedIndex = Array.from(inputs).indexOf(element);
-			inputs.forEach((input, index) => {
-				if (index <= selectedIndex) {
-						input.classList.add('bg-orange-400');
-				} else {
-						input.classList.remove('bg-orange-400');
-				}
-			});
-		}
-
-		if (checkedInput) {
-			handleRatingSelection(checkedInput);
-		}
-
-		inputs.forEach(input => {
-			input.addEventListener('click', function() {
-					handleRatingSelection(this);
-			});
-		});
-	});
-</script>
-
 <div class="fade-in p-10">
 	<div class="mx-auto max-w-7xl w-full prose">
-
 
 		<div class="flex justify-between items-center">
 			<div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
@@ -50,49 +21,7 @@
 
 		<!-- submit a review form -->
 		<% if (app.user) { %>
-    	<div class="mb-5 max-w-sm">
-      	<!-- flash-messages -->
-      	<%- include('../components/flash-message.html') %>
-    	</div>
-
-			<form
-				method="post"
-				action="/comments"
-				id="comment-card"
-				class="border boreder-2 px-2 rounded-md flex">
-
-				<input type="hidden" id="user_id" name="user_id" value="<%= app.user.id %>">
-				<input type="hidden" id="tenant_id" name="tenant_id" value="<%= tenant.id %>">
-
-				<!-- image -->
-				<div class="px-2 flex-0 justify-center">
-					<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= app.user.profile_picture %>" alt="logo">
-				</div>
-
-				<!-- comment -->
-				<div class="flex flex-col px-2 flex-1 justify-center">
-					<!-- name -->
-					<div class="flex justify-between items-center">
-						<h4><%= app.user.username %></h4>
-						<div class="flex items-end h-full">
-							<input type="submit" value="Submit" class="btn btn-sm btn-neutral m-0">
-						</div>
-					</div>
-
-					<!-- ratings -->
-					<div class="rating rating-xs">
-						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="1" checked required />
-						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="2" required/>
-						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="3" required/>
-						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="4" required/>
-						<input type="radio" name="ratings" class="mask mask-star-2 bg-orange-200" value="5" required/>
-					</div>
-
-					<!-- comment -->
-					<textarea id="comment" name="comment" placeholder="say something.." class="my-4 p-3 border border-dashed rounded-md bg-gray-100 italic text-sm whitespace-pre-line" required></textarea>
-				</div>
-			</form>
-
+			<%- include('../components/tenant-reviews-create.html', { csrfToken, app, tenant }) %>
 			<hr>
 		<% } %>
 
@@ -125,44 +54,9 @@
 		<p>Showing 0 to 10 of 100 reviews</p>
 
 		<div class="flex flex-col gap-5 rounded-md p-5 bg-gray-100 border border-1">
-
 			<% if (reviews.length) { %>
 				<% for(const review of reviews ) { %>
-					<div
-						id="review-card-<%= review.id %>"
-						class="border boreder-2 px-2 rounded-md bg-white flex gap-1">
-
-						<!-- image -->
-						<div class="px-2 flex-0 justify-center">
-							<img class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm" src="<%= review.profile_picture %>" alt="logo">
-						</div>
-
-						<!-- comment -->
-						<div class="flex flex-col p-2 flex-1 justify-center">
-							<!-- name -->
-							<div class="flex justify-between items-center">
-								<h4 class="mt-2"><%= review.username %></h4>
-								<div class="tooltip" data-tip="<%= review.created_at%>">
-									<small class="text-[#4A5569] opacity-70"><%= review.time_ago %></small>
-								</div>
-							</div>
-							<!-- ratings -->
-							<div class="rating rating-xs">
-								<% for (let i = 0; i < 5; i++) { %>
-									<input
-										type="radio"
-										id="<%= review.id %>-star-<%= i + 1 %>"
-										name="<%= review.id %>-star-<%= i + 1 %>"
-										class="mask mask-star-2 <%= i + 1 <= Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
-										disabled
-									/>
-								<% } %>
-							</div>
-							<!-- comment -->
-							<p class="mt-3 p-3 border border-dashed rounded-md bg-gray-50 italic text-sm"><%= review.comment %></p>
-						</div>
-
-					</div>
+					<%- include('../components/tenant-comment.html', { review }) %>
 				<% } %>
 			<% } else { %>
 				<span class="p-60 text-sm text-center italic">Nothing to see here!</span>

@@ -1,41 +1,3 @@
-<script>
-window.addEventListener('DOMContentLoaded', () => {
-    const reviews = document.querySelectorAll('.review');
-    let currentIndex = 0;
-
-    function fadeNextReview() {
-        if (reviews.length === 0) return; // Ensure reviews exist
-
-        // Hide current review with fade-out effect
-        reviews[currentIndex].classList.add('animate__fadeOut');
-
-        // Wait for fade-out animation to complete
-        setTimeout(() => {
-            reviews[currentIndex].classList.add('hidden');
-            reviews[currentIndex].classList.remove('animate__fadeOut');
-
-            // Increment index or loop back to 0 if at the end
-            currentIndex = (currentIndex + 1) % reviews.length;
-
-            // Show next review with a fade-in effect
-            reviews[currentIndex].classList.remove('hidden');
-            reviews[currentIndex].classList.add('animate__fadeIn');
-
-            // Wait for the fade-in animation to complete before removing the class
-            setTimeout(() => {
-                reviews[currentIndex].classList.remove('animate__fadeIn');
-            }, 1000); // Adjust the time based on the duration of the fade-in animation
-        }, 1000); // Adjust the time based on the duration of the fade-out animation
-    }
-
-    // Initial fade-in for the first review
-    reviews[currentIndex].classList.remove('hidden');
-    reviews[currentIndex].classList.add('animate__fadeIn');
-
-    setInterval(fadeNextReview, 8000);
-});
-</script>
-
 <div class="flex flex-col">
 	<!-- search -->
 	<div class="bg-no-repeat bg-center bg-cover" style="background-image: url('/img/crowd.jpg');">
@@ -81,19 +43,8 @@ window.addEventListener('DOMContentLoaded', () => {
 		<div class="mx-auto max-w-7xl w-full flex gap-10 justify-evenly py-20">
 			<!-- title -->
 			<div class="flex-1 flex flex-col gap-10 items-center w-full">
-				<h2 class="text-5xl font-extrabold">Why Choose Us?</h2>
-
-				<% for (let i = 0; i < reviews.length; i++) { %>
-					<span class="review hidden animate__animated animate__fadeIn w-full px-10 font-light italic">
-						<div class="border border-dashed border-1 p-10 bg-gray-50 rounded-md max-w-lg flex flex-col gap-5 prose text-[#4A5568] w-full">
-							<p class="m-0 p-0"><%= reviews[i].comment %></p>
-							<span class="flex justify-end">
-								<p class="m-0 p-0 text-sm">-- <%= reviews[i].username %></p>
-							</span>
-						</div>
-					</span>
-				<% } %>
-
+				<h2 class="text-5xl font-extrabold">Why <span class="underlined">Choose</span> Us?</h2>
+				<%- include('../components/animated-user-reviews.html', { reviews }) %>
 			</div>
 
 			<div class="prose flex-1">
@@ -144,7 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	<div class="p-10 py-16 border-y bg-gray-100">
 		<div class="mx-auto max-w-7xl w-full text-center prose flex flex-col justify-center items-center py-20">
 			<!-- title -->
-			<h2 class="text-5xl font-extrabold">Featured Coaches</h2>
+			<h2 class="text-5xl font-extrabold">Feat<span class="underlined">ured Coa</span>ches</h2>
 
 			<!-- desc -->
 			<p class="text-xl text-[#6B7280] max-w-2xl text-center">Meet the coaches who are making a difference in the lives of their clients.</p>
@@ -152,40 +103,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			<!-- coaches -->
 			<div class="flex gap-10 justify-between w-full mt-2">
 				<% for(const tenant of tenants) { %>
-					<!-- background -->
-					<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full min-h-[288px]" style="background-image: url(<%= tenant.banner %>);">
-						<!-- blur -->
-						<div class="flex flex-col gap-3 items-center justify-between p-5 backdrop-blur-sm bg-black/70 rounded-md h-fulli min-h-[288px]">
-							<!-- img -->
-							<div class="h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm">
-								<img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
-							</div>
-
-							<!-- rating -->
-							<div class="rating rating-xs mt-2">
-								<% for (let i = 0; i < 5; i++) { %>
-									<input
-										type="radio"
-										id="<%= tenant.slug %>-star-<%= i + 1 %>"
-										name="<%= tenant.slug %>-star-<%= i + 1 %>"
-										class="mask mask-star-2 <%= (i + 1) <= Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
-										disabled
-									/>
-								<% } %>
-							</div>
-
-							<!-- name -->
-							<div class="flex items-center mt-3">
-								<h4 class="m-0 p-0 text-white drop-shadow-sm"><%= tenant.name %></h4>
-								<% if (tenant.verified) { %>
-									<img class="w-5 h-5 p-0 m-0" src="/img/verified.png" alt="verified" />
-								<% } %>
-							</div>
-
-							<!-- button -->
-							<a class="btn btn-sm btn-outline hover:bg-white hover:text-neutral no-underline text-white drop-shadow-sm w-full" href="<%- app.configureDomain(tenant.slug) %>">View</a>
-						</div>
-					</div>
+					<%- include('../components/vertical-tenant-card.html', { tenant }) %>
 				<% } %>
 			</div>
 		</div>
@@ -194,10 +112,18 @@ window.addEventListener('DOMContentLoaded', () => {
 	<!-- cta -->
 	<div class="p-10 py-16 border-y">
 		<div class="mx-auto max-w-7xl w-full flex gap-5 justify-evenly py-20">
-			<div>
-				<h2 class="text-5xl font-extrabold">Let's get started</h2>
+			<div class="w-full h-32 items-center flex justify-center">
+				<div class="text-right flex flex-col gap-1 m-0">
+					<h5 class="text-3xl font-bold">Let's make</h5>
+					<h2 class="text-5xl font-extrabold">all kin<span class="underlined">dz of gainz!</span></h2>
+				</div>
 			</div>
-			<a class="btn btn-neutral" href="/tenants" title="tenants">Review Now</a>
+
+			<div class="flex w-full h-32 items-center gap-5 justify-center">
+				<a class="btn" href="/tenants/create" title="tenants">Submit A Tenant</a>
+				<div class="divider divider-horizontal text-[#6B7280] font-light">or</div>
+				<a class="btn btn-neutral" href="/tenants" title="tenants">Review Now</a>
+			</div>
 		</div>
 	</div>
 

@@ -13,10 +13,10 @@ export function getHealthzHandler() {
 	};
 }
 
-export function getTenantsHandler(SearchService) {
+export function getTenantsHandler(TenantService) {
 	return async (req, res) => {
 		const { q, per_page, current_page, sort } = req.query;
-		const tenants = await SearchService.search(q, {
+		const tenants = await TenantService.getTenantSearch(q, {
 			cache: true,
 			sort: sort ?? 'asc',
 			perPage: parseInt(per_page ?? 25),
@@ -142,7 +142,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 	};
 }
 
-export function postCommentHandler(TenantService) {
+export function postReviewHandler(TenantService) {
 	return async (req, res) => {
 		const { user_id, tenant_id, comment, ratings } = req.body;
 
