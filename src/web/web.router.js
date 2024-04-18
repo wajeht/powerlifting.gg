@@ -33,9 +33,6 @@ dayjs.extend(relativeTime);
 
 const web = express.Router();
 
-/**
- * @tags oauth
- */
 web.use(oauthRouter);
 
 /**
@@ -69,21 +66,21 @@ web.get(
 
 /**
  * GET /login
- * @tags web
+ * @tags auth
  * @summary get login url
  */
 web.get('/login', tenantIdentityHandler, catchAsyncErrorHandler(getLoginHandler()));
 
 /**
  * GET /logout
- * @tags web
+ * @tags auth
  * @summary get logout url
  */
 web.get('/logout', tenantIdentityHandler, catchAsyncErrorHandler(getLogoutHandler()));
 
 /**
  * GET /contact
- * @tags web
+ * @tags contact
  * @summary get contact page
  */
 web.get(
@@ -95,7 +92,7 @@ web.get(
 
 /**
  * POST /contact
- * @tags web
+ * @tags contact
  * @summary post contact
  */
 web.post(
@@ -107,15 +104,15 @@ web.post(
 
 /**
  * GET /tenants
- * @tags web
+ * @tags tenants
  * @summary get tenants page
  */
 web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(SearchService(db, redis))));
 
 /**
  * GET /tenants/create
- * @tags web
- * @summary get tenants new page
+ * @tags tenants
+ * @summary get tenants create page
  */
 web.get('/tenants/create', authenticationHandler, catchAsyncErrorHandler(getTenantsNewHandler()));
 
