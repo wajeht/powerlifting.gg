@@ -1,3 +1,6 @@
+import path from 'path';
+import fs from 'fs/promises';
+
 export function getHealthzHandler() {
 	return (req, res) => {
 		const uptime = process.uptime();
@@ -88,11 +91,16 @@ export function getContactHandler() {
 	};
 }
 
-export function getPrivacyPolicyHandler() {
-	return (req, res) => {
+export function getPrivacyPolicyHandler(marked) {
+	return async (req, res) => {
 		if (!req.tenant) {
-			return res.status(200).render('privacy-policy.html', {
+			let content = path.resolve(
+				path.join(process.cwd(), 'src', 'web', 'pages', 'privacy-policy.md'),
+			);
+			content = await fs.readFile(content, 'utf8');
+			return res.status(200).render('markdown.html', {
 				title: '/privacy-policy',
+				content: marked(content),
 			});
 		}
 
@@ -104,11 +112,16 @@ export function getPrivacyPolicyHandler() {
 	};
 }
 
-export function getTermsOfServiceHandler() {
-	return (req, res) => {
+export function getTermsOfServiceHandler(marked) {
+	return async (req, res) => {
 		if (!req.tenant) {
-			return res.status(200).render('terms-of-services.html', {
+			let content = path.resolve(
+				path.join(process.cwd(), 'src', 'web', 'pages', 'terms-of-services.md'),
+			);
+			content = await fs.readFile(content, 'utf8');
+			return res.status(200).render('markdown.html', {
 				title: '/terms-of-services',
+				content: marked(content),
 			});
 		}
 

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { marked } from 'marked';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
@@ -49,7 +50,7 @@ web.get('/healthz', getHealthzHandler());
 web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getPrivacyPolicyHandler()),
+	catchAsyncErrorHandler(getPrivacyPolicyHandler(marked)),
 );
 
 /**
@@ -60,7 +61,7 @@ web.get(
 web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getTermsOfServiceHandler()),
+	catchAsyncErrorHandler(getTermsOfServiceHandler(marked)),
 );
 
 /**
