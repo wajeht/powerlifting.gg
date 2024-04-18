@@ -60,8 +60,13 @@
 				action="/comments"
 				id="comment-card"
 				class="border boreder-2 px-2 rounded-md flex">
+        <!-- csrf -->
+        <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
 
+				<!-- user_id -->
 				<input type="hidden" id="user_id" name="user_id" value="<%= app.user.id %>">
+
+				<!-- tenant_id -->
 				<input type="hidden" id="tenant_id" name="tenant_id" value="<%= tenant.id %>">
 
 				<!-- image -->

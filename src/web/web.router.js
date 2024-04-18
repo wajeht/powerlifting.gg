@@ -7,6 +7,7 @@ import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
 	authenticationHandler,
+	csrfHandler,
 	// validateRequestHandler,
 } from '../app.middlewares.js';
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
@@ -85,7 +86,12 @@ web.get('/logout', tenantIdentityHandler, catchAsyncErrorHandler(getLogoutHandle
  * @tags web
  * @summary get contact page
  */
-web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHandler()));
+web.get(
+	'/contact',
+	tenantIdentityHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(getContactHandler()),
+);
 
 /**
  * POST /contact
@@ -95,6 +101,7 @@ web.get('/contact', tenantIdentityHandler, catchAsyncErrorHandler(getContactHand
 web.post(
 	'/contact',
 	tenantIdentityHandler,
+	csrfHandler,
 	catchAsyncErrorHandler(postContactHandler(sendContactEmail)),
 );
 
@@ -120,6 +127,7 @@ web.get('/tenants/create', authenticationHandler, catchAsyncErrorHandler(getTena
 web.get(
 	'/',
 	tenantIdentityHandler,
+	csrfHandler,
 	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs))),
 );
 
@@ -132,6 +140,7 @@ web.post(
 	'/comments',
 	authenticationHandler,
 	tenantIdentityHandler,
+	csrfHandler,
 	catchAsyncErrorHandler(postCommentHandler(TenantService(db, redis))),
 );
 
