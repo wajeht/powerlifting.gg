@@ -29,6 +29,9 @@ export const swagger = {
 	swaggerUIPath: '/api-docs',
 	exposeSwaggerUI: true,
 	notRequiredAsNullable: false,
-	swaggerUiOptions: {},
+	swaggerUiOptions: {
+		customSiteTitle: 'powerlifting.gg | api documentation',
+		customfavIcon: '/favicon.ico',
+	},
 	multiple: {},
 };
