@@ -1,4 +1,5 @@
 import { NotFoundError } from '../app.error.js';
+import { nl2br } from './web.util.js';
 
 export function getHealthzHandler() {
 	return (req, res) => {
@@ -162,7 +163,7 @@ export function postReviewHandler(TenantService) {
 			user_id: parseInt(user_id),
 			tenant_id: parseInt(tenant_id),
 			ratings: parseInt(ratings),
-			comment: `${comment}`,
+			comment: nl2br(comment.trim()),
 		});
 
 		return res.redirect('back');
