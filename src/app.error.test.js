@@ -5,7 +5,7 @@ import {
 	NotFoundError,
 	ValidationError,
 	UnimplementedFunctionError,
-} from './app.errors.js';
+} from './app.error.js';
 
 describe('ForbiddenError', () => {
 	it('should return an error with status code 403 and default message', () => {

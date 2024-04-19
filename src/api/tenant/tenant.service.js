@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../app.errors.js';
+import { NotFoundError } from '../../app.error.js';
 
 export function TenantService(db, redis, dayjs) {
 	return {

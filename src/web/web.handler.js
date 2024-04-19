@@ -1,4 +1,4 @@
-import { NotFoundError } from '../app.errors.js';
+import { NotFoundError } from '../app.error.js';
 import path from 'path';
 import fs from 'fs/promises';
 

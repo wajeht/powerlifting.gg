@@ -10,7 +10,7 @@ import {
 	authenticationHandler,
 	csrfHandler,
 	// validateRequestHandler,
-} from '../app.middlewares.js';
+} from '../app.middleware.js';
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
 import {
 	getContactHandler,

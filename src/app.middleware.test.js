@@ -1,5 +1,5 @@
 import { it, expect, vi, describe } from 'vitest';
-import { errorHandler } from './app.middlewares.js';
+import { errorHandler } from './app.middleware.js';
 import {
 	ForbiddenError,
 	UnauthorizedError,
@@ -7,7 +7,7 @@ import {
 	ValidationError,
 	UnimplementedFunctionError,
 	HttpError,
-} from './app.errors.js';
+} from './app.error.js';
 
 describe('errorHandler', () => {
 	const mockReq = {};

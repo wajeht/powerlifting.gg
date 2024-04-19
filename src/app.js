@@ -23,7 +23,7 @@ import {
 	rateLimitHandler,
 	localVariables,
 	skipOnMyIp,
-} from './app.middlewares.js';
+} from './app.middleware.js';
 
 const redisStore = new RedisStore({
 	client: redis,

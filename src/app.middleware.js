@@ -10,7 +10,7 @@ import {
 	UnauthorizedError,
 	ValidationError,
 	UnimplementedFunctionError,
-} from './app.errors.js';
+} from './app.error.js';
 
 export const authorizePermissionHandler = (role, permissions) => {
 	return (req, res, next) => {

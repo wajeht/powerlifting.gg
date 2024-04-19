@@ -1,8 +1,8 @@
 import express from 'express';
 import { sendWelcomeEmail } from '../../emails/email.js';
 import { getGoogleOAuthURL, getGoogleOauthToken, getGoogleUser } from './google.util.js';
-import { UnauthorizedError } from '../../app.errors.js';
-import { tenantIdentityHandler } from '../../app.middlewares.js';
+import { UnauthorizedError } from '../../app.error.js';
+import { tenantIdentityHandler } from '../../app.middleware.js';
 import { db } from '../../database/db.js';
 
 const google = express.Router();

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { catchAsyncErrorHandler } from '../../app.middlewares.js';
+import { catchAsyncErrorHandler } from '../../app.middleware.js';
 import { db } from '../../database/db.js';
 
 const reviews = express.Router();
