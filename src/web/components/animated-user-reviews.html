@@ -31,11 +31,11 @@
 </script>
 
 <% for (let i = 0; i < reviews.length; i++) { %>
-  <span class="review hidden animate__animated animate__fadeIn w-full px-10 font-light italic">
-    <div class="p-10 bg-neutral rounded-md max-w-lg flex flex-col gap-5 prose text-white w-full shadow-sm">
-      <p class="m-0 p-0"><%= reviews[i].comment %></p>
+  <span class="review hidden animate__animated animate__fadeIn w-full px-10 font-thin" style="font-family: 'Comic Sans MS', 'Comic Sans', 'cursive;'">
+    <div class="p-10 bg-neutral rounded-md max-w-lg flex flex-col gap-5 prose w-full shadow-sm font-thin">
+      <p class="m-0 p-0 text-white/90"><%= reviews[i].comment %></p>
       <span class="flex justify-end">
-        <p class="m-0 p-0 text-sm">-- <%= reviews[i].username %></p>
+        <p class="m-0 p-0 text-sm text-white/70">-- <%= reviews[i].username %></p>
       </span>
     </div>
   </span>
