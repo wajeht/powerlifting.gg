@@ -42,7 +42,7 @@
           <details class="dropdown">
             <summary class="join-item btn">Page <%= tenants.pagination.currentPage %></summary>
             <% if (tenants.pagination.links.length) { %>
-              <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[162px] -left-[44px]">
+              <ul class="p-2 shadow-md menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[162px] -left-[44px]">
                 <% for (let i=0; i < tenants.pagination.links.length; i++) { %>
                   <!-- skip current page -->
                   <% if ((i + 1) !== tenants.pagination.currentPage) { %>
@@ -73,7 +73,7 @@
             class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat"
             style="background-image: url(<%= tenant.banner %>);">
             <!-- blur -->
-            <div class="flex gap-2 p-5 backdrop-blur-sm bg-black/70 rounded-md">
+            <div class="flex gap-2 p-5 backdrop-blur-sm bg-black/70 hover:bg-black/80 rounded-md transition-all duration-300">
               <!-- left -->
               <div class="flex-0 min-h-full max-w-40 flex justify-center items-center">
                 <div class="w-32 h-32 rounded-full flex justify-center items-center shadow-white shadow-sm">
@@ -105,7 +105,9 @@
                   </div>
 
                   <!-- link -->
-                  <a class="text-white drop-shadow-sm" href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %></a>
+                  <div>
+                    <a class="text-white drop-shadow-sm" href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %> ⤴️</a>
+                  </div>
               </div>
 
               <!-- right -->

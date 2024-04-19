@@ -20,6 +20,7 @@ import {
 	getPrivacyPolicyHandler,
 	getTenantsNewHandler,
 	getTermsOfServiceHandler,
+	getModerationPolicyHandler,
 	getLoginHandler,
 	getLogoutHandler,
 	postReviewHandler,
@@ -41,6 +42,17 @@ web.use(oauthRouter);
  * @summary get healthz page
  */
 web.get('/healthz', getHealthzHandler());
+
+/**
+ * GET /moderation-policy
+ * @tags web
+ * @summary get moderation policy
+ */
+web.get(
+	'/moderation-policy',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(getModerationPolicyHandler(WebService(WebRepository, redis))),
+);
 
 /**
  * GET /privacy-policy
