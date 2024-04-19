@@ -2,7 +2,7 @@ import { NotFoundError } from '../../app.error.js';
 
 export function TenantService(db, redis, dayjs) {
 	return {
-		getTenant: async ({ tenantId, cache = true }) => {
+		getTenant: async function ({ tenantId, cache = true }) {
 			if (!cache) {
 				return await db.select('*').from('tenants').where({ id: tenantId }).first();
 			}
@@ -23,7 +23,7 @@ export function TenantService(db, redis, dayjs) {
 
 			return tenant;
 		},
-		getAllTenant: async ({ cache = true }) => {
+		getAllTenant: async function ({ cache = true }) {
 			if (!cache) {
 				return await db
 					.select('tenants.*')
@@ -51,7 +51,7 @@ export function TenantService(db, redis, dayjs) {
 
 			return tenants;
 		},
-		addReviewToTenant: async ({ tenant_id, user_id, comment, ratings }) => {
+		addReviewToTenant: async function ({ tenant_id, user_id, comment, ratings }) {
 			const [reviewId] = await db('reviews').insert({
 				tenant_id,
 				user_id,
@@ -67,9 +67,11 @@ export function TenantService(db, redis, dayjs) {
 
 			await redis.del(`tenants-${tenant_id}-reviews`);
 
+			await this.updateRatings({ tenantId: tenant_id });
+
 			return review;
 		},
-		getTenantReviews: async ({ tenantId, cache = true }) => {
+		getTenantReviews: async function ({ tenantId, cache = true }) {
 			if (!cache) {
 				let reviews = await db
 					.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
@@ -98,16 +100,16 @@ export function TenantService(db, redis, dayjs) {
 			}
 			return reviews;
 		},
-		updateRatings: async ({ tenantId }) => {
+		updateRatings: async function ({ tenantId }) {
 			const reviews = await db('reviews').where({ tenant_id: tenantId });
-			const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
+			const totalRating = reviews.reduce((acc, curr) => acc + curr.ratings, 0);
 			const averageRating = reviews.length ? totalRating / reviews.length : null;
 			await db('tenants').where({ id: tenantId }).update({ ratings: averageRating });
 		},
-		getTenantSearch: async (
+		getTenantSearch: async function (
 			q = '',
 			pagination = { perPage: 25, currentPage: 1, sort: 'asc', cache: true },
-		) => {
+		) {
 			const cacheKey = `search?q=${encodeURIComponent(q)}&per_page=${pagination.perPage}&current_page=${pagination.currentPage}&sort=${pagination.sort}`;
 
 			if (pagination.cache) {
