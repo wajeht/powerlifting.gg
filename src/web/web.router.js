@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { marked } from 'marked';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
@@ -26,6 +25,7 @@ import {
 	postReviewHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
+import { WebService } from './web.service.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
 // import { body } from 'express-validator';
 
@@ -50,7 +50,7 @@ web.get('/healthz', getHealthzHandler());
 web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getPrivacyPolicyHandler(marked)),
+	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository, redis))),
 );
 
 /**
@@ -61,7 +61,7 @@ web.get(
 web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getTermsOfServiceHandler(marked)),
+	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository, redis))),
 );
 
 /**

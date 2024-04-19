@@ -1,6 +1,4 @@
 import { NotFoundError } from '../app.error.js';
-import path from 'path';
-import fs from 'fs/promises';
 
 export function getHealthzHandler() {
 	return (req, res) => {
@@ -90,34 +88,28 @@ export function getContactHandler() {
 	};
 }
 
-export function getPrivacyPolicyHandler(marked) {
+export function getPrivacyPolicyHandler(WebService) {
 	return async (req, res) => {
 		if (req.tenant) {
 			throw new NotFoundError();
 		}
-		let content = path.resolve(
-			path.join(process.cwd(), 'src', 'web', 'pages', 'privacy-policy.md'),
-		);
-		content = await fs.readFile(content, 'utf8');
+		const content = await WebService.getMarkdownPage({ cache: true, page: 'privacy-policy' });
 		return res.status(200).render('markdown.html', {
 			title: '/privacy-policy',
-			content: marked(content),
+			content,
 		});
 	};
 }
 
-export function getTermsOfServiceHandler(marked) {
+export function getTermsOfServiceHandler(WebService) {
 	return async (req, res) => {
 		if (req.tenant) {
 			throw new NotFoundError();
 		}
-		let content = path.resolve(
-			path.join(process.cwd(), 'src', 'web', 'pages', 'terms-of-services.md'),
-		);
-		content = await fs.readFile(content, 'utf8');
+		const content = await WebService.getMarkdownPage({ cache: true, page: 'terms-of-services' });
 		return res.status(200).render('markdown.html', {
 			title: '/terms-of-services',
-			content: marked(content),
+			content,
 		});
 	};
 }
