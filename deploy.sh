@@ -10,11 +10,6 @@ git fetch origin main
 
 git reset --hard origin/main
 
-make down
-make clean
-make wipe
-make all
-
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose.prod.yml up -d --build --no-deps powerlifting
 
 EOF
