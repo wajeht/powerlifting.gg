@@ -11,7 +11,7 @@
 		"start": "NODE_ENV=production npm && npm run build && npm run link:command && npm run db:prepare:prod && node ./src/server.js",
 		"dev": "concurrently --kill-others --names \"EXPRESS,VUE,TAILWIND\" -c \"bgGreen.black,bgYellow.black,bgCyan.black\" \"npm run dev:server\" \"npm run dev:vue\" \"npm run dev:tailwind\"",
 		"dev:vue": "vite build --watch --mode development",
-		"dev:server": "npm run db:prepare:dev && nodemon ./src/server.js",
+		"dev:server": "npm run link:command && npm run db:prepare:dev && nodemon ./src/server.js",
 		"dev:tailwind": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --watch",
 		"build": "npm run build:tailwind && npm run build:vue && npm run minify",
 		"build:vue": "vite build",
