@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ssh -T root@5.78.109.1 << EOF
+source .env
+
+ssh -T $PRODUCTION_SSH_URL << EOF
 
 cd powerlifting.gg
 
