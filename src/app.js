@@ -10,6 +10,7 @@ import flash from 'connect-flash';
 import RedisStore from 'connect-redis';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
 
+import { setupBullDashboard } from './job/job.js';
 import { web as webRoutes } from './web/web.router.js';
 import { api as apiRoutes } from './api/api.router.js';
 import { swagger as swaggerConfig } from './config/swagger.js';
@@ -116,8 +117,11 @@ app.set('view engine', 'html');
 app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'pages')));
 app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'web', 'layouts', 'main.html')));
 
-expressJSDocSwagger(app)(swaggerConfig);
 app.use(localVariables);
+
+setupBullDashboard(app);
+expressJSDocSwagger(app)(swaggerConfig);
+
 app.use(expressLayouts);
 
 app.use(apiRoutes);

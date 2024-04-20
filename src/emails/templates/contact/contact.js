@@ -11,7 +11,6 @@ export async function sendContactEmail({ email, subject = 'Contact', message }) 
 		const html = await ejs.renderFile(template, { email, subject, message });
 
 		await sendMail({
-			from: email,
 			subject,
 			html,
 		});
@@ -19,5 +18,6 @@ export async function sendContactEmail({ email, subject = 'Contact', message }) 
 		logger.info('contact email sent to:', email);
 	} catch (error) {
 		logger.error('error while sending contact email:', error);
+		throw error;
 	}
 }

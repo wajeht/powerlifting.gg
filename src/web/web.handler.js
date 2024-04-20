@@ -1,4 +1,5 @@
 import { NotFoundError } from '../app.error.js';
+import { nl2br } from './web.util.js';
 
 export function getHealthzHandler() {
 	return (req, res) => {
@@ -64,12 +65,12 @@ export function getLogoutHandler() {
 	};
 }
 
-export function postContactHandler(sendContactEmail) {
-	return (req, res) => {
+export function postContactHandler(sendContactEmailJob) {
+	return async (req, res) => {
 		if (req.tenant) {
 			throw new NotFoundError();
 		}
-		sendContactEmail(req.body);
+		await sendContactEmailJob(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
 		return res.redirect('/contact');
 	};
@@ -162,7 +163,7 @@ export function postReviewHandler(TenantService) {
 			user_id: parseInt(user_id),
 			tenant_id: parseInt(tenant_id),
 			ratings: parseInt(ratings),
-			comment: `${comment}`,
+			comment: nl2br(comment.trim()),
 		});
 
 		return res.redirect('back');
