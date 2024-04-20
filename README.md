@@ -36,7 +36,8 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [x] job/queue
 - [x] rbac
 - [x] litestream to auto backup sqlite to s3
-- [ ] dark mode?
+- [ ] adjust for mobile screen
+- [ ] dark mode
 - [ ] ig oauth
 - [ ] scrape usapl db
 - [ ] reserve known coaches
