@@ -71,33 +71,57 @@ export function TenantService(db, redis, dayjs) {
 
 			return review;
 		},
-		getTenantReviews: async function ({ tenantId, cache = true }) {
-			if (!cache) {
-				let reviews = await db
-					.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
-					.from('reviews')
-					.leftJoin('users', 'reviews.user_id', 'users.id')
-					.orderBy('reviews.created_at', 'desc')
-					.where('reviews.tenant_id', tenantId);
-				reviews = reviews.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
-				return reviews;
+		getTenantReviews: async function (
+			q = '',
+			tenantId,
+			pagination = { perPage: 25, currentPage: 1, sort: 'asc', cache: true },
+		) {
+			const cacheKey = `tenants-${tenantId}-reviews?q=${encodeURIComponent(q)}&per_page=${pagination.perPage}&current_page=${pagination.currentPage}&sort=${pagination.sort}`;
+
+			if (pagination.cache) {
+				const cachedData = await redis.get(cacheKey);
+				if (cachedData) {
+					return JSON.parse(cachedData);
+				}
 			}
 
-			let reviews = await redis.get(`tenants-${tenantId}-reviews`);
+			const query = db
+				.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
+				.from('reviews')
+				.leftJoin('users', 'reviews.user_id', 'users.id')
+				.orderBy('reviews.created_at', pagination.sort)
+				.where('reviews.tenant_id', tenantId)
 
-			if (!reviews) {
-				reviews = await db
-					.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
-					.from('reviews')
-					.leftJoin('users', 'reviews.user_id', 'users.id')
-					.orderBy('reviews.created_at', 'desc')
-					.where('reviews.tenant_id', tenantId);
-				reviews = reviews.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
-
-				await redis.set(`tenants-${tenantId}-reviews`, JSON.stringify(reviews));
-			} else {
-				reviews = JSON.parse(reviews);
+			if (q.trim() !== '') {
+					query.andWhere('reviews.comment', 'like', `%${q}%`);
 			}
+
+			let reviews = await query.paginate({
+				...pagination,
+				isLengthAware: true,
+			})
+
+			reviews.data = reviews.data.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
+			reviews.pagination.sort = pagination.sort;
+
+			reviews.pagination.links = Array.from(
+				{ length: reviews.pagination.lastPage },
+				(_, i) =>
+					`q=${q}&current_page=${i + 1}&per_page=${pagination.perPage}&sort=${pagination.sort}`,
+			);
+
+			if (reviews.pagination.prevPage !== null) {
+				reviews.pagination.prevPageLink = `q=${q}&current_page=${pagination.currentPage - 1}&per_page=${pagination.perPage}&sort=${pagination.sort}`;
+			}
+
+			if (reviews.pagination.nextPage !== null) {
+				reviews.pagination.nextPageLink = `q=${q}&current_page=${pagination.currentPage + 1}&per_page=${pagination.perPage}&sort=${pagination.sort}`;
+			}
+
+			if (pagination.cache) {
+				await redis.set(cacheKey, JSON.stringify(reviews));
+			}
+
 			return reviews;
 		},
 		updateRatings: async function ({ tenantId }) {
@@ -113,7 +137,7 @@ export function TenantService(db, redis, dayjs) {
 			const cacheKey = `search?q=${encodeURIComponent(q)}&per_page=${pagination.perPage}&current_page=${pagination.currentPage}&sort=${pagination.sort}`;
 
 			if (pagination.cache) {
-				let cachedData = await redis.get(cacheKey);
+				const cachedData = await redis.get(cacheKey);
 				if (cachedData) {
 					return JSON.parse(cachedData);
 				}

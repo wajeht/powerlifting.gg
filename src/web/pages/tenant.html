@@ -19,6 +19,8 @@
 
 		<h1 class="my-5 mb-10">Welcome from <span class="italic underlined font-semibold"><%- tenant.name %>!</span></h1>
 
+		<pre><%= JSON.stringify(reviews) %></pre>
+
 		<!-- submit a review form -->
 		<% if (app.user) { %>
 			<%- include('../components/tenant-reviews-create.html', { csrfToken, app, tenant }) %>
@@ -27,13 +29,16 @@
 
 		<div class="flex justify-between items-center">
 			<!-- search -->
-			<form action="/search" method="post" class="flex gap-1 justify-between">
+			<form action="<%- app.configureDomain(app.tenant.slug) %>" method="get" class="flex gap-1 justify-between">
 				<!-- left -->
 				<div class="flex gap-1">
-					<label class="input input-bordered flex items-center gap-2 w-[350px]" for="q">
-						<input type="text" class="grow" id="q" name="q" placeholder="Search for a review..." required />
+					<label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
+						<input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." required />
+						<input type="hidden" name="current_page" id="current_page" value="<%= reviews.pagination.currentPage %>">
+						<input type="hidden" name="per_page" id="per_page" value="<%= reviews.pagination.perPage %>">
+						<input type="hidden" name="sort" id="sort" value="<%= reviews.pagination.sort %>">
 					</label>
-					<input id="home-search" type="Submit" value="Search" class="btn btn-neutral" />
+					<input type="submit" value="Search" id="reviews-search" class="btn btn-neutral" />
 				</div>
 			</form>
 
@@ -54,8 +59,8 @@
 		<p>Showing 0 to 10 of 100 reviews</p>
 
 		<div class="flex flex-col gap-5 rounded-md p-5 bg-gray-100 border border-1">
-			<% if (reviews.length) { %>
-				<% for(const review of reviews ) { %>
+			<% if (reviews.data.length) { %>
+				<% for (const review of reviews.data) { %>
 					<%- include('../components/tenant-comment.html', { review }) %>
 				<% } %>
 			<% } else { %>
