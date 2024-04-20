@@ -52,7 +52,7 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 
 # 💻 Development
 
-See [DEVELOPMENT](./DEVELOPMENT.md) for more information.
+See [DEVELOPMENT](./docs/DEVELOPMENT.md) for more information.
 
 # 📜 License
 
