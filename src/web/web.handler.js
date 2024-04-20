@@ -134,7 +134,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 			const { q, per_page, current_page, sort } = req.query;
 			const reviews = await TenantService.getTenantReviews(q, req.tenant.id, {
 				cache: true,
-				sort: sort ?? 'asc',
+				sort: sort ?? 'desc',
 				perPage: parseInt(per_page ?? 25),
 				currentPage: parseInt(current_page ?? 1),
 			});

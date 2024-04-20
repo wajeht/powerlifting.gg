@@ -74,7 +74,7 @@ export function TenantService(db, redis, dayjs) {
 		getTenantReviews: async function (
 			q = '',
 			tenantId,
-			pagination = { perPage: 25, currentPage: 1, sort: 'asc', cache: true },
+			pagination = { perPage: 25, currentPage: 1, sort: 'desc', cache: true },
 		) {
 			const cacheKey = `tenants-${tenantId}-reviews?q=${encodeURIComponent(q)}&per_page=${pagination.perPage}&current_page=${pagination.currentPage}&sort=${pagination.sort}`;
 
@@ -102,6 +102,7 @@ export function TenantService(db, redis, dayjs) {
 			});
 
 			reviews.data = reviews.data.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
+
 			reviews.pagination.sort = pagination.sort;
 
 			reviews.pagination.links = Array.from(
