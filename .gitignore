@@ -146,3 +146,5 @@ env.json
 /public/js/Users.js
 /src/database/db.sqlite-shm
 /src/database/db.sqlite-wal
+src/utils/tempCodeRunnerFile.js
+*.gz

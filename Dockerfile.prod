@@ -9,7 +9,9 @@ COPY . .
 
 FROM node:20.6.1-alpine
 
-RUN apk update && apk upgrade && apk add curl
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache sqlite curl
 
 # USER node
 

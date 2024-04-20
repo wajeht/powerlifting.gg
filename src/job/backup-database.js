@@ -1,9 +1,13 @@
 import { Upload } from '@aws-sdk/lib-storage';
 import { S3Client } from '@aws-sdk/client-s3';
-import fs from 'fs';
-import path from 'path';
 import { backBlaze as backBlazeConfig } from '../config/back-blaze.js';
 import { logger } from '../utils/logger.js';
+import fs from 'fs';
+import path from 'path';
+import { promisify } from 'util';
+import { exec } from 'child_process';
+
+const execAsync = promisify(exec);
 
 export async function backupDatabase(job) {
 	const s3 = new S3Client({
@@ -17,17 +21,31 @@ export async function backupDatabase(job) {
 	});
 
 	const bucketName = backBlazeConfig.bucket;
-	const sqliteFileName = 'db.sqlite';
-	const sqliteFilePath = path.resolve(path.join(process.cwd(), 'src', 'database', sqliteFileName));
+	const currentDate = new Date().toISOString().replace(/:/g, '-');
+	const backupFileName = `db-${currentDate}.sqlite`;
 
 	try {
-		const fileStream = fs.createReadStream(sqliteFilePath);
+		const backupCommand = `sqlite3 ./src/database/db.sqlite "VACUUM INTO './src/database/backup/${backupFileName}'"`;
+		await execAsync(backupCommand);
+		logger.info(`Backup successful: ${backupFileName}`);
 
+		const gzipCommand = `gzip ./src/database/backup/${backupFileName}`;
+		await execAsync(gzipCommand);
+		logger.info(`Gzip successful: ${backupFileName}.gz`);
+
+		const sqliteFilePath = path.resolve(
+			process.cwd(),
+			'src',
+			'database',
+			'backup',
+			`${backupFileName}.gz`,
+		);
+		const fileStream = fs.createReadStream(sqliteFilePath);
 		const upload = new Upload({
 			client: s3,
 			params: {
 				Bucket: bucketName,
-				Key: sqliteFileName,
+				Key: backupFileName,
 				Body: fileStream,
 			},
 		});
@@ -39,8 +57,8 @@ export async function backupDatabase(job) {
 
 		await upload.done();
 
-		logger.info('Successfully uploaded ' + sqliteFileName + ' to ' + bucketName);
-	} catch (e) {
-		logger.error('Error:', e);
+		logger.info(`Successfully uploaded ${backupFileName}.gz to ${bucketName}`);
+	} catch (error) {
+		logger.error('Error:', error);
 	}
 }

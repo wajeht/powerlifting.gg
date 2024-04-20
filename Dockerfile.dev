@@ -1,5 +1,7 @@
 FROM node:20.6.1-alpine
 
+RUN apk add --no-cache sqlite
+
 WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
