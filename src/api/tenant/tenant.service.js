@@ -90,16 +90,16 @@ export function TenantService(db, redis, dayjs) {
 				.from('reviews')
 				.leftJoin('users', 'reviews.user_id', 'users.id')
 				.orderBy('reviews.created_at', pagination.sort)
-				.where('reviews.tenant_id', tenantId)
+				.where('reviews.tenant_id', tenantId);
 
 			if (q.trim() !== '') {
-					query.andWhere('reviews.comment', 'like', `%${q}%`);
+				query.andWhere('reviews.comment', 'like', `%${q}%`);
 			}
 
 			let reviews = await query.paginate({
 				...pagination,
 				isLengthAware: true,
-			})
+			});
 
 			reviews.data = reviews.data.map((r) => ({ ...r, time_ago: dayjs(r.created_at).fromNow() }));
 			reviews.pagination.sort = pagination.sort;

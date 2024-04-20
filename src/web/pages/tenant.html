@@ -19,8 +19,6 @@
 
 		<h1 class="my-5 mb-10">Welcome from <span class="italic underlined font-semibold"><%- tenant.name %>!</span></h1>
 
-		<pre><%= JSON.stringify(reviews) %></pre>
-
 		<!-- submit a review form -->
 		<% if (app.user) { %>
 			<%- include('../components/tenant-reviews-create.html', { csrfToken, app, tenant }) %>
