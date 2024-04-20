@@ -65,11 +65,19 @@ export function TenantService(db, redis, dayjs) {
 				.where('reviews.id', reviewId)
 				.first();
 
-			await redis.del(`tenants-${tenant_id}-reviews`);
+			await this.clearTenantReviewsCache(tenant_id);
 
 			await this.updateRatings({ tenantId: tenant_id });
 
 			return review;
+		},
+		clearTenantReviewsCache: async function (tenantId) {
+			const keys = await redis.keys('*');
+			for (const i of keys) {
+				if (i.includes(`tenants-${tenantId}-reviews`)) {
+					await redis.del(i);
+				}
+			}
 		},
 		getTenantReviews: async function (
 			q = '',
