@@ -1,5 +1,4 @@
 import { Queue, Worker } from 'bullmq';
-import { logger } from '../utils/logger.js';
 import { redis } from '../database/db.js';
 import { sendContactEmail } from '../emails/email.js';
 
@@ -9,20 +8,21 @@ export const sendContactEmailQueue = new Queue(queueName, {
 	connection: redis,
 });
 
-const processContactEmailJob = async (job) => {
+const processSendContactEmailJob = async (job) => {
 	try {
+		job.log('contact email job was started');
 		await sendContactEmail({
 			email: job.data.email,
 			message: job.data.message,
 		});
-		logger.info(`contact email job  sent to ${job.data.email}`);
+		job.log('contact email job was finished');
 	} catch (error) {
-		logger.error(`Failed to send contact email job to ${job.data.email}`, error);
+		job.log('contact email job failed');
 	}
 };
 
-new Worker(queueName, processContactEmailJob, { connection: redis });
+new Worker(queueName, processSendContactEmailJob, { connection: redis });
 
 export async function sendContactEmailJob(data) {
-	await sendContactEmailQueue.add('contactEmailJob', data);
+	await sendContactEmailQueue.add('sendContactEmailJob', data);
 }

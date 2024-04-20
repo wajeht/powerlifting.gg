@@ -9,7 +9,7 @@ export const sendWelcomeEmailQueue = new Queue(queueName, {
 	connection: redis,
 });
 
-const processWelcomeEmailJob = async (job) => {
+const processSendWelcomeEmailJob = async (job) => {
 	try {
 		await sendWelcomeEmail({
 			email: job.data.email,
@@ -21,8 +21,8 @@ const processWelcomeEmailJob = async (job) => {
 	}
 };
 
-new Worker(queueName, processWelcomeEmailJob, { connection: redis });
+new Worker(queueName, processSendWelcomeEmailJob, { connection: redis });
 
 export async function sendWelcomeEmailJob(data) {
-	await sendWelcomeEmailQueue.add('welcomeEmailJob', data);
+	await sendWelcomeEmailQueue.add('sendWelcomeEmailJob', data);
 }

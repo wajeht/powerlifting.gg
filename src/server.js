@@ -2,11 +2,15 @@ import { app } from './app.js';
 import { app as appConfig } from './config/app.js';
 import { logger } from './utils/logger.js';
 import { redis } from './database/db.js';
+import { scheduleBackupDatabaseJob } from './job/job.js';
 
 const server = app.listen(appConfig.port, async () => {
 	logger.info(`Server was started on http://localhost:${appConfig.port}`);
 
 	await redis.flushall();
+
+	// crons
+	await scheduleBackupDatabaseJob();
 });
 
 function gracefulShutdown() {
