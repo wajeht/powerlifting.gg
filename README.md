@@ -32,6 +32,10 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [x] dockerize
 - [x] oauth
 - [x] email
+- [x] swagger
+- [x] job/queue
+- [x] rbac
+- [x] litestream to auto backup sqlite to s3
 - [ ] ig oauth
 - [ ] scrape usapl db
 - [ ] reserve known coaches
@@ -39,13 +43,9 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - [ ] seo/social cards
 - [ ] api keys
 - [ ] a11y
-- [ ] swagger
-- [ ] job/queue
 - [ ] web socket
-- [ ] rbac
 - [ ] playwright
 - [ ] test setup for ci
-- [ ] litestream to auto backup sqlite to s3
 - [ ] zero downtime
 - [ ] submit tenant and super-admin approve
 
