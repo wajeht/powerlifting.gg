@@ -4,6 +4,7 @@ import { getGoogleOAuthURL, getGoogleOauthToken, getGoogleUser } from './google.
 import { UnauthorizedError } from '../../app.error.js';
 import { tenantIdentityHandler } from '../../app.middleware.js';
 import { db } from '../../database/db.js';
+import { app as appConfig } from '../../config/app.js';
 
 const google = express.Router();
 
@@ -46,11 +47,13 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 
 	if (!foundUser) {
 		const username = googleUser.email.split('@')[0];
+		const role = appConfig.super_admin_email === googleUser.email ? 'SUPER_ADMIN' : 'USER';
 		foundUser = await db('users')
 			.insert({
 				username: googleUser.email.split('@')[0],
 				email: googleUser.email,
 				profile_picture: googleUser.picture,
+				role,
 			})
 			.returning('*');
 		foundUser = foundUser[0];

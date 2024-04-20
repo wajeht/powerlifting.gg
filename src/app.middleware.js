@@ -12,21 +12,12 @@ import {
 	UnimplementedFunctionError,
 } from './app.error.js';
 
-export const authorizePermissionHandler = (role, permissions) => {
+export const authorizePermissionHandler = (role) => {
 	return (req, res, next) => {
 		try {
-			if (req.user.role !== role) {
+			if (req.session && req.session.user.role !== role) {
 				throw new UnauthorizedError();
 			}
-
-			const userPermissions = req.user.permissions || [];
-
-			for (const permission of permissions) {
-				if (!userPermissions.includes(permission)) {
-					throw new ForbiddenError();
-				}
-			}
-
 			next();
 		} catch (e) {
 			next(e);

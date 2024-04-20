@@ -24,7 +24,7 @@ lint:
 	docker compose -f docker-compose.dev.yml exec powerlifting npm run lint
 
 reset-db:
-	docker compose -f docker-compose.dev.yml exec powerlifting npm run db:prepare
+	docker compose -f docker-compose.dev.yml exec powerlifting npm run db:prepare:dev
 
 deploy:
 	./deploy.sh

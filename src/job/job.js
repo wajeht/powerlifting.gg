@@ -6,7 +6,11 @@ import { app as appConfig } from '../config/app.js';
 import { sendWelcomeEmailJob, sendWelcomeEmailQueue } from './welcome.job.js';
 import { sendContactEmailJob, sendContactEmailQueue } from './contact.job.js';
 import { scheduleBackupDatabaseJob, scheduleBackupDatabaseQueue } from './backup-database.job.js';
-import { authenticationHandler } from '../app.middleware.js';
+import {
+	authenticationHandler,
+	authorizePermissionHandler,
+	catchAsyncErrorHandler,
+} from '../app.middleware.js';
 
 export function setupBullDashboard(app) {
 	const serverAdapter = new ExpressAdapter();
@@ -22,7 +26,12 @@ export function setupBullDashboard(app) {
 	});
 
 	if (appConfig.env === 'production') {
-		app.use('/admin/jobs', authenticationHandler, serverAdapter.getRouter());
+		app.use(
+			'/admin/jobs',
+			authenticationHandler,
+			authorizePermissionHandler('SUPER_ADMIN'),
+			catchAsyncErrorHandler(serverAdapter.getRouter()),
+		);
 	} else {
 		app.use('/admin/jobs', serverAdapter.getRouter());
 	}
