@@ -45,7 +45,7 @@ export async function backupDatabase(job) {
 			client: s3,
 			params: {
 				Bucket: bucketName,
-				Key: backupFileName,
+				Key: `${backupFileName}.gz`,
 				Body: fileStream,
 			},
 		});
