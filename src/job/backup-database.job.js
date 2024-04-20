@@ -22,6 +22,10 @@ const processScheduleBackupDatabaseJob = async (job) => {
 new Worker(queueName, processScheduleBackupDatabaseJob, { connection: redis });
 
 export async function scheduleBackupDatabaseJob() {
-	// await scheduleBackupDatabaseQueue.add('scheduleBackupDatabaseJob', {}, { repeat: { cron: '0 * * * *' } });
-	await scheduleBackupDatabaseQueue.add('backupJob', {}, { repeat: { cron: '*/5 * * * * *' } }); // Run every 10 seconds
+	await scheduleBackupDatabaseQueue.add(
+		'scheduleBackupDatabaseJob',
+		{},
+		{ repeat: { cron: '0 * * * *' } },
+	); // every hour
+	// await scheduleBackupDatabaseQueue.add('backupJob', {}, { repeat: { cron: '*/5 * * * * *' } }); // every 10 seconds
 }
