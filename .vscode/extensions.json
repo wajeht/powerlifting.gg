@@ -1,3 +1,8 @@
 {
-	"recommendations": ["Vue.volar"]
+	"recommendations": [
+		"streetsidesoftware.code-spell-checker",
+		"digitalbrainstem.javascript-ejs-support",
+		"christian-kohler.path-intellisense",
+		"bradlc.vscode-tailwindcss"
+	]
 }

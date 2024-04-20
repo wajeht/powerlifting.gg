@@ -9,6 +9,7 @@ import { exec } from 'child_process';
 
 const execAsync = promisify(exec);
 
+// TODO: make this testable
 export async function backupDatabase(job) {
 	const s3 = new S3Client({
 		credentials: {
