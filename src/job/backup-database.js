@@ -1,10 +1,11 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { logger } from '../utils/logger.js';
+import { Upload } from '@aws-sdk/lib-storage';
+import { S3Client } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import path from 'path';
 import { backBlaze as backBlazeConfig } from '../config/back-blaze.js';
+import { logger } from '../utils/logger.js';
 
-export async function backupDatabase() {
+export async function backupDatabase(job) {
 	const s3 = new S3Client({
 		credentials: {
 			accessKeyId: backBlazeConfig.key_id,
@@ -22,16 +23,24 @@ export async function backupDatabase() {
 	try {
 		const fileStream = fs.createReadStream(sqliteFilePath);
 
-		const params = {
-			Bucket: bucketName,
-			Key: sqliteFileName,
-			Body: fileStream,
-		};
+		const upload = new Upload({
+			client: s3,
+			params: {
+				Bucket: bucketName,
+				Key: sqliteFileName,
+				Body: fileStream,
+			},
+		});
 
-		await s3.send(new PutObjectCommand(params));
+		upload.on('httpUploadProgress', (progress) => {
+			const jobProgress = Math.min((progress.loaded / progress.total) * 100, 100);
+			job.updateProgress(jobProgress);
+		});
+
+		await upload.done();
 
 		logger.info('Successfully uploaded ' + sqliteFileName + ' to ' + bucketName);
-	} catch (err) {
-		logger.error('Error:', err);
+	} catch (e) {
+		logger.error('Error:', e);
 	}
 }
