@@ -131,13 +131,17 @@ export function getModerationPolicyHandler(WebService) {
 export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {
-			const reviews = await TenantService.getTenantReviews({
-				tenantId: req.tenant.id,
+			const { q, per_page, current_page, sort } = req.query;
+			const reviews = await TenantService.getTenantReviews(q, req.tenant.id, {
 				cache: true,
+				sort: sort ?? 'desc',
+				perPage: parseInt(per_page ?? 25),
+				currentPage: parseInt(current_page ?? 1),
 			});
 			return res.status(200).render('tenant.html', {
 				tenant: req.tenant,
 				reviews,
+				q: req.query.q,
 				flashMessages: req.flash(),
 				title: '/',
 				layout: '../layouts/tenant.html',

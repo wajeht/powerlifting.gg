@@ -1,3 +1,12 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const search = new URLSearchParams(window.location.search);
+    if (search.get('q')) {
+      document.getElementById('q').value = search.get('q');
+    }
+  });
+</script>
+
 <div class="fade-in p-10">
 	<div class="mx-auto max-w-7xl w-full prose">
 
@@ -27,41 +36,80 @@
 
 		<div class="flex justify-between items-center">
 			<!-- search -->
-			<form action="/search" method="post" class="flex gap-1 justify-between">
+			<form action="<%- app.configureDomain(app.tenant.slug) %>" method="get" class="flex gap-1 justify-between">
 				<!-- left -->
 				<div class="flex gap-1">
-					<label class="input input-bordered flex items-center gap-2 w-[350px]" for="q">
+					<label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
 						<input type="text" class="grow" id="q" name="q" placeholder="Search for a review..." required />
+						<input type="hidden" name="current_page" id="current_page" value="<%= reviews.pagination.currentPage %>">
+						<input type="hidden" name="per_page" id="per_page" value="<%= reviews.pagination.perPage %>">
+						<input type="hidden" name="sort" id="sort" value="<%= reviews.pagination.sort %>">
 					</label>
-					<input id="home-search" type="Submit" value="Search" class="btn btn-neutral" />
+					<input type="submit" value="Search" id="reviews-search" class="btn btn-neutral" />
 				</div>
 			</form>
 
 			<!-- right -->
 			<div class="flex gap-3">
 				<% if (!app.user) { %>
-					<a class="btn btn-neutral text-white no-underline" href="/login" title="login with google">Submit a Review</a>
+					<% if (reviews.data.length){ %>
+						<a class="btn btn-neutral text-white no-underline" href="/login" title="login with google">Submit a Review</a>
+					<% } %>
 				<% } %>
 
-				<div class="join">
-					<button class="join-item btn">«</button>
-					<button class="join-item btn">Page 1</button>
-					<button class="join-item btn">»</button>
-				</div>
+        <!-- pagination -->
+        <div class="join">
+          <% if (reviews.pagination.prevPage === null) { %>
+            <a class="join-item btn no-underline" disabled>«</a>
+          <% } else { %>
+            <a class="join-item btn no-underline" href="<%- app.configureDomain(app.tenant.slug) %>?<%- reviews.pagination.prevPageLink %>">«</a>
+          <% } %>
+
+          <details class="dropdown">
+            <summary class="join-item btn">Page <%= reviews.pagination.currentPage %></summary>
+            <% if (reviews.pagination.links.length) { %>
+              <ul class="p-2 shadow-md menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[162px] -left-[44px]">
+                <% for (let i=0; i < reviews.pagination.links.length; i++) { %>
+                  <!-- skip current page -->
+                  <% if ((i + 1) !== reviews.pagination.currentPage) { %>
+                    <a class="no-underline btn btn-sm btn-ghost" href="<%- app.configureDomain(app.tenant.slug) %>?<%= reviews.pagination.links[i] %>">Page <%= i + 1%></a>
+                  <% } %>
+                <% } %>
+              </ul>
+            <% } %>
+          </details>
+
+          <% if (reviews.pagination.nextPage === null) { %>
+            <a class="join-item btn no-underline" disabled>»</a>
+          <% } else { %>
+            <a class="join-item btn no-underline" href="<%- app.configureDomain(app.tenant.slug) %>?<%- reviews.pagination.nextPageLink %>">»</a>
+          <% } %>
+        </div>
 			</div>
 		</div>
 
-		<p>Showing 0 to 10 of 100 reviews</p>
+		<p>Showing <%= reviews.pagination.from %> to <%= reviews.pagination.to %> of <%= reviews.pagination.total %> reviews</p>
 
-		<div class="flex flex-col gap-5 rounded-md p-5 bg-gray-100 border border-1">
-			<% if (reviews.length) { %>
-				<% for(const review of reviews ) { %>
+		<!-- searched items -->
+		<% if (reviews.data.length){ %>
+			<div class="flex flex-col gap-5 rounded-md p-5 bg-gray-100 border border-1">
+				<% for (const review of reviews.data) { %>
 					<%- include('../components/tenant-comment.html', { review }) %>
 				<% } %>
-			<% } else { %>
-				<span class="p-60 text-sm text-center italic">Nothing to see here!</span>
-			<% } %>
-		</div>
+			</div>
+		<% } %>
+
+		<!-- not found -->
+		<% if (!reviews.data.length){ %>
+			<div class="flex flex-col gap-8 mt-8">
+				<div class="py-16">No reviews with <span class="font-bold">"<%- q %>"</span> in its name.</div>
+
+				<div class="p-16 rounded-md flex flex-col gap-4 justify-center items-center border">
+					<span>Don't see the review you're looking for?</span>
+					<a class="btn btn-neutral text-white no-underline" href="/login">Submit a Review</a>
+				</div>
+			</div>
+		<% } %>
 
 	</div>
 </div>
