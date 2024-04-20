@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
-import { sendContactEmail } from '../emails/email.js';
+import { sendContactEmailJob } from '../job/job.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
@@ -111,7 +111,7 @@ web.post(
 	'/contact',
 	tenantIdentityHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(postContactHandler(sendContactEmail)),
+	catchAsyncErrorHandler(postContactHandler(sendContactEmailJob)),
 );
 
 /**

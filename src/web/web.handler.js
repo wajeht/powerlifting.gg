@@ -65,12 +65,12 @@ export function getLogoutHandler() {
 	};
 }
 
-export function postContactHandler(sendContactEmail) {
-	return (req, res) => {
+export function postContactHandler(sendContactEmailJob) {
+	return async (req, res) => {
 		if (req.tenant) {
 			throw new NotFoundError();
 		}
-		sendContactEmail(req.body);
+		await sendContactEmailJob(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
 		return res.redirect('/contact');
 	};

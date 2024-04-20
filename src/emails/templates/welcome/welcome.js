@@ -23,5 +23,6 @@ export async function sendWelcomeEmail({
 		logger.info('welcome email sent to:', email);
 	} catch (error) {
 		logger.error('error while sending welcome email:', error);
+		throw error;
 	}
 }
