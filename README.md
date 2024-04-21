@@ -30,17 +30,17 @@ Yo, ever tried finding a solid coach on Insta? It's like sifting through a jungl
 
 # 🤔 Technical Why?
 
-`JavaScript` does not suck. Most developers ~~(You)~~ have skill issues and suck at writing `JavaScript`. Here is a very simple multi-tenancy application with each tenant operating with its own subdomain.
+`JavaScript` ain't as bad as some folks make it out to be. Most devs ~~(You have skill issues)~~ just need to up their game and get better at it, you know? Check out this slick multi-tenancy app we whipped up, with each tenant rocking its own subdomain.
 
-How cool is that? I'd say it is pretty cool!
+Pretty sweet, huh?
 
-We're using traditional server-side rendering with `Vue` as a client on some parts of the app where it makes complete sense and needs extensive interactivity. With a combination of modern tools like `Tailwind`, `Vitest`, `Playwright`, and more, your imagination is the limit.
+We're rocking classic `server-side` rendering, but spicing things up with Vue on the client side where it really shines. And we're not holding back on the tools either `Tailwind`, `Vitest`, `Playwright`, you name it. Sky's the limit!
 
 You might be asking: why not use `Next`, `Nuxt`, or some other `meta-framework`? This project seems like a hack and blah blah blah.
 
 SHUT UP!
 
-This whole codebase is `readable`, `extensible`, `testable`, and lastly, there is no damn `MAGIC` under the hood!
+This project ain't no hack job. It's `clean`, it's `scalable`, it's `testable` and guess what? No black magic under the hood. So zip it, haters!
 
 # 💻 Development
 
