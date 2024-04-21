@@ -7,6 +7,7 @@ import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
 	authenticationHandler,
+	tenancyHandler,
 	csrfHandler,
 	// validateRequestHandler,
 } from '../app.middleware.js';
@@ -21,6 +22,7 @@ import {
 	getTenantsNewHandler,
 	getTermsOfServiceHandler,
 	getModerationPolicyHandler,
+	getReviewsHandler,
 	getLoginHandler,
 	getLogoutHandler,
 	postReviewHandler,
@@ -144,6 +146,20 @@ web.get(
 	tenantIdentityHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs))),
+);
+
+/**
+ * GET /{subdomain}/reviews
+ * @tags {subdomain}/reviews
+ * @summary get /{subdomain}/reviews
+ * @param {string} subdomain.path.required - the subdomain - application/x-www-form-urlencoded
+ */
+web.get(
+	'/reviews',
+	tenantIdentityHandler,
+	tenancyHandler,
+	authenticationHandler,
+	catchAsyncErrorHandler(getReviewsHandler()),
 );
 
 /**
