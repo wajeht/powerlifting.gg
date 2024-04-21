@@ -10,6 +10,6 @@ git fetch origin main
 
 git reset --hard origin/main
 
-docker compose -f docker-compose.prod.yml up -d --build --no-cache --no-deps powerlifting
+docker compose -f docker-compose.prod.yml up -d --build --no-deps powerlifting
 
 EOF
