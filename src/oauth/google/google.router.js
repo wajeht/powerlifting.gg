@@ -29,18 +29,15 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 	const code = req.query.code;
 
 	if (!code) {
-		throw new UnauthorizedError('Something went wrong while authenticating with Google');
+		throw new UnauthorizedError('Authentication failed: No authorization code provided');
 	}
 
 	const { id_token, access_token } = await getGoogleOauthToken({ code });
 
-	const googleUser = await getGoogleUser({
-		id_token,
-		access_token,
-	});
+	const googleUser = await getGoogleUser({ id_token, access_token });
 
-	if (!googleUser.verified_email) {
-		throw new UnauthorizedError('Something went wrong while authenticating with Google');
+	if (!googleUser || !googleUser.verified_email) {
+		throw new UnauthorizedError('Authentication failed: Unable to verify email with Google');
 	}
 
 	let foundUser = await db.select('*').from('users').where({ email: googleUser.email }).first();
@@ -48,20 +45,29 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 	if (!foundUser) {
 		const username = googleUser.email.split('@')[0];
 		const role = appConfig.super_admin_email === googleUser.email ? 'SUPER_ADMIN' : 'USER';
+
 		foundUser = await db('users')
 			.insert({
-				username: googleUser.email.split('@')[0],
+				role,
+				username,
 				email: googleUser.email,
 				profile_picture: googleUser.picture,
-				role,
 			})
 			.returning('*');
+
 		foundUser = foundUser[0];
+
 		await sendWelcomeEmailJob({ email: googleUser.email, username });
 	}
 
 	req.session.user = foundUser;
 	req.session.save();
+
+	if (req.session.redirectUrl) {
+		const redirectUrl = req.session.redirectUrl;
+		delete req.session.redirectUrl;
+		return res.redirect(redirectUrl);
+	}
 
 	return res.redirect('/');
 });

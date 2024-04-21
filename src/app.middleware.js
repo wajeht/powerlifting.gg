@@ -66,6 +66,7 @@ export const catchAsyncErrorHandler = (fn) => {
 export function authenticationHandler(req, res, next) {
 	try {
 		if (!req.session.user) {
+			req.session.redirectUrl = req.originalUrl;
 			return res.redirect('/login');
 		}
 		next();
