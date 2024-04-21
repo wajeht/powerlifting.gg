@@ -13,7 +13,7 @@ multitenancy coaching review systems
 
 How cool is that? I'd say it is pretty cool!
 
-We're using traditional server-side rendering with `Vue` as a client on some parts of the apps where it makes complete sense! With a combination of modern tools like `Tailwind`, `Vitest`, `Playwright`, and more, your imagination is the limit.
+We're using traditional server-side rendering with `Vue` as a client on some parts of the app where it makes complete sense and needs extensive interactivity. With a combination of modern tools like `Tailwind`, `Vitest`, `Playwright`, and more, your imagination is the limit.
 
 You might be asking: why not use `Next`, `Nuxt`, or some other `meta-framework`? This project seems like a hack and blah blah blah.
 
