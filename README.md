@@ -21,6 +21,18 @@ SHUT UP!
 
 This whole codebase is `readable`, `extensible`, `testable`, and lastly, there is no damn `MAGIC` under the hood!
 
+# 📚 Technologies
+
+- **Express** for HTTP router and basic middleware
+- **[ejs](https://www.npmjs.com/package/ejs)** for server side rendering
+- **SQLite** for database
+- **[knex.js](https://github.com/knex/knex)** for database migration and query
+- **Vue 3** with **Vite** tooling for UI
+- **[daisyUI](https://daisyui.com/)** for tailwind compatible ready made components
+- **[Animate.css](https://animate.style/)** for ready made animation
+- **[Commander.js](https://www.npmjs.com/package/commander)** for CLI commands
+- **Redis** to cache some of the large queries
+
 # 💻 Development
 
 See [DEVELOPMENT](./docs/DEVELOPMENT.md) for more information.
