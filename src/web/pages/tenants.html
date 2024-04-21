@@ -41,7 +41,7 @@
 
           <details class="dropdown">
             <summary class="join-item btn">Page <%= tenants.pagination.currentPage %></summary>
-            <% if (tenants.pagination.links.length) { %>
+            <% if (tenants.pagination.links.length > 1) { %>
               <ul class="p-2 shadow-md menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[162px] -left-[44px]">
                 <% for (let i=0; i < tenants.pagination.links.length; i++) { %>
                   <!-- skip current page -->

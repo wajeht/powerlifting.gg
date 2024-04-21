@@ -170,8 +170,9 @@ web.get(
  */
 web.post(
 	'/reviews',
-	authenticationHandler,
 	tenantIdentityHandler,
+	tenancyHandler,
+	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis))),
 );
