@@ -3,45 +3,85 @@
 	<div class="mx-auto max-w-7xl flex justify-between w-full">
 		<!-- left -->
 		<div class="flex-1">
-			<a href="<%= app.mainDomain %>/" title="powerlifting.gg" class="text-2xl font-black btn btn-ghost">Powerlifting.gg</a>
+			<a href="<%= app.mainDomain %>/" title="powerlifting.gg"
+				class="text-2xl font-black btn btn-ghost">Powerlifting.gg</a>
 		</div>
 
 		<!-- right -->
 		<div class="flex-none">
-			<ul class="menu menu-horizontal  px-1">
-				<!-- resource -->
-				<li>
-					<details>
-						<summary>
-							Resources
-						</summary>
-						<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
-      				<li>
-        				<a href="https://github.com/wajeht/powerlifting.gg" target="_blank" class="link link-hover"
-          				title="github">Github <span>⤴️</span></a>
-      				</li>
-							<li>
-								<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank">API Docs <span>⤴️</span></a>
-							</li>
-							<li>
-								<a class="<%= title === '/contact' ? 'active' : '' %>" href="<%= app.mainDomain %>/contact" title="contact">Contact</a>
-							</li>
-							<li>
-								<a class="<%= title === '/moderation-policy' ? 'active' : '' %>" href="<%= app.mainDomain %>/moderation-policy" title="">Moderation Policy</a>
-							</li>
-						</ul>
-					</details>
-				</li>
-
-				<!-- tenants -->
-				<li>
-					<a class="<%= title === '/tenants' ? 'active' : '' %>" href="<%= app.mainDomain %>/tenants" title="tenants">Tenants</a>
-				</li>
+			<ul class="menu menu-horizontal px-1">
 
 				<!-- login/logout -->
 				<% if (app.user) { %>
-					<li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
+					<!-- tenants -->
+					<li>
+						<a class="<%= title === '/tenants' ? 'active' : '' %>" href="<%= app.mainDomain %>/tenants"
+							title="tenants">Tenants</a>
+					</li>
+
+					<!-- resource -->
+					<li>
+						<details>
+							<summary>
+								Resources
+							</summary>
+							<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+								<li>
+									<a href="https://github.com/wajeht/powerlifting.gg" target="_blank" class="link link-hover"
+										title="github">Github <span>⤴️</span></a>
+								</li>
+								<li>
+									<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank">API Docs <span>⤴️</span></a>
+								</li>
+								<li>
+									<a class="<%= title === '/contact' ? 'active' : '' %>" href="<%= app.mainDomain %>/contact"
+										title="contact">Contact</a>
+								</li>
+								<li>
+									<a class="<%= title === '/moderation-policy' ? 'active' : '' %>"
+										href="<%= app.mainDomain %>/moderation-policy" title="">Moderation Policy</a>
+								</li>
+							</ul>
+						</details>
+					</li>
+
+					<!-- settings -->
+					<%- include('../components/setting-link.html') %>
 				<% } else { %>
+					<!-- resource -->
+					<li>
+						<details>
+							<summary>
+								Resources
+							</summary>
+							<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+								<li>
+									<a href="https://github.com/wajeht/powerlifting.gg" target="_blank" class="link link-hover"
+										title="github">Github <span>⤴️</span></a>
+								</li>
+								<li>
+									<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank">API Docs
+										<span>⤴️</span></a>
+								</li>
+								<li>
+									<a class="<%= title === '/contact' ? 'active' : '' %>" href="<%= app.mainDomain %>/contact"
+										title="contact">Contact</a>
+								</li>
+								<li>
+									<a class="<%= title === '/moderation-policy' ? 'active' : '' %>"
+										href="<%= app.mainDomain %>/moderation-policy" title="">Moderation Policy</a>
+								</li>
+							</ul>
+						</details>
+					</li>
+
+					<!-- tenants -->
+					<li>
+						<a class="<%= title === '/tenants' ? 'active' : '' %>" href="<%= app.mainDomain %>/tenants"
+							title="tenants">Tenants</a>
+					</li>
+
+					<!-- login -->
 					<li><a href="<%= app.mainDomain %>/login" title="login with google">Login</a></li>
 				<% } %>
 			</ul>
