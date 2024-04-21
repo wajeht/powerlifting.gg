@@ -57,6 +57,18 @@ export function getLoginHandler() {
 	};
 }
 
+export function getSettingsHandler() {
+	return async (req, res) => {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
+		return res.status(200).render('settings.html', {
+			flashMessages: req.flash(),
+			title: '/settings',
+		});
+	};
+}
+
 export function getLogoutHandler() {
 	return async (req, res) => {
 		if (req.session && req.session.user) {

@@ -27,6 +27,7 @@ import {
 	getLogoutHandler,
 	postTenantHandler,
 	postReviewHandler,
+	getSettingsHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -77,6 +78,19 @@ web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository, redis))),
+);
+
+/**
+ * GET /settings
+ * @tags web
+ * @summary get settings page
+ */
+web.get(
+	'/settings',
+	tenantIdentityHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(getSettingsHandler()),
 );
 
 /**
