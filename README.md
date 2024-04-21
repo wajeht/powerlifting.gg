@@ -7,20 +7,6 @@ multitenancy coaching review systems
 > [!WARNING]
 > This project is unfinished and heavily work in progress.
 
-# 🤔 Why?
-
-`JavaScript` does not suck. Most developers ~~(You)~~ have skill issues and suck at writing `JavaScript`. Here is a very simple multi-tenancy application with each tenant operating with its own subdomain.
-
-How cool is that? I'd say it is pretty cool!
-
-We're using traditional server-side rendering with `Vue` as a client on some parts of the app where it makes complete sense and needs extensive interactivity. With a combination of modern tools like `Tailwind`, `Vitest`, `Playwright`, and more, your imagination is the limit.
-
-You might be asking: why not use `Next`, `Nuxt`, or some other `meta-framework`? This project seems like a hack and blah blah blah.
-
-SHUT UP!
-
-This whole codebase is `readable`, `extensible`, `testable`, and lastly, there is no damn `MAGIC` under the hood!
-
 # 📚 Technologies
 
 - **Express** for HTTP router and basic middleware
@@ -37,6 +23,20 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 > Why not `Typescript`?
 >
 > Talk is cheap. Submit `PR` instead. You're more then welcome to convert this whole project into `Typescript`!
+
+# 🤔 Why?
+
+`JavaScript` does not suck. Most developers ~~(You)~~ have skill issues and suck at writing `JavaScript`. Here is a very simple multi-tenancy application with each tenant operating with its own subdomain.
+
+How cool is that? I'd say it is pretty cool!
+
+We're using traditional server-side rendering with `Vue` as a client on some parts of the app where it makes complete sense and needs extensive interactivity. With a combination of modern tools like `Tailwind`, `Vitest`, `Playwright`, and more, your imagination is the limit.
+
+You might be asking: why not use `Next`, `Nuxt`, or some other `meta-framework`? This project seems like a hack and blah blah blah.
+
+SHUT UP!
+
+This whole codebase is `readable`, `extensible`, `testable`, and lastly, there is no damn `MAGIC` under the hood!
 
 # 💻 Development
 
