@@ -9,7 +9,7 @@
       </div>
     </summary>
     <ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
-      <li><a href="<%= app.mainDomain %>/settings" title="logout">Settings</a></li>
+      <li><a class="<%= title === '/settings' ? 'active' : '' %>" href="<%= app.mainDomain %>/settings" title="logout">Settings</a></li>
       <li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
     </ul>
   </details>
