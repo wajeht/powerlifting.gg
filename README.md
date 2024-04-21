@@ -33,11 +33,10 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - **[Commander.js](https://www.npmjs.com/package/commander)** for CLI commands
 - **Redis** to cache some of the large queries
 
-> [!Note]
+> [!Important]
 > Why not typescript?
 >
 > Talk is cheap. Submit `PR` instead!
->
 > You're more then welcome to convert this whole project into `Typescript`
 
 # 💻 Development
