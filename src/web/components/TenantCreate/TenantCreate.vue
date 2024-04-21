@@ -13,6 +13,9 @@ const states = reactive({
 });
 
 const computedSlug = computed(() => {
+	if (states.name.length === 0) {
+		return `https://slug-here.powerlifting.gg/`;
+	}
 	return `https://${states.name.split(' ').join('-')}.powerlifting.gg/`;
 });
 
@@ -97,6 +100,23 @@ const handleLogoChange = (event) => {
 				/>
 			</label>
 
+			<div class="flex flex-col mt-2 gap-1">
+				<div class="w-fit">
+					<label class="label gap-2 justify-start" for="checkbox"
+						><input type="checkbox" class="checkbox" id="checkbox" name="checkbox" required="" />
+						<span class="label-text text-base">I agree</span></label
+					>
+				</div>
+				<div class="pl-1">
+					Signing up signifies that you have read and agree to the
+					<a href="/terms-of-services" class="link link-neutral" target="_blank"
+						>Terms of Service</a
+					>
+					and our
+					<a href="/privacy-policy" class="link link-neutral" target="_blank">Privacy Policy</a>.
+				</div>
+			</div>
+
 			<!-- submit -->
 			<div><input type="submit" value="Submit" class="btn btn-neutral text-white mt-4" /></div>
 		</form>
@@ -118,12 +138,11 @@ const handleLogoChange = (event) => {
 				<div
 					class="max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm bg-white"
 				>
-					<img
+					<div
+						class="bg-cover bg-center bg-no-repeat max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full"
 						v-if="states.logo"
-						class="rounded-full max-h-[100px] max-w-[100px]"
-						:src="states.logo"
-						alt="logo"
-					/>
+						:style="{ backgroundImage: `url('${states.logo}')` }"
+					></div>
 					<div v-else class="bg-white h-full w-full rounded-full flex justify-center items-center">
 						💪
 					</div>
@@ -131,7 +150,7 @@ const handleLogoChange = (event) => {
 
 				<!-- rating -->
 				<div class="rating rating-xs mt-3">
-					<input v-for="i in 5" type="radio" class="mask mask-star-2 bg-orange-200" disabled />
+					<input v-for="i in 5" type="radio" class="mask mask-star-2 bg-orange-400" disabled />
 				</div>
 
 				<!-- name -->
@@ -145,18 +164,12 @@ const handleLogoChange = (event) => {
 				</div>
 
 				<!-- link -->
-				<a
-					v-if="states.name"
-					class="link text-white no-underline hover:underline"
-					:href="computedSlug"
-					>{{ computedSlug }}</a
-				>
-				<a
-					v-else
-					class="link text-white no-underline hover:underline"
-					href="https://your-name.powerlifting.gg/"
-					>https://your-name.powerlifting.gg/</a
-				>
+				<div v-if="states.name" class="link text-white no-underline hover:underline">
+					{{ computedSlug }}
+				</div>
+				<div v-else class="link text-white no-underline hover:underline">
+					https://your-name.powerlifting.gg/
+				</div>
 			</div>
 		</div>
 	</div>
