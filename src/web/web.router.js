@@ -139,7 +139,7 @@ web.get(
 /**
  * POST /tenants/create
  * @tags tenants
- * @summary post tenant create
+ * @summary post tenant
  */
 web.post(
 	'/tenants',

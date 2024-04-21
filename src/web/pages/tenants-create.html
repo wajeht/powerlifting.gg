@@ -1,44 +1,12 @@
 <div class="p-10">
   <div class="mx-auto max-w-7xl w-full prose">
-    <h1>Tenants / Create</h1>
+    <h1>Tenant / Create</h1>
 
     <div class="mb-5 max-w-sm">
       <!-- flash-messages -->
       <%- include('../components/flash-message.html') %>
     </div>
 
-
-    <!-- contact form -->
-    <form action="<%= app.mainDomain %>/tenants" method="post" class="flex flex-col gap-3 col-span-2">
-      <!-- csrf -->
-      <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
-
-      <!-- name -->
-      <label class="form-control w-full" for="email">
-        <div class="label"><span class="label-text">Name</span></div>
-        <input type="text" name="name" id="name" placeholder="Name" class="input input-bordered max-w-sm"
-          required />
-      </label>
-
-      <!-- slug -->
-      <label class="form-control w-full" for="email">
-        <div class="label"><span class="label-text">Slug</span></div>
-        <input type="text" name="slug" id="slug" placeholder="Slug" class="input input-bordered max-w-sm"
-          required />
-      </label>
-
-      <!-- message -->
-      <label class="form-control w-full" for="message">
-        <div class="label"><span class="label-text">Message</span></div>
-        <textarea id="message" name="message" class="textarea textarea-bordered min-h-[400px]" placeholder="Message"
-          required></textarea>
-      </label>
-
-      <!-- submit -->
-      <div><input type="submit" value="Submit" class="btn btn-neutral text-white" /></div>
-    </form>
-
-
-
+    <tenant-create csrf-token="<%= csrfToken %>" />
   </div>
 </div>
