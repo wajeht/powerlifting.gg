@@ -21,36 +21,6 @@ SHUT UP!
 
 This whole codebase is `readable`, `extensible`, `testable`, and lastly, there is no damn `MAGIC` under the hood!
 
-# ✅ Todo
-
-- [x] vitest
-- [x] prod for demo
-- [x] tenancy each subdomain
-- [x] tailwind
-- [x] vue
-- [x] hot reload for vue/tailwind/express
-- [x] dockerize
-- [x] oauth
-- [x] email
-- [x] swagger
-- [x] job/queue
-- [x] rbac
-- [x] litestream to auto backup sqlite to s3
-- [ ] adjust for mobile screen
-- [ ] dark mode
-- [ ] ig oauth
-- [ ] scrape usapl db
-- [ ] reserve known coaches
-- [ ] eslint
-- [ ] seo/social cards
-- [ ] api keys
-- [ ] a11y
-- [ ] web socket
-- [ ] playwright
-- [ ] test setup for ci
-- [ ] zero downtime
-- [ ] submit tenant and super-admin approve
-
 # 💻 Development
 
 See [DEVELOPMENT](./docs/DEVELOPMENT.md) for more information.
