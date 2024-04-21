@@ -34,7 +34,7 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 - **Redis** to cache some of the large queries
 
 > [!Important]
-> Why not typescript?
+> Why not `Typescript`?
 >
 > Talk is cheap. Submit `PR` instead!
 > You're more then welcome to convert this whole project into `Typescript`
