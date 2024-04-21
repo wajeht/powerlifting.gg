@@ -22,7 +22,7 @@ multitenancy coaching review systems
 > [!Important]
 > Why not `Typescript`?
 >
-> Talk is cheap. Submit `PR` instead. You're more then welcome to convert this whole project into `Typescript`!
+> Talk is cheap. You're more then welcome to convert this whole project into `Typescript`. Submit `PR` instead!
 
 # 🧐 Why?
 
