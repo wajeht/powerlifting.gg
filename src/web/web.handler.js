@@ -71,7 +71,7 @@ export function postContactHandler(sendContactEmailJob) {
 		}
 		await sendContactEmailJob(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
-		return res.redirect('back');
+		return res.redirect('/contact');
 	};
 }
 
