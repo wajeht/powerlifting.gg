@@ -1,5 +1,21 @@
 <div class="fade-in p-10">
   <div class="mx-auto max-w-7xl w-full prose">
+
+    <!-- breadcrumbs -->
+    <div class="flex justify-between items-center mb-6">
+      <div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
+          <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>">Home</a>
+          <%- include('../components/right-arrow-svg.html') %>
+          <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/contact">Contact</a>
+      </div>
+
+      <% if (app.user) { %>
+        <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
+      <% } else { %>
+        <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/login" title="login">Login</a>
+      <% } %>
+    </div>
+
     <h1>Contact</h1>
 
     <div class="mb-5 max-w-sm">
