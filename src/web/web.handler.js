@@ -43,10 +43,8 @@ export function getTenantsCreateHandler() {
 
 export function postTenantHandler() {
 	return async (req, res) => {
-		return res.status(200).render('tenants-create.html', {
-			flashMessages: req.flash(),
-			title: '/tenants/create',
-		});
+		req.flash('info', 'successfully created!');
+		return res.redirect('/tenants/create');
 	};
 }
 
