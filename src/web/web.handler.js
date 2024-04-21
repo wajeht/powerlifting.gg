@@ -154,6 +154,12 @@ export function getIndexHandler(WebRepository, TenantService) {
 	};
 }
 
+export function getReviewsHandler() {
+	return async (req, res) => {
+		return res.redirect(res.locals.app.configureDomain(res.locals.app.tenant.slug));
+	};
+}
+
 export function postReviewHandler(TenantService) {
 	return async (req, res) => {
 		const { user_id, tenant_id, comment, ratings } = req.body;

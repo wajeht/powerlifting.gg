@@ -53,7 +53,7 @@
 			<div class="flex gap-3">
 				<% if (!app.user) { %>
 					<% if (reviews.data.length){ %>
-						<a class="btn btn-neutral text-white no-underline" href="/login" title="login with google">Submit a Review</a>
+						<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Submit a Review</a>
 					<% } %>
 				<% } %>
 
@@ -106,7 +106,7 @@
 
 				<div class="p-16 rounded-md flex flex-col gap-4 justify-center items-center border">
 					<span>Don't see the review you're looking for?</span>
-					<a class="btn btn-neutral text-white no-underline" href="/login">Submit a Review</a>
+					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews">Submit a Review</a>
 				</div>
 			</div>
 		<% } %>
