@@ -5,7 +5,7 @@
 	"description": "multitenancy coaching review systems",
 	"main": "./src/server.js",
 	"bin": {
-		"powerlifting": "./src/command/index.js"
+		"powerlifting": "./src/cli/index.js"
 	},
 	"scripts": {
 		"start": "NODE_ENV=production npm run build && npm run link:command && npm run db:prepare:prod && node ./src/server.js",
@@ -24,7 +24,7 @@
 		"format": "prettier --write .",
 		"lint:check": "eslint .",
 		"lint": "eslint --fix .",
-		"link:command": "npm unlink powerlifting && chmod +x ./src/command/index.js && npm link",
+		"link:command": "npm unlink powerlifting && chmod +x ./src/cli/index.js && npm link",
 		"test:watch": "vitest",
 		"test": "vitest --run",
 		"db:prepare:dev": "rm -f ./src/database/db.sqlite && touch ./src/database/db.sqlite && chmod +w ./src/database/db.sqlite && npm run db:migrate:latest && npm run db:seed:run",
