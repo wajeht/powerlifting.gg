@@ -19,12 +19,13 @@ import {
 	getIndexHandler,
 	getTenantsHandler,
 	getPrivacyPolicyHandler,
-	getTenantsNewHandler,
+	getTenantsCreateHandler,
 	getTermsOfServiceHandler,
 	getModerationPolicyHandler,
 	getReviewsHandler,
 	getLoginHandler,
 	getLogoutHandler,
+	postTenantHandler,
 	postReviewHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
@@ -126,9 +127,26 @@ web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(TenantService(db, r
 /**
  * GET /tenants/create
  * @tags tenants
- * @summary get tenants create page
+ * @summary get tenant create page
  */
-web.get('/tenants/create', authenticationHandler, catchAsyncErrorHandler(getTenantsNewHandler()));
+web.get(
+	'/tenants/create',
+	// authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(getTenantsCreateHandler()),
+);
+
+/**
+ * POST /tenants/create
+ * @tags tenants
+ * @summary post tenant create
+ */
+web.post(
+	'/tenants',
+	// authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(postTenantHandler()),
+);
 
 /**
  * GET <subdomain>/

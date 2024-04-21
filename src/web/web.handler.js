@@ -32,9 +32,19 @@ export function getTenantsHandler(TenantService) {
 	};
 }
 
-export function getTenantsNewHandler() {
+export function getTenantsCreateHandler() {
 	return async (req, res) => {
 		return res.status(200).render('tenants-create.html', {
+			flashMessages: req.flash(),
+			title: '/tenants/create',
+		});
+	};
+}
+
+export function postTenantHandler() {
+	return async (req, res) => {
+		return res.status(200).render('tenants-create.html', {
+			flashMessages: req.flash(),
 			title: '/tenants/create',
 		});
 	};
