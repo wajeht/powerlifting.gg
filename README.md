@@ -24,7 +24,11 @@ multitenancy coaching review systems
 >
 > Talk is cheap. Submit `PR` instead. You're more then welcome to convert this whole project into `Typescript`!
 
-# 🤔 Why?
+# 🧐 Why?
+
+Yo, ever tried finding a solid coach on Insta? It's like sifting through a jungle. We're here to cut through the noise and give you the real deal. Our site's all about hooking you up with legit reviews and comparisons so you can pick the perfect coach, while also keeping them in check, you feel me?
+
+# 🤔 Technical Why?
 
 `JavaScript` does not suck. Most developers ~~(You)~~ have skill issues and suck at writing `JavaScript`. Here is a very simple multi-tenancy application with each tenant operating with its own subdomain.
 
