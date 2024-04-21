@@ -35,7 +35,6 @@ This whole codebase is `readable`, `extensible`, `testable`, and lastly, there i
 
 > [!Important]
 > Why not `Typescript`?
->
 > Talk is cheap. Submit `PR` instead. You're more then welcome to convert this whole project into `Typescript`!
 
 # 💻 Development
