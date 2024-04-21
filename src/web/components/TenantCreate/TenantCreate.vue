@@ -74,19 +74,6 @@ const handleLogoChange = (event) => {
 				/>
 			</label>
 
-			<!-- banner -->
-			<label class="form-control w-full" for="banner">
-				<div class="label"><span class="label-text">Banner</span></div>
-				<input
-					@change="handleBannerChange"
-					type="file"
-					name="banner"
-					id="banner"
-					class="file-input file-input-bordered"
-					accept="image/*"
-				/>
-			</label>
-
 			<!-- logo -->
 			<label class="form-control w-full" for="logo">
 				<div class="label"><span class="label-text">Logo</span></div>
@@ -95,6 +82,19 @@ const handleLogoChange = (event) => {
 					type="file"
 					name="logo"
 					id="logo"
+					class="file-input file-input-bordered"
+					accept="image/*"
+				/>
+			</label>
+
+			<!-- banner -->
+			<label class="form-control w-full" for="banner">
+				<div class="label"><span class="label-text">Banner</span></div>
+				<input
+					@change="handleBannerChange"
+					type="file"
+					name="banner"
+					id="banner"
 					class="file-input file-input-bordered"
 					accept="image/*"
 				/>
@@ -154,13 +154,14 @@ const handleLogoChange = (event) => {
 				</div>
 
 				<!-- name -->
-				<div class="flex items-center mt-1">
-					<h4 class="m-0 p-0 text-white drop-shadow-sm text-3xl font-extrabold -mb-1">
+				<div class="flex items-center mt-1 -mb-1 justify-center">
+					<h4 class="m-0 p-0 text-white drop-shadow-sm text-3xl font-extrabold">
 						<span v-if="states.name">
 							{{ states.name }}
 						</span>
 						<span v-else>Your Name</span>
 					</h4>
+					<img class="w-8 h-8 p-0 m-0 -mb-[3px]" src="/img/verified.png" alt="verified" />
 				</div>
 
 				<!-- link -->
