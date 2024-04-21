@@ -5,7 +5,7 @@ import { app as appConfig } from '../config/app.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const developmentEnvironmentOnly = ['production', 'testing'].includes(!appConfig.env);
+const developmentEnvironmentOnly = appConfig.env === 'development';
 
 const knexConfig = {
 	client: 'sqlite3',

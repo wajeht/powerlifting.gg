@@ -61,7 +61,7 @@ export function getLogoutHandler() {
 			});
 		}
 
-		return res.redirect('/');
+		return res.redirect('back');
 	};
 }
 
@@ -72,7 +72,7 @@ export function postContactHandler(sendContactEmailJob) {
 		}
 		await sendContactEmailJob(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
-		return res.redirect('/contact');
+		return res.redirect('back');
 	};
 }
 
