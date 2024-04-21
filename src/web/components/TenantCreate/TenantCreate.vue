@@ -158,7 +158,7 @@ const handleLogoChange = (event) => {
 								<use href="#openmojiFlexedBicepsDarkSkinTone0" />
 								<use href="#openmojiFlexedBicepsDarkSkinTone0" />
 							</g>
-							<g fill="#1A202C">
+							<g fill="#2E384E">
 								<path
 									d="M21.922 26.23s5.344-4.986 1.615-6.38l12.76-.419l.672-1.142l.22-1.844c1.07.178 3.364.946 3.64 1.012c0 0 2.405 1.873.45 4.093l-7.78 2.235s-4.723 3.803-11.577 2.445"
 								/>
@@ -168,7 +168,7 @@ const handleLogoChange = (event) => {
 							</g>
 							<g
 								fill="none"
-								stroke="#000"
+								stroke="#506076"
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-miterlimit="10"
