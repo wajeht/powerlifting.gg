@@ -87,7 +87,7 @@ if (appConfig.env === 'production') {
 						'blob:',
 						'text/javascript',
 					],
-					'img-src': ["'self'", 'https://lh3.googleusercontent.com/'],
+					'img-src': ["'self'", 'https://lh3.googleusercontent.com/', 'data:'],
 				},
 			},
 		}),
