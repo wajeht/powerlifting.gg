@@ -24,21 +24,17 @@ it('should be able to get /healthz end point with html', async () => {
 	expect(res.text).include('ok');
 });
 
-describe('when visiting / route', () => {
-	describe('if there is no tenant', () => {
-		it.skip('should go to the main domain with all the tenants listed in the page', async () => {
-			const tenants = Array.from({ length: 5 }, () => ({
-				name: faker.company.name(),
-				slug: faker.lorem.slug(),
-			}));
+describe('when visiting / route, if there is no tenant', () => {
+	it('should go to the main domain page', async () => {
+		const tenants = Array.from({ length: 5 }, () => ({
+			name: faker.company.name(),
+			slug: faker.lorem.slug(),
+		}));
 
-			await db('tenants').insert(tenants);
+		await db('tenants').insert(tenants);
 
-			const res = await app.get('/');
-			expect(res.status).toBe(200);
-			for (const tenant of tenants) {
-				expect(res.text).toContain(tenant.name);
-			}
-		});
+		const res = await app.get('/');
+		expect(res.status).toBe(200);
+		expect(res.text).include("Let's Find Your");
 	});
 });

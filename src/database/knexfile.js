@@ -5,6 +5,8 @@ import { app as appConfig } from '../config/app.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const developmentEnvironmentOnly = ['production', 'testing'].includes(!appConfig.env);
+
 const knexConfig = {
 	client: 'sqlite3',
 	useNullAsDefault: true,
@@ -15,7 +17,7 @@ const knexConfig = {
 		tableName: 'knex_migrations',
 		directory: path.resolve(__dirname, './migrations'),
 	},
-	debug: appConfig.env !== 'production',
+	debug: developmentEnvironmentOnly,
 	seeds: { directory: path.resolve(__dirname, './seeds') },
 	pool: {
 		afterCreate: (conn, done) => {
