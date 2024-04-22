@@ -153,7 +153,7 @@ web.get(
 );
 
 /**
- * POST /tenants/create
+ * POST /tenants
  * @tags tenants
  * @summary post tenant
  */
