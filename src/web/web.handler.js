@@ -216,3 +216,17 @@ export function getBlogHandler(WebService) {
 		});
 	};
 }
+
+export function getBlogPostHandler(WebService) {
+	return async (req, res) => {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
+		const post = await WebService.getBlogPost({ cache: true, title: req.params.title });
+
+		return res.status(200).render('post.html', {
+			title: `/blog/title`,
+			post,
+		});
+	};
+}

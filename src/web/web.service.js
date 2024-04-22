@@ -55,5 +55,12 @@ export function WebService(WebRepository, redis) {
 
 			return Promise.all(postFiles);
 		},
+		getBlogPost: async ({ cache = true, title }) => {
+			console.log(cache);
+
+			const postPath = path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog', `${title}.md`);
+			const post = await fs.readFile(postPath, 'utf8');
+			return marked(post);
+		},
 	};
 }
