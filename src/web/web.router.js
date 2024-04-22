@@ -145,7 +145,7 @@ web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(TenantService(db, r
  */
 web.get(
 	'/tenants/create',
-	// authenticationHandler,
+	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getTenantsCreateHandler()),
 );
@@ -157,7 +157,7 @@ web.get(
  */
 web.post(
 	'/tenants',
-	// authenticationHandler,
+	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(postTenantHandler()),
 );
