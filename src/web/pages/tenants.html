@@ -1,12 +1,3 @@
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const search = new URLSearchParams(window.location.search);
-    if (search.get('q')) {
-      document.getElementById('q').value = search.get('q');
-    }
-  });
-</script>
-
 <div class="fade-in p-10">
   <div class="mx-auto max-w-7xl w-full prose">
 
@@ -30,7 +21,7 @@
       <!-- left -->
       <form action="/tenants" method="get" class="flex gap-1 items-center justify-center relative w-[374px]">
         <label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
-          <input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." required />
+          <input type="text" class="grow" id="q" name="q" placeholder="Search for a coach or a systems..." value="<%= q %>" required />
           <input type="hidden" name="current_page" id="current_page" value="<%= tenants.pagination.currentPage %>">
           <input type="hidden" name="per_page" id="per_page" value="<%= tenants.pagination.perPage %>">
           <input type="hidden" name="sort" id="sort" value="<%= tenants.pagination.sort %>">
