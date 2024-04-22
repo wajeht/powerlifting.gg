@@ -39,7 +39,7 @@ const handleLogoChange = (event) => {
 		<!-- left -->
 		<form
 			id="tenants-create"
-			action="/tenants"
+			action="/tenants/create"
 			method="post"
 			class="flex flex-col gap-3 col-span-2"
 		>
