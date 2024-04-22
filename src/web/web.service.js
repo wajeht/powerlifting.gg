@@ -1,4 +1,5 @@
 import { marked } from 'marked';
+import matter from 'gray-matter';
 import path from 'path';
 import fs from 'fs/promises';
 
@@ -55,12 +56,19 @@ export function WebService(WebRepository, redis) {
 
 			return Promise.all(postFiles);
 		},
-		getBlogPost: async ({ cache = true, title }) => {
+		getBlogPost: async ({ cache = true, id }) => {
 			console.log(cache);
 
-			const postPath = path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog', `${title}.md`);
-			const post = await fs.readFile(postPath, 'utf8');
-			return marked(post);
+			const post = await fs.readFile(
+				path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog', `${id}.md`),
+				'utf8',
+			);
+
+			return {
+				id: id,
+				meta: matter(post).data,
+				content: marked(post.replace(/^---\n.*?\n---\n*/ms, '')),
+			};
 		},
 	};
 }

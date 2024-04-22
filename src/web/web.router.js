@@ -223,12 +223,12 @@ web.get(
 );
 
 /**
- * GET /blog/{title}
+ * GET /blog/{id}
  * @tags web
  * @summary get blog post
  */
 web.get(
-	'/blog/:title',
+	'/blog/:id',
 	tenantIdentityHandler,
 	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository, redis))),
 );

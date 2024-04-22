@@ -222,7 +222,7 @@ export function getBlogPostHandler(WebService) {
 		if (req.tenant) {
 			throw new NotFoundError();
 		}
-		const post = await WebService.getBlogPost({ cache: true, title: req.params.title });
+		const post = await WebService.getBlogPost({ cache: true, id: req.params.id });
 
 		return res.status(200).render('post.html', {
 			title: `/blog/title`,
