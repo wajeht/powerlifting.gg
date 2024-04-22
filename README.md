@@ -19,16 +19,16 @@ multitenancy coaching review systems
 - **[Commander.js](https://www.npmjs.com/package/commander)** for CLI commands
 - **Redis** to cache some of the large queries
 
-> [!Important]
-> Why not `Typescript`?
->
-> Talk is cheap. You're more then welcome to convert this whole project into `Typescript`. Submit `PR` instead!
-
 # 🧐 Why?
 
 Yo, ever tried finding a solid coach on Insta? It's like sifting through a jungle. We're here to cut through the noise and give you the real deal. Our site's all about hooking you up with legit reviews and comparisons so you can pick the perfect coach, while also keeping them in check, you feel me?
 
 # 🤔 Technical Why?
+
+> [!Important]
+> Why not `Typescript`?
+>
+> Talk is cheap. You're more then welcome to convert this whole project into `Typescript`. Submit `PR` instead!
 
 `JavaScript` ain't as bad as some folks make it out to be. Most devs ~~(You have skill issues)~~ just need to up their game and get better at it, you know? Check out this slick multi-tenancy app we whipped up, with each tenant rocking its own subdomain.
 
