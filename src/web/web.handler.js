@@ -202,3 +202,17 @@ export function postReviewHandler(TenantService) {
 		return res.redirect('back');
 	};
 }
+
+export function getBlogHandler(WebService) {
+	return async (req, res) => {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
+		const posts = await WebService.getBlogPosts({ cache: true });
+
+		return res.status(200).render('blog.html', {
+			title: '/blog',
+			posts,
+		});
+	};
+}

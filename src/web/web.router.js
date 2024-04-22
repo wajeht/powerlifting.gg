@@ -28,6 +28,7 @@ import {
 	postTenantHandler,
 	postReviewHandler,
 	getSettingsHandler,
+	getBlogHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -207,6 +208,17 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis))),
+);
+
+/**
+ * GET /blog
+ * @tags web
+ * @summary get blog page
+ */
+web.get(
+	'/blog',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository, redis))),
 );
 
 export { web };

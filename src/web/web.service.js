@@ -37,5 +37,23 @@ export function WebService(WebRepository, redis) {
 
 			return markdown;
 		},
+		getBlogPosts: async ({ cache = true }) => {
+			console.log(cache);
+			let postFiles = await fs.readdir(path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog'));
+			postFiles = postFiles
+				.filter((file) => file.endsWith('.md'))
+				.map(async (file) => {
+					const filePath = path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog', file);
+					const stats = await fs.stat(filePath);
+					return {
+						title: path.basename(file, '.md'),
+						id: file.split('.md')[0],
+						date: stats.birthtime,
+					};
+				})
+				.reverse();
+
+			return Promise.all(postFiles);
+		},
 	};
 }
