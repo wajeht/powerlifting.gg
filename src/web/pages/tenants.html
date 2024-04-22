@@ -41,8 +41,13 @@
       <!-- right -->
       <div class="flex gap-3">
         <!-- button -->
-        <% if (tenants.data.length){ %>
+        <% if (tenants.data.length) { %>
           <a class="btn btn-neutral text-white no-underline" href="/tenants/create">Submit a Tenant</a>
+        <% } %>
+
+        <!-- view all -->
+        <% if (tenants.data.length == 0) { %>
+          <a class="btn btn-neutral text-white no-underline" href="/tenants">View All Tenants</a>
         <% } %>
 
         <!-- pagination -->

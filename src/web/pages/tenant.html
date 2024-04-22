@@ -51,10 +51,13 @@
 
 			<!-- right -->
 			<div class="flex gap-3">
-				<% if (!app.user) { %>
-					<% if (reviews.data.length){ %>
-						<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Submit a Review</a>
-					<% } %>
+
+				<% if (reviews.data.length) { %>
+					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Submit a Review</a>
+				<% } %>
+
+				<% if (reviews.data.length === 0) { %>
+					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>" title="login with google">View All Reviews</a>
 				<% } %>
 
         <!-- pagination -->
