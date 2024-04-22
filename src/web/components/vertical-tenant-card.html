@@ -1,6 +1,6 @@
-<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full min-h-[288px]" style="background-image: url(<%= tenant.banner %>);">
+<div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat basis-1/4 h-full min-h-[320px]" style="background-image: url(<%= tenant.banner %>);">
   <!-- blur -->
-  <div class="flex flex-col gap-3 items-center justify-between p-5 backdrop-blur-sm bg-black/70 rounded-md h-fulli min-h-[288px]">
+  <div class="flex flex-col gap-3 items-center justify-between p-5 backdrop-blur-sm bg-black/70 rounded-md h-fulli min-h-[320px]">
     <!-- img -->
     <div class="h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm">
       <img class="rounded-full" src="<%= tenant.logo %>" alt="logo">
@@ -19,8 +19,10 @@
       <% } %>
     </div>
 
+    <h5 class="text-2xl font-extrabold text-white drop-shadow-sm"><%= tenant.ratings %>/5</h5>
+
     <!-- name -->
-    <div class="flex items-center mt-3">
+    <div class="flex items-center">
       <h4 class="m-0 p-0 text-white drop-shadow-sm"><%= tenant.name %></h4>
       <% if (tenant.verified) { %>
         <img class="w-5 h-5 p-0 m-0" src="/img/verified.png" alt="verified" />

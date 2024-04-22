@@ -14,7 +14,7 @@ export function WebRepository(db) {
 		},
 		getRandomReviews: async ({ size = 5 }) => {
 			return await db('reviews')
-				.select('reviews.*', 'users.username')
+				.select('reviews.*', 'users.username', 'users.profile_picture')
 				.join('users', 'reviews.user_id', 'users.id')
 				.orderByRaw('RANDOM()')
 				.limit(size);

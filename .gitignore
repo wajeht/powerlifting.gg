@@ -148,3 +148,4 @@ env.json
 /src/database/db.sqlite-wal
 src/utils/tempCodeRunnerFile.js
 *.gz
+public/js/TenantCreate.js

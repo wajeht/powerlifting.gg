@@ -10,8 +10,10 @@
 <script type="module">
   import { createApp } from '/js/vue.esm-browser.prod.min.js';
   import GlobalSearch from '/js/GlobalSearch.js';
+  import TenantCreate from '/js/TenantCreate.js';
 
   const app = createApp();
   app.component("GlobalSearch", GlobalSearch);
+  app.component("TenantCreate", TenantCreate);
   app.mount("#app");
 </script>
