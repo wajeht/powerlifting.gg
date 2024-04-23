@@ -56,7 +56,7 @@ web.get('/healthz', getHealthzHandler());
 web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository, redis))),
+	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis))),
 );
 
 /**
@@ -67,7 +67,7 @@ web.get(
 web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository, redis))),
+	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis))),
 );
 
 /**
@@ -207,7 +207,7 @@ web.post(
 web.get(
 	'/blog',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository, redis))),
+	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis))),
 );
 
 /**
@@ -218,7 +218,7 @@ web.get(
 web.get(
 	'/blog/:id',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository, redis))),
+	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis))),
 );
 
 export { web };

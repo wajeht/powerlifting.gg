@@ -15,7 +15,20 @@
       <% } %>
     </div>
 
+    <!-- meta -->
     <h1><%= post.meta.title %></h1>
+    <div class="flex gap-2 items-center text-sm">
+      <div class="flex justify-center items-center gap-2 h-fit w-fit">
+        <img class="w-5 h-5 rounded-full m-0" src="<%= post.meta.profile_picture %>" alt="profile_picture">
+        <span><%= post.meta.author %></span>
+      </div>
+      <span>/</span>
+      <span><%= new Date(post.meta.date).toLocaleString('en-US', { month: 'long' , day: 'numeric' }) %></span>
+      <span>/</span>
+      <span><%= post.meta.time.text %></span>
+      <span>/</span>
+      <span><%= post.meta.time.words %> words</span>
+    </div>
 
     <%- post.content %>
   </div>

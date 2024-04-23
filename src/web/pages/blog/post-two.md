@@ -1,10 +1,9 @@
 ---
 title: Post Two
 date: 2023-04-02
-author: wajeht
+author: zombyard
+profile_picture: '/img/crowd.jpg'
 ---
-
-# My Markdown Document
 
 ## Text Styling
 

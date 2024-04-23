@@ -1,7 +1,13 @@
 export function WebRepository(db) {
 	return {
-		getUser: async ({ id, tenant_id }) => {
-			return await db.delete().from('users').where({ tenant_id, id });
+		getUser: async ({ id = null, tenant_id = null, username = null }) => {
+			if (id && tenant_id) {
+				return await db.select('*').from('users').where({ tenant_id, id }).first();
+			} else if (id) {
+				return await db.select('*').from('users').where({ id }).first();
+			} else if (username) {
+				return await db.select('*').from('users').where({ username }).first();
+			}
 		},
 		getTenants: async () => {
 			return await db.select('*').from('tenants');

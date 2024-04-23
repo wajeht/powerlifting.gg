@@ -1,10 +1,9 @@
 ---
 title: Post One
 date: 2023-04-01
-author: wajeht
+author: zombyard
 ---
 
-# Heading 1
 ## Heading 2
 ### Heading 3
 
@@ -19,7 +18,7 @@ author: wajeht
 2. Ordered list item 2
 
 [Link text](https://www.example.com)
-![Image alt text](image.jpg)
+![Image alt text](/img/chad.jpeg)
 
 > This is a blockquote.
 

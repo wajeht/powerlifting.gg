@@ -58,10 +58,23 @@ export function WebService(WebRepository, redis) {
 					const postContent = await fs.readFile(postPath, 'utf-8');
 					const frontmatter = matter(postContent).data;
 					const readingTimeData = readingTime(postContent.replace(/^---\n.*?\n---\n*/ms, ''));
+					const user = await WebRepository.getUser({ username: frontmatter.author });
+
+					let profile_picture;
+
+					if (frontmatter.profile_picture) {
+						profile_picture = frontmatter.profile_picture;
+					} else if (user) {
+						profile_picture = user.profile_picture;
+					} else {
+						profile_picture = '/img/chad.jpeg';
+					}
+
 					posts.push({
 						meta: {
 							id: file.split('.md')[0],
 							...frontmatter,
+							profile_picture,
 							time: { ...readingTimeData },
 						},
 						content: marked(postContent.replace(/^---\n.*?\n---\n*/ms, '')),
