@@ -8,14 +8,15 @@ import { promisify } from 'util';
 import { exec } from 'child_process';
 import { app as appConfig } from '../config/app.js';
 
-if (appConfig.env !== 'production') {
-	throw new Error('cannot backupDatabase(job) in none production environment!');
-}
-
 const execAsync = promisify(exec);
 
 // TODO: make this testable
 export async function backupDatabase(job) {
+	if (appConfig.env !== 'production') {
+		logger.info('Skipping database backup on non production environment!');
+		return;
+	}
+
 	const s3 = new S3Client({
 		credentials: {
 			accessKeyId: backBlazeConfig.key_id,
