@@ -6,6 +6,11 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import { exec } from 'child_process';
+import { app as appConfig } from '../config/app.js';
+
+if (appConfig.env !== 'production') {
+	throw new Error('cannot backupDatabase(job) in none production environment!');
+}
 
 const execAsync = promisify(exec);
 
