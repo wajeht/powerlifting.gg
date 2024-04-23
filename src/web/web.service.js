@@ -1,4 +1,5 @@
 import { marked } from 'marked';
+import readingTime from 'reading-time';
 import matter from 'gray-matter';
 import path from 'path';
 import fs from 'fs/promises';
@@ -38,37 +39,62 @@ export function WebService(WebRepository, redis) {
 
 			return markdown;
 		},
-		getBlogPosts: async ({ cache = true }) => {
-			console.log(cache);
-			let postFiles = await fs.readdir(path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog'));
-			postFiles = postFiles
-				.filter((file) => file.endsWith('.md'))
-				.map(async (file) => {
-					const filePath = path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog', file);
-					const stats = await fs.stat(filePath);
-					return {
-						title: path.basename(file, '.md'),
-						id: file.split('.md')[0],
-						date: stats.birthtime,
-					};
-				})
-				.reverse();
+		getBlogPosts: async function ({ cache = true }) {
+			if (cache) {
+				const cachedPosts = await redis.get('blog-posts');
+				if (cachedPosts) {
+					return JSON.parse(cachedPosts);
+				}
+			}
 
-			return Promise.all(postFiles);
-		},
-		getBlogPost: async ({ cache = true, id }) => {
-			console.log(cache);
-
-			const post = await fs.readFile(
-				path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog', `${id}.md`),
-				'utf8',
+			const postFiles = await fs.readdir(
+				path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog'),
 			);
 
-			return {
-				id: id,
-				meta: matter(post).data,
-				content: marked(post.replace(/^---\n.*?\n---\n*/ms, '')),
-			};
+			const posts = [];
+			for (const file of postFiles) {
+				if (file.endsWith('.md')) {
+					const postPath = path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog', file);
+					const postContent = await fs.readFile(postPath, 'utf-8');
+					const frontmatter = matter(postContent).data;
+					const readingTimeData = readingTime(postContent.replace(/^---\n.*?\n---\n*/ms, ''));
+					posts.push({
+						meta: {
+							id: file.split('.md')[0],
+							...frontmatter,
+							time: { ...readingTimeData },
+						},
+						content: marked(postContent.replace(/^---\n.*?\n---\n*/ms, '')),
+					});
+				}
+			}
+
+			posts.sort((a, b) => new Date(b.meta.date) - new Date(a.meta.date));
+
+			if (cache) {
+				await redis.set('blog-posts', JSON.stringify(posts));
+			}
+
+			return posts;
+		},
+		getBlogPost: async function ({ cache = true, id }) {
+			if (cache) {
+				const cachedPost = await redis.get(`blog-posts-${id}`);
+				if (cachedPost) {
+					return JSON.parse(cachedPost);
+				}
+			}
+
+			const posts = await this.getBlogPosts({ cache });
+			for (const post of posts) {
+				if (post.meta.id === id) {
+					if (cache) {
+						await redis.set(`blog-post-${id}`, JSON.stringify(post));
+					}
+					return post;
+				}
+			}
+			return null;
 		},
 	};
 }
