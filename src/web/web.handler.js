@@ -134,19 +134,6 @@ export function getTermsOfServiceHandler(WebService) {
 	};
 }
 
-export function getModerationPolicyHandler(WebService) {
-	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
-		const content = await WebService.getMarkdownPage({ cache: true, page: 'moderation-policy' });
-		return res.status(200).render('markdown.html', {
-			title: '/moderation-policy',
-			content,
-		});
-	};
-}
-
 export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {
