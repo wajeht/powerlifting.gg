@@ -21,13 +21,14 @@ import {
 	getPrivacyPolicyHandler,
 	getTenantsCreateHandler,
 	getTermsOfServiceHandler,
-	getModerationPolicyHandler,
 	getReviewsHandler,
 	getLoginHandler,
 	getLogoutHandler,
 	postTenantHandler,
 	postReviewHandler,
 	getSettingsHandler,
+	getBlogHandler,
+	getBlogPostHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -46,17 +47,6 @@ web.use(oauthRouter);
  * @summary get healthz page
  */
 web.get('/healthz', getHealthzHandler());
-
-/**
- * GET /moderation-policy
- * @tags web
- * @summary get moderation policy
- */
-web.get(
-	'/moderation-policy',
-	tenantIdentityHandler,
-	catchAsyncErrorHandler(getModerationPolicyHandler(WebService(WebRepository, redis))),
-);
 
 /**
  * GET /privacy-policy
@@ -151,7 +141,7 @@ web.get(
 );
 
 /**
- * POST /tenants/create
+ * POST /tenants
  * @tags tenants
  * @summary post tenant
  */
@@ -207,6 +197,28 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis))),
+);
+
+/**
+ * GET /blog
+ * @tags web
+ * @summary get blog page
+ */
+web.get(
+	'/blog',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository, redis))),
+);
+
+/**
+ * GET /blog/{id}
+ * @tags web
+ * @summary get blog post
+ */
+web.get(
+	'/blog/:id',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository, redis))),
 );
 
 export { web };

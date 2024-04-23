@@ -1,0 +1,42 @@
+<div class="fade-in p-10">
+  <div class="mx-auto max-w-7xl w-full prose">
+    <!-- breadcrumbs -->
+    <div class="flex justify-between items-center mb-6">
+      <div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
+        <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>">Home</a>
+        <%- include('../components/right-arrow-svg.html') %>
+          <a class="no-underline hover:underline opacity-70 hover:opacity-100"
+            href="<%= app.mainDomain %>/blog">Blog</a>
+      </div>
+
+      <% if (app.user) { %>
+        <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout"
+          title="logout">Logout</a>
+        <% } %>
+    </div>
+
+    <h1>Blog</h1>
+
+    <div class="flex flex-col gap-5">
+      <% for (let i=0; i < posts.length; i++) { %>
+        <div>
+          <a class="flex gap-5 items-center justify-between no-underline" href="/blog/<%= posts[i].meta.id %>">
+            <!-- title -->
+            <h2 class="hover:underline m-0 text-2xl">
+              <%= posts[i].meta.title %>
+            </h2>
+
+            <!-- meta -->
+            <div class="flex justify-center items-center gap-3 text-neutral/80">
+              <span><%= new Date(posts[i].meta.date).toLocaleString('en-US', { month: 'long' , day: 'numeric' }) %></span>
+              <span>/</span>
+              <span><%= posts[i].meta.time.text %></span>
+              <span>/</span>
+              <span><%= posts[i].meta.time.words %> words</span>
+            </div>
+          </a>
+        </div>
+        <% } %>
+    </div>
+  </div>
+</div>

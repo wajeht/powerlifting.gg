@@ -26,20 +26,23 @@
 								Resources
 							</summary>
 							<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+								<!-- github -->
 								<li>
 									<a href="https://github.com/wajeht/powerlifting.gg" target="_blank" class="link link-hover"
 										title="github">Github <span>⤴️</span></a>
 								</li>
+								<!-- api docs -->
 								<li>
 									<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank">API Docs <span>⤴️</span></a>
 								</li>
+								<!-- blog -->
+								<li>
+									<a  class="<%= title === '/blog' ? 'active' : '' %>" href="<%= app.mainDomain %>/blog" title="blog">Blog</a>
+								</li>
+								<!-- contact -->
 								<li>
 									<a class="<%= title === '/contact' ? 'active' : '' %>" href="<%= app.mainDomain %>/contact"
 										title="contact">Contact</a>
-								</li>
-								<li>
-									<a class="<%= title === '/moderation-policy' ? 'active' : '' %>"
-										href="<%= app.mainDomain %>/moderation-policy" title="">Moderation Policy</a>
 								</li>
 							</ul>
 						</details>
@@ -55,21 +58,23 @@
 								Resources
 							</summary>
 							<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+								<!-- github -->
 								<li>
 									<a href="https://github.com/wajeht/powerlifting.gg" target="_blank" class="link link-hover"
 										title="github">Github <span>⤴️</span></a>
 								</li>
+								<!-- api docs -->
 								<li>
-									<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank">API Docs
-										<span>⤴️</span></a>
+									<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank">API Docs <span>⤴️</span></a>
 								</li>
+								<!-- blog -->
+								<li>
+									<a class="<%= title === '/blog' ? 'active' : '' %>" href="<%= app.mainDomain %>/blog" title="blog">Blog</a>
+								</li>
+								<!-- contact -->
 								<li>
 									<a class="<%= title === '/contact' ? 'active' : '' %>" href="<%= app.mainDomain %>/contact"
 										title="contact">Contact</a>
-								</li>
-								<li>
-									<a class="<%= title === '/moderation-policy' ? 'active' : '' %>"
-										href="<%= app.mainDomain %>/moderation-policy" title="">Moderation Policy</a>
 								</li>
 							</ul>
 						</details>

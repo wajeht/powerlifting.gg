@@ -134,19 +134,6 @@ export function getTermsOfServiceHandler(WebService) {
 	};
 }
 
-export function getModerationPolicyHandler(WebService) {
-	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
-		const content = await WebService.getMarkdownPage({ cache: true, page: 'moderation-policy' });
-		return res.status(200).render('markdown.html', {
-			title: '/moderation-policy',
-			content,
-		});
-	};
-}
-
 export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {
@@ -200,5 +187,33 @@ export function postReviewHandler(TenantService) {
 		});
 
 		return res.redirect('back');
+	};
+}
+
+export function getBlogHandler(WebService) {
+	return async (req, res) => {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
+		const posts = await WebService.getBlogPosts({ cache: true });
+
+		return res.status(200).render('blog.html', {
+			title: '/blog',
+			posts,
+		});
+	};
+}
+
+export function getBlogPostHandler(WebService) {
+	return async (req, res) => {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
+		const post = await WebService.getBlogPost({ cache: true, id: req.params.id });
+
+		return res.status(200).render('post.html', {
+			title: `/blog/title`,
+			post,
+		});
 	};
 }
