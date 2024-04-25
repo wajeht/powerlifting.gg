@@ -40,6 +40,7 @@ const handleLogoChange = (event) => {
 		<form
 			id="tenants-create"
 			action="/tenants"
+			enctype="multipart/form-data"
 			method="post"
 			class="flex flex-col gap-3 col-span-2"
 		>

@@ -43,6 +43,7 @@ export function getTenantsCreateHandler() {
 
 export function postTenantHandler() {
 	return async (req, res) => {
+		console.log(req.files);
 		req.flash('info', 'successfully created!');
 		return res.redirect('/tenants/create');
 	};

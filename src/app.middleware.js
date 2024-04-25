@@ -16,16 +16,20 @@ import {
 } from './app.error.js';
 
 export const upload = multer({
-	storage: multerS3({
-		s3: publicS3BucketConfig,
-		bucket: backBlazeConfig.public.bucket,
-		metadata: function (req, file, cb) {
-			cb(null, { fieldName: file.fieldname });
-		},
-		key: function (req, file, cb) {
-			cb(null, Date.now().toString());
-		},
-	}),
+  storage: multerS3({
+    s3: publicS3BucketConfig,
+    bucket: backBlazeConfig.public.bucket,
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      const fileExtension = file.originalname.split('.').pop();
+      const key = `${Date.now().toString()}.${fileExtension}`;
+      cb(null, key);
+    },
+  }),
+	limits: { fileSize: 1024 * 1024 } // Limit file size to 1MB (1MB = 1024 * 1024 bytes)
 });
 
 export const authorizePermissionHandler = (role) => {
