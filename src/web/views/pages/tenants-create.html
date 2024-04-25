@@ -1,0 +1,209 @@
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const logo = document.getElementById('logo');
+		const banner = document.getElementById('banner');
+		const logoContainer = document.getElementById('logoContainer');
+		const bannerContainer = document.getElementById('bannerContainer');
+		const bannerContainerBlur = document.getElementById('bannerContainerBlur');
+		const slugInput = document.getElementById('slug');
+		const nameInput = document.getElementById('name');
+		const slugWithDomain = document.getElementById('slugWithDomain');
+
+		function handleLogoChange(event) {
+			const file = event.target.files[0];
+			if (file) {
+				logoContainer.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
+			}
+		}
+
+		function handleBannerChange(event) {
+			const file = event.target.files[0];
+			if (file) {
+				bannerContainer.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
+			}
+		}
+
+		function generateSlugWithDomain() {
+			const slug = nameInput.value.trim().split(' ').join('-').toLowerCase();
+			const domain = `https://${slug}.powerlifting.gg/`;
+			slugWithDomain.innerText = domain;
+			slugInput.value = domain;
+		}
+
+		logo.addEventListener('change', handleLogoChange);
+		banner.addEventListener('change', handleBannerChange);
+		nameInput.addEventListener('input', generateSlugWithDomain);
+
+		// change banner container blur background on image
+		const config = { attributes: true, attributeFilter: ['style'] };
+		const callback = function (mutationsList, observer) {
+			for (const mutation of mutationsList) {
+				if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+					if (bannerContainer.style.backgroundImage) {
+						bannerContainerBlur.classList.remove('bg-neutral');
+						bannerContainerBlur.classList.add('bg-black/70');
+					}
+				}
+			}
+		};
+		const observer = new MutationObserver(callback);
+		observer.observe(bannerContainer, config);
+	});
+</script>
+
+<div class="p-10">
+	<div class="mx-auto max-w-7xl w-full prose">
+		<!-- breadcrumbs -->
+		<div class="flex justify-between items-center mb-6">
+			<div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>">Home</a>
+				<%- include('../components/right-arrow-svg.html') %>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/tenants">Tenants</a>
+				<%- include('../components/right-arrow-svg.html') %>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/tenants/create">Create</a>
+			</div>
+
+			<% if (app.user) { %>
+				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
+			<% } else { %>
+				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/login" title="login">Login</a>
+			<% } %>
+		</div>
+
+		<h1>Tenant / Create</h1>
+
+		<div class="mb-5 max-w-sm">
+			<!-- flash-messages -->
+			<%- include('../components/flash-message.html') %>
+		</div>
+
+		<div class="grid grid-cols-3 gap-10">
+			<!-- left -->
+			<form
+				id="tenants-create"
+				action="/tenants"
+				enctype="multipart/form-data"
+				method="post"
+				class="flex flex-col gap-3 col-span-2"
+			>
+				<!-- csrf -->
+				<input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+
+				<!-- name -->
+				<label class="form-control w-full" for="email">
+					<div class="label"><span class="label-text">Name</span></div>
+					<input
+						type="text"
+						name="name"
+						id="name"
+						placeholder="Name"
+						class="input input-bordered"
+						required
+					/>
+				</label>
+
+				<!-- slug -->
+				<label class="form-control w-full" for="email">
+					<div class="label"><span class="label-text">Slug</span></div>
+					<input
+						type="text"
+						name="slug"
+						id="slug"
+						placeholder="Slug"
+						class="input input-bordered"
+						readonly
+					/>
+				</label>
+
+				<!-- logo -->
+				<label class="form-control w-full" for="logo">
+					<div class="label"><span class="label-text">Logo</span></div>
+					<input
+						type="file"
+						name="logo"
+						id="logo"
+						class="file-input file-input-bordered"
+						accept="image/*"
+					/>
+				</label>
+
+				<!-- banner -->
+				<label class="form-control w-full" for="banner">
+					<div class="label"><span class="label-text">Banner</span></div>
+					<input
+						type="file"
+						name="banner"
+						id="banner"
+						class="file-input file-input-bordered"
+						accept="image/*"
+					/>
+				</label>
+
+				<div class="flex flex-col mt-2 gap-1">
+					<div class="w-fit">
+						<label class="label gap-2 justify-start">
+							<input type="checkbox" class="checkbox" id="checkbox" name="checkbox" required />
+							<span class="label-text text-base">I agree</span>
+						</label>
+					</div>
+					<div class="pl-1">
+						Agreeing up signifies that you have read and agree to the
+						<a href="/terms-of-services" class="link link-neutral" target="_blank"
+							>Terms of Service</a
+						>
+						and our
+						<a href="/privacy-policy" class="link link-neutral" target="_blank">Privacy Policy</a>.
+					</div>
+				</div>
+
+				<!-- submit -->
+				<div><input type="submit" value="Submit" class="btn btn-neutral text-white mt-4" /></div>
+			</form>
+
+			<!-- right -->
+			<div
+				class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat h-full"
+				id="bannerContainer"
+			>
+				<div
+					id="bannerContainerBlur"
+					class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm rounded-md h-full bg-neutral"
+				>
+					<!-- img -->
+					<div
+						class="max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm bg-white"
+					>
+						<div
+							id="logoContainer"
+							class="bg-cover bg-center bg-no-repeat max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full"
+						></div>
+					</div>
+
+					<!-- rating -->
+					<div class="rating rating-xs mt-3">
+						<% for (let i=0; i<5; i++) { %>
+							<input
+								id="tenant-create-star-<%= i + 1 %>"
+								name="tenant-create-star-<%= i + 1 %>"
+								type="radio"
+								class="mask mask-star-2 bg-orange-400"
+								disabled
+							/>
+						<% } %>
+					</div>
+
+					<!-- name -->
+					<div class="flex items-center mt-1 -mb-1 justify-center">
+						<h4 class="m-0 p-0 text-white drop-shadow-sm text-3xl font-extrabold">Your Name</h4>
+						<img class="w-8 h-8 p-0 m-0 -mb-[3px]" src="/img/verified.png" alt="verified" />
+					</div>
+
+					<!-- link -->
+					<div class="link text-white no-underline hover:underline" id="slugWithDomain">
+						https://your-name.powerlifting.gg/
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

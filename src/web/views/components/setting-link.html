@@ -1,0 +1,25 @@
+<li>
+	<details>
+		<summary>
+			<div class="flex justify-center items-center gap-2">
+				<img
+					class="w-5 h-5 rounded-full"
+					src="<%= app.user.profile_picture %>"
+					alt="profile_picture"
+				/>
+				<span> <%= app.user.username %> </span>
+			</div>
+		</summary>
+		<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+			<li>
+				<a
+					class="<%= title === '/settings' ? 'active' : '' %>"
+					href="<%= app.mainDomain %>/settings"
+					title="logout"
+					>Settings</a
+				>
+			</li>
+			<li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
+		</ul>
+	</details>
+</li>

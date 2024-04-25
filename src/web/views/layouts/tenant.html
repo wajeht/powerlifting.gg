@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+	<!-- head -->
+	<%- include('../components/head.html') %>
+
+	<!-- scroll-to-top -->
+	<%- include('../components/scroll-to-top.html') %>
+
+	<body id="app" class="flex min-h-screen flex-col overflow-auto" v-cloak>
+		<!-- tenant-header -->
+		<%- include('../components/tenant-header.html') %>
+
+		<!-- main -->
+		<main class="flex-1 relative"><%- body %></main>
+
+		<!-- footer -->
+		<%- include('../components/footer.html') %>
+	</body>
+
+	<!-- global search -->
+	<global-search />
+</html>

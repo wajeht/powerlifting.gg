@@ -3,6 +3,9 @@ import { logger } from './utils/logger.js';
 import { validationResult } from 'express-validator';
 import { db } from './database/db.js';
 import { app as appConfig } from './config/app.js';
+import { backBlaze as backBlazeConfig, publicS3BucketConfig } from './config/back-blaze.js';
+import multerS3 from 'multer-s3';
+import multer from 'multer';
 import {
 	HttpError,
 	NotFoundError,
@@ -11,6 +14,23 @@ import {
 	ValidationError,
 	UnimplementedFunctionError,
 } from './app.error.js';
+
+export const uploadHandler = multer({
+	storage: multerS3({
+		s3: publicS3BucketConfig,
+		bucket: backBlazeConfig.public.bucket,
+		acl: 'public-read',
+		metadata: function (req, file, cb) {
+			cb(null, { fieldName: file.fieldname });
+		},
+		key: function (req, file, cb) {
+			const fileExtension = file.originalname.split('.').pop();
+			const key = `${Date.now().toString()}.${fileExtension}`;
+			cb(null, key);
+		},
+	}),
+	limits: { fileSize: 1024 * 1024 }, // 1MB = 1024 * 1024 bytes
+});
 
 export const authorizePermissionHandler = (role) => {
 	return (req, res, next) => {
@@ -32,16 +52,22 @@ export const validateRequestHandler = (schemas) => {
 			const result = validationResult(req);
 			if (result.isEmpty()) return next();
 			const { errors } = result;
-			throw new ValidationError(errors);
-		} catch (err) {
-			next(err);
+			const errorMessages = errors.map((error) => error.msg).join('\n');
+			throw new ValidationError(errorMessages);
+		} catch (error) {
+			if (error instanceof ValidationError) {
+				req.flash('error', error.message);
+				return res.status(422).redirect('back');
+			} else {
+				next(error);
+			}
 		}
 	};
 };
 
 export const csrfHandler = (() => {
 	const { csrfSynchronisedProtection } = csrfSync({
-		getTokenFromRequest: (req) => req.body.csrfToken,
+		getTokenFromRequest: (req) => req.body.csrfToken || req.query.csrfToken,
 	});
 
 	return [

@@ -46,14 +46,16 @@
 	"author": "wajeht",
 	"license": "MIT",
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.556.0",
-		"@aws-sdk/lib-storage": "^3.556.0",
+		"@aws-sdk/client-s3": "^3.563.0",
+		"@aws-sdk/lib-storage": "^3.563.0",
 		"@bull-board/express": "^5.16.0",
 		"@faker-js/faker": "^8.4.1",
+		"@sentry/node": "^7.112.2",
+		"@sentry/profiling-node": "^7.112.2",
 		"@vitejs/plugin-vue": "^5.0.4",
 		"axios": "^1.6.8",
 		"bcryptjs": "^2.4.3",
-		"bullmq": "^5.7.4",
+		"bullmq": "^5.7.5",
 		"commander": "^12.0.0",
 		"compression": "^1.7.4",
 		"connect-flash": "^0.1.1",
@@ -76,6 +78,8 @@
 		"knex": "^3.1.0",
 		"knex-paginate": "^3.1.2",
 		"marked": "^12.0.2",
+		"multer": "^1.4.5-lts.1",
+		"multer-s3": "^3.0.1",
 		"nodemailer": "^6.9.13",
 		"reading-time": "^1.5.0",
 		"sqlite3": "^5.1.7",
@@ -96,6 +100,6 @@
 		"prettier": "^3.2.5",
 		"supertest": "^6.3.4",
 		"tailwindcss": "^3.4.3",
-		"vitest": "^1.5.0"
+		"vitest": "^1.5.2"
 	}
 }

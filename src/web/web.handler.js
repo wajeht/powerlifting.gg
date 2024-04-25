@@ -34,6 +34,9 @@ export function getTenantsHandler(TenantService) {
 
 export function getTenantsCreateHandler() {
 	return async (req, res) => {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
 		return res.status(200).render('tenants-create.html', {
 			flashMessages: req.flash(),
 			title: '/tenants/create',
@@ -41,8 +44,22 @@ export function getTenantsCreateHandler() {
 	};
 }
 
-export function postTenantHandler() {
+export function postTenantHandler(WebService) {
 	return async (req, res) => {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
+		const { name, slug } = req.body;
+		let logo = req.files?.logo?.[0];
+		let banner = req.files?.banner?.[0];
+
+		await WebService.postTenant({
+			name,
+			slug,
+			banner: banner?.location || '',
+			logo: logo?.location || '',
+		});
+
 		req.flash('info', 'successfully created!');
 		return res.redirect('/tenants/create');
 	};

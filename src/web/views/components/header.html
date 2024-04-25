@@ -1,0 +1,145 @@
+<header class="navbar p-10 sticky top-0 z-10 backdrop-blur-sm bg-white/70 border border-b">
+	<!-- wrapper -->
+	<div class="mx-auto max-w-7xl flex justify-between w-full">
+		<!-- left -->
+		<div class="flex-1">
+			<a
+				href="<%= app.mainDomain %>/"
+				title="powerlifting.gg"
+				class="text-2xl font-black btn btn-ghost"
+				>Powerlifting.gg</a
+			>
+		</div>
+
+		<!-- right -->
+		<div class="flex-none">
+			<ul class="menu menu-horizontal px-1">
+				<!-- login/logout -->
+				<% if (app.user) { %>
+				<!-- tenants -->
+				<li>
+					<a
+						class="<%= title === '/tenants' ? 'active' : '' %>"
+						href="<%= app.mainDomain %>/tenants"
+						title="tenants"
+						>Tenants</a
+					>
+				</li>
+
+				<!-- resource -->
+				<li>
+					<details>
+						<summary>Resources</summary>
+						<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+							<!-- github -->
+							<li>
+								<a
+									href="https://github.com/wajeht/powerlifting.gg"
+									target="_blank"
+									class="link link-hover"
+									title="github"
+									>Github <span>⤴️</span></a
+								>
+							</li>
+							<!-- discord -->
+							<li>
+								<a href="https://discord.gg/m9GRxu2AZH" title="discord" target="_blank"
+									>Discord<span>⤴️</span></a
+								>
+							</li>
+							<!-- api docs -->
+							<li>
+								<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
+									>API Docs <span>⤴️</span></a
+								>
+							</li>
+							<!-- blog -->
+							<li>
+								<a
+									class="<%= title === '/blog' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/blog"
+									title="blog"
+									>Blog</a
+								>
+							</li>
+							<!-- contact -->
+							<li>
+								<a
+									class="<%= title === '/contact' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/contact"
+									title="contact"
+									>Contact</a
+								>
+							</li>
+						</ul>
+					</details>
+				</li>
+
+				<!-- settings -->
+				<%- include('../components/setting-link.html') %> <% } else { %>
+				<!-- resource -->
+				<li>
+					<details>
+						<summary>Resources</summary>
+						<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+							<!-- github -->
+							<li>
+								<a
+									href="https://github.com/wajeht/powerlifting.gg"
+									target="_blank"
+									class="link link-hover"
+									title="github"
+									>Github <span>⤴️</span></a
+								>
+							</li>
+							<!-- discord -->
+							<li>
+								<a href="https://discord.gg/m9GRxu2AZH" title="discord" target="_blank"
+									>Discord<span>⤴️</span></a
+								>
+							</li>
+							<!-- api docs -->
+							<li>
+								<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
+									>API Docs <span>⤴️</span></a
+								>
+							</li>
+							<!-- blog -->
+							<li>
+								<a
+									class="<%= title === '/blog' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/blog"
+									title="blog"
+									>Blog</a
+								>
+							</li>
+							<!-- contact -->
+							<li>
+								<a
+									class="<%= title === '/contact' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/contact"
+									title="contact"
+									>Contact</a
+								>
+							</li>
+						</ul>
+					</details>
+				</li>
+
+				<!-- tenants -->
+				<li>
+					<a
+						class="<%= title === '/tenants' ? 'active' : '' %>"
+						href="<%= app.mainDomain %>/tenants"
+						title="tenants"
+						>Tenants</a
+					>
+				</li>
+
+				<!-- login -->
+				<li><a href="<%= app.mainDomain %>/login" title="login with google">Login</a></li>
+				<% } %>
+			</ul>
+		</div>
+	</div>
+</header>

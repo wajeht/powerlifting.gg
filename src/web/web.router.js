@@ -3,15 +3,21 @@ import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
 import { sendContactEmailJob } from '../job/job.js';
+import { oauth as oauthRouter } from './oauth/oauth.router.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
 	authenticationHandler,
 	tenancyHandler,
 	csrfHandler,
-	// validateRequestHandler,
+	uploadHandler,
+	validateRequestHandler,
 } from '../app.middleware.js';
-import { oauth as oauthRouter } from '../oauth/oauth.router.js';
+import {
+	postContactHandlerValidation,
+	postReviewHandlerValidation,
+	postTenantHandlerValidation,
+} from './web.validation.js';
 import {
 	getContactHandler,
 	postContactHandler,
@@ -33,7 +39,6 @@ import {
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
-// import { body } from 'express-validator';
 
 dayjs.extend(relativeTime);
 
@@ -118,6 +123,7 @@ web.post(
 	'/contact',
 	tenantIdentityHandler,
 	csrfHandler,
+	validateRequestHandler(postContactHandlerValidation),
 	catchAsyncErrorHandler(postContactHandler(sendContactEmailJob)),
 );
 
@@ -135,6 +141,7 @@ web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(TenantService(db, r
  */
 web.get(
 	'/tenants/create',
+	tenantIdentityHandler,
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getTenantsCreateHandler()),
@@ -147,9 +154,15 @@ web.get(
  */
 web.post(
 	'/tenants',
+	tenantIdentityHandler,
 	authenticationHandler,
+	uploadHandler.fields([
+		{ name: 'logo', maxCount: 1 },
+		{ name: 'banner', maxCount: 1 },
+	]),
 	csrfHandler,
-	catchAsyncErrorHandler(postTenantHandler()),
+	validateRequestHandler(postTenantHandlerValidation),
+	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis))),
 );
 
 /**
@@ -196,6 +209,7 @@ web.post(
 	tenancyHandler,
 	authenticationHandler,
 	csrfHandler,
+	validateRequestHandler(postReviewHandlerValidation),
 	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis))),
 );
 

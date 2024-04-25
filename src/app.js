@@ -8,6 +8,7 @@ import express from 'express';
 import session from 'express-session';
 import flash from 'connect-flash';
 import RedisStore from 'connect-redis';
+import Sentry from '@sentry/node';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
 
 import { setupBullDashboard } from './job/job.js';
@@ -18,6 +19,7 @@ import { swagger as swaggerConfig } from './config/swagger.js';
 import { redis } from './database/db.js';
 import { rateLimit } from 'express-rate-limit';
 import { app as appConfig } from './config/app.js';
+import { sentry as sentryConfig } from './config/sentry.js';
 import {
 	notFoundHandler,
 	errorHandler,
@@ -33,6 +35,19 @@ const redisStore = new RedisStore({
 });
 
 const app = express();
+
+Sentry.init({
+	dsn: sentryConfig.dsn,
+	integrations: [
+		new Sentry.Integrations.Http({ tracing: true }),
+		new Sentry.Integrations.Express({ app }),
+	],
+	tracesSampleRate: 1.0,
+	profilesSampleRate: 1.0,
+});
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
+
 app.set('trust proxy', true);
 app.use(
 	session({
@@ -104,7 +119,7 @@ if (appConfig.env === 'production') {
 	);
 }
 
-app.use(express.json({ limit: '20mb' }));
+app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 if (appConfig.env === 'production') {
@@ -115,8 +130,11 @@ if (appConfig.env === 'production') {
 
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
-app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'pages')));
-app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'web', 'layouts', 'main.html')));
+app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'views', 'pages')));
+app.set(
+	'layout',
+	path.resolve(path.join(process.cwd(), 'src', 'web', 'views', 'layouts', 'main.html')),
+);
 
 app.use(localVariables);
 
@@ -128,6 +146,7 @@ app.use(expressLayouts);
 app.use(apiRoutes);
 app.use(webRoutes);
 
+app.use(Sentry.Handlers.errorHandler());
 app.use(notFoundHandler);
 app.use(errorHandler);
 
