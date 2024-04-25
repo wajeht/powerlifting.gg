@@ -23,6 +23,7 @@ export function WebRepository(db) {
 				.select('reviews.*', 'users.username', 'users.profile_picture')
 				.join('users', 'reviews.user_id', 'users.id')
 				.orderByRaw('RANDOM()')
+				.whereRaw('LENGTH(reviews.comment) <= 100')
 				.limit(size);
 		},
 		postTenant: async function ({ logo = '', banner = '', slug, name }) {
