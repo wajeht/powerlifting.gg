@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { catchAsyncErrorHandler } from '../../app.middleware.js';
+import { catchAsyncErrorHandler, tenantIdentityHandler } from '../../app.middleware.js';
 import { db, redis } from '../../database/db.js';
 import { TenantService } from './tenant.service.js';
 import { getTenantHandler, getAllTenantHandler } from './tenant.handler.js';
@@ -12,7 +12,11 @@ const tenant = express.Router();
  * @tags api/tenants
  * @summary get tenants
  */
-tenant.get('/', catchAsyncErrorHandler(getAllTenantHandler(TenantService(db, redis))));
+tenant.get(
+	'/',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(getAllTenantHandler(TenantService(db, redis))),
+);
 
 /**
  * GET /api/tenants/{id}
@@ -20,6 +24,10 @@ tenant.get('/', catchAsyncErrorHandler(getAllTenantHandler(TenantService(db, red
  * @summary get a specific tenant
  * @param {string} id.path.required - the tenant id - application/x-www-form-urlencoded
  */
-tenant.get('/:id', catchAsyncErrorHandler(getTenantHandler(TenantService(db, redis))));
+tenant.get(
+	'/:id',
+	tenantIdentityHandler,
+	catchAsyncErrorHandler(getTenantHandler(TenantService(db, redis))),
+);
 
 export { tenant };

@@ -4,6 +4,7 @@ import { app as server } from '../app.js';
 import { db } from '../database/db.js';
 import { faker } from '@faker-js/faker';
 import { refreshDatabase } from '../utils/refresh-db.js';
+import { app as appEnv } from '../config/app.js';
 
 const app = request(server);
 
@@ -36,5 +37,21 @@ describe('when visiting / route, if there is no tenant', () => {
 		const res = await app.get('/');
 		expect(res.status).toBe(200);
 		expect(res.text).include("Let's Find Your");
+	});
+});
+
+describe('index', () => {
+	it('should be able to visit a tenant page', async () => {
+		const tenant = await db('tenants')
+			.insert({
+				name: 'thanks',
+				slug: 'obama',
+			})
+			.returning('*');
+
+		const res = await app.get('/').set('Host', `${tenant[0].slug}.${appEnv.development_app_url}`);
+
+		expect(res.statusCode).toBe(200);
+		expect(res.text).contain('obama');
 	});
 });
