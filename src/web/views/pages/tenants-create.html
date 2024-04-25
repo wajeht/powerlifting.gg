@@ -56,39 +56,17 @@
 		<!-- breadcrumbs -->
 		<div class="flex justify-between items-center mb-6">
 			<div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
-				<a
-					class="no-underline hover:underline opacity-70 hover:opacity-100"
-					href="<%= app.mainDomain %>"
-					>Home</a
-				>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>">Home</a>
 				<%- include('../components/right-arrow-svg.html') %>
-				<a
-					class="no-underline hover:underline opacity-70 hover:opacity-100"
-					href="<%= app.mainDomain %>/tenants"
-					>Tenants</a
-				>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/tenants">Tenants</a>
 				<%- include('../components/right-arrow-svg.html') %>
-				<a
-					class="no-underline hover:underline opacity-70 hover:opacity-100"
-					href="<%= app.mainDomain %>/tenants/create"
-					>Create</a
-				>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/tenants/create">Create</a>
 			</div>
 
 			<% if (app.user) { %>
-			<a
-				class="text-sm no-underline hover:underline opacity-70 hover:opacity-100"
-				href="/logout"
-				title="logout"
-				>Logout</a
-			>
+				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
 			<% } else { %>
-			<a
-				class="text-sm no-underline hover:underline opacity-70 hover:opacity-100"
-				href="/login"
-				title="login"
-				>Login</a
-			>
+				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/login" title="login">Login</a>
 			<% } %>
 		</div>
 
@@ -204,13 +182,13 @@
 					<!-- rating -->
 					<div class="rating rating-xs mt-3">
 						<% for (let i=0; i<5; i++) { %>
-						<input
-							id="tenant-create-star-<%= i + 1 %>"
-							name="tenant-create-star-<%= i + 1 %>"
-							type="radio"
-							class="mask mask-star-2 bg-orange-400"
-							disabled
-						/>
+							<input
+								id="tenant-create-star-<%= i + 1 %>"
+								name="tenant-create-star-<%= i + 1 %>"
+								type="radio"
+								class="mask mask-star-2 bg-orange-400"
+								disabled
+							/>
 						<% } %>
 					</div>
 

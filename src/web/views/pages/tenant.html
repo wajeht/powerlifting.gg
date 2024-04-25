@@ -2,37 +2,17 @@
 	<div class="mx-auto max-w-7xl w-full prose">
 		<div class="flex justify-between items-center">
 			<div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
-				<a
-					class="no-underline hover:underline opacity-70 hover:opacity-100"
-					href="<%= app.mainDomain %>"
-					>Home</a
-				>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>">Home</a>
 				<%- include('../components/right-arrow-svg.html') %>
-				<a
-					class="no-underline hover:underline opacity-70 hover:opacity-100"
-					href="<%= app.mainDomain %>/tenants"
-					>Tenants</a
-				>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/tenants">Tenants</a>
 				<%- include('../components/right-arrow-svg.html') %>
-				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="/"
-					><%= tenant.name %></a
-				>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="/"><%= tenant.name %></a>
 			</div>
 
 			<% if (app.user) { %>
-			<a
-				class="text-sm no-underline hover:underline opacity-70 hover:opacity-100"
-				href="/logout"
-				title="logout"
-				>Logout</a
-			>
+				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
 			<% } else { %>
-			<a
-				class="text-sm no-underline hover:underline opacity-70 hover:opacity-100"
-				href="<%- app.configureDomain(app.tenant.slug) %>/reviews"
-				title="login with google"
-				>Login</a
-			>
+			<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Login</a>
 			<% } %>
 		</div>
 
@@ -41,9 +21,9 @@
 		</h1>
 
 		<!-- submit a review form -->
-		<% if (app.user) { %> <%- include('../components/tenant-reviews-create.html', { csrfToken, app,
-		tenant }) %>
-		<hr />
+		<% if (app.user) { %>
+			<%- include('../components/tenant-reviews-create.html', { csrfToken, app, tenant }) %>
+			<hr />
 		<% } %>
 
 		<div class="flex justify-between items-center">
@@ -86,60 +66,39 @@
 			<!-- right -->
 			<div class="flex gap-3">
 				<% if (reviews.data.length) { %>
-				<a
-					class="btn btn-neutral text-white no-underline"
-					href="<%- app.configureDomain(app.tenant.slug) %>/reviews"
-					title="login with google"
-					>Submit a Review</a
-				>
-				<% } %> <% if (reviews.data.length === 0 && q) { %>
-				<a
-					class="btn btn-neutral text-white no-underline"
-					href="<%- app.configureDomain(app.tenant.slug) %>"
-					title="login with google"
-					>View All Reviews</a
-				>
+					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Submit a Review</a>
+				<% } %>
+
+				<% if (reviews.data.length === 0 && q) { %>
+					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>" title="login with google">View All Reviews</a>
 				<% } %>
 
 				<!-- pagination -->
 				<div class="join">
 					<% if (reviews.pagination.prevPage === null) { %>
-					<a class="join-item btn no-underline" disabled>«</a>
+						<a class="join-item btn no-underline" disabled>«</a>
 					<% } else { %>
-					<a
-						class="join-item btn no-underline"
-						href="<%- app.configureDomain(app.tenant.slug) %>?<%- reviews.pagination.prevPageLink %>"
-						>«</a
-					>
+						<a class="join-item btn no-underline" href="<%- app.configureDomain(app.tenant.slug) %>?<%- reviews.pagination.prevPageLink %>">«</a>
 					<% } %>
 
 					<details class="dropdown">
 						<summary class="join-item btn">Page <%= reviews.pagination.currentPage %></summary>
 						<% if (reviews.pagination.links.length > 1) { %>
-						<ul
-							class="p-2 shadow-md menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[162px] -left-[44px]"
-						>
-							<% for (let i=0; i < reviews.pagination.links.length; i++) { %>
-							<!-- skip current page -->
-							<% if ((i + 1) !== reviews.pagination.currentPage) { %>
-							<a
-								class="no-underline btn btn-sm btn-ghost"
-								href="<%- app.configureDomain(app.tenant.slug) %>?<%= reviews.pagination.links[i] %>"
-								>Page <%= i + 1%></a
-							>
-							<% } %> <% } %>
-						</ul>
+							<ul class="p-2 shadow-md menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[162px] -left-[44px]">
+								<% for (let i=0; i < reviews.pagination.links.length; i++) { %>
+									<!-- skip current page -->
+									<% if ((i + 1) !== reviews.pagination.currentPage) { %>
+										<a class="no-underline btn btn-sm btn-ghost" href="<%- app.configureDomain(app.tenant.slug) %>?<%= reviews.pagination.links[i] %>">Page <%= i + 1%></a>
+									<% } %>
+								<% } %>
+							</ul>
 						<% } %>
 					</details>
 
 					<% if (reviews.pagination.nextPage === null) { %>
-					<a class="join-item btn no-underline" disabled>»</a>
+						<a class="join-item btn no-underline" disabled>»</a>
 					<% } else { %>
-					<a
-						class="join-item btn no-underline"
-						href="<%- app.configureDomain(app.tenant.slug) %>?<%- reviews.pagination.nextPageLink %>"
-						>»</a
-					>
+						<a class="join-item btn no-underline" href="<%- app.configureDomain(app.tenant.slug) %>?<%- reviews.pagination.nextPageLink %>">»</a>
 					<% } %>
 				</div>
 			</div>
@@ -152,28 +111,24 @@
 
 		<!-- searched items -->
 		<% if (reviews.data.length){ %>
-		<div class="flex flex-col gap-5 rounded-md p-5 bg-gray-100 border border-1">
-			<% for (const review of reviews.data) { %> <%- include('../components/tenant-comment.html', {
-			review }) %> <% } %>
-		</div>
+			<div class="flex flex-col gap-5 rounded-md p-5 bg-gray-100 border border-1">
+				<% for (const review of reviews.data) { %>
+					<%- include('../components/tenant-comment.html', { review }) %> <% } %>
+			</div>
 		<% } %>
 
 		<!-- not found -->
 		<% if (!reviews.data.length){ %>
-		<div class="flex flex-col gap-8 mt-8">
-			<div class="py-16">
-				No reviews with <span class="font-bold">"<%- q %>"</span> in its name.
-			</div>
+			<div class="flex flex-col gap-8 mt-8">
+				<div class="py-16">
+					No reviews with <span class="font-bold">"<%- q %>"</span> in its name.
+				</div>
 
-			<div class="p-16 rounded-md flex flex-col gap-4 justify-center items-center border">
-				<span>Don't see the review you're looking for?</span>
-				<a
-					class="btn btn-neutral text-white no-underline"
-					href="<%- app.configureDomain(app.tenant.slug) %>/reviews"
-					>Submit a Review</a
-				>
+				<div class="p-16 rounded-md flex flex-col gap-4 justify-center items-center border">
+					<span>Don't see the review you're looking for?</span>
+					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews">Submit a Review</a>
+				</div>
 			</div>
-		</div>
 		<% } %>
 	</div>
 </div>
