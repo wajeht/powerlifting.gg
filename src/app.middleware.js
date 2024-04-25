@@ -46,23 +46,23 @@ export const authorizePermissionHandler = (role) => {
 };
 
 export const validateRequestHandler = (schemas) => {
-  return async (req, res, next) => {
-    try {
-      await Promise.all(schemas.map((schema) => schema.run(req)));
-      const result = validationResult(req);
-      if (result.isEmpty()) return next();
-      const { errors } = result;
-      const errorMessages = errors.map((error) => error.msg).join("\n");
-      throw new ValidationError(errorMessages);
-    } catch (error) {
-      if (error instanceof ValidationError) {
+	return async (req, res, next) => {
+		try {
+			await Promise.all(schemas.map((schema) => schema.run(req)));
+			const result = validationResult(req);
+			if (result.isEmpty()) return next();
+			const { errors } = result;
+			const errorMessages = errors.map((error) => error.msg).join('\n');
+			throw new ValidationError(errorMessages);
+		} catch (error) {
+			if (error instanceof ValidationError) {
 				req.flash('error', error.message);
-        return res.status(422).redirect('back');
-      } else {
-        next(error);
-      }
-    }
-  };
+				return res.status(422).redirect('back');
+			} else {
+				next(error);
+			}
+		}
+	};
 };
 
 export const csrfHandler = (() => {
