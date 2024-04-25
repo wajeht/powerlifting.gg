@@ -1,5 +1,4 @@
 <script setup>
-import axios from 'axios';
 import { nextTick, reactive, ref, onMounted, computed, watch } from 'vue';
 
 const backdropRef = ref(null);
@@ -182,9 +181,12 @@ function getCachedData() {
 
 async function fetchData() {
 	try {
-		const response = await axios.get('/api/tenants');
-		const responseData = response.data.data;
-		localStorage.setItem('cachedData', JSON.stringify(responseData));
+		const response = await fetch('/api/tenants');
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		const responseData = await response.json();
+		localStorage.setItem('cachedData', JSON.stringify(responseData.data));
 		localStorage.setItem('cacheTimestamp', new Date().getTime().toString());
 		return responseData;
 	} catch (error) {
