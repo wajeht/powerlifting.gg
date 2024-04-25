@@ -9,10 +9,6 @@
     const nameInput = document.getElementById('name');
     const slugWithDomain = document.getElementById('slugWithDomain');
 
-    if (!bannerContainer.style.backgroundImage) {
-      bannerContainerBlur.classList.add('bg-neutral');
-    }
-
     function handleLogoChange(event) {
       const file = event.target.files[0];
       if (file) {
@@ -134,7 +130,7 @@
 
       <!-- right -->
       <div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat h-full" id="bannerContainer">
-        <div id="bannerContainerBlur" class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm rounded-md h-full">
+        <div id="bannerContainerBlur" class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm rounded-md h-full bg-neutral">
           <!-- img -->
           <div
             class="max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm bg-white">
