@@ -25,5 +25,15 @@ export function WebRepository(db) {
 				.orderByRaw('RANDOM()')
 				.limit(size);
 		},
+		postTenant: async function ({ logo = '', banner = '', slug, name }) {
+			return await db('tenants')
+				.insert({
+					logo,
+					banner,
+					slug,
+					name,
+				})
+				.returning('*');
+		},
 	};
 }

@@ -109,5 +109,8 @@ export function WebService(WebRepository, redis) {
 			}
 			return null;
 		},
+		postTenant: async function ({ logo = '', banner = '', slug, name }) {
+			return await WebRepository.postTenant({ logo, banner, slug, name });
+		},
 	};
 }

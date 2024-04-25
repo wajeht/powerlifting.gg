@@ -41,9 +41,19 @@ export function getTenantsCreateHandler() {
 	};
 }
 
-export function postTenantHandler() {
+export function postTenantHandler(WebService) {
 	return async (req, res) => {
-		console.log(req.files);
+		const [logo] = req.files.logo;
+		const [banner] = req.files.banner;
+		const { name, slug } = req.body;
+
+		await WebService.postTenant({
+			name,
+			slug,
+			banner: banner.location ?? '',
+			logo: logo.location ?? '',
+		});
+
 		req.flash('info', 'successfully created!');
 		return res.redirect('/tenants/create');
 	};

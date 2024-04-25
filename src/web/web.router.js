@@ -13,7 +13,11 @@ import {
 	uploadHandler,
 	validateRequestHandler,
 } from '../app.middleware.js';
-import { postContactHandlerValidation, postReviewHandlerValidation, postTenantHandlerValidation } from './web.validation.js';
+import {
+	postContactHandlerValidation,
+	postReviewHandlerValidation,
+	postTenantHandlerValidation,
+} from './web.validation.js';
 import {
 	getContactHandler,
 	postContactHandler,
@@ -156,7 +160,7 @@ web.post(
 		{ name: 'banner', maxCount: 1 },
 	]),
 	validateRequestHandler(postTenantHandlerValidation),
-	catchAsyncErrorHandler(postTenantHandler()),
+	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis))),
 );
 
 /**
