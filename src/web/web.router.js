@@ -151,11 +151,11 @@ web.post(
 	'/tenants',
 	// authenticationHandler,
 	// csrfHandler,
-	validateRequestHandler(postTenantHandlerValidation),
 	upload.fields([
 		{ name: 'logo', maxCount: 1 },
 		{ name: 'banner', maxCount: 1 },
 	]),
+	validateRequestHandler(postTenantHandlerValidation),
 	catchAsyncErrorHandler(postTenantHandler()),
 );
 

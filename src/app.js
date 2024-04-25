@@ -104,7 +104,7 @@ if (appConfig.env === 'production') {
 	);
 }
 
-app.use(express.json({ limit: '20mb' }));
+app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 if (appConfig.env === 'production') {
