@@ -29,7 +29,7 @@ export const uploadHandler = multer({
 			cb(null, key);
 		},
 	}),
-	limits: { fileSize: 1024 * 1024 }, // Limit file size to 1MB (1MB = 1024 * 1024 bytes)
+	limits: { fileSize: 1024 * 1024 }, // 1MB = 1024 * 1024 bytes
 });
 
 export const authorizePermissionHandler = (role) => {
