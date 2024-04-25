@@ -19,15 +19,15 @@ export async function backupDatabase(job) {
 
 	const s3 = new S3Client({
 		credentials: {
-			accessKeyId: backBlazeConfig.key_id,
-			secretAccessKey: backBlazeConfig.application_key,
+			accessKeyId: backBlazeConfig.private.key_id,
+			secretAccessKey: backBlazeConfig.private.application_key,
 		},
-		region: backBlazeConfig.region,
+		region: backBlazeConfig.private.region,
 		forcePathStyle: true,
-		endpoint: backBlazeConfig.end_point,
+		endpoint: backBlazeConfig.private.end_point,
 	});
 
-	const bucketName = backBlazeConfig.bucket;
+	const bucketName = backBlazeConfig.private.bucket;
 	const currentDate = new Date().toISOString().replace(/:/g, '-');
 	const backupFileName = `db-${currentDate}.sqlite`;
 

@@ -149,6 +149,7 @@ web.post(
 	'/tenants',
 	authenticationHandler,
 	csrfHandler,
+
 	catchAsyncErrorHandler(postTenantHandler()),
 );
 
