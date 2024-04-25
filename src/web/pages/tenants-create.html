@@ -1,10 +1,17 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const logo = document.getElementById('logo');
+    const banner = document.getElementById('banner');
     const logoContainer = document.getElementById('logoContainer');
     const bannerContainer = document.getElementById('bannerContainer');
+    const bannerContainerBlur = document.getElementById('bannerContainerBlur');
     const slugInput = document.getElementById('slug');
     const nameInput = document.getElementById('name');
     const slugWithDomain = document.getElementById('slugWithDomain');
+
+    if (!bannerContainer.style.backgroundImage) {
+      bannerContainerBlur.classList.add('bg-neutral');
+    }
 
     function handleLogoChange(event) {
       const file = event.target.files[0];
@@ -27,9 +34,24 @@
       slugInput.value = domain;
     }
 
-    document.getElementById('logo').addEventListener('change', handleLogoChange);
-    document.getElementById('banner').addEventListener('change', handleBannerChange);
-    document.getElementById('name').addEventListener('input', generateSlugWithDomain);
+    logo.addEventListener('change', handleLogoChange);
+    banner.addEventListener('change', handleBannerChange);
+    nameInput.addEventListener('input', generateSlugWithDomain);
+
+    // change banner container blur background on image
+    const config = { attributes: true, attributeFilter: ['style'] };
+    const callback = function(mutationsList, observer) {
+        for(const mutation of mutationsList) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                if (bannerContainer.style.backgroundImage) {
+                  bannerContainerBlur.classList.remove('bg-neutral')
+                  bannerContainerBlur.classList.add('bg-black/70')
+                }
+            }
+        }
+    };
+    const observer = new MutationObserver(callback);
+    observer.observe(bannerContainer, config);
   })
 </script>
 
@@ -112,7 +134,7 @@
 
       <!-- right -->
       <div class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat h-full" id="bannerContainer">
-        <div class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm rounded-md h-full">
+        <div id="bannerContainerBlur" class="flex flex-col gap-3 items-center justify-center p-5 backdrop-blur-sm rounded-md h-full">
           <!-- img -->
           <div
             class="max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm bg-white">
