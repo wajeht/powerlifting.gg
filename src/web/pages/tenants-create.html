@@ -1,9 +1,13 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const logoContainer = document.getElementById('logoContainer');
+    const bannerContainer = document.getElementById('bannerContainer');
+    const slugInput = document.getElementById('slug');
+    const nameInput = document.getElementById('name');
+
     function handleLogoChange(event) {
       const file = event.target.files[0];
       if (file) {
-        const logoContainer = document.querySelector('.file-input');
         logoContainer.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
       }
     }
@@ -11,24 +15,19 @@
     function handleBannerChange(event) {
       const file = event.target.files[0];
       if (file) {
-        const bannerContainer = document.getElementById('bannerContainer');
         bannerContainer.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
       }
     }
 
-    document.getElementById('logo').addEventListener('change', handleLogoChange);
-    document.getElementById('banner').addEventListener('change', handleBannerChange);
-
     function generateSlugWithDomain() {
-      const name = document.getElementById('name').value.trim();
-      const slug = name.split(' ').join('-').toLowerCase();
+      const slug = nameInput.value.trim().split(' ').join('-').toLowerCase();
       const slugWithDomain = `https://${slug}.powerlifting.gg/`;
-      document.getElementById('slugWithDomain').innerText = slugWithDomain;
+      slugInput.value = slugWithDomain;
     }
 
+    document.getElementById('logo').addEventListener('change', handleLogoChange);
+    document.getElementById('banner').addEventListener('change', handleBannerChange);
     document.getElementById('name').addEventListener('input', generateSlugWithDomain);
-
-    generateSlugWithDomain();
   })
 </script>
 
@@ -61,7 +60,8 @@
 
     <div class="grid grid-cols-3 gap-10">
       <!-- left -->
-      <form id="tenants-create" action="/tenants" enctype="multipart/form-data" method="post" class="flex flex-col gap-3 col-span-2">
+      <form id="tenants-create" action="/tenants" enctype="multipart/form-data" method="post"
+        class="flex flex-col gap-3 col-span-2">
         <!-- csrf -->
         <input type="hidden" id="csrfToken" name="csrfToken" />
 
@@ -114,19 +114,15 @@
           <!-- img -->
           <div
             class="max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full flex justify-center items-center shadow-white shadow-sm bg-white">
-            <!-- Your logo or default image -->
+            <div id="logoContainer"
+              class="bg-cover bg-center bg-no-repeat max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full">
+            </div>div
           </div>
 
           <!-- rating -->
           <div class="rating rating-xs mt-3">
             <% for (let i=0; i<5; i++) { %>
-             <input
-              id="tenant-create-star-<%= i + 1 %>"
-              name="tenant-create-star-<%= i + 1 %>"
-              type="radio"
-              class="mask mask-star-2 bg-orange-400"
-              disabled
-              />
+              <input id="tenant-create-star-<%= i + 1 %>" name="tenant-create-star-<%= i + 1 %>" type="radio" class="mask mask-star-2 bg-orange-400" disabled />
             <% } %>
           </div>
 
@@ -139,9 +135,7 @@
           </div>
 
           <!-- link -->
-          <div class="link text-white no-underline hover:underline" id="slugWithDomain">
-            https://your-name.powerlifting.gg/
-          </div>
+          <div class="link text-white no-underline hover:underline" id="slugWithDomain">https://your-name.powerlifting.gg/</div>
         </div>
       </div>
     </div>
