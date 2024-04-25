@@ -1,4 +1,5 @@
 import './env.js';
+import { S3Client } from '@aws-sdk/client-s3';
 
 export const backBlaze = {
 	private: {
@@ -16,3 +17,23 @@ export const backBlaze = {
 		application_key: process.env.PUBLIC_BACKBLAZE_APPLICATION_KEY,
 	},
 };
+
+export const publicS3BucketConfig = new S3Client({
+	credentials: {
+		accessKeyId: backBlaze.public.key_id,
+		secretAccessKey: backBlaze.public.application_key,
+	},
+	region: backBlaze.public.region,
+	forcePathStyle: true,
+	endpoint: backBlaze.public.end_point,
+});
+
+export const privateS3BucketConfig = new S3Client({
+	credentials: {
+		accessKeyId: backBlaze.private.key_id,
+		secretAccessKey: backBlaze.private.application_key,
+	},
+	region: backBlaze.private.region,
+	forcePathStyle: true,
+	endpoint: backBlaze.private.end_point,
+});

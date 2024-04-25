@@ -1,6 +1,5 @@
 import { Upload } from '@aws-sdk/lib-storage';
-import { S3Client } from '@aws-sdk/client-s3';
-import { backBlaze as backBlazeConfig } from '../config/back-blaze.js';
+import { backBlaze as backBlazeConfig, privateS3BucketConfig } from '../config/back-blaze.js';
 import { logger } from '../utils/logger.js';
 import fs from 'fs';
 import path from 'path';
@@ -16,16 +15,6 @@ export async function backupDatabase(job) {
 		logger.info('Skipping database backup on non production environment!');
 		return;
 	}
-
-	const s3 = new S3Client({
-		credentials: {
-			accessKeyId: backBlazeConfig.private.key_id,
-			secretAccessKey: backBlazeConfig.private.application_key,
-		},
-		region: backBlazeConfig.private.region,
-		forcePathStyle: true,
-		endpoint: backBlazeConfig.private.end_point,
-	});
 
 	const bucketName = backBlazeConfig.private.bucket;
 	const currentDate = new Date().toISOString().replace(/:/g, '-');
@@ -49,7 +38,7 @@ export async function backupDatabase(job) {
 		);
 		const fileStream = fs.createReadStream(sqliteFilePath);
 		const upload = new Upload({
-			client: s3,
+			client: privateS3BucketConfig,
 			params: {
 				Bucket: bucketName,
 				Key: `${backupFileName}.gz`,

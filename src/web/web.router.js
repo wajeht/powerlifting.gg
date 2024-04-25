@@ -9,6 +9,7 @@ import {
 	authenticationHandler,
 	tenancyHandler,
 	csrfHandler,
+	upload,
 	// validateRequestHandler,
 } from '../app.middleware.js';
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
@@ -149,7 +150,7 @@ web.post(
 	'/tenants',
 	authenticationHandler,
 	csrfHandler,
-
+	upload.array('photos', 2),
 	catchAsyncErrorHandler(postTenantHandler()),
 );
 

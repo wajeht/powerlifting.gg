@@ -3,8 +3,9 @@ import { logger } from './utils/logger.js';
 import { validationResult } from 'express-validator';
 import { db } from './database/db.js';
 import { app as appConfig } from './config/app.js';
-// import multerS3 from 'multer-s3';
-// import multer from 'multer';
+import { backBlaze as backBlazeConfig, publicS3BucketConfig } from './config/back-blaze.js';
+import multerS3 from 'multer-s3';
+import multer from 'multer';
 import {
 	HttpError,
 	NotFoundError,
@@ -14,19 +15,18 @@ import {
 	UnimplementedFunctionError,
 } from './app.error.js';
 
-// const s3 = new S3Client();
-// const upload = multer({
-// 	storage: multerS3({
-// 		s3: s3,
-// 		bucket: 'some-bucket',
-// 		metadata: function (req, file, cb) {
-// 			cb(null, { fieldName: file.fieldname });
-// 		},
-// 		key: function (req, file, cb) {
-// 			cb(null, Date.now().toString());
-// 		},
-// 	}),
-// });
+export const upload = multer({
+	storage: multerS3({
+		s3: publicS3BucketConfig,
+		bucket: backBlazeConfig.public.bucket,
+		metadata: function (req, file, cb) {
+			cb(null, { fieldName: file.fieldname });
+		},
+		key: function (req, file, cb) {
+			cb(null, Date.now().toString());
+		},
+	}),
+});
 
 export const authorizePermissionHandler = (role) => {
 	return (req, res, next) => {
