@@ -8,8 +8,10 @@ import express from 'express';
 import session from 'express-session';
 import flash from 'connect-flash';
 import RedisStore from 'connect-redis';
+import Sentry from '@sentry/node';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
 
+import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import { setupBullDashboard } from './job/job.js';
 import { web as webRoutes } from './web/web.router.js';
 import { api as apiRoutes } from './api/api.router.js';
@@ -18,6 +20,7 @@ import { swagger as swaggerConfig } from './config/swagger.js';
 import { redis } from './database/db.js';
 import { rateLimit } from 'express-rate-limit';
 import { app as appConfig } from './config/app.js';
+import { sentry as sentryConfig } from './config/sentry.js';
 import {
 	notFoundHandler,
 	errorHandler,
@@ -33,6 +36,20 @@ const redisStore = new RedisStore({
 });
 
 const app = express();
+
+Sentry.init({
+	dsn: sentryConfig.dsn,
+	integrations: [
+		new Sentry.Integrations.Http({ tracing: true }),
+		new Sentry.Integrations.Express({ app }),
+		nodeProfilingIntegration(),
+	],
+	tracesSampleRate: 1.0,
+	profilesSampleRate: 1.0,
+});
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
+
 app.set('trust proxy', true);
 app.use(
 	session({
@@ -131,6 +148,7 @@ app.use(expressLayouts);
 app.use(apiRoutes);
 app.use(webRoutes);
 
+app.use(Sentry.Handlers.errorHandler());
 app.use(notFoundHandler);
 app.use(errorHandler);
 

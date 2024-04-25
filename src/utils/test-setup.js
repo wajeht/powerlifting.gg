@@ -10,6 +10,8 @@ process.env.SUPER_ADMIN_EMAIL = 'zombyard@gmail.com';
 
 process.env.PRODUCTION_SSH_URL = 'dog@127.0.0.1';
 
+process.env.SENTRY_DSN = 'http://localhost:80/';
+
 // google
 process.env.GOOGLE_ID = 'something';
 process.env.GOOGLE_SECRET = 'gains';
