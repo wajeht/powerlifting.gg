@@ -7,14 +7,14 @@ export const postTenantHandlerValidation = [
 		.notEmpty()
 		.withMessage('The name must not be empty!')
 		.trim()
-		.isLength({ min: 1, max: 30 })
-		.withMessage('The name must be at least 1 character long or less than 30 character long'),
+		.isLength({ min: 1, max: 50 })
+		.withMessage('The name must be at least 1 character long or less than 50 character long'),
 	body('slug')
 		.notEmpty()
 		.withMessage('The slug must not be empty!')
 		.trim()
-		.isLength({ min: 1, max: 30 })
-		.withMessage('The slug must be at least 1 character long or less than 30 character long')
+		.isLength({ min: 1, max: 50 })
+		.withMessage('The slug must be at least 1 character long or less than 50 character long')
 		.custom(async (slug) => {
 			const tenant = await db.select('*').from('tenants').where({ slug }).first();
 			if (tenant) {
