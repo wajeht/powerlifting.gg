@@ -27,7 +27,7 @@
 			const slug = nameInput.value.trim().split(' ').join('-').toLowerCase();
 			const domain = `https://${slug}.powerlifting.gg/`;
 			slugWithDomain.innerText = domain;
-			slugInput.value = domain;
+			slugInput.value = slug;
 		}
 
 		logo.addEventListener('change', handleLogoChange);
