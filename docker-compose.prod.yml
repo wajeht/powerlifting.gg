@@ -30,11 +30,13 @@ services:
 
   caddy:
     image: caddy/caddy:2.2.1-alpine
-    container_name: caddy-service
+    container_name: caddy
     restart: unless-stopped
     ports:
       - '80:80'
       - '443:443'
+    depends_on:
+      - powerlifting
     volumes:
       - ./Caddyfile.prod:/etc/caddy/Caddyfile
     networks:
