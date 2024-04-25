@@ -38,3 +38,15 @@ export const postContactHandlerValidation = [
 		.isEmail()
 		.withMessage('The email must be email!'),
 ];
+
+export const postReviewHandlerValidation = [
+	body('comment')
+		.notEmpty()
+		.withMessage('The comment must not be empty!')
+		.trim()
+		.isLength({ min: 1, max: 225 })
+		.withMessage('The comment must be at least 1 character long or less than 225 character long'),
+	body('ratings')
+		.notEmpty()
+		.withMessage('The ratings must not be empty!')
+];

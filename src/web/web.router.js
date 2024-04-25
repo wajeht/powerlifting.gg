@@ -13,7 +13,7 @@ import {
 	uploadHandler,
 	validateRequestHandler,
 } from '../app.middleware.js';
-import { postContactHandlerValidation, postTenantHandlerValidation } from './web.validation.js';
+import { postContactHandlerValidation, postReviewHandlerValidation, postTenantHandlerValidation } from './web.validation.js';
 import {
 	getContactHandler,
 	postContactHandler,
@@ -203,6 +203,7 @@ web.post(
 	tenancyHandler,
 	authenticationHandler,
 	csrfHandler,
+	validateRequestHandler(postReviewHandlerValidation),
 	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis))),
 );
 
