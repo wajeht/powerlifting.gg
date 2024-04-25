@@ -1,8 +1,7 @@
 ---
-title: Post Two
+title: How to write Markdown
 date: 2023-04-02
 author: zombyard
-profile_picture: '/img/crowd.jpg'
 ---
 
 ## Text Styling
