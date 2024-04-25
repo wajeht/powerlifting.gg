@@ -15,7 +15,7 @@ import {
 	UnimplementedFunctionError,
 } from './app.error.js';
 
-export const upload = multer({
+export const uploadHandler = multer({
 	storage: multerS3({
 		s3: publicS3BucketConfig,
 		bucket: backBlazeConfig.public.bucket,

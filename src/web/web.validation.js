@@ -23,3 +23,18 @@ export const postTenantHandlerValidation = [
 			return true;
 		}),
 ];
+
+export const postContactHandlerValidation = [
+	body('message')
+		.notEmpty()
+		.withMessage('The message must not be empty!')
+		.trim()
+		.isLength({ min: 1, max: 225 })
+		.withMessage('The message must be at least 1 character long or less than 225 character long'),
+	body('email')
+		.notEmpty()
+		.withMessage('The email must not be empty!')
+		.trim()
+		.isEmail()
+		.withMessage('The email must be email!'),
+];

@@ -3,17 +3,17 @@ import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
 import { sendContactEmailJob } from '../job/job.js';
+import { oauth as oauthRouter } from '../oauth/oauth.router.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
 	authenticationHandler,
 	tenancyHandler,
 	csrfHandler,
-	upload,
+	uploadHandler,
 	validateRequestHandler,
 } from '../app.middleware.js';
-import { oauth as oauthRouter } from '../oauth/oauth.router.js';
-import { postTenantHandlerValidation } from './web.validation.js';
+import { postContactHandlerValidation, postTenantHandlerValidation } from './web.validation.js';
 import {
 	getContactHandler,
 	postContactHandler,
@@ -35,7 +35,6 @@ import {
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
 import { TenantService } from '../api/tenant/tenant.service.js';
-// import { body } from 'express-validator';
 
 dayjs.extend(relativeTime);
 
@@ -120,6 +119,7 @@ web.post(
 	'/contact',
 	tenantIdentityHandler,
 	csrfHandler,
+	validateRequestHandler(postContactHandlerValidation),
 	catchAsyncErrorHandler(postContactHandler(sendContactEmailJob)),
 );
 
@@ -151,7 +151,7 @@ web.post(
 	'/tenants',
 	// authenticationHandler,
 	// csrfHandler,
-	upload.fields([
+	uploadHandler.fields([
 		{ name: 'logo', maxCount: 1 },
 		{ name: 'banner', maxCount: 1 },
 	]),
