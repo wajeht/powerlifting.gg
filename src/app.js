@@ -11,7 +11,6 @@ import RedisStore from 'connect-redis';
 import Sentry from '@sentry/node';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
 
-import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import { setupBullDashboard } from './job/job.js';
 import { web as webRoutes } from './web/web.router.js';
 import { api as apiRoutes } from './api/api.router.js';
@@ -42,7 +41,6 @@ Sentry.init({
 	integrations: [
 		new Sentry.Integrations.Http({ tracing: true }),
 		new Sentry.Integrations.Express({ app }),
-		nodeProfilingIntegration(),
 	],
 	tracesSampleRate: 1.0,
 	profilesSampleRate: 1.0,
