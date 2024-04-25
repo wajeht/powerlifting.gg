@@ -16,20 +16,20 @@ import {
 } from './app.error.js';
 
 export const upload = multer({
-  storage: multerS3({
-    s3: publicS3BucketConfig,
-    bucket: backBlazeConfig.public.bucket,
-    acl: 'public-read',
-    metadata: function (req, file, cb) {
-      cb(null, { fieldName: file.fieldname });
-    },
-    key: function (req, file, cb) {
-      const fileExtension = file.originalname.split('.').pop();
-      const key = `${Date.now().toString()}.${fileExtension}`;
-      cb(null, key);
-    },
-  }),
-	limits: { fileSize: 1024 * 1024 } // Limit file size to 1MB (1MB = 1024 * 1024 bytes)
+	storage: multerS3({
+		s3: publicS3BucketConfig,
+		bucket: backBlazeConfig.public.bucket,
+		acl: 'public-read',
+		metadata: function (req, file, cb) {
+			cb(null, { fieldName: file.fieldname });
+		},
+		key: function (req, file, cb) {
+			const fileExtension = file.originalname.split('.').pop();
+			const key = `${Date.now().toString()}.${fileExtension}`;
+			cb(null, key);
+		},
+	}),
+	limits: { fileSize: 1024 * 1024 }, // Limit file size to 1MB (1MB = 1024 * 1024 bytes)
 });
 
 export const authorizePermissionHandler = (role) => {
@@ -46,17 +46,23 @@ export const authorizePermissionHandler = (role) => {
 };
 
 export const validateRequestHandler = (schemas) => {
-	return async (req, res, next) => {
-		try {
-			await Promise.all(schemas.map((schema) => schema.run(req)));
-			const result = validationResult(req);
-			if (result.isEmpty()) return next();
-			const { errors } = result;
-			throw new ValidationError(errors);
-		} catch (err) {
-			next(err);
-		}
-	};
+  return async (req, res, next) => {
+    try {
+      await Promise.all(schemas.map((schema) => schema.run(req)));
+      const result = validationResult(req);
+      if (result.isEmpty()) return next();
+      const { errors } = result;
+      const errorMessages = errors.map((error) => error.msg).join("\n");
+      throw new ValidationError(errorMessages);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+				req.flash('error', error.message);
+        return res.status(422).redirect('back');
+      } else {
+        next(error);
+      }
+    }
+  };
 };
 
 export const csrfHandler = (() => {

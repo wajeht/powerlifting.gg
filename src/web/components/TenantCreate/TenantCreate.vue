@@ -16,7 +16,7 @@ const computedSlug = computed(() => {
 	if (states.name.length === 0) {
 		return `https://slug-here.powerlifting.gg/`;
 	}
-	return `https://${states.name.split(' ').join('-')}.powerlifting.gg/`;
+	return `https://${states.name.split(' ').join('-').toLocaleLowerCase()}.powerlifting.gg/`;
 });
 
 const handleBannerChange = (event) => {

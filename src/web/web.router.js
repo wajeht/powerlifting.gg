@@ -10,9 +10,10 @@ import {
 	tenancyHandler,
 	csrfHandler,
 	upload,
-	// validateRequestHandler,
+	validateRequestHandler,
 } from '../app.middleware.js';
 import { oauth as oauthRouter } from '../oauth/oauth.router.js';
+import { postTenantHandlerValidation } from './web.validation.js';
 import {
 	getContactHandler,
 	postContactHandler,
@@ -150,6 +151,7 @@ web.post(
 	'/tenants',
 	// authenticationHandler,
 	// csrfHandler,
+	validateRequestHandler(postTenantHandlerValidation),
 	upload.fields([
 		{ name: 'logo', maxCount: 1 },
 		{ name: 'banner', maxCount: 1 },
