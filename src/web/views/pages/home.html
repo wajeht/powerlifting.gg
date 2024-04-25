@@ -92,22 +92,24 @@
 	</div>
 
 	<!-- feature -->
-	<div class="p-10 py-16 border-y bg-gray-100">
-		<div class="mx-auto max-w-7xl w-full text-center prose flex flex-col justify-center items-center py-20">
-			<!-- title -->
-			<h2 class="text-5xl font-extrabold">Feat<span class="underlined">ured Coa</span>ches</h2>
+	<% if (tenants.length >= 5) { %>
+		<div class="p-10 py-16 border-y bg-gray-100">
+			<div class="mx-auto max-w-7xl w-full text-center prose flex flex-col justify-center items-center py-20">
+				<!-- title -->
+				<h2 class="text-5xl font-extrabold">Feat<span class="underlined">ured Coa</span>ches</h2>
 
-			<!-- desc -->
-			<p class="text-xl text-[#6B7280] max-w-2xl text-center">Meet the coaches who are making a difference in the lives of their clients.</p>
+				<!-- desc -->
+				<p class="text-xl text-[#6B7280] max-w-2xl text-center">Meet the coaches who are making a difference in the lives of their clients.</p>
 
-			<!-- coaches -->
-			<div class="flex gap-10 justify-between w-full mt-2">
-				<% for(const tenant of tenants) { %>
-					<%- include('../components/vertical-tenant-card.html', { tenant }) %>
-				<% } %>
+				<!-- coaches -->
+				<div class="flex gap-10 justify-between w-full mt-2">
+					<% for(const tenant of tenants) { %>
+						<%- include('../components/vertical-tenant-card.html', { tenant }) %>
+					<% } %>
+				</div>
 			</div>
 		</div>
-	</div>
+	<% } %>
 
 	<!-- cta -->
 	<div class="p-10 py-16 border-y">
