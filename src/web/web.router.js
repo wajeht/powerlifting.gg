@@ -141,8 +141,8 @@ web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(TenantService(db, r
  */
 web.get(
 	'/tenants/create',
-	// authenticationHandler,
-	// csrfHandler,
+	authenticationHandler,
+	csrfHandler,
 	catchAsyncErrorHandler(getTenantsCreateHandler()),
 );
 
@@ -153,13 +153,13 @@ web.get(
  */
 web.post(
 	'/tenants',
-	// authenticationHandler,
-	// csrfHandler,
+	authenticationHandler,
 	uploadHandler.fields([
 		{ name: 'logo', maxCount: 1 },
 		{ name: 'banner', maxCount: 1 },
 	]),
 	validateRequestHandler(postTenantHandlerValidation),
+	csrfHandler,
 	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis))),
 );
 

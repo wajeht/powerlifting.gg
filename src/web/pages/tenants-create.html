@@ -80,10 +80,9 @@
 
     <div class="grid grid-cols-3 gap-10">
       <!-- left -->
-      <form id="tenants-create" action="/tenants" enctype="multipart/form-data" method="post"
-        class="flex flex-col gap-3 col-span-2">
+      <form id="tenants-create" action="/tenants" enctype="multipart/form-data" method="post" class="flex flex-col gap-3 col-span-2">
         <!-- csrf -->
-        <input type="hidden" id="csrfToken" name="csrfToken" />
+        <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
 
         <!-- name -->
         <label class="form-control w-full" for="email">

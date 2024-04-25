@@ -43,15 +43,15 @@ export function getTenantsCreateHandler() {
 
 export function postTenantHandler(WebService) {
 	return async (req, res) => {
-		const [logo] = req.files.logo;
-		const [banner] = req.files.banner;
 		const { name, slug } = req.body;
+		let logo = req.files?.logo?.[0];
+		let banner = req.files?.banner?.[0];
 
 		await WebService.postTenant({
 			name,
 			slug,
-			banner: banner.location ?? '',
-			logo: logo.location ?? '',
+			banner: banner?.location || '',
+			logo: logo?.location || '',
 		});
 
 		req.flash('info', 'successfully created!');

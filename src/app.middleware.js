@@ -67,7 +67,7 @@ export const validateRequestHandler = (schemas) => {
 
 export const csrfHandler = (() => {
 	const { csrfSynchronisedProtection } = csrfSync({
-		getTokenFromRequest: (req) => req.body.csrfToken,
+		getTokenFromRequest: (req) => req.body.csrfToken || req.query.csrfToken,
 	});
 
 	return [
