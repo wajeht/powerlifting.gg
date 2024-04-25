@@ -1,0 +1,210 @@
+<div class="fade-in p-10">
+	<div class="mx-auto max-w-7xl w-full prose">
+		<!-- breadcrumbs -->
+		<div class="flex justify-between items-center mb-6">
+			<div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
+				<a
+					class="no-underline hover:underline opacity-70 hover:opacity-100"
+					href="<%= app.mainDomain %>"
+					>Home</a
+				>
+				<%- include('../components/right-arrow-svg.html') %>
+				<a
+					class="no-underline hover:underline opacity-70 hover:opacity-100"
+					href="<%= app.mainDomain %>/tenants"
+					>Tenants</a
+				>
+			</div>
+
+			<% if (app.user) { %>
+			<a
+				class="text-sm no-underline hover:underline opacity-70 hover:opacity-100"
+				href="/logout"
+				title="logout"
+				>Logout</a
+			>
+			<% } %>
+		</div>
+
+		<h1>Tenants</h1>
+
+		<!-- search -->
+		<div class="flex justify-between items-center">
+			<!-- left -->
+			<form
+				action="/tenants"
+				method="get"
+				class="flex gap-1 items-center justify-center relative w-[374px]"
+			>
+				<label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
+					<input
+						type="text"
+						class="grow"
+						id="q"
+						name="q"
+						placeholder="Search for a coach or a systems..."
+						value="<%= q %>"
+						required
+					/>
+					<input
+						type="hidden"
+						name="current_page"
+						id="current_page"
+						value="<%= tenants.pagination.currentPage %>"
+					/>
+					<input
+						type="hidden"
+						name="per_page"
+						id="per_page"
+						value="<%= tenants.pagination.perPage %>"
+					/>
+					<input type="hidden" name="sort" id="sort" value="<%= tenants.pagination.sort %>" />
+				</label>
+				<input type="submit" value="Search" id="tenants-search" class="btn btn-neutral" />
+			</form>
+
+			<!-- right -->
+			<div class="flex gap-3">
+				<!-- button -->
+				<% if (tenants.data.length) { %>
+				<a class="btn btn-neutral text-white no-underline" href="/tenants/create"
+					>Submit a Tenant</a
+				>
+				<% } %>
+
+				<!-- view all -->
+				<% if (tenants.data.length == 0) { %>
+				<a class="btn btn-neutral text-white no-underline" href="/tenants">View All Tenants</a>
+				<% } %>
+
+				<!-- pagination -->
+				<div class="join">
+					<% if (tenants.pagination.prevPage === null) { %>
+					<a class="join-item btn no-underline" disabled>«</a>
+					<% } else { %>
+					<a
+						class="join-item btn no-underline"
+						href="/tenants?<%- tenants.pagination.prevPageLink %>"
+						>«</a
+					>
+					<% } %>
+
+					<details class="dropdown">
+						<summary class="join-item btn">Page <%= tenants.pagination.currentPage %></summary>
+						<% if (tenants.pagination.links.length > 1) { %>
+						<ul
+							class="p-2 shadow-md menu dropdown-content z-[1] bg-base-100 rounded-box min-w-[162px] -left-[44px]"
+						>
+							<% for (let i=0; i < tenants.pagination.links.length; i++) { %>
+							<!-- skip current page -->
+							<% if ((i + 1) !== tenants.pagination.currentPage) { %>
+							<a
+								class="no-underline btn btn-sm btn-ghost"
+								href="/tenants?<%= tenants.pagination.links[i] %>"
+								>Page <%= i + 1%></a
+							>
+							<% } %> <% } %>
+						</ul>
+						<% } %>
+					</details>
+
+					<% if (tenants.pagination.nextPage === null) { %>
+					<a class="join-item btn no-underline" disabled>»</a>
+					<% } else { %>
+					<a
+						class="join-item btn no-underline"
+						href="/tenants?<%- tenants.pagination.nextPageLink %>"
+						>»</a
+					>
+					<% } %>
+				</div>
+			</div>
+		</div>
+
+		<p>
+			Showing <%= tenants.pagination.from %> to <%= tenants.pagination.to %> of <%=
+			tenants.pagination.total %> tenants
+		</p>
+
+		<!-- searched items -->
+		<% if (tenants.data.length){ %>
+		<div class="flex flex-col gap-5 mt-8">
+			<% for (const tenant of tenants.data) { %>
+			<div
+				id="<%= tenant.slug %>-tenant-card"
+				class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat"
+				style="background-image: url(<%= tenant.banner %>)"
+			>
+				<!-- blur -->
+				<div
+					class="flex gap-2 p-5 backdrop-blur-sm bg-black/70 hover:bg-black/80 rounded-md transition-all duration-300"
+				>
+					<!-- left -->
+					<div class="flex-0 min-h-full max-w-40 flex justify-center items-center">
+						<div
+							class="w-32 h-32 rounded-full flex justify-center items-center shadow-white shadow-sm"
+						>
+							<img class="w-32 h-32 rounded-full" src="<%= tenant.logo %>" alt="logo" />
+						</div>
+					</div>
+
+					<!-- mid -->
+					<div class="flex-1 p-5 flex flex-col gap-2">
+						<!-- name -->
+						<div class="flex items-center">
+							<h3 class="p-0 m-0 text-white drop-shadow-sm"><%= tenant.name %></h3>
+							<% if (tenant.verified) { %>
+							<img class="w-6 h-6 p-0 m-0" src="/img/verified.png" alt="verified" />
+							<% } %>
+						</div>
+
+						<!-- stars -->
+						<div class="rating rating-xs">
+							<% for (let i = 0; i < 5; i++) { %>
+							<input
+								type="radio"
+								id="<%= tenant.slug %>-star-<%= i + 1 %>"
+								name="<%= tenant.slug %>-star-<%= i + 1 %>"
+								class="mask mask-star-2 <%= i + 1 < Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+								disabled
+							/>
+							<% } %>
+						</div>
+
+						<!-- link -->
+						<div>
+							<a class="text-white drop-shadow-sm" href="<%- app.configureDomain(tenant.slug) %>"
+								><%= app.configureDomain(tenant.slug) %> ⤴️</a
+							>
+						</div>
+					</div>
+
+					<!-- right -->
+					<div class="flex-0 p-5 text-white">
+						<%= tenant.reviews_count %> <% if (tenant.reviews_count > 0) { %>
+						<span>Reviews</span>
+						<% } else { %>
+						<span>Review</span>
+						<% } %>
+					</div>
+				</div>
+			</div>
+			<% } %>
+		</div>
+		<% } %>
+
+		<!-- not found -->
+		<% if (!tenants.data.length){ %>
+		<div class="flex flex-col gap-8 mt-8">
+			<div class="py-16">No tenant with <span class="font-bold">"<%- q %>"</span> in its name.</div>
+
+			<div class="p-16 rounded-md flex flex-col gap-4 justify-center items-center border">
+				<span>Don't see the tenant you're looking for?</span>
+				<a class="btn btn-neutral text-white no-underline" href="/tenants/create"
+					>Submit a tenant</a
+				>
+			</div>
+		</div>
+		<% } %>
+	</div>
+</div>

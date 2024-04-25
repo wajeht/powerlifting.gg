@@ -4,9 +4,9 @@ public/lib*
 public/js*
 public/client.js
 public/*
-src/web/components/*
-src/web/layouts/*
-src/web/pages/*
+src/web/views/components/*
+src/web/views/layouts/*
+src/web/views/pages/*
 dist/*
 dist
 public/js*

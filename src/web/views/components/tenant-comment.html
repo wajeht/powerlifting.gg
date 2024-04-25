@@ -1,0 +1,39 @@
+<div id="review-card-<%= review.id %>" class="border boreder-2 px-2 rounded-md bg-white flex gap-1">
+	<!-- image -->
+	<div class="px-2 flex-0 justify-center">
+		<img
+			class="h-[80px] w-[80px] rounded-full shadow-white shadow-sm"
+			src="<%= review.profile_picture %>"
+			alt="logo"
+		/>
+	</div>
+
+	<!-- comment -->
+	<div class="flex flex-col p-2 flex-1 justify-center">
+		<!-- name -->
+		<div class="flex justify-between items-center">
+			<h4 class="mt-2"><%= review.username %></h4>
+			<div class="tooltip" data-tip="<%= review.created_at%>">
+				<small class="text-[#4A5569] opacity-70"> <%= review.time_ago %> </small>
+			</div>
+		</div>
+
+		<!-- ratings -->
+		<div class="rating rating-xs">
+			<% for (let i=0; i < 5; i++) { %>
+			<input
+				type="radio"
+				id="<%= review.id %>-star-<%= i + 1 %>"
+				name="<%= review.id %>-star-<%= i + 1 %>"
+				class="mask mask-star-2 <%= i + 1 <= Math.floor(review.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+				disabled
+			/>
+			<% } %>
+		</div>
+
+		<!-- comment -->
+		<p class="mt-3 p-3 border border-dashed rounded-md bg-gray-50 italic text-sm text-pretty">
+			<%= review.comment%>
+		</p>
+	</div>
+</div>

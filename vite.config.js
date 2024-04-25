@@ -31,12 +31,12 @@ export default defineConfig({
 		outDir: './public',
 		emptyOutDir: false,
 		lib: {
-			entry: resolve(__dirname, 'src/web/components'),
-			name: Object.keys(getComponentEntries(resolve(__dirname, 'src/web/components')))[0],
+			entry: resolve(__dirname, 'src/web/views/components'),
+			name: Object.keys(getComponentEntries(resolve(__dirname, 'src/web/views/components')))[0],
 			formats: ['es'],
 		},
 		rollupOptions: {
-			input: getComponentEntries(resolve(__dirname, 'src/web/components')),
+			input: getComponentEntries(resolve(__dirname, 'src/web/views/components')),
 			external: ['vue', 'axios'],
 			output: {
 				dir: './public',

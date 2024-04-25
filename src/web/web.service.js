@@ -48,13 +48,21 @@ export function WebService(WebRepository, redis) {
 			}
 
 			const postFiles = await fs.readdir(
-				path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog'),
+				path.resolve(process.cwd(), 'src', 'web', 'views', 'pages', 'blog'),
 			);
 
 			const posts = [];
 			for (const file of postFiles) {
 				if (file.endsWith('.md')) {
-					const postPath = path.resolve(process.cwd(), 'src', 'web', 'pages', 'blog', file);
+					const postPath = path.resolve(
+						process.cwd(),
+						'src',
+						'web',
+						'views',
+						'pages',
+						'blog',
+						file,
+					);
 					const postContent = await fs.readFile(postPath, 'utf-8');
 					const frontmatter = matter(postContent).data;
 					const readingTimeData = readingTime(postContent.replace(/^---\n.*?\n---\n*/ms, ''));

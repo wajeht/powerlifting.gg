@@ -115,8 +115,11 @@ if (appConfig.env === 'production') {
 
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
-app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'pages')));
-app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'web', 'layouts', 'main.html')));
+app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'views', 'pages')));
+app.set(
+	'layout',
+	path.resolve(path.join(process.cwd(), 'src', 'web', 'views', 'layouts', 'main.html')),
+);
 
 app.use(localVariables);
 

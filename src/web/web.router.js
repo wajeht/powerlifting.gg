@@ -3,7 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
 import { sendContactEmailJob } from '../job/job.js';
-import { oauth as oauthRouter } from '../oauth/oauth.router.js';
+import { oauth as oauthRouter } from './oauth/oauth.router.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,

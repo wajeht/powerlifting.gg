@@ -22,11 +22,11 @@ public/vim.min.js
 public/css/style.css
 public/libs/*
 public/libs
-!src/web/components/*.vue
-src/web/components/*.js
-src/web/components/*.html
-src/web/layouts/*
-src/web/pages/*
+!src/web/views/components/*.vue
+src/web/views/components/*.js
+src/web/views/components/*.html
+src/web/views/layouts/*
+src/web/views/pages/*
 csr.pem
 key.pem
 public/*

@@ -1,0 +1,107 @@
+<div class="fade-in p-10">
+	<div class="mx-auto max-w-7xl w-full prose">
+		<!-- breadcrumbs -->
+		<div class="flex justify-between items-center mb-6">
+			<div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
+				<a
+					class="no-underline hover:underline opacity-70 hover:opacity-100"
+					href="<%= app.mainDomain %>"
+					>Home</a
+				>
+				<%- include('../components/right-arrow-svg.html') %>
+				<a
+					class="no-underline hover:underline opacity-70 hover:opacity-100"
+					href="<%= app.mainDomain %>/contact"
+					>Contact</a
+				>
+			</div>
+
+			<% if (app.user) { %>
+			<a
+				class="text-sm no-underline hover:underline opacity-70 hover:opacity-100"
+				href="/logout"
+				title="logout"
+				>Logout</a
+			>
+			<% } %>
+		</div>
+
+		<h1>Contact</h1>
+
+		<div class="mb-5 max-w-sm">
+			<!-- flash-messages -->
+			<%- include('../components/flash-message.html') %>
+		</div>
+
+		<div class="grid grid-cols-3 gap-10">
+			<!-- contact form -->
+			<form
+				action="<%= app.mainDomain %>/contact"
+				method="post"
+				class="flex flex-col gap-3 col-span-2"
+			>
+				<!-- csrf -->
+				<input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+
+				<!-- email -->
+				<label class="form-control w-full" for="email">
+					<div class="label"><span class="label-text">Email</span></div>
+					<input
+						type="email"
+						name="email"
+						id="email"
+						placeholder="Email"
+						class="input input-bordered max-w-sm"
+						required
+					/>
+				</label>
+
+				<!-- subject -->
+				<label class="form-control w-full" for="subject">
+					<div class="label"><span class="label-text">Subject</span></div>
+					<select
+						id="subject"
+						class="select select-bordered w-full max-w-sm"
+						required
+						name="subject"
+					>
+						<option value="bug">Bug</option>
+						<option value="general" selected>General</option>
+						<option value="verification">Verification</option>
+					</select>
+				</label>
+
+				<!-- message -->
+				<label class="form-control w-full" for="message">
+					<div class="label"><span class="label-text">Message</span></div>
+					<textarea
+						id="message"
+						name="message"
+						class="textarea textarea-bordered min-h-[400px]"
+						placeholder="Message"
+						required
+					></textarea>
+				</label>
+
+				<!-- submit -->
+				<div><input type="submit" value="Submit" class="btn btn-neutral text-white" /></div>
+			</form>
+
+			<!-- help -->
+			<div class="border border-dashed border-1 p-5 bg-gray-50 rounded-md h-fit">
+				<p class="mt-0 pt-0">
+					Use the contact form to get in touch or email us at
+					<a href="mailto:mail@powerlifting.gg">mail@powerlifting.gg</a> We'll get back to you asap.
+					Want to help us out?
+				</p>
+				<div class="flex justify-center items-center">
+					<a
+						class="btn btn-neutral text-white no-underline"
+						href="<%= app.mainDomain %>/tenants/create"
+						>Submit a Tenant</a
+					>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
