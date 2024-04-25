@@ -51,6 +51,14 @@ export function TenantService(db, redis, dayjs) {
 
 			return tenants;
 		},
+		clearGetAllTenantCache: async function () {
+			const keys = await redis.keys('*');
+			for (const i of keys) {
+				if (i.includes('search?q=&per_page=')) {
+					await redis.del(i);
+				}
+			}
+		},
 		addReviewToTenant: async function ({ tenant_id, user_id, comment, ratings }) {
 			const [reviewId] = await db('reviews').insert({
 				tenant_id,
