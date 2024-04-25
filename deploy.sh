@@ -14,6 +14,8 @@ git fetch origin main
 
 git reset --hard origin/main
 
+git checkout feature/caddy
+
 docker compose -f docker-compose.prod.yml up -d --build --no-deps powerlifting
 
 EOF
