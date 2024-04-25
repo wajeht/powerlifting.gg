@@ -8,6 +8,8 @@ process.env.PRODUCTION_APP_URL = 'powerlifting.gg';
 
 process.env.SUPER_ADMIN_EMAIL = 'zombyard@gmail.com';
 
+process.env.PRODUCTION_SSH_URL="dog@127.0.0.1"
+
 // google
 process.env.GOOGLE_ID = 'something';
 process.env.GOOGLE_SECRET = 'gains';
@@ -18,11 +20,17 @@ process.env.SESSION_STORE_PREFIX = 'powerlifting.gg';
 process.env.SESSION_SECRET = 'powerlifting.gg';
 
 // backblaze
-process.env.BACKBLAZE_BUCKET = 'powerlifting-dot-gg';
-process.env.BACKBLAZE_REGION = 'us-west-004';
-process.env.BACKBLAZE_END_POINT = 'https://google.com';
-process.env.BACKBLAZE_KEY_ID = '69420247';
-process.env.BACKBLAZE_APPLICATION_KEY = 'abcdefghijklmnopqrstuvwxyz';
+process.env.PRIVATE_BACKBLAZE_BUCKET = 'powerlifting-dot-gg';
+process.env.PRIVATE_BACKBLAZE_REGION = 'us-west-004';
+process.env.PRIVATE_BACKBLAZE_END_POINT = 'https://google.com';
+process.env.PRIVATE_BACKBLAZE_KEY_ID = '69420247';
+process.env.PRIVATE_BACKBLAZE_APPLICATION_KEY = 'abcdefghijklmnopqrstuvwxyz';
+
+process.env.PUBLIC_BACKBLAZE_BUCKET = 'powerlifting-dot-gg';
+process.env.PUBLIC_BACKBLAZE_REGION = 'us-west-004';
+process.env.PUBLIC_BACKBLAZE_END_POINT = 'https://google.com';
+process.env.PUBLIC_BACKBLAZE_KEY_ID = '69420247';
+process.env.PUBLIC_BACKBLAZE_APPLICATION_KEY = 'abcdefghijklmnopqrstuvwxyz';
 
 // redis
 process.env.REDIS_HOST = 'redis';
