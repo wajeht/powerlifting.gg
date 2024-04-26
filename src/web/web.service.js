@@ -20,7 +20,7 @@ export function WebService(WebRepository, redis) {
 		getMarkdownPage: async ({ cache = true, page }) => {
 			if (!cache) {
 				const pagePath = path.resolve(
-					path.join(process.cwd(), 'src', 'web', 'pages', `${page}.md`),
+					path.join(process.cwd(), 'src', 'web', 'views', 'pages', `${page}.md`),
 				);
 				return marked(await fs.readFile(pagePath, 'utf8'));
 			}
@@ -29,7 +29,7 @@ export function WebService(WebRepository, redis) {
 
 			if (!markdown) {
 				const pagePath = path.resolve(
-					path.join(process.cwd(), 'src', 'web', 'pages', `${page}.md`),
+					path.join(process.cwd(), 'src', 'web', 'views', 'pages', `${page}.md`),
 				);
 				markdown = marked(await fs.readFile(pagePath, 'utf8'));
 				await redis.set(`${page}-md`, JSON.stringify(markdown));
