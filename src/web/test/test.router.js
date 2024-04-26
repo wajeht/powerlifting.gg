@@ -13,6 +13,21 @@ import { app as appConfig } from '../../config/app.js';
 const test = express.Router();
 
 test.get(
+	'/test/csrf-token',
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(async (req, res) => {
+		if (appConfig.env !== 'testing') {
+			throw new NotFoundError('Operation not allowed in the current environment.');
+		}
+		return res.status(200).json({
+			message: 'csrf-token!',
+			csrfToken: req.csrfToken(),
+		});
+	}),
+);
+
+test.get(
 	'/test/me',
 	authenticationHandler,
 	csrfHandler,
