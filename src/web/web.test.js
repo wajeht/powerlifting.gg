@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { it, expect, describe, beforeEach } from 'vitest';
+import { it, expect, describe } from 'vitest';
 import { app as server } from '../app.js';
 import { db } from '../database/db.js';
 import { faker } from '@faker-js/faker';
@@ -93,17 +93,26 @@ describe('postReviewHandler', () => {
 					.returning('*')
 			)[0];
 
-			const loginResponse = await app.post('/test/login').send({ email: 'user1@test.com' });
-			const cookie = loginResponse.headers['set-cookie'];
+			const tenant = (
+				await db('tenants')
+					.insert({
+						name: 'TenantName',
+						slug: 'tenant-slug',
+					})
+					.returning('*')
+			)[0];
 
-			const [tenant] = await db('tenants')
-				.insert({
-					name: 'thanks',
-					slug: 'obama',
-				})
-				.returning('*');
+			const loginRes = await app
+				.post('/test/login')
+				.send({ email: 'user1@test.com' })
+				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
 
-			const res = await app
+			const cookie = loginRes.headers['set-cookie'];
+
+			expect(loginRes.status).toBe(200);
+			expect(loginRes.body).toStrictEqual({ message: 'logged in!' });
+
+			const reviewRes = await app
 				.post('/reviews')
 				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`)
 				.set('Cookie', cookie)
@@ -114,8 +123,18 @@ describe('postReviewHandler', () => {
 					ratings: 5,
 				});
 
-			expect(res.statusCode).toBe(200);
-			expect(res.body.data[0].comment).toEqual('this is some *****');
+			expect(reviewRes.status).toBe(302);
+
+			const reviews = await db
+				.select('*')
+				.from('reviews')
+				.where({
+					user_id: user.id,
+					tenant_id: tenant.id,
+				})
+				.first();
+
+			expect(reviews.comment).toEqual('this is some bull ****');
 		});
 	});
 });

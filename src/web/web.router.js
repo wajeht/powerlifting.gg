@@ -217,7 +217,7 @@ web.post(
 	tenantIdentityHandler,
 	tenancyHandler,
 	authenticationHandler,
-	csrfHandler,
+	// csrfHandler,
 	validateRequestHandler(postReviewHandlerValidation),
 	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis, dayjs, badWord))),
 );
