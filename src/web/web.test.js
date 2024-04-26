@@ -5,6 +5,7 @@ import { db } from '../database/db.js';
 import { faker } from '@faker-js/faker';
 import { refreshDatabase } from '../tests/refresh-db.js';
 import { app as appEnv } from '../config/app.js';
+import { login } from '../tests/login.js';
 
 const app = request(server);
 
@@ -102,22 +103,12 @@ describe('postReviewHandler', () => {
 					.returning('*')
 			)[0];
 
-			const login = await app
-				.post('/test/login')
-				.send({ email: 'user1@test.com' })
-				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
-
-			const cookie = login.headers['set-cookie'];
-
-			expect(login.status).toBe(200);
-			expect(login.body).toStrictEqual({ message: 'logged in!' });
-
-			const me = await app
-				.get('/test/me')
-				.set('Cookie', cookie)
-				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
-
-			const csrfToken = me.body.csrfToken;
+			const { cookie, csrfToken } = await login(
+				app,
+				appEnv.development_app_url,
+				'user1@test.com',
+				'tenant-slug',
+			);
 
 			const res = await app
 				.post('/reviews')
@@ -133,9 +124,7 @@ describe('postReviewHandler', () => {
 
 			expect(res.status).toBe(302);
 
-			const reviews = await db
-				.select('*')
-				.from('reviews')
+			const reviews = await db('reviews')
 				.where({
 					user_id: user.id,
 					tenant_id: tenant.id,
