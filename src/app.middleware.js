@@ -1,5 +1,4 @@
 import { csrfSync } from 'csrf-sync';
-import { logger } from './utils/logger.js';
 import { validationResult } from 'express-validator';
 import { db } from './database/db.js';
 import { app as appConfig } from './config/app.js';
@@ -202,8 +201,6 @@ export function errorHandler(err, req, res, _next) {
 	};
 
 	let statusCode = errorStatusCodes[err.constructor.name] || 500;
-
-	logger.error(err);
 
 	let errorMessage =
 		process.env.NODE_ENV === 'production' ? 'Oops! Something went wrong.' : err.stack;
