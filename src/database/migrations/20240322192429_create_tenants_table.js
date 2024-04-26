@@ -10,7 +10,7 @@ export function up(knex) {
 		table.string('banner').nullable().defaultTo('/img/crowd.jpg');
 		table.string('logo').nullable().defaultTo('/img/west-side.jpg');
 		table.boolean('verified').notNullable().defaultTo(false);
-		table.float('ratings').nullable();
+		table.float('ratings').nullable().defaultTo(0);
 		table.timestamps(true, true);
 	});
 }

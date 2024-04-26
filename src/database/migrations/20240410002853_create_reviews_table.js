@@ -10,7 +10,7 @@ export function up(knex) {
 		table.integer('tenant_id').unsigned().notNullable();
 		table.foreign('tenant_id').references('id').inTable('tenants');
 		table.text('comment').notNullable();
-		table.float('ratings').nullable();
+		table.float('ratings').nullable().defaultTo(0);
 		table.timestamps(true, true);
 
 		table.index('tenant_id');
