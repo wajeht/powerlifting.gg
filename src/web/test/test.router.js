@@ -1,10 +1,6 @@
 import express from 'express';
 import { body } from 'express-validator';
-import {
-	tenantIdentityHandler,
-	catchAsyncErrorHandler,
-	validateRequestHandler,
-} from '../../app.middleware.js';
+import { catchAsyncErrorHandler, validateRequestHandler } from '../../app.middleware.js';
 import { db } from '../../database/db.js';
 import { NotFoundError } from '../../app.error.js';
 import { app as appConfig } from '../../config/app.js';
@@ -13,22 +9,16 @@ const test = express.Router();
 
 test.post(
 	'/test/login',
-	tenantIdentityHandler,
-	validateRequestHandler(
+	validateRequestHandler([
 		body('email')
 			.notEmpty()
 			.withMessage('The email must not be empty!')
-			.trim()
 			.isEmail()
 			.withMessage('The email must be email!'),
-	),
+	]),
 	catchAsyncErrorHandler(async (req, res) => {
-		if (!['testings'].includes(appConfig.env)) {
+		if (appConfig.env !== 'testing') {
 			throw new NotFoundError('Operation not allowed in the current environment.');
-		}
-
-		if (req.tenant) {
-			throw new NotFoundError();
 		}
 
 		const email = req.body.email;
@@ -54,13 +44,9 @@ test.post(
 		req.session.user = foundUser;
 		await req.session.save();
 
-		if (req.session.redirectUrl) {
-			const redirectUrl = req.session.redirectUrl;
-			delete req.session.redirectUrl;
-			return res.redirect(redirectUrl);
-		}
-
-		return res.redirect('/');
+		return res.status(200).json({
+			message: 'logged in!',
+		});
 	}),
 );
 

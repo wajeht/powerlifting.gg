@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe, beforeEach } from 'vitest';
 import { app as server } from '../app.js';
 import { db } from '../database/db.js';
 import { faker } from '@faker-js/faker';
@@ -81,15 +81,20 @@ describe('getContactHandler', () => {
 });
 
 describe('postReviewHandler', () => {
-	describe('when posting a tenant review with a profanity', () => {
-		it('should filter it into *****', async () => {
-			const [user] = await db('users')
-				.insert({
-					username: 'user1',
-					email: 'user1@test.com',
-					role: 'USER',
-				})
-				.returning('*');
+	describe('when posting a tenant review with profanity', () => {
+		it('should filter profanity into *****', async () => {
+			const user = (
+				await db('users')
+					.insert({
+						username: 'user1',
+						email: 'user1@test.com',
+						role: 'USER',
+					})
+					.returning('*')
+			)[0];
+
+			const loginResponse = await app.post('/test/login').send({ email: 'user1@test.com' });
+			const cookie = loginResponse.headers['set-cookie'];
 
 			const [tenant] = await db('tenants')
 				.insert({
@@ -101,6 +106,7 @@ describe('postReviewHandler', () => {
 			const res = await app
 				.post('/reviews')
 				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`)
+				.set('Cookie', cookie)
 				.send({
 					user_id: user.id,
 					tenant_id: tenant.id,
