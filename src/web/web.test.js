@@ -102,17 +102,17 @@ describe('postReviewHandler', () => {
 					.returning('*')
 			)[0];
 
-			const loginRes = await app
+			const login = await app
 				.post('/test/login')
 				.send({ email: 'user1@test.com' })
 				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
 
-			const cookie = loginRes.headers['set-cookie'];
+			const cookie = login.headers['set-cookie'];
 
-			expect(loginRes.status).toBe(200);
-			expect(loginRes.body).toStrictEqual({ message: 'logged in!' });
+			expect(login.status).toBe(200);
+			expect(login.body).toStrictEqual({ message: 'logged in!' });
 
-			const reviewRes = await app
+			const res = await app
 				.post('/reviews')
 				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`)
 				.set('Cookie', cookie)
@@ -123,7 +123,7 @@ describe('postReviewHandler', () => {
 					ratings: 5,
 				});
 
-			expect(reviewRes.status).toBe(302);
+			expect(res.status).toBe(302);
 
 			const reviews = await db
 				.select('*')
