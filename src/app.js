@@ -71,14 +71,9 @@ app.use(
 app.use(flash());
 app.use(compression());
 app.disable('x-powered-by');
+app.use(cors());
 
 if (appConfig.env === 'production') {
-	app.use(
-		cors({
-			credentials: true,
-			origin: true,
-		}),
-	);
 	app.use(
 		helmet({
 			contentSecurityPolicy: {

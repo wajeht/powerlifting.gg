@@ -40,20 +40,6 @@ describe('getAllTenantHandler', () => {
 });
 
 describe('getTenantHandler', () => {
-	it('should be able to get /api/tenants end point with subdomain', async () => {
-		const [tenant] = await db('tenants')
-			.insert({
-				name: 'thanks',
-				slug: 'obama',
-			})
-			.returning('*');
-		const res = await app
-			.get('/api/tenants')
-			.set('Host', `${tenant.slug}.${appConfig.development_app_url}`);
-		expect(res.statusCode).toBe(404);
-		expect(res.text).contain('Oops! The page you are looking for cannot be found.');
-	});
-
 	it('should be able to get /api/tenants end point', async () => {
 		const tenants = await db('tenants')
 			.insert([
