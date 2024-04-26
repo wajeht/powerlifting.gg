@@ -4,6 +4,7 @@ import express from 'express';
 import { db, redis } from '../database/db.js';
 import { sendContactEmailJob } from '../job/job.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
+import { test as testRouter } from './test/test.router.js';
 import badWord from 'bad-words';
 import {
 	tenantIdentityHandler,
@@ -46,6 +47,8 @@ dayjs.extend(relativeTime);
 const web = express.Router();
 
 web.use(oauthRouter);
+
+web.use(testRouter);
 
 /**
  * GET /healthz
