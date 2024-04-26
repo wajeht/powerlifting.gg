@@ -17,7 +17,6 @@ const tenant = express.Router();
  */
 tenant.get(
 	'/',
-	tenantIdentityHandler,
 	catchAsyncErrorHandler(getAllTenantHandler(TenantService(db, redis, dayjs, badWord))),
 );
 
