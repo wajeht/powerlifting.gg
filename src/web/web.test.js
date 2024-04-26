@@ -82,7 +82,7 @@ describe('getContactHandler', () => {
 });
 
 describe('postReviewHandler', () => {
-	describe('when post a tenant review with a profanity', () => {
+	describe('when posting a tenant review with a profanity', () => {
 		it('should filter it into *****', async () => {
 			const [user] = await db('users')
 				.insert({
