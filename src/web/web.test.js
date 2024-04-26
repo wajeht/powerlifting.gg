@@ -112,11 +112,19 @@ describe('postReviewHandler', () => {
 			expect(login.status).toBe(200);
 			expect(login.body).toStrictEqual({ message: 'logged in!' });
 
+			const me = await app
+				.get('/test/me')
+				.set('Cookie', cookie)
+				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
+
+			const csrfToken = me.body.csrfToken;
+
 			const res = await app
 				.post('/reviews')
 				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`)
 				.set('Cookie', cookie)
 				.send({
+					csrfToken,
 					user_id: user.id,
 					tenant_id: tenant.id,
 					comment: 'this is some bull shit',

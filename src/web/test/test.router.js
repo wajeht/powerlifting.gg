@@ -1,11 +1,31 @@
 import express from 'express';
 import { body } from 'express-validator';
-import { catchAsyncErrorHandler, validateRequestHandler } from '../../app.middleware.js';
+import {
+	authenticationHandler,
+	catchAsyncErrorHandler,
+	csrfHandler,
+	validateRequestHandler,
+} from '../../app.middleware.js';
 import { db } from '../../database/db.js';
 import { NotFoundError } from '../../app.error.js';
 import { app as appConfig } from '../../config/app.js';
 
 const test = express.Router();
+
+test.get(
+	'/test/me',
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(async (req, res) => {
+		if (appConfig.env !== 'testing') {
+			throw new NotFoundError('Operation not allowed in the current environment.');
+		}
+		return res.status(200).json({
+			message: 'me!',
+			csrfToken: req.csrfToken(),
+		});
+	}),
+);
 
 test.post(
 	'/test/login',
