@@ -3,7 +3,7 @@ import { it, expect, describe } from 'vitest';
 import { app as server } from '../app.js';
 import { db } from '../database/db.js';
 import { faker } from '@faker-js/faker';
-import { refreshDatabase } from '../utils/refresh-db.js';
+import { refreshDatabase } from '../tests/refresh-db.js';
 import { app as appEnv } from '../config/app.js';
 
 const app = request(server);

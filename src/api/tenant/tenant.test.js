@@ -3,7 +3,7 @@ import request from 'supertest';
 import { it, expect, describe } from 'vitest';
 
 import { app as server } from '../../app.js';
-import { refreshDatabase } from '../../utils/refresh-db.js';
+import { refreshDatabase } from '../../tests/refresh-db.js';
 
 const app = request(server);
 
