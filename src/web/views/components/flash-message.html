@@ -1,8 +1,7 @@
-<% if (Object.keys(flashMessages).length) { %> <% for (const message in flashMessages) { %>
-<div
-	role="alert"
-	class="alert <%= message === 'error' ? 'alert-error' : message === 'info' ? 'alert-info' : 'alert-info' %>"
->
-	<span><%= flashMessages[message] %></span>
-</div>
-<% } %> <% } %>
+<% if (Object.keys(flashMessages).length) { %>
+	<% for (const message in flashMessages) { %>
+		<div role="alert" class="alert <%= message === 'error' ? 'alert-error' : message === 'info' ? 'alert-info' : 'alert-info' %>">
+			<span><%= flashMessages[message] %></span>
+		</div>
+	<% } %>
+<% } %>
