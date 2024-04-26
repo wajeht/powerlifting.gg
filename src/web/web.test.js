@@ -1,4 +1,5 @@
 import request from 'supertest';
+
 import { it, expect, describe } from 'vitest';
 import { app as server } from '../app.js';
 import { db } from '../database/db.js';
@@ -77,5 +78,39 @@ describe('getContactHandler', () => {
 		const res = await app.get('/contact');
 		expect(res.statusCode).toBe(200);
 		expect(res.text).contain('Use the contact form to get in touch or email us');
+	});
+});
+
+describe('postReviewHandler', () => {
+	describe('when post a tenant review with a profanity', () => {
+		it('should filter it into *****', async () => {
+			const [user] = await db('users')
+				.insert({
+					username: 'user1',
+					email: 'user1@test.com',
+					role: 'USER',
+				})
+				.returning('*');
+
+			const [tenant] = await db('tenants')
+				.insert({
+					name: 'thanks',
+					slug: 'obama',
+				})
+				.returning('*');
+
+			const res = await app
+				.post('/reviews')
+				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`)
+				.send({
+					user_id: user.id,
+					tenant_id: tenant.id,
+					comment: 'this is some bull shit',
+					ratings: 5,
+				});
+
+			expect(res.statusCode).toBe(200);
+			expect(res.body.data[0].comment).toStrictEqual(review.comment);
+		});
 	});
 });
