@@ -4,6 +4,7 @@ import express from 'express';
 import { db, redis } from '../database/db.js';
 import { sendContactEmailJob } from '../job/job.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
+import badWord from 'bad-words';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
@@ -132,7 +133,10 @@ web.post(
  * @tags tenants
  * @summary get tenants page
  */
-web.get('/tenants', catchAsyncErrorHandler(getTenantsHandler(TenantService(db, redis))));
+web.get(
+	'/tenants',
+	catchAsyncErrorHandler(getTenantsHandler(TenantService(db, redis, dayjs, badWord))),
+);
 
 /**
  * GET /tenants/create
@@ -180,7 +184,9 @@ web.get(
 	'/',
 	tenantIdentityHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs))),
+	catchAsyncErrorHandler(
+		getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs, badWord)),
+	),
 );
 
 /**
@@ -210,7 +216,7 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	validateRequestHandler(postReviewHandlerValidation),
-	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis))),
+	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis, dayjs, badWord))),
 );
 
 /**

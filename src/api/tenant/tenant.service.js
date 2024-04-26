@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../app.error.js';
 
-export function TenantService(db, redis, dayjs) {
+export function TenantService(db, redis, dayjs, badWord) {
 	return {
 		getTenant: async function ({ tenantId, cache = true }) {
 			if (!cache) {
@@ -63,7 +63,7 @@ export function TenantService(db, redis, dayjs) {
 			const [reviewId] = await db('reviews').insert({
 				tenant_id,
 				user_id,
-				comment,
+				comment: new badWord().clean(comment),
 				ratings,
 			});
 

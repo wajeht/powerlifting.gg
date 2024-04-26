@@ -1,9 +1,12 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime.js';
+import badWord from 'bad-words';
 import express from 'express';
-
 import { catchAsyncErrorHandler, tenantIdentityHandler } from '../../app.middleware.js';
 import { db, redis } from '../../database/db.js';
 import { TenantService } from './tenant.service.js';
 import { getTenantHandler, getAllTenantHandler } from './tenant.handler.js';
+dayjs.extend(relativeTime);
 
 const tenant = express.Router();
 
@@ -15,7 +18,7 @@ const tenant = express.Router();
 tenant.get(
 	'/',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getAllTenantHandler(TenantService(db, redis))),
+	catchAsyncErrorHandler(getAllTenantHandler(TenantService(db, redis, dayjs, badWord))),
 );
 
 /**
@@ -27,7 +30,7 @@ tenant.get(
 tenant.get(
 	'/:id',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(getTenantHandler(TenantService(db, redis))),
+	catchAsyncErrorHandler(getTenantHandler(TenantService(db, redis, dayjs, badWord))),
 );
 
 export { tenant };
