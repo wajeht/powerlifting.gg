@@ -1,5 +1,4 @@
 import request from 'supertest';
-
 import { it, expect, describe } from 'vitest';
 import { app as server } from '../app.js';
 import { db } from '../database/db.js';
@@ -110,7 +109,7 @@ describe('postReviewHandler', () => {
 				});
 
 			expect(res.statusCode).toBe(200);
-			expect(res.body.data[0].comment).toStrictEqual(review.comment);
+			expect(res.body.data[0].comment).toEqual('this is some *****');
 		});
 	});
 });
