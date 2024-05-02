@@ -171,7 +171,10 @@ export function getIndexHandler(WebRepository, TenantService) {
 			});
 		}
 
-		const tenants = await WebRepository.getRandomTenants({ size: 5 });
+		const tenants = (await WebRepository.getRandomTenants({ size: 5 })).map((r) => ({
+			...r,
+			ratings: parseFloat(r.ratings).toFixed(1),
+		}));
 		const reviews = await WebRepository.getRandomReviews({ size: 10 });
 		return res.status(200).render('home.html', { tenants, reviews, title: '/' });
 	};
