@@ -59,3 +59,6 @@ wipe:
 all:
 	docker stop $(docker ps -aq) && docker system prune -af --volumes
 	docker volume rm $(docker volume ls -qf dangling=true)
+
+sync-db:
+	./sync-db.sh
