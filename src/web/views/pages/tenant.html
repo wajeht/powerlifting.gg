@@ -26,45 +26,44 @@
 			<hr />
 		<% } %>
 
-		<div class="flex justify-between items-center">
+		<div class="flex flex-col gap-5 sm:flex-row justify-between items-center">
 			<!-- search -->
 			<form
 				action="<%- app.configureDomain(app.tenant.slug) %>"
 				method="get"
-				class="flex gap-1 justify-between"
+				class="flex gap-1 justify-between sm:w-[374px] w-full"
 			>
 				<!-- left -->
-				<div class="flex gap-1">
-					<label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
-						<input
-							type="text"
-							class="grow"
-							id="q"
-							name="q"
-							placeholder="Search for a review..."
-							value="<%= q %>"
-							required
-						/>
-						<input
-							type="hidden"
-							name="current_page"
-							id="current_page"
-							value="<%= reviews.pagination.currentPage %>"
-						/>
-						<input
-							type="hidden"
-							name="per_page"
-							id="per_page"
-							value="<%= reviews.pagination.perPage %>"
-						/>
-						<input type="hidden" name="sort" id="sort" value="<%= reviews.pagination.sort %>" />
-					</label>
-					<input type="submit" value="Search" id="reviews-search" class="btn btn-neutral" />
-				</div>
+				<label class="input input-bordered flex items-center gap-2 sm:w-[374px] w-full" for="q">
+					<input
+						type="text"
+						class="grow"
+						id="q"
+						name="q"
+						placeholder="Search for a review..."
+						value="<%= q %>"
+						required
+					/>
+					<input
+						type="hidden"
+						name="current_page"
+						id="current_page"
+						value="<%= reviews.pagination.currentPage %>"
+					/>
+					<input
+						type="hidden"
+						name="per_page"
+						id="per_page"
+						value="<%= reviews.pagination.perPage %>"
+					/>
+					<input type="hidden" name="sort" id="sort" value="<%= reviews.pagination.sort %>" />
+				</label>
+				<input type="submit" value="Search" id="reviews-search" class="btn btn-neutral" />
+
 			</form>
 
 			<!-- right -->
-			<div class="flex gap-3">
+			<div class="flex gap-3 w-full sm:w-fit justify-between">
 				<% if (reviews.data.length) { %>
 					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Submit a Review</a>
 				<% } %>
