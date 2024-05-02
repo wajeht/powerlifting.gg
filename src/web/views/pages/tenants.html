@@ -16,14 +16,14 @@
 		<h1>Tenants</h1>
 
 		<!-- search -->
-		<div class="flex justify-between items-center">
+		<div class="flex flex-col gap-5 sm:flex-row justify-between items-center">
 			<!-- left -->
 			<form
 				action="/tenants"
 				method="get"
-				class="flex gap-1 items-center justify-center relative w-[374px]"
+				class="flex gap-1 items-center justify-center relative sm:w-[374px] w-full"
 			>
-				<label class="input input-bordered flex items-center gap-2 w-[374px]" for="q">
+				<label class="input input-bordered flex items-center gap-2 sm:w-[374px] w-full" for="q">
 					<input
 						type="text"
 						class="grow"
@@ -51,7 +51,7 @@
 			</form>
 
 			<!-- right -->
-			<div class="flex gap-3">
+			<div class="flex gap-3 w-full sm:w-fit justify-between">
 				<!-- button -->
 				<% if (tenants.data.length) { %>
 					<a class="btn btn-neutral text-white no-underline" href="/tenants/create">Submit a Tenant</a>
