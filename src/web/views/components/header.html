@@ -141,5 +141,78 @@
 				<% } %>
 			</ul>
 		</div>
+
+		<!-- right mobile -->
+		<div class="flex-none sm:hidden block">
+			<div class="dropdown dropdown-end">
+				<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+				</div>
+				<ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+					<!-- github -->
+					<li>
+						<a
+							href="https://github.com/wajeht/powerlifting.gg"
+							target="_blank"
+							class="link link-hover"
+							title="github"
+							>Github <span>⤴️</span></a
+						>
+					</li>
+					<!-- discord -->
+					<li>
+						<a href="https://discord.gg/m9GRxu2AZH" title="discord" target="_blank"
+							>Discord<span>⤴️</span></a
+						>
+					</li>
+					<!-- api docs -->
+					<li>
+						<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
+							>API Docs <span>⤴️</span></a
+						>
+					</li>
+					<!-- blog -->
+					<li>
+						<a
+							class="<%= title === '/blog' ? 'active' : '' %>"
+							href="<%= app.mainDomain %>/blog"
+							title="blog"
+							>Blog</a
+						>
+					</li>
+					<!-- contact -->
+					<li>
+						<a
+							class="<%= title === '/contact' ? 'active' : '' %>"
+							href="<%= app.mainDomain %>/contact"
+							title="contact"
+							>Contact</a
+						>
+					</li>
+					<% if (app.user) { %>
+						<!-- tenants -->
+						<li>
+							<a
+								class="<%= title === '/tenants' ? 'active' : '' %>"
+								href="<%= app.mainDomain %>/tenants"
+								title="tenants"
+								>Tenants</a
+							>
+						</li>
+						<li>
+							<a
+								class="<%= title === '/settings' ? 'active' : '' %>"
+								href="<%= app.mainDomain %>/settings"
+								title="logout"
+								>Settings</a
+							>
+						</li>
+						<li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
+					<% } else { %>
+						<li><a href="<%= app.mainDomain %>/login" title="login">Login</a></li>
+					<% } %>
+				</ul>
+			</div>
+		</div>
 	</div>
 </header>
