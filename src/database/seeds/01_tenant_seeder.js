@@ -21,7 +21,45 @@ export async function seed(db) {
 				suffix++;
 			}
 
+			const links = [];
+
+			if (Math.random() < 0.5) {
+				links.push({
+					type: 'instagram',
+					url: 'https://instagram.com',
+				});
+			}
+
+			if (Math.random() < 0.5) {
+				links.push({
+					type: 'twitter',
+					url: 'https://twitter.com',
+				});
+			}
+
+			if (Math.random() < 0.5) {
+				links.push({
+					type: 'youtube',
+					url: 'https://youtube.com',
+				});
+			}
+
+			if (Math.random() < 0.5) {
+				links.push({
+					type: 'tiktok',
+					url: 'https://tiktok.com',
+				});
+			}
+
+			if (Math.random() < 0.5) {
+				links.push({
+					type: 'website',
+					url: 'https://website.com',
+				});
+			}
+
 			tenants.push({
+				links: JSON.stringify(links),
 				name: name,
 				slug: slug,
 				verified: Math.random() < 0.5,

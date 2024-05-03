@@ -1,4 +1,5 @@
 import { NotFoundError } from '../app.error.js';
+import { extractDomainName } from './web.util.js';
 
 export function getHealthzHandler() {
 	return (req, res) => {
@@ -34,9 +35,6 @@ export function getTenantsHandler(TenantService) {
 
 export function getTenantsCreateHandler() {
 	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
 		return res.status(200).render('tenants-create.html', {
 			flashMessages: req.flash(),
 			title: '/tenants/create',
@@ -46,14 +44,27 @@ export function getTenantsCreateHandler() {
 
 export function postTenantHandler(WebService) {
 	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
-		const { name, slug } = req.body;
+		const { name, slug, social } = req.body;
+
 		let logo = req.files?.logo?.[0];
 		let banner = req.files?.banner?.[0];
 
+		// TODO: put this inside service
+		let links = social;
+		if (links && links.length) {
+			links = social
+				.split(',')
+				.map((s) => s.trim())
+				.map((s) => ({
+					type: extractDomainName(s),
+					url: s,
+				}));
+		} else {
+			links = [];
+		}
+
 		await WebService.postTenant({
+			links,
 			name,
 			slug,
 			banner: banner?.location || '',
@@ -76,9 +87,6 @@ export function getLoginHandler() {
 
 export function getSettingsHandler() {
 	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
 		return res.status(200).render('settings.html', {
 			flashMessages: req.flash(),
 			title: '/settings',
@@ -103,9 +111,6 @@ export function getLogoutHandler() {
 
 export function postContactHandler(sendContactEmailJob) {
 	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
 		await sendContactEmailJob(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
 		return res.redirect('/contact');
@@ -114,10 +119,6 @@ export function postContactHandler(sendContactEmailJob) {
 
 export function getContactHandler() {
 	return (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
-
 		return res.status(200).render('contact.html', {
 			title: '/contact',
 			flashMessages: req.flash(),
@@ -127,9 +128,6 @@ export function getContactHandler() {
 
 export function getPrivacyPolicyHandler(WebService) {
 	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
 		const content = await WebService.getMarkdownPage({ cache: true, page: 'privacy-policy' });
 		return res.status(200).render('markdown.html', {
 			title: '/privacy-policy',
@@ -140,9 +138,6 @@ export function getPrivacyPolicyHandler(WebService) {
 
 export function getTermsOfServiceHandler(WebService) {
 	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
 		const content = await WebService.getMarkdownPage({ cache: true, page: 'terms-of-services' });
 		return res.status(200).render('markdown.html', {
 			title: '/terms-of-services',
@@ -171,6 +166,8 @@ export function getIndexHandler(WebRepository, TenantService) {
 			});
 		}
 
+		// TODO: do this at the database so we dont gotta iterate
+		//       another modification the second time here
 		const tenants = (await WebRepository.getRandomTenants({ size: 5 })).map((r) => {
 			let ratings = r.ratings;
 
@@ -223,9 +220,6 @@ export function postReviewHandler(TenantService) {
 
 export function getBlogHandler(WebService) {
 	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
 		const posts = await WebService.getBlogPosts({ cache: true });
 
 		return res.status(200).render('blog.html', {
@@ -237,9 +231,6 @@ export function getBlogHandler(WebService) {
 
 export function getBlogPostHandler(WebService) {
 	return async (req, res) => {
-		if (req.tenant) {
-			throw new NotFoundError();
-		}
 		const post = await WebService.getBlogPost({ cache: true, id: req.params.id });
 
 		return res.status(200).render('post.html', {

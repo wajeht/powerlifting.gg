@@ -38,10 +38,11 @@ export function WebRepository(db) {
 				.whereRaw('LENGTH(reviews.comment) <= 100')
 				.limit(size);
 		},
-		postTenant: async function ({ logo = '', banner = '', slug, name }) {
+		postTenant: async function ({ logo = '', banner = '', slug, name, links }) {
 			return await db('tenants')
 				.insert({
 					logo,
+					links: JSON.stringify(links),
 					banner,
 					slug,
 					name,

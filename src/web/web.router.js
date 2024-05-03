@@ -14,6 +14,7 @@ import {
 	csrfHandler,
 	uploadHandler,
 	validateRequestHandler,
+	throwTenancyHandler,
 } from '../app.middleware.js';
 import {
 	postContactHandlerValidation,
@@ -65,6 +66,7 @@ web.get('/healthz', getHealthzHandler());
 web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis))),
 );
 
@@ -76,6 +78,7 @@ web.get(
 web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis))),
 );
 
@@ -87,6 +90,7 @@ web.get(
 web.get(
 	'/settings',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getSettingsHandler()),
@@ -114,6 +118,7 @@ web.get('/logout', tenantIdentityHandler, catchAsyncErrorHandler(getLogoutHandle
 web.get(
 	'/contact',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getContactHandler()),
 );
@@ -126,6 +131,7 @@ web.get(
 web.post(
 	'/contact',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(postContactHandlerValidation),
 	catchAsyncErrorHandler(postContactHandler(sendContactEmailJob)),
@@ -138,6 +144,8 @@ web.post(
  */
 web.get(
 	'/tenants',
+	tenantIdentityHandler,
+	throwTenancyHandler,
 	catchAsyncErrorHandler(getTenantsHandler(TenantService(db, redis, dayjs, badWord))),
 );
 
@@ -149,6 +157,7 @@ web.get(
 web.get(
 	'/tenants/create',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getTenantsCreateHandler()),
@@ -162,6 +171,7 @@ web.get(
 web.post(
 	'/tenants',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	authenticationHandler,
 	uploadHandler.fields([
 		{ name: 'logo', maxCount: 1 },
@@ -230,6 +240,7 @@ web.post(
 web.get(
 	'/blog',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis))),
 );
 
@@ -241,6 +252,7 @@ web.get(
 web.get(
 	'/blog/:id',
 	tenantIdentityHandler,
+	throwTenancyHandler,
 	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis))),
 );
 
