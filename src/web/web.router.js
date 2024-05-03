@@ -177,7 +177,7 @@ web.post(
 		{ name: 'logo', maxCount: 1 },
 		{ name: 'banner', maxCount: 1 },
 	]),
-	// csrfHandler,
+	csrfHandler,
 	validateRequestHandler(postTenantHandlerValidation),
 	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis))),
 );
