@@ -29,8 +29,8 @@ export const postContactHandlerValidation = [
 		.notEmpty()
 		.withMessage('The message must not be empty!')
 		.trim()
-		.isLength({ min: 1, max: 225 })
-		.withMessage('The message must be at least 1 character long or less than 225 character long'),
+		.isLength({ min: 1, max: 500 })
+		.withMessage('The message must be at least 1 character long or less than 500 character long'),
 	body('email')
 		.notEmpty()
 		.withMessage('The email must not be empty!')
@@ -44,7 +44,7 @@ export const postReviewHandlerValidation = [
 		.notEmpty()
 		.withMessage('The comment must not be empty!')
 		.trim()
-		.isLength({ min: 1, max: 225 })
-		.withMessage('The comment must be at least 1 character long or less than 225 character long'),
+		.isLength({ min: 1, max: 500 })
+		.withMessage('The comment must be at least 1 character long or less than 500 character long'),
 	body('ratings').notEmpty().withMessage('The ratings must not be empty!'),
 ];
