@@ -50,13 +50,18 @@ export function postTenantHandler(WebService) {
 		let banner = req.files?.banner?.[0];
 
 		// TODO: put this inside service
-		const links = social
-			.split(',')
-			.map((s) => s.trim())
-			.map((s) => ({
-				type: extractDomainName(s),
-				url: s,
-			}));
+		let links = social;
+		if (links && links.length) {
+			links = social
+				.split(',')
+				.map((s) => s.trim())
+				.map((s) => ({
+					type: extractDomainName(s),
+					url: s,
+				}));
+		} else {
+			links = [];
+		}
 
 		await WebService.postTenant({
 			links,

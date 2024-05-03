@@ -22,6 +22,16 @@ export const postTenantHandlerValidation = [
 			}
 			return true;
 		}),
+	body('checkbox')
+		.notEmpty()
+		.withMessage('Must agree to our terms of services!')
+		.trim()
+		.custom((checkbox) => {
+			if (checkbox !== 'on') {
+				throw new Error('Must agree to our terms of services!');
+			}
+			return true;
+		}),
 	body('social')
 		.optional()
 		.custom((social) => {

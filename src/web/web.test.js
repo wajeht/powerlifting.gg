@@ -108,6 +108,71 @@ describe('getTenantsCreateHandler', () => {
 	});
 });
 
+describe('postTenantHandler', () => {
+	it('should not be able to post /tenants page without auth', async () => {
+		const res = await app.post('/tenants');
+		expect(res.status).toBe(302);
+	});
+
+	it('should not be able to post /tenants page without auth and <subdomain>/tenants', async () => {
+		const tenant = (
+			await db('tenants')
+				.insert({
+					name: 'TenantName',
+					slug: 'tenant-slug',
+				})
+				.returning('*')
+		)[0];
+		const res = await app
+			.post('/tenants')
+			.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
+		expect(res.status).toBe(404);
+	});
+
+	it('should be able to post /tenants page with auth', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'USER',
+			})
+			.returning('*');
+
+		expect((await db.select('*').from('tenants')).length).toBe(0);
+
+		const { cookie, csrfToken } = await login(app, appEnv.development_app_url, 'user1@test.com');
+
+		const res = await app.post('/tenants').set('Cookie', cookie).send({
+			csrfToken,
+			name: 'dog',
+			slug: 'dog',
+			checkbox: 'on',
+		});
+		expect(res.status).toBe(302);
+		expect(res.header.location).toBe('/tenants/create');
+
+		const tenant = await db.select('*').from('tenants').where({ slug: 'dog' }).first();
+		expect(tenant.slug).toBe('dog');
+	});
+
+	it('should return validation error when create a tenant via /tenants without required fields', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'USER',
+			})
+			.returning('*');
+
+		const { cookie, csrfToken } = await login(app, appEnv.development_app_url, 'user1@test.com');
+
+		const res = await app.post('/tenants').set('Cookie', cookie).send({
+			csrfToken,
+		});
+		expect(res.status).toBe(302);
+	});
+});
+
 describe('getIndexHandler', () => {
 	describe('when visiting / route, if there is no tenant', () => {
 		it('should go to the main domain page', async () => {

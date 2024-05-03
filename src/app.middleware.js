@@ -52,14 +52,10 @@ export const validateRequestHandler = (schemas) => {
 			if (result.isEmpty()) return next();
 			const { errors } = result;
 			const errorMessages = errors.map((error) => error.msg).join('\n');
-			throw new ValidationError(errorMessages);
+			req.flash('error', errorMessages);
+			return res.redirect('back');
 		} catch (error) {
-			if (error instanceof ValidationError) {
-				req.flash('error', error.message);
-				return res.status(422).redirect('back');
-			} else {
-				next(error);
-			}
+			next(error);
 		}
 	};
 };
