@@ -17,20 +17,18 @@
 
 		<div class="flex flex-col gap-5">
 			<% for (let i=0; i < posts.length; i++) { %>
-				<div>
-					<a class="flex flex-col items-start sm:flex-row gap-3 sm:gap-5 sm:tems-center justify-between no-underline" href="/blog/<%= posts[i].meta.id %>">
-						<!-- title -->
-						<h2 class="hover:underline m-0 text-2xl"><%= posts[i].meta.title %></h2>
+				<div class="flex flex-col sm:flex-row gap-3 sm:gap-5 sm:tems-center justify-between sm:items-center items-start">
+					<!-- title -->
+					<a class="no-underline" href="/blog/<%= posts[i].meta.id %>"><h2 class="hover:underline m-0 text-2xl"><%= posts[i].meta.title %></h2></a>
 
-						<!-- meta -->
-						<div class="flex justify-center items-center gap-3 text-neutral/80 text-sm">
-							<span><%= new Date(posts[i].meta.date).toLocaleString('en-US', { month: 'long' , day: 'numeric' }) %></span>
-							<span>/</span>
-							<span><%= posts[i].meta.time.text %></span>
-							<span>/</span>
-							<span><%= posts[i].meta.time.words %> words</span>
-						</div>
-					</a>
+					<!-- meta -->
+					<div class="flex items-center justify-center gap-3 text-neutral/80 text-sm">
+						<span><%= new Date(posts[i].meta.date).toLocaleString('en-US', { month: 'long' , day: 'numeric' }) %></span>
+						<span>/</span>
+						<span><%= posts[i].meta.time.text %></span>
+						<span>/</span>
+						<span><%= posts[i].meta.time.words %> words</span>
+					</div>
 				</div>
 			<% } %>
 		</div>
