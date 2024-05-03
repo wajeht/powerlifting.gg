@@ -22,6 +22,33 @@ export async function seed(db) {
 			}
 
 			tenants.push({
+				links: JSON.stringify([
+					{
+						favicon: '',
+						type: 'instagram',
+						url: 'https://instagram.com',
+					},
+					{
+						favicon: '',
+						type: 'tiktok',
+						url: 'https://tiktok.com',
+					},
+					{
+						favicon: '',
+						type: 'youtube',
+						url: 'https://youtube.com',
+					},
+					{
+						favicon: '',
+						type: 'twitter',
+						url: 'https://twitter.com',
+					},
+					{
+						favicon: '',
+						type: 'website',
+						url: 'https://website.com',
+					},
+				]),
 				name: name,
 				slug: slug,
 				verified: Math.random() < 0.5,
