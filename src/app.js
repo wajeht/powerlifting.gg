@@ -46,10 +46,12 @@ Sentry.init({
 	tracesSampleRate: 1.0,
 	profilesSampleRate: 1.0,
 });
+
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
 
 app.set('trust proxy', true);
+
 app.use(
 	session({
 		secret: sessionConfig.secret,
@@ -69,6 +71,7 @@ app.use(
 		},
 	}),
 );
+
 app.use(flash());
 app.use(compression());
 app.disable('x-powered-by');
