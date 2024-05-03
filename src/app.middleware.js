@@ -117,6 +117,17 @@ export function tenancyHandler(req, res, next) {
 	}
 }
 
+export function throwTenancyHandler(req, res, next) {
+	try {
+		if (req.tenant) {
+			throw new NotFoundError();
+		}
+		next();
+	} catch (error) {
+		next(error);
+	}
+}
+
 export function rateLimitHandler(req, res) {
 	if (req.get('Content-Type') === 'application/json') {
 		return res.json({ message: 'Too many requests, please try again later.' });

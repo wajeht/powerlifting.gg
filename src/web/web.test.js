@@ -135,3 +135,94 @@ describe('postReviewHandler', () => {
 		});
 	});
 });
+
+describe('getLoginHandler', () => {
+	it('should redirect to /oauth/google when visiting /login', async () => {
+		const res = await app.get('/login');
+		expect(res.status).toBe(302);
+	});
+
+	it('should redirect to /oauth/google when visiting <subdomain>/login', async () => {
+		const tenant = await db('tenants')
+			.insert({
+				name: 'thanks',
+				slug: 'obama',
+			})
+			.returning('*');
+		const res = await app
+			.get('/login')
+			.set('Host', `${tenant[0].slug}.${appEnv.development_app_url}`);
+		expect(res.status).toBe(302);
+	});
+});
+
+describe('getSettingsHandler', () => {
+	it('should not be able to get /settings page without auth', async () => {
+		const res = await app.get('/settings');
+		expect(res.status).toBe(302);
+	});
+
+	it('should not be able to get /settings page with <subdomain>/subdomain', async () => {
+		const tenant = await db('tenants')
+			.insert({
+				name: 'thanks',
+				slug: 'obama',
+			})
+			.returning('*');
+		const res = await app
+			.get('/settings')
+			.set('Host', `${tenant[0].slug}.${appEnv.development_app_url}`);
+		expect(res.status).toBe(404);
+	});
+
+	it('should be able to get /settings page with auth', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'USER',
+			})
+			.returning('*');
+
+		await db('tenants')
+			.insert({
+				name: 'TenantName',
+				slug: 'tenant-slug',
+			})
+			.returning('*');
+
+		const { cookie } = await login(
+			app,
+			appEnv.development_app_url,
+			'user1@test.com',
+			'tenant-slug',
+		);
+
+		const res = await app.get('/settings').set('Cookie', cookie);
+		expect(res.status).toBe(200);
+		expect(res.req.path).toBe('/settings');
+		expect(res.text).includes('Settings');
+		expect(res.text).includes('Exciting updates are on the way! Our website is current');
+	});
+});
+
+describe('getContactHandler', () => {
+	it('should be able to get /contact', async () => {
+		const res = await app.get('/contact');
+		expect(res.status).toBe(200);
+		expect(res.req.path).toBe('/contact');
+	});
+
+	it('should not be able to get /contact with <subdomain>/contact', async () => {
+		const tenant = await db('tenants')
+			.insert({
+				name: 'thanks',
+				slug: 'obama',
+			})
+			.returning('*');
+		const res = await app
+			.get('/contact')
+			.set('Host', `${tenant[0].slug}.${appEnv.development_app_url}`);
+		expect(res.status).toBe(404);
+	});
+});
