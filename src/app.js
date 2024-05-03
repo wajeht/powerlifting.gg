@@ -19,6 +19,7 @@ import { swagger as swaggerConfig } from './config/swagger.js';
 import { redis } from './database/db.js';
 import { rateLimit } from 'express-rate-limit';
 import { app as appConfig } from './config/app.js';
+import { session as sessionConfig } from './config/session.js';
 import { sentry as sentryConfig } from './config/sentry.js';
 import {
 	notFoundHandler,
@@ -30,7 +31,7 @@ import {
 
 const redisStore = new RedisStore({
 	client: redis,
-	prefix: appConfig.session.store_prefix,
+	prefix: sessionConfig.store_prefix,
 	disableTouch: true,
 });
 
@@ -51,7 +52,7 @@ app.use(Sentry.Handlers.tracingHandler());
 app.set('trust proxy', true);
 app.use(
 	session({
-		secret: appConfig.session.secret,
+		secret: sessionConfig.secret,
 		resave: true,
 		saveUninitialized: true,
 		store: redisStore,
