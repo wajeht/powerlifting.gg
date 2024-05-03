@@ -81,61 +81,6 @@ describe('getContactHandler', () => {
 	});
 });
 
-describe('postReviewHandler', () => {
-	describe('when posting a tenant review with profanity', () => {
-		it('should filter profanity into *****', async () => {
-			const user = (
-				await db('users')
-					.insert({
-						username: 'user1',
-						email: 'user1@test.com',
-						role: 'USER',
-					})
-					.returning('*')
-			)[0];
-
-			const tenant = (
-				await db('tenants')
-					.insert({
-						name: 'TenantName',
-						slug: 'tenant-slug',
-					})
-					.returning('*')
-			)[0];
-
-			const { cookie, csrfToken } = await login(
-				app,
-				appEnv.development_app_url,
-				'user1@test.com',
-				'tenant-slug',
-			);
-
-			const res = await app
-				.post('/reviews')
-				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`)
-				.set('Cookie', cookie)
-				.send({
-					csrfToken,
-					user_id: user.id,
-					tenant_id: tenant.id,
-					comment: 'this is some bull shit',
-					ratings: 5,
-				});
-
-			expect(res.status).toBe(302);
-
-			const reviews = await db('reviews')
-				.where({
-					user_id: user.id,
-					tenant_id: tenant.id,
-				})
-				.first();
-
-			expect(reviews.comment).toEqual('this is some bull ****');
-		});
-	});
-});
-
 describe('getLoginHandler', () => {
 	it('should redirect to /oauth/google when visiting /login', async () => {
 		const res = await app.get('/login');
@@ -224,5 +169,60 @@ describe('getContactHandler', () => {
 			.get('/contact')
 			.set('Host', `${tenant[0].slug}.${appEnv.development_app_url}`);
 		expect(res.status).toBe(404);
+	});
+});
+
+describe('postReviewHandler', () => {
+	describe('when posting a tenant review with profanity', () => {
+		it('should filter profanity into *****', async () => {
+			const user = (
+				await db('users')
+					.insert({
+						username: 'user1',
+						email: 'user1@test.com',
+						role: 'USER',
+					})
+					.returning('*')
+			)[0];
+
+			const tenant = (
+				await db('tenants')
+					.insert({
+						name: 'TenantName',
+						slug: 'tenant-slug',
+					})
+					.returning('*')
+			)[0];
+
+			const { cookie, csrfToken } = await login(
+				app,
+				appEnv.development_app_url,
+				'user1@test.com',
+				'tenant-slug',
+			);
+
+			const res = await app
+				.post('/reviews')
+				.set('Host', `${tenant.slug}.${appEnv.development_app_url}`)
+				.set('Cookie', cookie)
+				.send({
+					csrfToken,
+					user_id: user.id,
+					tenant_id: tenant.id,
+					comment: 'this is some bull shit',
+					ratings: 5,
+				});
+
+			expect(res.status).toBe(302);
+
+			const reviews = await db('reviews')
+				.where({
+					user_id: user.id,
+					tenant_id: tenant.id,
+				})
+				.first();
+
+			expect(reviews.comment).toEqual('this is some bull ****');
+		});
 	});
 });
