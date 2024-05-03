@@ -189,17 +189,17 @@
 							>Contact</a
 						>
 					</li>
+					<!-- tenants -->
+					<li>
+						<a
+							class="<%= title === '/tenants' ? 'active' : '' %>"
+							href="<%= app.mainDomain %>/tenants"
+							title="tenants"
+							>Tenants</a
+						>
+					</li>
+					<hr class="my-3">
 					<% if (app.user) { %>
-						<!-- tenants -->
-						<li>
-							<a
-								class="<%= title === '/tenants' ? 'active' : '' %>"
-								href="<%= app.mainDomain %>/tenants"
-								title="tenants"
-								>Tenants</a
-							>
-						</li>
-						<hr class="my-3">
 						<li>
 							<a
 								class="<%= title === '/settings' ? 'active' : '' %>"
