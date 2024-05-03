@@ -144,6 +144,8 @@ web.post(
  */
 web.get(
 	'/tenants',
+	tenantIdentityHandler,
+	throwTenancyHandler,
 	catchAsyncErrorHandler(getTenantsHandler(TenantService(db, redis, dayjs, badWord))),
 );
 
