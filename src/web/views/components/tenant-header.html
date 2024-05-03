@@ -21,7 +21,7 @@
 
 					<div class="flex flex-col gap-3 justify-center w-fit">
 						<!-- title -->
-						<h1 class="p-0 m-0 text-white drop-shadow-sm text-2xl font-semibold w-full justify-center items-center inline-flex">
+						<h1 class="p-0 m-0 text-white drop-shadow-sm text-2xl font-semibold w-full justify-center items-center inline-flex gap-1">
 							<!-- title -->
 							<div><%= tenant.name %></div>
 
@@ -30,11 +30,11 @@
 								<img class="w-7 h-7 p-0 m-0" src="/img/verified.png" alt="verified" />
 							<% } else { %>
 								<div class="tooltip" data-tip="Click to claim this profile">
-									<a href="<%= app.mainDomain %>/contact" title="<%= app.mainDomain %>/contact">
+									<a class="p-0 m-0" href="<%= app.mainDomain %>/contact" title="<%= app.mainDomain %>/contact">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
-											width="22"
-											height="22"
+											width="20"
+											height="20"
 											viewBox="0 0 24 24"
 										>
 											<path
