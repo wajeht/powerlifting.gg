@@ -1,4 +1,5 @@
 import { NotFoundError } from '../app.error.js';
+import { extractDomainName } from './web.util.js';
 
 export function getHealthzHandler() {
 	return (req, res) => {
@@ -43,11 +44,22 @@ export function getTenantsCreateHandler() {
 
 export function postTenantHandler(WebService) {
 	return async (req, res) => {
-		const { name, slug } = req.body;
+		const { name, slug, social } = req.body;
+
 		let logo = req.files?.logo?.[0];
 		let banner = req.files?.banner?.[0];
 
+		// TODO: put this inside service
+		const links = social
+			.split(',')
+			.map((s) => s.trim())
+			.map((s) => ({
+				type: extractDomainName(s),
+				url: s,
+			}));
+
 		await WebService.postTenant({
+			links,
 			name,
 			slug,
 			banner: banner?.location || '',

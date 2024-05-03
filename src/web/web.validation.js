@@ -22,6 +22,16 @@ export const postTenantHandlerValidation = [
 			}
 			return true;
 		}),
+	body('social')
+		.optional()
+		.custom((social) => {
+			if (social.trim().length === 0) return true;
+			const regex = /^((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(, ?)?)+$/;
+			if (!regex.test(social)) {
+				throw new Error('The social field contains invalid URLs.');
+			}
+			return true;
+		}),
 ];
 
 export const postContactHandlerValidation = [

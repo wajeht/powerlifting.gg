@@ -117,8 +117,8 @@ export function WebService(WebRepository, redis) {
 			}
 			return null;
 		},
-		postTenant: async function ({ logo = '', banner = '', slug, name }) {
-			await WebRepository.postTenant({ logo, banner, slug, name });
+		postTenant: async function ({ logo = '', banner = '', slug, name, links }) {
+			await WebRepository.postTenant({ logo, banner, slug, name, links });
 			const keys = await redis.keys('*');
 			for (const i of keys) {
 				if (i.startsWith('search?q=&per_page=')) {

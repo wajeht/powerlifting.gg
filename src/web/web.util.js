@@ -13,3 +13,15 @@ export function nl2br(str) {
 		}
 	});
 }
+
+export function extractDomainName(url) {
+	let domain = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, ''); // Updated regular expression to handle variations of URLs
+	domain = domain.split('/')[0]; // Get only the domain part
+	const parts = domain.split('.');
+	if (parts.length > 1) {
+		// Check if there's a subdomain
+		return parts[0];
+	} else {
+		return domain;
+	}
+}
