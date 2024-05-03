@@ -1,5 +1,5 @@
 ---
-title: How to write Markdown
+title: Beta release is here
 date: 2023-04-02
 author: zombyard
 ---
