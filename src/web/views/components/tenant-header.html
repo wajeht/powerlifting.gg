@@ -11,11 +11,13 @@
 				<!-- blur -->
 				<div class="backdrop-blur-md p-5 bg-black/10 rounded-md max-w-lg flex gap-5">
 					<!-- logo -->
-					<img
-						class="h-[150px] w-[150px] rounded-full shadow-white shadow-sm"
-						src="<%= tenant.logo %>"
-						alt="logo"
-					/>
+					<div class="h-[150px] w-[150px] rounded-full shadow-white shadow-sm">
+						<img
+							class="object-cover h-full rounded-full"
+							src="<%= tenant.logo %>"
+							alt="logo"
+						/>
+					</div>
 
 					<div class="flex flex-col gap-3 justify-center">
 						<!-- title -->
