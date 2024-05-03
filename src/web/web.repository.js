@@ -16,7 +16,12 @@ export function WebRepository(db) {
 			return await db.select('*').from('users').where({ tenant_id });
 		},
 		getRandomTenants: async ({ size = 5 } = {}) => {
-			return await db.select('*').from('tenants').orderByRaw('RANDOM()').limit(size);
+			return await db
+				.select('*')
+				.from('tenants')
+				.where('ratings', '>=', 3.5)
+				.orderByRaw('RANDOM()')
+				.limit(size);
 		},
 		getRandomReviews: async ({ size = 5 }) => {
 			return await db('reviews')
