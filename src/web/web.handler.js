@@ -71,7 +71,7 @@ export function postTenantHandler(WebService) {
 			logo: logo?.location || '',
 		});
 
-		req.flash('info', 'successfully created!');
+		req.flash('info', "Thank you for submitting the tenant information. We'll review the details and get back to you with approval soon!");
 		return res.redirect('/tenants/create');
 	};
 }
