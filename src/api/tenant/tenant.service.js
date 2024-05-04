@@ -4,13 +4,13 @@ export function TenantService(db, redis, dayjs, badWord) {
 	return {
 		getTenant: async function ({ tenantId, cache = true }) {
 			if (!cache) {
-				return await db.select('*').from('tenants').where({ id: tenantId }).first();
+				return await db.select('*').from('tenants').where({ id: tenantId, approved: true }).first();
 			}
 
 			let tenant = await redis.get(`tenants-${tenantId}`);
 
 			if (!tenant) {
-				tenant = await db.select('*').from('tenants').where({ id: tenantId }).first();
+				tenant = await db.select('*').from('tenants').where({ id: tenantId, approved: true }).first();
 
 				if (!tenant) {
 					throw new NotFoundError();
@@ -28,6 +28,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 				return await db
 					.select('tenants.*')
 					.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+					.where({ 'tenants.approved': true })
 					.groupBy('tenants.id')
 					.orderBy('name')
 					.count('reviews.id as reviews_count')
@@ -40,6 +41,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 				tenants = await db
 					.select('tenants.*')
 					.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+					.where({ 'tenants.approved': true })
 					.groupBy('tenants.id')
 					.orderBy('name')
 					.count('reviews.id as reviews_count')
@@ -105,6 +107,8 @@ export function TenantService(db, redis, dayjs, badWord) {
 				.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
 				.from('reviews')
 				.leftJoin('users', 'reviews.user_id', 'users.id')
+				.leftJoin('tenants', 'reviews.tenant_id', 'tenants.id')
+				.where({ 'tenants.approved': true })
 				.orderBy('reviews.created_at', pagination.sort)
 				.where('reviews.tenant_id', tenantId);
 
@@ -163,6 +167,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 			const query = db('tenants')
 				.select('tenants.*')
 				.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+				.where('tenants.approved', true)
 				.groupBy('tenants.id')
 				.orderBy('name', pagination.sort)
 				.count('reviews.id as reviews_count');
