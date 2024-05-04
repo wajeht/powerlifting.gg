@@ -1,3 +1,25 @@
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const button = document.getElementById('clear-cache-form-submit-button');
+		button.addEventListener('click', async () => {
+			try {
+				const res = await fetch('/api/admin/cache/clear', {
+					method: 'POST'
+				});
+
+				if (!res.ok) {
+					throw new Error('Failed to clear cache');
+				}
+
+				alert('cleared!');
+
+			} catch (error) {
+				alert(error);
+			}
+		});
+	});
+</script>
+
 <div class="p-10">
 	<div class="mx-auto max-w-7xl w-full prose">
 		<!-- breadcrumbs -->
@@ -7,12 +29,11 @@
 				<%- include('../components/right-arrow-svg.html') %>
 				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
 			</div>
-
-			<% if (app.user) { %>
-				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
-			<% } else { %>
-				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/login" title="login">Login</a>
-			<% } %>
+				<% if (app.user) { %>
+					<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
+				<% } else { %>
+					<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/login" title="login">Login</a>
+				<% } %>
 		</div>
 
 		<h1>Settings</h1>
@@ -21,5 +42,11 @@
 			Exciting updates are on the way! Our website is currently under renovation, but we'll be back
 			soon. Keep an eye out for our grand reveal - coming soon!
 		</p>
+
+		<% if (app.user.role === 'SUPER_ADMIN') { %>
+			<form id="clear-cache-form" action="/api/admin/cache/clear">
+				<input id="clear-cache-form-submit-button" class="btn btn-error" type="button" value="Clear Cache">
+			</form>
+		<% } %>
 	</div>
 </div>
