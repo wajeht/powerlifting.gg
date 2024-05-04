@@ -15,6 +15,7 @@ describe('review', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -43,6 +44,7 @@ describe('review', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 
