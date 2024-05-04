@@ -12,11 +12,7 @@ export function WebRepository(db) {
 		getApprovedTenants: async () => {
 			return await db.select('*').from('tenants').where({ approved: true });
 		},
-		getTenantUsers: async ({ tenant_id }) => {
-			// TODO: get approved tenant users
-			return await db.select('*').from('users').where({ tenant_id });
-		},
-		getRandomTenants: async ({ size = 5 } = {}) => {
+		getRandomApprovedTenants: async ({ size = 5 } = {}) => {
 			return await db
 				.select('*')
 				.from('tenants')

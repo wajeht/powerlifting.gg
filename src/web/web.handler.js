@@ -168,7 +168,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 
 		// TODO: do this at the database so we dont gotta iterate
 		//       another modification the second time here
-		const tenants = (await WebRepository.getRandomTenants({ size: 5 })).map((r) => {
+		const tenants = (await WebRepository.getRandomApprovedTenants({ size: 5 })).map((r) => {
 			let ratings = r.ratings;
 
 			if (ratings == null) {
