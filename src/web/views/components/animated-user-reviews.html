@@ -30,31 +30,64 @@
 	});
 </script>
 
-<% for (let i=0; i < reviews.length; i++) { %>
-	<span class="review hidden animate__animated animate__fadeIn w-full px-10 font-thin" style="font-family: 'Comic Sans MS', 'Comic Sans', 'cursive;'">
-		<div class="p-10 bg-neutral rounded-md max-w-lg flex flex-col prose w-full shadow-sm font-thin justify-evenly gap-5">
-			<!-- review -->
-			<p class="m-0 p-0 text-white/90"><%= reviews[i].comment %></p>
+<% if (reviews.length) { %>
+	<% for (let i=0; i < reviews.length; i++) { %>
+		<span class="review hidden animate__animated animate__fadeIn w-full px-10 font-thin" style="font-family: 'Comic Sans MS', 'Comic Sans', 'cursive;'">
+			<div class="p-10 bg-neutral rounded-md max-w-lg flex flex-col prose w-full shadow-sm font-thin justify-evenly gap-5">
+				<!-- review -->
+				<p class="m-0 p-0 text-white/90"><%= reviews[i].comment %></p>
 
-			<!-- user -->
+				<!-- user -->
+				<div class="flex gap-2 justify-end items-center m-0 p-0 mr-10">
+					<!-- img -->
+					<div class="h-fit">
+						<img class="h-10 w-10 rounded-full p-0 m-0 border-white/60 border-2" src="<%= reviews[i].profile_picture %>" alt="profile_picture" />
+					</div>
+
+					<div class="flex flex-col gap-1">
+						<!-- name -->
+						<p class="m-0 p-0 text-sm text-white/70"><%= reviews[i].username %></p>
+
+						<!-- ratings -->
+						<div class="rating rating-xs">
+							<% for (let i=0; i < 5; i++) { %>
+								<input
+									type="radio"
+									id="user-review-<%= reviews[i].id %>-star-<%= i + 1 %>"
+									name="user-review-<%= reviews[i].id %>-star-<%= i + 1 %>"
+									class="mask mask-star-2 <%= (i + 1) <= Math.floor(reviews[i].ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+									disabled
+								/>
+							<% } %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</span>
+	<% } %>
+<% } else { %>
+	<span class="w-full px-10" style="font-family: 'Comic Sans MS', 'Comic Sans', 'cursive;'">
+		<div class="p-10 bg-neutral rounded-md max-w-lg flex flex-col prose w-full shadow-sm font-thin gap-5 text-center">
+			<p class="m-0 p-0 text-white/90 max-w-sm">because we are the best in the god damn lifting business, brother!</p>
+
 			<div class="flex gap-2 justify-end items-center m-0 p-0 mr-10">
 				<!-- img -->
 				<div class="h-fit">
-					<img class="h-10 w-10 rounded-full p-0 m-0 border-white/60 border-2" src="<%= reviews[i].profile_picture %>" alt="profile_picture" />
+					<img class="h-10 w-10 rounded-full p-0 m-0 border-white/60 border-2" src="/img/chad.jpeg" alt="profile_picture" />
 				</div>
 
-				<div class="flex flex-col gap-1">
+				<div class="flex flex-col gap-1 items-start">
 					<!-- name -->
-					<p class="m-0 p-0 text-sm text-white/70"><%= reviews[i].username %></p>
+					<p class="m-0 p-0 text-sm text-white/70">Chad</p>
 
 					<!-- ratings -->
 					<div class="rating rating-xs">
 						<% for (let i=0; i < 5; i++) { %>
 							<input
 								type="radio"
-								id="user-review-<%= reviews[i].id %>-star-<%= i + 1 %>"
-								name="user-review-<%= reviews[i].id %>-star-<%= i + 1 %>"
-								class="mask mask-star-2 <%= (i + 1) <= Math.floor(reviews[i].ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+								id="chad-review-i-star-<%= i + 1 %>"
+								name="chad-review-i-star-<%= i + 1 %>"
+								class="mask mask-star-2 bg-orange-400"
 								disabled
 							/>
 						<% } %>
