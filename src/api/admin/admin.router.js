@@ -1,4 +1,5 @@
 import express from 'express';
+import { Tenant } from '../../database/models/Tenant.model.js';
 
 import {
 	authenticationHandler,
@@ -25,6 +26,16 @@ admin.post(
 		}
 
 		return res.json({ message: 'ok' });
+	}),
+);
+
+admin.get(
+	'/tenant/:id',
+	catchAsyncErrorHandler(async (req, res) => {
+		const tenant = await Tenant.query().findById(req.params.id).withGraphFetched('reviews');
+		return res.json({
+			data: tenant,
+		});
 	}),
 );
 
