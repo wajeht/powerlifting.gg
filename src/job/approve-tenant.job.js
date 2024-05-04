@@ -23,6 +23,6 @@ const processSendApproveTenantEmailJob = async (job) => {
 
 new Worker(queueName, processSendApproveTenantEmailJob, { connection: redis });
 
-export async function sendWelcomeEmailJob(data) {
+export async function sendApproveTenantEmailJob(data) {
 	await sendApproveTenantEmailQueue.add('sendApproveTenantEmailJob', data);
 }

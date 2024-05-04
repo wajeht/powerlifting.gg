@@ -11,6 +11,7 @@ import {
 	authorizePermissionHandler,
 	catchAsyncErrorHandler,
 } from '../app.middleware.js';
+import { sendApproveTenantEmailQueue, sendApproveTenantEmailJob } from './approve-tenant.job.js';
 
 export function setupBullDashboard(app) {
 	const serverAdapter = new ExpressAdapter();
@@ -21,6 +22,7 @@ export function setupBullDashboard(app) {
 			new BullMQAdapter(sendContactEmailQueue),
 			new BullMQAdapter(sendWelcomeEmailQueue),
 			new BullMQAdapter(scheduleBackupDatabaseQueue),
+			new BullMQAdapter(sendApproveTenantEmailQueue),
 		],
 		serverAdapter,
 	});
@@ -37,4 +39,4 @@ export function setupBullDashboard(app) {
 	}
 }
 
-export { sendWelcomeEmailJob, sendContactEmailJob, scheduleBackupDatabaseJob };
+export { sendWelcomeEmailJob, sendContactEmailJob, scheduleBackupDatabaseJob, sendApproveTenantEmailJob };

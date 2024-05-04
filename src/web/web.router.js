@@ -6,6 +6,7 @@ import { sendContactEmailJob } from '../job/job.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
 import { test as testRouter } from './test/test.router.js';
 import badWord from 'bad-words';
+import * as job from '../job/job.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
@@ -67,7 +68,7 @@ web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -79,7 +80,7 @@ web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -179,7 +180,7 @@ web.post(
 	]),
 	csrfHandler,
 	validateRequestHandler(postTenantHandlerValidation),
-	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -241,7 +242,7 @@ web.get(
 	'/blog',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -253,7 +254,7 @@ web.get(
 	'/blog/:id',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis, job))),
 );
 
 export { web };
