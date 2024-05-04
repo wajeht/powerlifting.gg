@@ -61,13 +61,13 @@ export async function seed(db) {
 			let approvedAndVerified = {
 				approved: false,
 				verified: false,
-			}
+			};
 
 			if (Math.random() < 0.5) {
 				approvedAndVerified = {
 					approved: true,
 					verified: Math.random() < 0.5,
-				}
+				};
 			}
 
 			tenants.push({

@@ -10,7 +10,11 @@ export function TenantService(db, redis, dayjs, badWord) {
 			let tenant = await redis.get(`tenants-${tenantId}`);
 
 			if (!tenant) {
-				tenant = await db.select('*').from('tenants').where({ id: tenantId, approved: true }).first();
+				tenant = await db
+					.select('*')
+					.from('tenants')
+					.where({ id: tenantId, approved: true })
+					.first();
 
 				if (!tenant) {
 					throw new NotFoundError();
