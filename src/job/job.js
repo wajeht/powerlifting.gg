@@ -39,4 +39,9 @@ export function setupBullDashboard(app) {
 	}
 }
 
-export { sendWelcomeEmailJob, sendContactEmailJob, scheduleBackupDatabaseJob, sendApproveTenantEmailJob };
+export {
+	sendWelcomeEmailJob,
+	sendContactEmailJob,
+	scheduleBackupDatabaseJob,
+	sendApproveTenantEmailJob,
+};

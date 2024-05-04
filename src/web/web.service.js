@@ -118,7 +118,7 @@ export function WebService(WebRepository, redis, job) {
 			return null;
 		},
 		postTenant: async function ({ logo = '', banner = '', slug, name, links }) {
-			const tenant = await WebRepository.postTenant({ logo, banner, slug, name, links });
+			const [tenant] = await WebRepository.postTenant({ logo, banner, slug, name, links });
 
 			// clear tenants cache
 			const keys = await redis.keys('*');
@@ -129,8 +129,7 @@ export function WebService(WebRepository, redis, job) {
 			}
 
 			// send email to admin
-
-			await job.sendApproveTenantEmailJob()
+			await job.sendApproveTenantEmailJob(tenant);
 		},
 	};
 }
