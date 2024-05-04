@@ -22,7 +22,7 @@ export const postTenantHandlerValidation = [
 			}
 			return true;
 		}),
-	body('checkbox')
+	body('agree')
 		.notEmpty()
 		.withMessage('Must agree to our terms of services!')
 		.trim()
