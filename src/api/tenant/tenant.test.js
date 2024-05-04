@@ -53,7 +53,7 @@ describe('getAllTenantHandler', () => {
 						name: 'say',
 						slug: 'say',
 						approved: false,
-					}
+					},
 				])
 				.returning('*');
 
@@ -64,7 +64,7 @@ describe('getAllTenantHandler', () => {
 			const resTwo = await app.get(`/api/tenants/${tenant[1].id}`);
 			expect(resTwo.statusCode).toBe(404);
 		});
-	})
+	});
 });
 
 describe('getTenantHandler', () => {
