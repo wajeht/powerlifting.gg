@@ -62,6 +62,8 @@ export function TenantService(db, redis, dayjs, badWord) {
 			}
 		},
 		addReviewToTenant: async function ({ tenant_id, user_id, comment, ratings }) {
+			// TODO: check to see if tenant has been approved first
+			//       then add
 			const [reviewId] = await db('reviews').insert({
 				tenant_id,
 				user_id,
@@ -72,6 +74,8 @@ export function TenantService(db, redis, dayjs, badWord) {
 			const review = await db('reviews')
 				.select('reviews.*', 'users.username as reviewer_username')
 				.leftJoin('users', 'reviews.user_id', 'users.id')
+				.leftJoin('tenants', 'reviews.tenant_id', 'tenants.id')
+				.where('tenants.approved', true)
 				.where('reviews.id', reviewId)
 				.first();
 
