@@ -39,10 +39,36 @@ describe('getAllTenantHandler', () => {
 		expect(res.statusCode).toBe(200);
 		expect(res.body.data[0]).toStrictEqual(tenant.data);
 	});
+
+	describe('when visiting /api/tenants/:id end pint', () => {
+		it('should only be to able to get approved tenant', async () => {
+			const tenant = await db('tenants')
+				.insert([
+					{
+						name: 'thanks',
+						slug: 'obama',
+						approved: true,
+					},
+					{
+						name: 'say',
+						slug: 'say',
+						approved: false,
+					}
+				])
+				.returning('*');
+
+			const res = await app.get(`/api/tenants/${tenant[0].id}`);
+			expect(res.statusCode).toBe(200);
+			expect(res.body.data[0]).toStrictEqual(tenant[0].data);
+
+			const resTwo = await app.get(`/api/tenants/${tenant[1].id}`);
+			expect(resTwo.statusCode).toBe(404);
+		});
+	})
 });
 
 describe('getTenantHandler', () => {
-	it('should be able to get /api/tenants end point', async () => {
+	it('should be able to get /api/tenants end point with approved tenants', async () => {
 		const tenants = await db('tenants')
 			.insert([
 				{
@@ -54,6 +80,11 @@ describe('getTenantHandler', () => {
 					name: 'deez',
 					slug: 'nuts',
 					approved: true,
+				},
+				{
+					name: '69',
+					slug: '420',
+					approved: false,
 				},
 			])
 			.returning('*');
