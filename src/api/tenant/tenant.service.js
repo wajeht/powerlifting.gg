@@ -62,8 +62,6 @@ export function TenantService(db, redis, dayjs, badWord) {
 			}
 		},
 		addReviewToTenant: async function ({ tenant_id, user_id, comment, ratings }) {
-			// TODO: check to see if tenant has been approved first
-			//       then add
 			const [reviewId] = await db('reviews').insert({
 				tenant_id,
 				user_id,
