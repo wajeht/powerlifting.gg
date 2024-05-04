@@ -34,6 +34,7 @@ describe('getTenantsHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 
@@ -48,6 +49,7 @@ describe('getTenantsHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -68,6 +70,7 @@ describe('getTenantsCreateHandler', () => {
 			await db('tenants')
 				.insert({
 					name: 'TenantName',
+					approved: true,
 					slug: 'tenant-slug',
 				})
 				.returning('*')
@@ -91,6 +94,7 @@ describe('getTenantsCreateHandler', () => {
 			.insert({
 				name: 'TenantName',
 				slug: 'tenant-slug',
+				approved: true,
 			})
 			.returning('*');
 
@@ -120,6 +124,7 @@ describe('postTenantHandler', () => {
 				.insert({
 					name: 'TenantName',
 					slug: 'tenant-slug',
+					approved: true,
 				})
 				.returning('*')
 		)[0];
@@ -146,7 +151,7 @@ describe('postTenantHandler', () => {
 			csrfToken,
 			name: 'dog',
 			slug: 'dog',
-			checkbox: 'on',
+			agree: 'on',
 		});
 		expect(res.status).toBe(302);
 		expect(res.header.location).toBe('/tenants/create');
@@ -193,6 +198,7 @@ describe('getIndexHandler', () => {
 		const tenant = await db('tenants')
 			.insert({
 				name: 'thanks',
+				approved: true,
 				slug: 'obama',
 			})
 			.returning('*');
@@ -210,6 +216,7 @@ describe('getContactHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -237,6 +244,7 @@ describe('getLoginHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -257,6 +265,7 @@ describe('getSettingsHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -278,6 +287,7 @@ describe('getSettingsHandler', () => {
 			.insert({
 				name: 'TenantName',
 				slug: 'tenant-slug',
+				approved: true,
 			})
 			.returning('*');
 
@@ -308,6 +318,7 @@ describe('getContactHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -335,6 +346,7 @@ describe('postReviewHandler', () => {
 					.insert({
 						name: 'TenantName',
 						slug: 'tenant-slug',
+						approved: true,
 					})
 					.returning('*')
 			)[0];
