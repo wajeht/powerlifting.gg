@@ -2,7 +2,7 @@ import { NotFoundError } from '../../app.error.js';
 
 export function TenantService(db, redis, dayjs, badWord) {
 	return {
-		getTenant: async function ({ tenantId, cache = true }) {
+		getApprovedTenant: async function ({ tenantId, cache = true }) {
 			if (!cache) {
 				return await db.select('*').from('tenants').where({ id: tenantId, approved: true }).first();
 			}
@@ -23,7 +23,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 
 			return tenant;
 		},
-		getAllTenant: async function ({ cache = true }) {
+		getAllApprovedTenant: async function ({ cache = true }) {
 			if (!cache) {
 				return await db
 					.select('tenants.*')
@@ -93,7 +93,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 				}
 			}
 		},
-		getTenantReviews: async function (
+		getApprovedTenantReviews: async function (
 			q = '',
 			tenantId,
 			pagination = { perPage: 25, currentPage: 1, sort: 'desc', cache: true },
@@ -155,7 +155,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 			const averageRating = reviews.length ? totalRating / reviews.length : null;
 			await db('tenants').where({ id: tenantId }).update({ ratings: averageRating });
 		},
-		getTenantSearch: async function (
+		getApprovedTenantSearch: async function (
 			q = '',
 			pagination = { perPage: 25, currentPage: 1, sort: 'asc', cache: true },
 		) {
