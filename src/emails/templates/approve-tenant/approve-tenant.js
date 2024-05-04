@@ -8,6 +8,7 @@ export async function sendApproveTenantEmail({ email, subject = 'Approve Tenant'
 		const template = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'contact', 'approve-tenant.html'),
 		);
+
 		const html = await ejs.renderFile(template, { email, subject, message });
 
 		await sendMail({
