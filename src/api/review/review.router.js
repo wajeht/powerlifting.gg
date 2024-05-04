@@ -19,6 +19,8 @@ reviews.get(
 		const data = await db('reviews')
 			.select('reviews.*', 'users.username')
 			.join('users', 'reviews.user_id', 'users.id')
+			.join('tenants', 'reviews.tenant_id', 'tenants.id')
+			.where({ 'tenants.approved': true })
 			.orderByRaw('RANDOM()')
 			.limit(size);
 

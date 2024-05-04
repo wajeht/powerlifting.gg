@@ -143,7 +143,11 @@ export async function tenantIdentityHandler(req, res, next) {
 			return next();
 		}
 
-		const tenant = await db.select('*').from('tenants').where({ slug: subdomain }).first();
+		const tenant = await db
+			.select('*')
+			.from('tenants')
+			.where({ slug: subdomain, approved: true })
+			.first();
 
 		if (!tenant) {
 			throw new NotFoundError();

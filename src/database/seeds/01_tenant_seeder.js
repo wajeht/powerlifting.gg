@@ -58,12 +58,24 @@ export async function seed(db) {
 				});
 			}
 
+			let approvedAndVerified = {
+				approved: false,
+				verified: false,
+			};
+
+			if (Math.random() < 0.5) {
+				approvedAndVerified = {
+					approved: true,
+					verified: Math.random() < 0.5,
+				};
+			}
+
 			tenants.push({
 				links: JSON.stringify(links),
 				name: name,
 				slug: slug,
-				verified: Math.random() < 0.5,
 				ratings: faker.number.int({ min: 1, max: 5 }),
+				...approvedAndVerified,
 			});
 		}
 

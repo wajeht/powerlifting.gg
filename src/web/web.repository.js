@@ -9,16 +9,14 @@ export function WebRepository(db) {
 				return await db.select('*').from('users').where({ username }).first();
 			}
 		},
-		getTenants: async () => {
-			return await db.select('*').from('tenants');
+		getApprovedTenants: async () => {
+			return await db.select('*').from('tenants').where({ approved: true });
 		},
-		getTenantUsers: async ({ tenant_id }) => {
-			return await db.select('*').from('users').where({ tenant_id });
-		},
-		getRandomTenants: async ({ size = 5 } = {}) => {
+		getRandomApprovedTenants: async ({ size = 5 } = {}) => {
 			return await db
 				.select('*')
 				.from('tenants')
+				.where('approved', true)
 				.where('ratings', '>=', 3.5)
 				.orderByRaw('RANDOM()')
 				.limit(size);
@@ -35,6 +33,7 @@ export function WebRepository(db) {
 				.join('users', 'reviews.user_id', 'users.id')
 				.orderByRaw('RANDOM()')
 				.where('tenants.ratings', '>=', 3.5)
+				.where('tenants.approved', true)
 				.whereRaw('LENGTH(reviews.comment) <= 100')
 				.limit(size);
 		},

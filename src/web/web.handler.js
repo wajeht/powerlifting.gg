@@ -19,7 +19,7 @@ export function getHealthzHandler() {
 export function getTenantsHandler(TenantService) {
 	return async (req, res) => {
 		const { q, per_page, current_page, sort } = req.query;
-		const tenants = await TenantService.getTenantSearch(q, {
+		const tenants = await TenantService.getApprovedTenantSearch(q, {
 			cache: true,
 			sort: sort ?? 'asc',
 			perPage: parseInt(per_page ?? 25),
@@ -71,7 +71,10 @@ export function postTenantHandler(WebService) {
 			logo: logo?.location || '',
 		});
 
-		req.flash('info', 'successfully created!');
+		req.flash(
+			'info',
+			"Thank you for submitting the tenant information. We'll review the details and get back to you with approval soon!",
+		);
 		return res.redirect('/tenants/create');
 	};
 }
@@ -150,7 +153,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {
 			const { q, per_page, current_page, sort } = req.query;
-			const reviews = await TenantService.getTenantReviews(q, req.tenant.id, {
+			const reviews = await TenantService.getApprovedTenantReviews(q, req.tenant.id, {
 				cache: true,
 				sort: sort ?? 'desc',
 				perPage: parseInt(per_page ?? 25),
@@ -168,7 +171,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 
 		// TODO: do this at the database so we dont gotta iterate
 		//       another modification the second time here
-		const tenants = (await WebRepository.getRandomTenants({ size: 5 })).map((r) => {
+		const tenants = (await WebRepository.getRandomApprovedTenants({ size: 5 })).map((r) => {
 			let ratings = r.ratings;
 
 			if (ratings == null) {

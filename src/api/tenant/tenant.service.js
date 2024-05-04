@@ -2,15 +2,19 @@ import { NotFoundError } from '../../app.error.js';
 
 export function TenantService(db, redis, dayjs, badWord) {
 	return {
-		getTenant: async function ({ tenantId, cache = true }) {
+		getApprovedTenant: async function ({ tenantId, cache = true }) {
 			if (!cache) {
-				return await db.select('*').from('tenants').where({ id: tenantId }).first();
+				return await db.select('*').from('tenants').where({ id: tenantId, approved: true }).first();
 			}
 
 			let tenant = await redis.get(`tenants-${tenantId}`);
 
 			if (!tenant) {
-				tenant = await db.select('*').from('tenants').where({ id: tenantId }).first();
+				tenant = await db
+					.select('*')
+					.from('tenants')
+					.where({ id: tenantId, approved: true })
+					.first();
 
 				if (!tenant) {
 					throw new NotFoundError();
@@ -23,11 +27,12 @@ export function TenantService(db, redis, dayjs, badWord) {
 
 			return tenant;
 		},
-		getAllTenant: async function ({ cache = true }) {
+		getAllApprovedTenant: async function ({ cache = true }) {
 			if (!cache) {
 				return await db
 					.select('tenants.*')
 					.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+					.where({ 'tenants.approved': true })
 					.groupBy('tenants.id')
 					.orderBy('name')
 					.count('reviews.id as reviews_count')
@@ -40,6 +45,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 				tenants = await db
 					.select('tenants.*')
 					.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+					.where({ 'tenants.approved': true })
 					.groupBy('tenants.id')
 					.orderBy('name')
 					.count('reviews.id as reviews_count')
@@ -70,6 +76,8 @@ export function TenantService(db, redis, dayjs, badWord) {
 			const review = await db('reviews')
 				.select('reviews.*', 'users.username as reviewer_username')
 				.leftJoin('users', 'reviews.user_id', 'users.id')
+				.leftJoin('tenants', 'reviews.tenant_id', 'tenants.id')
+				.where('tenants.approved', true)
 				.where('reviews.id', reviewId)
 				.first();
 
@@ -87,7 +95,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 				}
 			}
 		},
-		getTenantReviews: async function (
+		getApprovedTenantReviews: async function (
 			q = '',
 			tenantId,
 			pagination = { perPage: 25, currentPage: 1, sort: 'desc', cache: true },
@@ -105,6 +113,8 @@ export function TenantService(db, redis, dayjs, badWord) {
 				.select('reviews.*', 'users.*', 'reviews.created_at as created_at')
 				.from('reviews')
 				.leftJoin('users', 'reviews.user_id', 'users.id')
+				.leftJoin('tenants', 'reviews.tenant_id', 'tenants.id')
+				.where({ 'tenants.approved': true })
 				.orderBy('reviews.created_at', pagination.sort)
 				.where('reviews.tenant_id', tenantId);
 
@@ -147,7 +157,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 			const averageRating = reviews.length ? totalRating / reviews.length : null;
 			await db('tenants').where({ id: tenantId }).update({ ratings: averageRating });
 		},
-		getTenantSearch: async function (
+		getApprovedTenantSearch: async function (
 			q = '',
 			pagination = { perPage: 25, currentPage: 1, sort: 'asc', cache: true },
 		) {
@@ -163,6 +173,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 			const query = db('tenants')
 				.select('tenants.*')
 				.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
+				.where('tenants.approved', true)
 				.groupBy('tenants.id')
 				.orderBy('name', pagination.sort)
 				.count('reviews.id as reviews_count');
