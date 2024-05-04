@@ -80,5 +80,6 @@ describe('admin', () => {
 		);
 		const res = await app.post('/api/admin/cache/clear').set('Cookie', cookie);
 		expect(res.statusCode).toBe(200);
+		expect(res.body.message).toBe('ok');
 	});
 });
