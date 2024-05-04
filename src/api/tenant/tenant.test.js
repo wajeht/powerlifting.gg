@@ -15,6 +15,7 @@ describe('getAllTenantHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -29,6 +30,7 @@ describe('getAllTenantHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 
@@ -46,10 +48,12 @@ describe('getTenantHandler', () => {
 				{
 					name: 'thanks',
 					slug: 'obama',
+					approved: true,
 				},
 				{
 					name: 'deez',
 					slug: 'nuts',
+					approved: true,
 				},
 			])
 			.returning('*');
