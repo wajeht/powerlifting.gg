@@ -1,11 +1,16 @@
 <!-- tenant -->
-<div class="rounded-lg border p-5 flex flex-col gap-5">
+<div class="rounded-lg border p-5 flex flex-col gap-5 relative">
+  <!-- overlay -->
+  <div class="absolute w-full h-full bg-white/85 text-neutral top-0 left-0 rounded-lg flex justify-center items-center">
+    <p>Coming soon!</p>
+  </div>
+
   <div>
     <h6 class="text-lg font-medium m-0 text-neutral">Tenant</h6>
-    <p class="m-0 font-light">The following actions are destructive and cannot be reversed.</p>
+    <p class="m-0 font-light">Manage my tenant details</p>
   </div>
 
   <div class="w-fit self-end">
-    <button class="btn btn-error text-white">Delete my tenant</button>
+    <button class="btn btn-neutral no-animation">Update</button>
   </div>
 </div>
