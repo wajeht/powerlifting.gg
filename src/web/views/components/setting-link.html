@@ -11,14 +11,40 @@
 			</div>
 		</summary>
 		<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+			<% if (app.user.role === 'SUPER_ADMIN') { %>
+				<!-- jobs -->
+				<li>
+					<a
+						class="<%= path === '/admin/jobs' ? 'active' : '' %>"
+						href="<%= app.mainDomain %>/admin/jobs"
+						title="logout"
+						>Jobs</a
+					>
+				</li>
+				<!-- admin -->
+				<li>
+					<a
+						class="<%= path === '/admin' ? 'active' : '' %>"
+						href="<%= app.mainDomain %>/admin"
+						title="logout"
+						>Admin</a
+					>
+				</li>
+			<% } %>
+
+			<!-- settings -->
 			<li>
 				<a
-					class="<%= title === '/settings' ? 'active' : '' %>"
+					class="<%= path === '/settings' ? 'active' : '' %>"
 					href="<%= app.mainDomain %>/settings"
 					title="logout"
 					>Settings</a
 				>
 			</li>
+
+			<hr class="my-2">
+
+			<!-- logout -->
 			<li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
 		</ul>
 	</details>

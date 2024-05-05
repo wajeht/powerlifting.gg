@@ -1,0 +1,84 @@
+<!-- account -->
+<div class="rounded-lg border p-5 flex flex-col gap-5">
+  <div>
+    <h6 class="text-lg font-medium m-0 text-neutral">Account</h6>
+    <p class="m-0 font-light">Manage your account details.</p>
+  </div>
+
+  <!-- username -->
+  <label class="form-control w-full" for="username">
+    <div class="label"><span class="label-text">Username</span></div>
+    <input type="username" name="username" id="username" placeholder="Username" class="input input-bordered max-w-sm"
+      required />
+  </label>
+
+  <!-- email -->
+  <label class="form-control w-full" for="email">
+    <div class="text-left flex items-center">
+      <!-- title -->
+      <div class="label">
+        <span class="label-text flex justify-center items-center gap-1">
+          <span>Email</span>
+        </span>
+      </div>
+      <div class="dropdown dropdown-hover dropdown-top p-0 m-0">
+        <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info p-0 m-0">
+          <svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            class="w-3 h-3 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div tabindex="0" class="card compact dropdown-content border z-[1] shadow-lg bg-base-100 rounded-box">
+          <div tabindex="0" class="card-body min-w-max">
+            <h3 class="m-0">Warning</h3>
+            <p class="m-0 w-full">You must login with this email</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type="email" name="email" id="email" placeholder="Email" class="input input-bordered max-w-sm" required />
+  </label>
+
+  <div class="w-fit self-end">
+    <button class="btn btn-neutral">Update</button>
+  </div>
+</div>
+
+<!-- email -->
+<div class="rounded-lg border p-5 flex flex-col gap-5">
+  <div>
+    <h6 class="text-lg font-medium m-0 text-neutral">Emails</h6>
+    <p class="m-0 font-light">Choose the email that you'd like to receive from out platform.</p>
+  </div>
+
+  <div class="form-control">
+    <!-- newsletter -->
+    <label class="label cursor-pointer w-fit gap-5">
+      <input type="checkbox" class="checkbox" />
+      <span class="label-text">Subscribe to newsletter</span>
+    </label>
+
+    <!-- changelog -->
+    <label class="label cursor-pointer w-fit gap-5">
+      <input type="checkbox" class="checkbox" />
+      <span class="label-text">Subscribe to changelog</span>
+    </label>
+  </div>
+
+  <div class="w-fit self-end">
+    <button class="btn btn-neutral">Update</button>
+  </div>
+</div>
+
+<!-- delete -->
+<div class="rounded-lg border p-5 flex flex-col gap-5">
+  <div>
+    <h6 class="text-lg font-medium m-0 text-neutral">Danger Zone</h6>
+    <p class="m-0 font-light">The following actions are destructive and cannot be reversed.</p>
+  </div>
+
+  <div class="w-fit self-end">
+    <button class="btn btn-error text-white">Delete my account</button>
+  </div>
+</div>

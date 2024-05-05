@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import path from 'path';
 import fs from 'fs/promises';
 
-export function WebService(WebRepository, redis) {
+export function WebService(WebRepository, redis, job) {
 	return {
 		getUser: async ({ id, tenant_id }) => {
 			return await WebRepository.getUser({ id, tenant_id });
@@ -117,14 +117,44 @@ export function WebService(WebRepository, redis) {
 			}
 			return null;
 		},
-		postTenant: async function ({ logo = '', banner = '', slug, name, links }) {
-			await WebRepository.postTenant({ logo, banner, slug, name, links });
+		postTenant: async function ({
+			logo = '',
+			banner = '',
+			slug,
+			name,
+			links,
+			verified = false,
+			user_id,
+		}) {
+			const [tenant] = await WebRepository.postTenant({
+				logo,
+				banner,
+				slug,
+				name,
+				links,
+				verified,
+			});
+
+			let coach = {};
+			if (verified) {
+				// TODO: do only one db call
+				await WebRepository.postCoach({ user_id, tenant_id: tenant.id, role: 'HEAD_COACH' });
+				coach = await WebRepository.getUser({ id: user_id });
+			}
+
+			// clear tenants cache
 			const keys = await redis.keys('*');
 			for (const i of keys) {
 				if (i.startsWith('search?q=&per_page=')) {
 					await redis.del(i);
 				}
 			}
+
+			// send email to admin
+			await job.sendApproveTenantEmailJob({ tenant, coach });
+		},
+		postContact: async function ({ email, message, subject }) {
+			await job.sendContactEmailJob({ email, message, subject });
 		},
 	};
 }

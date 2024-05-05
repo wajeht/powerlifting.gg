@@ -10,7 +10,8 @@ export function getHealthzHandler() {
 
 		return res.status(200).render('healthz.html', {
 			uptime,
-			title: '/healthz',
+			title: 'Healthz',
+			path: '/healthz',
 			layout: '../layouts/healthz.html',
 		});
 	};
@@ -28,7 +29,8 @@ export function getTenantsHandler(TenantService) {
 		return res.status(200).render('tenants.html', {
 			tenants,
 			q: req.query.q,
-			title: '/tenants',
+			title: 'Tenants',
+			path: '/tenants',
 		});
 	};
 }
@@ -37,17 +39,24 @@ export function getTenantsCreateHandler() {
 	return async (req, res) => {
 		return res.status(200).render('tenants-create.html', {
 			flashMessages: req.flash(),
-			title: '/tenants/create',
+			title: 'Tenants / Create',
+			path: '/tenants/create',
 		});
 	};
 }
 
 export function postTenantHandler(WebService) {
 	return async (req, res) => {
-		const { name, slug, social } = req.body;
+		let { name, slug, social, verified } = req.body;
 
-		let logo = req.files?.logo?.[0];
-		let banner = req.files?.banner?.[0];
+		const logo = req.files?.logo?.[0];
+		const banner = req.files?.banner?.[0];
+
+		if (verified === 'on') {
+			verified = true;
+		} else {
+			verified = false;
+		}
 
 		// TODO: put this inside service
 		let links = social;
@@ -64,11 +73,13 @@ export function postTenantHandler(WebService) {
 		}
 
 		await WebService.postTenant({
+			verified,
 			links,
 			name,
 			slug,
 			banner: banner?.location || '',
 			logo: logo?.location || '',
+			user_id: req.session.user.id,
 		});
 
 		req.flash(
@@ -90,9 +101,22 @@ export function getLoginHandler() {
 
 export function getSettingsHandler() {
 	return async (req, res) => {
-		return res.status(200).render('settings.html', {
+		return res.status(200).render('./settings/settings.html', {
 			flashMessages: req.flash(),
-			title: '/settings',
+			title: 'Settings',
+			path: '/settings',
+			layout: '../layouts/settings.html',
+		});
+	};
+}
+
+export function getSettingsTenantHandler() {
+	return async (req, res) => {
+		return res.status(200).render('./settings/tenant.html', {
+			flashMessages: req.flash(),
+			title: 'Settings / Tenant',
+			path: '/settings/tenant',
+			layout: '../layouts/settings.html',
 		});
 	};
 }
@@ -112,9 +136,9 @@ export function getLogoutHandler() {
 	};
 }
 
-export function postContactHandler(sendContactEmailJob) {
+export function postContactHandler(WebService) {
 	return async (req, res) => {
-		await sendContactEmailJob(req.body);
+		await WebService.postContact(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
 		return res.redirect('/contact');
 	};
@@ -123,7 +147,8 @@ export function postContactHandler(sendContactEmailJob) {
 export function getContactHandler() {
 	return (req, res) => {
 		return res.status(200).render('contact.html', {
-			title: '/contact',
+			title: 'Contact',
+			path: '/contact',
 			flashMessages: req.flash(),
 		});
 	};
@@ -133,7 +158,8 @@ export function getPrivacyPolicyHandler(WebService) {
 	return async (req, res) => {
 		const content = await WebService.getMarkdownPage({ cache: true, page: 'privacy-policy' });
 		return res.status(200).render('markdown.html', {
-			title: '/privacy-policy',
+			title: 'Privacy Policy',
+			path: '/privacy-policy',
 			content,
 		});
 	};
@@ -143,7 +169,8 @@ export function getTermsOfServiceHandler(WebService) {
 	return async (req, res) => {
 		const content = await WebService.getMarkdownPage({ cache: true, page: 'terms-of-services' });
 		return res.status(200).render('markdown.html', {
-			title: '/terms-of-services',
+			title: 'Terms of Services',
+			path: '/terms-of-services',
 			content,
 		});
 	};
@@ -164,7 +191,8 @@ export function getIndexHandler(WebRepository, TenantService) {
 				reviews,
 				q: req.query.q,
 				flashMessages: req.flash(),
-				title: '/',
+				title: 'Powerlifting.gg',
+				path: '/',
 				layout: '../layouts/tenant.html',
 			});
 		}
@@ -187,7 +215,9 @@ export function getIndexHandler(WebRepository, TenantService) {
 			};
 		});
 		const reviews = await WebRepository.getRandomReviews({ size: 10 });
-		return res.status(200).render('home.html', { tenants, reviews, title: '/' });
+		return res
+			.status(200)
+			.render('home.html', { tenants, reviews, title: 'Powerlifting.gg', path: '/' });
 	};
 }
 
@@ -226,7 +256,8 @@ export function getBlogHandler(WebService) {
 		const posts = await WebService.getBlogPosts({ cache: true });
 
 		return res.status(200).render('blog.html', {
-			title: '/blog',
+			title: 'Blog',
+			path: '/blog',
 			posts,
 		});
 	};
@@ -237,7 +268,8 @@ export function getBlogPostHandler(WebService) {
 		const post = await WebService.getBlogPost({ cache: true, id: req.params.id });
 
 		return res.status(200).render('post.html', {
-			title: `/blog/title`,
+			title: `Blog / ${req.params.id}`,
+			path: `/blog/title`,
 			post,
 		});
 	};

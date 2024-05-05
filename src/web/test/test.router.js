@@ -14,7 +14,6 @@ const test = express.Router();
 
 test.get(
 	'/test/csrf-token',
-	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(async (req, res) => {
 		if (appConfig.env !== 'testing') {

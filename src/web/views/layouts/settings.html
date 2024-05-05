@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+	<!-- head -->
+	<%- include('../components/head.html') %>
+
+	<!-- scroll-to-top -->
+	<%- include('../components/scroll-to-top.html') %>
+
+	<body id="app" class="flex min-h-screen flex-col overflow-auto max-w-full" v-cloak>
+		<!-- header -->
+		<%- include('../components/header.html') %>
+
+		<!-- main -->
+		<main class="flex-1 relative">
+
+      <div class="p-10">
+        <div class="mx-auto max-w-7xl w-full prose">
+          <!-- breadcrumbs -->
+          <div class="flex justify-between items-center mb-6">
+            <div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
+              <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>">Home</a>
+              <%- include('../components/right-arrow-svg.html') %>
+              <% if (path === '/settings') { %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
+              <% } %>
+
+              <% if (path === '/settings/tenant') { %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenant">Tenant</a>
+              <% } %>
+
+            </div>
+            <% if (app.user) { %>
+              <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
+            <% } else { %>
+              <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/login" title="login">Login</a>
+            <% } %>
+          </div>
+
+          <h1><%= title %></h1>
+
+          <div class="grid grid-cols-4 gap-5">
+
+            <!-- menu -->
+            <ul class="menu bg-base-100 border rounded-lg m-0 gap-1 p-5 h-fit">
+              <li class="m-0"><a class="no-underline <%= path === '/settings' ? 'active' : '' %>" href="/settings">Settings</a></li>
+              <li class="m-0"><a class="no-underline <%= path === '/settings/tenant' ? 'active' : '' %>" href="/settings/tenant">Tenant</a></li>
+            </ul>
+
+            <div class="col-span-3 px-3 flex flex-col gap-5">
+              <%- body %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+		<!-- footer -->
+		<%- include('../components/footer.html') %>
+	</body>
+
+	<!-- global search -->
+	<global-search />
+</html>

@@ -188,7 +188,8 @@ export async function notFoundHandler(req, res, _next) {
 
 	if (!subdomain) {
 		return res.status(404).render('./not-found.html', {
-			title: `/${req.originalUrl}`,
+			title: 'Not Found',
+			path: `/${req.originalUrl}`,
 		});
 	}
 
@@ -196,7 +197,8 @@ export async function notFoundHandler(req, res, _next) {
 
 	return res.status(404).render('./not-found.html', {
 		tenant,
-		title: `/${req.originalUrl}`,
+		title: 'Not Found',
+		path: `/${req.originalUrl}`,
 		layout: '../layouts/tenant.html',
 	});
 }
@@ -229,7 +231,8 @@ export function errorHandler(err, req, res, _next) {
 
 	if (req.tenant) {
 		return res.status(statusCode).render('./error.html', {
-			title: `/${req.originalUrl}`,
+			title: 'Error',
+			path: `/${req.originalUrl}`,
 			tenant: req.tenant,
 			layout: '../layouts/tenant.html',
 			error: errorMessage,
@@ -237,9 +240,12 @@ export function errorHandler(err, req, res, _next) {
 		});
 	}
 
-	return res
-		.status(statusCode)
-		.render('error.html', { error: errorMessage, statusCode, title: `/${req.originalUrl}` });
+	return res.status(statusCode).render('error.html', {
+		error: errorMessage,
+		statusCode,
+		title: 'Error',
+		path: `/${req.originalUrl}`,
+	});
 }
 
 export async function skipOnMyIp(req, _res) {

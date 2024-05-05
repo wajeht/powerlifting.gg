@@ -19,7 +19,7 @@
 				<!-- tenants -->
 				<li>
 					<a
-						class="<%= title === '/tenants' ? 'active' : '' %>"
+						class="<%= path === '/tenants' ? 'active' : '' %>"
 						href="<%= app.mainDomain %>/tenants"
 						title="tenants"
 						>Tenants</a
@@ -56,7 +56,7 @@
 							<!-- blog -->
 							<li>
 								<a
-									class="<%= title === '/blog' ? 'active' : '' %>"
+									class="<%= path === '/blog' ? 'active' : '' %>"
 									href="<%= app.mainDomain %>/blog"
 									title="blog"
 									>Blog</a
@@ -65,7 +65,7 @@
 							<!-- contact -->
 							<li>
 								<a
-									class="<%= title === '/contact' ? 'active' : '' %>"
+									class="<%= path === '/contact' ? 'active' : '' %>"
 									href="<%= app.mainDomain %>/contact"
 									title="contact"
 									>Contact</a
@@ -107,7 +107,7 @@
 							<!-- blog -->
 							<li>
 								<a
-									class="<%= title === '/blog' ? 'active' : '' %>"
+									class="<%= path === '/blog' ? 'active' : '' %>"
 									href="<%= app.mainDomain %>/blog"
 									title="blog"
 									>Blog</a
@@ -116,7 +116,7 @@
 							<!-- contact -->
 							<li>
 								<a
-									class="<%= title === '/contact' ? 'active' : '' %>"
+									class="<%= path === '/contact' ? 'active' : '' %>"
 									href="<%= app.mainDomain %>/contact"
 									title="contact"
 									>Contact</a
@@ -129,7 +129,7 @@
 				<!-- tenants -->
 				<li>
 					<a
-						class="<%= title === '/tenants' ? 'active' : '' %>"
+						class="<%= path === '/tenants' ? 'active' : '' %>"
 						href="<%= app.mainDomain %>/tenants"
 						title="tenants"
 						>Tenants</a
@@ -174,7 +174,7 @@
 					<!-- blog -->
 					<li>
 						<a
-							class="<%= title === '/blog' ? 'active' : '' %>"
+							class="<%= path === '/blog' ? 'active' : '' %>"
 							href="<%= app.mainDomain %>/blog"
 							title="blog"
 							>Blog</a
@@ -183,7 +183,7 @@
 					<!-- contact -->
 					<li>
 						<a
-							class="<%= title === '/contact' ? 'active' : '' %>"
+							class="<%= path === '/contact' ? 'active' : '' %>"
 							href="<%= app.mainDomain %>/contact"
 							title="contact"
 							>Contact</a
@@ -192,24 +192,48 @@
 					<!-- tenants -->
 					<li>
 						<a
-							class="<%= title === '/tenants' ? 'active' : '' %>"
+							class="<%= path === '/tenants' ? 'active' : '' %>"
 							href="<%= app.mainDomain %>/tenants"
 							title="tenants"
 							>Tenants</a
 						>
 					</li>
-					<hr class="my-3">
+					<hr class="my-2">
 					<% if (app.user) { %>
+						<% if (app.user.role === 'SUPER_ADMIN') { %>
+							<!-- jobs -->
+							<li>
+								<a
+									class="<%= path === '/admin/jobs' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/admin/jobs"
+									title="jobs"
+									>Jobs</a
+								>
+							</li>
+
+							<!-- admin -->
+							<li>
+								<a
+									class="<%= path === '/admin' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/admin"
+									title="admin"
+									>Admin</a
+								>
+							</li>
+						<% } %>
+						<!-- settings -->
 						<li>
 							<a
-								class="<%= title === '/settings' ? 'active' : '' %>"
+								class="<%= path === '/settings' ? 'active' : '' %>"
 								href="<%= app.mainDomain %>/settings"
-								title="logout"
+								title="settings"
 								>Settings</a
 							>
 						</li>
+						<hr class="my-2">
 						<li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
 					<% } else { %>
+						<hr class="my-2">
 						<li><a href="<%= app.mainDomain %>/login" title="login">Login</a></li>
 					<% } %>
 				</ul>

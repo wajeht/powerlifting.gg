@@ -1,7 +1,7 @@
 import { sluggify } from './sluggify.js';
 import { it, expect, describe } from 'vitest';
 
-describe('sluggify', () => {
+describe.concurrent('sluggify', () => {
 	it('should sluggify a string correctly', () => {
 		expect(sluggify('Hello World')).toBe('hello-world');
 		expect(sluggify('This is a Test'), 'this-is-a-test');

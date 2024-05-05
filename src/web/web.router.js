@@ -2,10 +2,11 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
-import { sendContactEmailJob } from '../job/job.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
+import { admin as adminRouter } from './admin.router.js';
 import { test as testRouter } from './test/test.router.js';
 import badWord from 'bad-words';
+import { job } from '../job/job.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
@@ -22,6 +23,7 @@ import {
 	postTenantHandlerValidation,
 } from './web.validation.js';
 import {
+	getSettingsTenantHandler,
 	getContactHandler,
 	postContactHandler,
 	getHealthzHandler,
@@ -47,6 +49,8 @@ dayjs.extend(relativeTime);
 
 const web = express.Router();
 
+web.use(adminRouter);
+
 web.use(oauthRouter);
 
 web.use(testRouter);
@@ -67,7 +71,7 @@ web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -79,7 +83,7 @@ web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -94,6 +98,20 @@ web.get(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getSettingsHandler()),
+);
+
+/**
+ * GET /settings/tenant
+ * @tags web
+ * @summary get settings tenant page
+ */
+web.get(
+	'/settings/tenant',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(getSettingsTenantHandler()),
 );
 
 /**
@@ -134,7 +152,7 @@ web.post(
 	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(postContactHandlerValidation),
-	catchAsyncErrorHandler(postContactHandler(sendContactEmailJob)),
+	catchAsyncErrorHandler(postContactHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -179,7 +197,7 @@ web.post(
 	]),
 	csrfHandler,
 	validateRequestHandler(postTenantHandlerValidation),
-	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -241,7 +259,7 @@ web.get(
 	'/blog',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -253,7 +271,7 @@ web.get(
 	'/blog/:id',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis, job))),
 );
 
 export { web };
