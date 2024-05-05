@@ -29,24 +29,104 @@
 				<%- include('../components/right-arrow-svg.html') %>
 				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
 			</div>
-				<% if (app.user) { %>
-					<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
-				<% } else { %>
-					<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/login" title="login">Login</a>
-				<% } %>
+			<% if (app.user) { %>
+				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
+			<% } else { %>
+				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/login" title="login">Login</a>
+			<% } %>
 		</div>
 
 		<h1>Settings</h1>
 
-		<p>
-			Exciting updates are on the way! Our website is currently under renovation, but we'll be back
-			soon. Keep an eye out for our grand reveal - coming soon!
-		</p>
 
-		<% if (app.user.role === 'SUPER_ADMIN') { %>
-			<form id="clear-cache-form" action="/api/admin/cache/clear">
-				<input id="clear-cache-form-submit-button" class="btn btn-error" type="button" value="Clear Cache">
-			</form>
-		<% } %>
+		<div class="grid grid-cols-4 gap-5">
+
+			<!-- menu -->
+			<ul class="menu bg-base-100 border rounded-lg m-0 gap-2 p-5 h-fit">
+				<li class="m-0 disabled"><a class="no-underline text-neutral/50">Coaches</a></li>
+				<li class="m-0 disabled"><a class="no-underline text-neutral/50">Reviews</a></li>
+				<li class="m-0"><a class="active no-underline">Settings</a></li>
+			</ul>
+
+			<div class="col-span-3 px-3 flex flex-col gap-5">
+				<!-- account -->
+				<div class="rounded-lg border p-5 flex flex-col gap-5">
+					<div>
+						<h6 class="text-lg font-medium m-0">Account</h6>
+						<p class="m-0 font-light">Manage your account details.</p>
+					</div>
+
+					<!-- username -->
+					<label class="form-control w-full" for="username">
+						<div class="label"><span class="label-text">Username</span></div>
+						<input
+							type="username"
+							name="username"
+							id="username"
+							placeholder="Username"
+							class="input input-bordered max-w-sm"
+							required
+						/>
+					</label>
+
+					<!-- email -->
+					<label class="form-control w-full" for="email">
+						<div class="label"><span class="label-text">Email</span></div>
+						<input
+							type="email"
+							name="email"
+							id="email"
+							placeholder="Email"
+							class="input input-bordered max-w-sm"
+							required
+						/>
+					</label>
+
+					<div class="w-fit self-end">
+						<button class="btn btn-neutral">Update</button>
+					</div>
+				</div>
+
+				<!-- email -->
+				<div class="rounded-lg border p-5 flex flex-col gap-5">
+					<div>
+						<h6 class="text-lg font-medium m-0">Emails</h6>
+						<p class="m-0 font-light">Choose the email that you'd like to receive from out platform.</p>
+					</div>
+
+					<div class="form-control">
+						<label class="label cursor-pointer w-fit gap-5">
+							<input type="checkbox" checked="checked" class="checkbox" />
+							<span class="label-text">Subscribe to newsletter</span>
+						</label>
+						<label class="label cursor-pointer w-fit gap-5">
+							<input type="checkbox" checked="checked" class="checkbox" />
+							<span class="label-text">Subscribe to changelog</span>
+						</label>
+						<label class="label cursor-pointer w-fit gap-5">
+							<input type="checkbox" checked="checked" class="checkbox" />
+							<span class="label-text">Remember me</span>
+						</label>
+					</div>
+
+					<div class="w-fit self-end">
+						<button class="btn btn-neutral">Update</button>
+					</div>
+				</div>
+
+				<!-- delete -->
+				<div class="rounded-lg border p-5 flex flex-col gap-5">
+					<div>
+						<h6 class="text-lg font-medium m-0">Danger Zone</h6>
+						<p class="m-0 font-light">The following actions are destructive and cannot be reversed.</p>
+					</div>
+
+					<div class="w-fit self-end">
+						<button class="btn btn-error text-white">Delete my account</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 </div>

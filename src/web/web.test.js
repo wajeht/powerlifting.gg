@@ -168,7 +168,7 @@ describe('postTenantHandler', () => {
 	describe('when creating post request to /tenants page with auth', () => {
 		describe('when post user has claim the tenant', () => {
 			it('should be able to create a tenant and create a coach of it as well', async () => {});
-				expect(false).toBe(true);
+			expect(false).toBe(true);
 		});
 	});
 
