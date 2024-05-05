@@ -98,9 +98,22 @@ export function getLoginHandler() {
 
 export function getSettingsHandler() {
 	return async (req, res) => {
-		return res.status(200).render('settings.html', {
+		return res.status(200).render('./settings/settings.html', {
 			flashMessages: req.flash(),
-			title: '/settings',
+			title: 'Settings',
+			path: '/settings',
+			layout: '../layouts/settings.html',
+		});
+	};
+}
+
+export function getSettingsTenantHandler() {
+	return async (req, res) => {
+		return res.status(200).render('./settings/tenant.html', {
+			flashMessages: req.flash(),
+			title: 'Settings / Tenant',
+			path: '/settings/tenant',
+			layout: '../layouts/settings.html',
 		});
 	};
 }

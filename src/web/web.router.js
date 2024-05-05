@@ -23,6 +23,7 @@ import {
 	postTenantHandlerValidation,
 } from './web.validation.js';
 import {
+	getSettingsTenantHandler,
 	getContactHandler,
 	postContactHandler,
 	getHealthzHandler,
@@ -97,6 +98,20 @@ web.get(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getSettingsHandler()),
+);
+
+/**
+ * GET /settings/tenant
+ * @tags web
+ * @summary get settings tenant page
+ */
+web.get(
+	'/settings/tenant',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(getSettingsTenantHandler()),
 );
 
 /**
