@@ -15,7 +15,7 @@
 				<!-- jobs -->
 				<li>
 					<a
-						class="<%= title === '/admin/jobs' ? 'active' : '' %>"
+						class="<%= path === '/admin/jobs' ? 'active' : '' %>"
 						href="<%= app.mainDomain %>/admin/jobs"
 						title="logout"
 						>Jobs</a
@@ -24,7 +24,7 @@
 				<!-- admin -->
 				<li>
 					<a
-						class="<%= title === '/admin' ? 'active' : '' %>"
+						class="<%= path === '/admin' ? 'active' : '' %>"
 						href="<%= app.mainDomain %>/admin"
 						title="logout"
 						>Admin</a
@@ -35,7 +35,7 @@
 			<!-- settings -->
 			<li>
 				<a
-					class="<%= title === '/settings' ? 'active' : '' %>"
+					class="<%= path === '/settings' ? 'active' : '' %>"
 					href="<%= app.mainDomain %>/settings"
 					title="logout"
 					>Settings</a

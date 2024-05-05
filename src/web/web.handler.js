@@ -10,7 +10,8 @@ export function getHealthzHandler() {
 
 		return res.status(200).render('healthz.html', {
 			uptime,
-			title: '/healthz',
+			title: 'Healthz',
+			path: '/healthz',
 			layout: '../layouts/healthz.html',
 		});
 	};
@@ -28,7 +29,8 @@ export function getTenantsHandler(TenantService) {
 		return res.status(200).render('tenants.html', {
 			tenants,
 			q: req.query.q,
-			title: '/tenants',
+			title: 'Tenants',
+			path: '/tenants'
 		});
 	};
 }
@@ -37,7 +39,8 @@ export function getTenantsCreateHandler() {
 	return async (req, res) => {
 		return res.status(200).render('tenants-create.html', {
 			flashMessages: req.flash(),
-			title: '/tenants/create',
+			title: 'Tenants / Create',
+			path: '/tenants/create',
 		});
 	};
 }
@@ -144,7 +147,8 @@ export function postContactHandler(WebService) {
 export function getContactHandler() {
 	return (req, res) => {
 		return res.status(200).render('contact.html', {
-			title: '/contact',
+			title: 'Contact',
+			path: '/contact',
 			flashMessages: req.flash(),
 		});
 	};
@@ -154,7 +158,8 @@ export function getPrivacyPolicyHandler(WebService) {
 	return async (req, res) => {
 		const content = await WebService.getMarkdownPage({ cache: true, page: 'privacy-policy' });
 		return res.status(200).render('markdown.html', {
-			title: '/privacy-policy',
+			title: 'Privacy Policy',
+			path: '/privacy-policy',
 			content,
 		});
 	};
@@ -164,7 +169,8 @@ export function getTermsOfServiceHandler(WebService) {
 	return async (req, res) => {
 		const content = await WebService.getMarkdownPage({ cache: true, page: 'terms-of-services' });
 		return res.status(200).render('markdown.html', {
-			title: '/terms-of-services',
+			title: 'Terms of Services',
+			path: '/terms-of-services',
 			content,
 		});
 	};
@@ -185,7 +191,8 @@ export function getIndexHandler(WebRepository, TenantService) {
 				reviews,
 				q: req.query.q,
 				flashMessages: req.flash(),
-				title: '/',
+				title: 'Powerlifting.gg',
+				path: '/',
 				layout: '../layouts/tenant.html',
 			});
 		}
@@ -208,7 +215,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 			};
 		});
 		const reviews = await WebRepository.getRandomReviews({ size: 10 });
-		return res.status(200).render('home.html', { tenants, reviews, title: '/' });
+		return res.status(200).render('home.html', { tenants, reviews, title: 'Powerlifting.gg', path: '/' });
 	};
 }
 
@@ -247,7 +254,8 @@ export function getBlogHandler(WebService) {
 		const posts = await WebService.getBlogPosts({ cache: true });
 
 		return res.status(200).render('blog.html', {
-			title: '/blog',
+			title: 'Blog',
+			path: '/blog',
 			posts,
 		});
 	};
@@ -258,7 +266,8 @@ export function getBlogPostHandler(WebService) {
 		const post = await WebService.getBlogPost({ cache: true, id: req.params.id });
 
 		return res.status(200).render('post.html', {
-			title: `/blog/title`,
+			title: `Blog / ${req.params.id}`,
+			path: `/blog/title`,
 			post,
 		});
 	};
