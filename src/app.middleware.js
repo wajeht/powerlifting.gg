@@ -242,7 +242,12 @@ export function errorHandler(err, req, res, _next) {
 
 	return res
 		.status(statusCode)
-		.render('error.html', { error: errorMessage, statusCode, title: 'Error', path: `/${req.originalUrl}` });
+		.render('error.html', {
+			error: errorMessage,
+			statusCode,
+			title: 'Error',
+			path: `/${req.originalUrl}`,
+		});
 }
 
 export async function skipOnMyIp(req, _res) {
