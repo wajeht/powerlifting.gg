@@ -50,6 +50,13 @@
             </ul>
 
             <div class="col-span-3 sm:px-3 flex flex-col gap-5">
+              <% if (Object.keys(flashMessages).length) { %>
+		            <div class="max-w-sm">
+			            <!-- flash-messages -->
+			            <%- include('../components/flash-message.html') %>
+		            </div>
+              <% } %>
+
               <%- body %>
             </div>
           </div>
