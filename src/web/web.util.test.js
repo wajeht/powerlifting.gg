@@ -1,7 +1,7 @@
 import { it, expect, describe } from 'vitest';
 import { nl2br, extractDomainName } from './web.util.js';
 
-describe('nl2br', () => {
+describe.concurrent('nl2br', () => {
 	it('replaces newlines with <br>', () => {
 		const input = 'Hello\nWorld';
 		const expected = 'Hello<br>World';
@@ -45,7 +45,7 @@ describe('nl2br', () => {
 	});
 });
 
-describe('extractDomainName', () => {
+describe.concurrent('extractDomainName', () => {
 	it('extracts domain name from URL with https', () => {
 		const input = 'https://powerlifting.gg';
 		const expected = 'powerlifting';

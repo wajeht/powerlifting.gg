@@ -14,7 +14,7 @@ const app = request(server);
 
 await refreshDatabase();
 
-describe('getHealthzHandler', () => {
+describe.concurrent('getHealthzHandler', () => {
 	it('should be able to get /healthz end point with json', async () => {
 		const res = await app.get('/healthz').set('Content-Type', 'application/json');
 		expect(res.status).toBe(200);
@@ -183,7 +183,7 @@ describe('postTenantHandler', () => {
 	});
 });
 
-describe('getIndexHandler', () => {
+describe.concurrent('getIndexHandler', () => {
 	describe('when visiting / route, if there is no tenant', () => {
 		it('should go to the main domain page', async () => {
 			const tenants = Array.from({ length: 5 }, () => ({
@@ -215,7 +215,7 @@ describe('getIndexHandler', () => {
 	});
 });
 
-describe('getContactHandler', () => {
+describe.concurrent('getContactHandler', () => {
 	it('should not be able to get contact page with tenant domain', async () => {
 		const tenant = await db('tenants')
 			.insert({
@@ -360,7 +360,7 @@ describe('getSettingsHandler', () => {
 	});
 });
 
-describe('getContactHandler', () => {
+describe.concurrent('getContactHandler', () => {
 	it('should be able to get /contact', async () => {
 		const res = await app.get('/contact');
 		expect(res.status).toBe(200);

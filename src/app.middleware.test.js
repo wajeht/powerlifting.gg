@@ -9,7 +9,7 @@ import {
 	HttpError,
 } from './app.error.js';
 
-describe('errorHandler', () => {
+describe.concurrent('errorHandler', () => {
 	const mockReq = {};
 	const mockRes = {
 		status: vi.fn(() => mockRes),
