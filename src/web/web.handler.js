@@ -99,28 +99,6 @@ export function getLoginHandler() {
 	};
 }
 
-export function getSettingsHandler() {
-	return async (req, res) => {
-		return res.status(200).render('./settings/settings.html', {
-			flashMessages: req.flash(),
-			title: 'Settings',
-			path: '/settings',
-			layout: '../layouts/settings.html',
-		});
-	};
-}
-
-export function getSettingsTenantHandler() {
-	return async (req, res) => {
-		return res.status(200).render('./settings/tenant.html', {
-			flashMessages: req.flash(),
-			title: 'Settings / Tenant',
-			path: '/settings/tenant',
-			layout: '../layouts/settings.html',
-		});
-	};
-}
-
 export function getLogoutHandler() {
 	return async (req, res) => {
 		if (req.session && req.session.user) {
@@ -271,6 +249,30 @@ export function getBlogPostHandler(WebService) {
 			title: `Blog / ${req.params.id}`,
 			path: `/blog/title`,
 			post,
+		});
+	};
+}
+
+// Settings
+
+export function getSettingsHandler() {
+	return async (req, res) => {
+		return res.status(200).render('./settings/settings.html', {
+			flashMessages: req.flash(),
+			title: 'Settings',
+			path: '/settings',
+			layout: '../layouts/settings.html',
+		});
+	};
+}
+
+export function getSettingsTenantHandler() {
+	return async (req, res) => {
+		return res.status(200).render('./settings/tenant.html', {
+			flashMessages: req.flash(),
+			title: 'Settings / Tenant',
+			path: '/settings/tenant',
+			layout: '../layouts/settings.html',
 		});
 	};
 }
