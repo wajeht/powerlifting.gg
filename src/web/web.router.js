@@ -21,6 +21,7 @@ import {
 	postContactHandlerValidation,
 	postReviewHandlerValidation,
 	postTenantHandlerValidation,
+	postSettingsAccountHandlerValidation,
 } from './web.validation.js';
 import {
 	postSettingsDangerZoneHandler,
@@ -113,6 +114,7 @@ web.post(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
+	validateRequestHandler(postSettingsAccountHandlerValidation),
 	catchAsyncErrorHandler(postSettingsAccountHandler(WebService(WebRepository(db), redis, job))),
 );
 

@@ -2,6 +2,37 @@ import { body } from 'express-validator';
 import { db } from '../database/db.js';
 import { ValidationError } from '../app.error.js';
 
+export const postSettingsAccountHandlerValidation = [
+	body('username')
+		.notEmpty()
+		.withMessage('The username must not be empty!')
+		.trim()
+		.isLength({ min: 1, max: 100 })
+		.withMessage('The username must be at least 1 character long or less than 100 characters long')
+		.custom(async (username, { req }) => {
+			const userId = req.session.user.id;
+			const user = await db.select('*').from('users').where({ username }).first();
+			if (user && user.id !== userId) {
+				throw new ValidationError('The username already exists!');
+			}
+			return true;
+		}),
+	body('email')
+		.notEmpty()
+		.withMessage('The email must not be empty!')
+		.trim()
+		.isEmail()
+		.withMessage('The email must be valid!')
+		.custom(async (email, { req }) => {
+			const userId = req.session.user.id;
+			const user = await db.select('*').from('users').where({ email }).first();
+			if (user && user.id !== userId) {
+				throw new ValidationError('The email already exists!');
+			}
+			return true;
+		}),
+];
+
 export const postTenantHandlerValidation = [
 	body('name')
 		.notEmpty()
