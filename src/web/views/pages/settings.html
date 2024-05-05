@@ -1,25 +1,3 @@
-<script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const button = document.getElementById('clear-cache-form-submit-button');
-		button.addEventListener('click', async () => {
-			try {
-				const res = await fetch('/api/admin/cache/clear', {
-					method: 'POST'
-				});
-
-				if (!res.ok) {
-					throw new Error('Failed to clear cache');
-				}
-
-				alert('cleared!');
-
-			} catch (error) {
-				alert(error);
-			}
-		});
-	});
-</script>
-
 <div class="p-10">
 	<div class="mx-auto max-w-7xl w-full prose">
 		<!-- breadcrumbs -->
@@ -43,8 +21,9 @@
 
 			<!-- menu -->
 			<ul class="menu bg-base-100 border rounded-lg m-0 gap-2 p-5 h-fit">
-				<li class="m-0 disabled"><a class="no-underline text-neutral/50">Coaches</a></li>
+				<li class="m-0 disabled"><a class="no-underline text-neutral/50">Tenant</a></li>
 				<li class="m-0 disabled"><a class="no-underline text-neutral/50">Reviews</a></li>
+				<li class="m-0 disabled"><a class="no-underline text-neutral/50">Coaches</a></li>
 				<li class="m-0"><a class="active no-underline">Settings</a></li>
 			</ul>
 
