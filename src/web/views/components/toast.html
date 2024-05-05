@@ -1,0 +1,43 @@
+<script>
+  function parseFlashMessage(flashMessage) {
+    return JSON.parse(flashMessage.replaceAll('&#34;', '"'));
+  }
+
+  function createToast(alertType, message) {
+    const toastDiv = document.createElement('div');
+    toastDiv.classList.add('toast', 'bottom-24');
+
+    const alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert', `alert-${alertType}`);
+
+    const span = document.createElement('span');
+    span.innerText = decodeURIComponent(message);
+
+    alertDiv.appendChild(span);
+    toastDiv.appendChild(alertDiv);
+
+    document.body.appendChild(toastDiv);
+
+    setTimeout(() => {
+      toastDiv.remove();
+    }, 10000);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const flashMessage = "<%= JSON.stringify(flashMessages) %>";
+    const flashMessagesObject = parseFlashMessage(flashMessage);
+    const search = new URLSearchParams(window.location.search);
+
+    Object.entries(flashMessagesObject).forEach(([type, message]) => {
+      createToast(type, message);
+    });
+
+    const alertTypes = ['alert-info', 'alert-success', 'alert-warning', 'alert-error'];
+    alertTypes.forEach(type => {
+      const message = search.get(type);
+      if (message) {
+        createToast(type, message);
+      }
+    });
+  });
+</script>
