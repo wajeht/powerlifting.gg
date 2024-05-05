@@ -255,14 +255,38 @@ export function getBlogPostHandler(WebService) {
 
 // Settings
 
-export function getSettingsHandler() {
+export function getSettingsHandler(WebService) {
 	return async (req, res) => {
+		const user = await WebService.getUser({ id: req.session.user.id });
 		return res.status(200).render('./settings/settings.html', {
+			user,
 			flashMessages: req.flash(),
 			title: 'Settings',
 			path: '/settings',
 			layout: '../layouts/settings.html',
 		});
+	};
+}
+
+export function postSettingsAccountHandler(WebService) {
+	return async (req, res) => {
+		const { username, email } = req.body;
+
+		if (username !== req.session.user.username || email !== req.session.user.email) {
+			await WebService.updateUser({
+				id: req.session.user.id,
+				updates: {
+					username: req.body.username,
+					email: req.body.email,
+				},
+			});
+			req.session.user.username = username;
+			req.session.user.email = email;
+			req.session.save();
+		}
+
+		req.flash('success', 'User account settings updated successfully.');
+		return res.redirect('back');
 	};
 }
 

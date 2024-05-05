@@ -1,14 +1,17 @@
 <!-- account -->
-<div class="rounded-lg border p-5 flex flex-col gap-5">
+<form method="post" action="/settings/account" class="rounded-lg border p-5 flex flex-col gap-5">
   <div>
     <h6 class="text-lg font-medium m-0 text-neutral">Account</h6>
     <p class="m-0 font-light">Manage your account details.</p>
   </div>
 
+  <!-- csrf -->
+  <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+
   <!-- username -->
   <label class="form-control w-full" for="username">
     <div class="label"><span class="label-text">Username</span></div>
-    <input type="username" name="username" id="username" placeholder="Username" class="input input-bordered max-w-sm"
+    <input type="username" name="username" id="username" placeholder="Username" value="<%= user.username %>" class="input input-bordered max-w-sm"
       required />
   </label>
 
@@ -37,13 +40,13 @@
         </div>
       </div>
     </div>
-    <input type="email" name="email" id="email" placeholder="Email" class="input input-bordered max-w-sm" required />
+    <input type="email" name="email" id="email" placeholder="Email" value="<%= user.email %>" class="input input-bordered max-w-sm" required />
   </label>
 
   <div class="w-fit self-end">
-    <button class="btn btn-neutral">Update</button>
+    <button type="submit" class="btn btn-neutral">Update</button>
   </div>
-</div>
+</form>
 
 <!-- email -->
 <div class="rounded-lg border p-5 flex flex-col gap-5 relative">

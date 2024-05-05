@@ -6,6 +6,9 @@ import fs from 'fs/promises';
 
 export function WebService(WebRepository, redis, job) {
 	return {
+		updateUser: async ({ id, updates }) => {
+			return await WebRepository.updateUser({ id, updates });
+		},
 		getUser: async ({ id, tenant_id }) => {
 			return await WebRepository.getUser({ id, tenant_id });
 		},

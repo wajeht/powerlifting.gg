@@ -1,5 +1,8 @@
 export function WebRepository(db) {
 	return {
+		updateUser: async function ({ id, updates }) {
+			return await db('users').where({ id }).update(updates).returning('*');
+		},
 		getUser: async ({ id = null, tenant_id = null, username = null }) => {
 			if (id && tenant_id) {
 				return await db.select('*').from('users').where({ tenant_id, id }).first();

@@ -40,6 +40,7 @@ import {
 	getSettingsHandler,
 	getBlogHandler,
 	getBlogPostHandler,
+	postSettingsAccountHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -97,7 +98,21 @@ web.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(getSettingsHandler()),
+	catchAsyncErrorHandler(getSettingsHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * POST /settings/account
+ * @tags web
+ * @summary post settings account
+ */
+web.post(
+	'/settings/account',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(postSettingsAccountHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
