@@ -238,6 +238,55 @@ describe('getContactHandler', () => {
 	});
 });
 
+describe('postContactHandler', () => {
+	it('should not be able to post /contact page with tenant domain', async () => {
+		const tenant = await db('tenants')
+			.insert({
+				name: 'thanks',
+				slug: 'obama',
+				approved: true,
+			})
+			.returning('*');
+		const res = await app
+			.post('/contact')
+			.set('Host', `${tenant[0].slug}.${appEnv.development_app_url}`);
+		expect(res.statusCode).toBe(404);
+		expect(res.text).contain('Oops! The page you are looking for cannot be found.');
+	});
+
+	it('should be able to post /contact page', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'USER',
+			})
+			.returning('*');
+
+		// grab csrfToken from login, we need to better rename this
+		// function to something else instead of being `login`
+		const { cookie, csrfToken } = await login(app, appEnv.development_app_url, 'user1@test.com');
+
+		const res = await app
+			.post(`/contact`)
+			.send({
+				csrfToken,
+				subject: 'x',
+				message: 'x',
+				email: 'email@email.com',
+			})
+			.set('Cookie', cookie); // need to sends cookie
+
+		expect(res.statusCode).toBe(302);
+		expect(job.sendContactEmailJob).toHaveBeenCalledTimes(1);
+		expect(job.sendContactEmailJob).toHaveBeenCalledWith({
+			subject: 'x',
+			message: 'x',
+			email: 'email@email.com',
+		});
+	});
+});
+
 describe('getLoginHandler', () => {
 	it('should redirect to /oauth/google when visiting /login', async () => {
 		const res = await app.get('/login');
