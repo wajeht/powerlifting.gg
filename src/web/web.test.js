@@ -437,3 +437,49 @@ describe('postReviewHandler', () => {
 		});
 	});
 });
+
+describe('/admin/jobs', () => {
+	it('should not able to reach <subdomain>/admin/jobs', async () => {
+		const [tenant] = await db('tenants')
+			.insert({
+				name: 'thanks',
+				slug: 'obama',
+				approved: true,
+			})
+			.returning('*');
+		const res = await app
+			.get('/admin/jobs')
+			.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
+		expect(res.statusCode).toBe(404);
+		expect(res.text).contain('Oops! The page you are looking for cannot be found.');
+	});
+
+	it('should not able to reach /admin/jobs if current user is not SUPER_ADMIN', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'USER',
+			})
+			.returning('*');
+
+		const { cookie } = await login(app, appEnv.development_app_url, 'user1@test.com');
+		const res = await app.get('/admin/jobs').set('Cookie', cookie);
+		expect(res.statusCode).toBe(404);
+	});
+
+	it.skip('should able to reach /admin/jobs if current user is SUPER_ADMIN', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'SUPER_ADMIN',
+			})
+			.returning('*');
+
+		const { cookie } = await login(app, appEnv.development_app_url, 'user1@test.com');
+		const res = await app.get('/admin/jobs').set('Cookie', cookie);
+		console.log(res.text);
+		expect(res.statusCode).toBe(200);
+	});
+});

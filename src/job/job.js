@@ -43,4 +43,6 @@ export function setupBullDashboard(app) {
 		authorizePermissionHandler('SUPER_ADMIN'),
 		catchAsyncErrorHandler(serverAdapter.getRouter()),
 	);
+
+	return app;
 }
