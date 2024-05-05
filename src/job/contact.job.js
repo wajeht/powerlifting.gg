@@ -11,11 +11,13 @@ export const sendContactEmailQueue = new Queue(queueName, {
 const processSendContactEmailJob = async (job) => {
 	try {
 		job.log('contact email job was started');
+		job.updateProgress(0);
 		await sendContactEmail({
 			subject: job.data.subject,
 			email: job.data.email,
 			message: job.data.message,
 		});
+		job.updateProgress(100);
 		job.log('contact email job was finished');
 	} catch (error) {
 		job.log('contact email job failed');

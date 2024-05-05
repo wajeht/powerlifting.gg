@@ -11,10 +11,9 @@ export const sendWelcomeEmailQueue = new Queue(queueName, {
 
 const processSendWelcomeEmailJob = async (job) => {
 	try {
-		await sendWelcomeEmail({
-			email: job.data.email,
-			username: job.data.username,
-		});
+		job.updateProgress(0);
+		await sendWelcomeEmail({ email: job.data.email, username: job.data.username });
+		job.updateProgress(100);
 		logger.info(`Welcome email job  sent to ${job.data.email}`);
 	} catch (error) {
 		logger.error(`Failed to send welcome email job to ${job.data.email}`, error);
