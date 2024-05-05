@@ -57,6 +57,11 @@ export const postContactHandlerValidation = [
 		.trim()
 		.isEmail()
 		.withMessage('The email must be email!'),
+	body('subject')
+		.notEmpty()
+		.withMessage('The subject must not be empty!')
+		.isLength({ min: 1, max: 100 })
+		.withMessage('The subject must be at least 1 character long or less than 100 character long'),
 ];
 
 export const postReviewHandlerValidation = [
