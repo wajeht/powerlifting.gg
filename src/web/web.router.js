@@ -3,6 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
+import { admin as adminRouter } from './admin.router.js';
 import { test as testRouter } from './test/test.router.js';
 import badWord from 'bad-words';
 import { job } from '../job/job.js';
@@ -46,6 +47,8 @@ import { TenantService } from '../api/tenant/tenant.service.js';
 dayjs.extend(relativeTime);
 
 const web = express.Router();
+
+web.use(adminRouter);
 
 web.use(oauthRouter);
 
