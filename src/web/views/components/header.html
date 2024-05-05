@@ -198,38 +198,42 @@
 							>Tenants</a
 						>
 					</li>
-					<hr class="my-3">
+					<hr class="my-2">
 					<% if (app.user) { %>
-						<li>
-							<a
-								class="<%= title === '/settings' ? 'active' : '' %>"
-								href="<%= app.mainDomain %>/settings"
-								title="logout"
-								>Settings</a
-							>
-						</li>
-
 						<% if (app.user.role === 'SUPER_ADMIN') { %>
-							<li>
-								<a
-									class="<%= title === '/admin' ? 'active' : '' %>"
-									href="<%= app.mainDomain %>/admin"
-									title="logout"
-									>Admin</a
-								>
-							</li>
+							<!-- jobs -->
 							<li>
 								<a
 									class="<%= title === '/admin/jobs' ? 'active' : '' %>"
 									href="<%= app.mainDomain %>/admin/jobs"
-									title="logout"
+									title="jobs"
 									>Jobs</a
 								>
 							</li>
-						<% } %>
 
+							<!-- admin -->
+							<li>
+								<a
+									class="<%= title === '/admin' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/admin"
+									title="admin"
+									>Admin</a
+								>
+							</li>
+						<% } %>
+						<!-- settings -->
+						<li>
+							<a
+								class="<%= title === '/settings' ? 'active' : '' %>"
+								href="<%= app.mainDomain %>/settings"
+								title="settings"
+								>Settings</a
+							>
+						</li>
+						<hr class="my-2">
 						<li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
 					<% } else { %>
+						<hr class="my-2">
 						<li><a href="<%= app.mainDomain %>/login" title="login">Login</a></li>
 					<% } %>
 				</ul>
