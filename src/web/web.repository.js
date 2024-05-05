@@ -1,5 +1,8 @@
 export function WebRepository(db) {
 	return {
+		deleteUser: async function ({ id }) {
+			return await db('users').where({ id }).del();
+		},
 		updateUser: async function ({ id, updates }) {
 			return await db('users').where({ id }).update(updates).returning('*');
 		},

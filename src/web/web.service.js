@@ -6,10 +6,20 @@ import fs from 'fs/promises';
 
 export function WebService(WebRepository, redis, job) {
 	return {
-		updateUser: async ({ id, updates }) => {
+		clearSystemWideCache: async function () {
+			const keys = await redis.keys('*');
+			for (const key of keys) {
+				await redis.del(key);
+			}
+		},
+		deleteAccount: async function ({ id }) {
+			await WebRepository.deleteUser({ id });
+			return this.clearSystemWideCache();
+		},
+		updateUser: async function ({ id, updates }) {
 			return await WebRepository.updateUser({ id, updates });
 		},
-		getUser: async ({ id, tenant_id }) => {
+		getUser: async function ({ id, tenant_id }) {
 			return await WebRepository.getUser({ id, tenant_id });
 		},
 		/**
@@ -20,7 +30,7 @@ export function WebService(WebRepository, redis, job) {
 		 * @param {'terms-of-services' | 'privacy-policy'} options.page - The name or path of the page to fetch. Should be either 'terms-of-services' or 'privacy-policy'.
 		 * @returns {Promise<string>} A promise that resolves with the Markdown content of the fetched page.
 		 */
-		getMarkdownPage: async ({ cache = true, page }) => {
+		getMarkdownPage: async function ({ cache = true, page }) {
 			if (!cache) {
 				const pagePath = path.resolve(
 					path.join(process.cwd(), 'src', 'web', 'views', 'pages', `${page}.md`),

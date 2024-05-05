@@ -23,6 +23,7 @@ import {
 	postTenantHandlerValidation,
 } from './web.validation.js';
 import {
+	postSettingsDangerZoneHandler,
 	getSettingsTenantHandler,
 	getContactHandler,
 	postContactHandler,
@@ -113,6 +114,20 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(postSettingsAccountHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * POST /settings/danger-zone
+ * @tags web
+ * @summary post settings danger zone
+ */
+web.post(
+	'/settings/danger-zone',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(postSettingsDangerZoneHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**

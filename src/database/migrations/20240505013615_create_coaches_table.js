@@ -6,7 +6,7 @@ export function up(knex) {
 	return knex.schema.createTable('coaches', function (table) {
 		table.increments('id').primary();
 		table.integer('user_id').unsigned().notNullable();
-		table.foreign('user_id').references('id').inTable('users');
+		table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE');
 		table.integer('tenant_id').unsigned().notNullable();
 		table.foreign('tenant_id').references('id').inTable('tenants');
 		table.enu('role', ['HEAD_COACH', 'COACH']).notNullable().defaultTo('COACH');

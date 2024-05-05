@@ -290,6 +290,21 @@ export function postSettingsAccountHandler(WebService) {
 	};
 }
 
+export function postSettingsDangerZoneHandler(WebService) {
+	return async (req, res) => {
+		if (req.session && req.session.user) {
+			await WebService.deleteAccount({ id: req.session.user.id });
+			req.session.user = undefined;
+			req.session.destroy((error) => {
+				if (error) {
+					throw new Error('Something went wrong while logging out!', error);
+				}
+			});
+		}
+		return res.redirect('/');
+	};
+}
+
 export function getSettingsTenantHandler() {
 	return async (req, res) => {
 		return res.status(200).render('./settings/tenant.html', {

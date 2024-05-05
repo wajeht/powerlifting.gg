@@ -75,18 +75,23 @@
   </div>
 
   <div class="w-fit self-end">
-    <button class="btn btn-neutral">Update</button>
+    <button class="btn btn-neutral animation disabled" disabled>Update</button>
   </div>
 </div>
 
 <!-- delete -->
-<div class="rounded-lg border p-5 flex flex-col gap-5">
+<form method="post" action="/settings/danger-zone" class="rounded-lg border p-5 flex flex-col gap-5">
+  <!-- title -->
   <div>
     <h6 class="text-lg font-medium m-0 text-neutral">Danger Zone</h6>
     <p class="m-0 font-light">The following actions are destructive and cannot be reversed.</p>
   </div>
 
+  <!-- csrf -->
+  <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+
+  <!-- delete -->
   <div class="w-fit self-end">
-    <button class="btn btn-error text-white">Delete my account</button>
+    <button type="submit" class="btn btn-error text-white">Delete my account</button>
   </div>
-</div>
+</form>
