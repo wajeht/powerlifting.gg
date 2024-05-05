@@ -208,6 +208,26 @@
 								>Settings</a
 							>
 						</li>
+
+						<% if (app.user.role === 'SUPER_ADMIN') { %>
+							<li>
+								<a
+									class="<%= title === '/admin' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/admin"
+									title="logout"
+									>Admin</a
+								>
+							</li>
+							<li>
+								<a
+									class="<%= title === '/admin/jobs' ? 'active' : '' %>"
+									href="<%= app.mainDomain %>/admin/jobs"
+									title="logout"
+									>Jobs</a
+								>
+							</li>
+						<% } %>
+
 						<li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
 					<% } else { %>
 						<li><a href="<%= app.mainDomain %>/login" title="login">Login</a></li>
