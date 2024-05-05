@@ -100,7 +100,10 @@ if (appConfig.env === 'production') {
 						'jaw.lol',
 						'blob:',
 						'text/javascript',
+						'https://jaw.dev/',
 					],
+					'script-src-attr': ["'self'", "'unsafe-inline'"],
+					'script-src-elem': ["'self'", "'unsafe-inline'"],
 					'img-src': [
 						"'self'",
 						'https://lh3.googleusercontent.com/',
