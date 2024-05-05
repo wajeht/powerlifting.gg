@@ -131,5 +131,8 @@ export function WebService(WebRepository, redis, job) {
 			// send email to admin
 			await job.sendApproveTenantEmailJob(tenant);
 		},
+		postContact: async function ({ email, message, subject }) {
+			await job.sendContactEmailJob({ email, message, subject });
+		},
 	};
 }

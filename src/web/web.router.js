@@ -134,7 +134,7 @@ web.post(
 	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(postContactHandlerValidation),
-	catchAsyncErrorHandler(postContactHandler(job)),
+	catchAsyncErrorHandler(postContactHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**

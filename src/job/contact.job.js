@@ -12,6 +12,7 @@ const processSendContactEmailJob = async (job) => {
 	try {
 		job.log('contact email job was started');
 		await sendContactEmail({
+			subject: job.data.subject,
 			email: job.data.email,
 			message: job.data.message,
 		});
