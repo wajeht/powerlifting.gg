@@ -9,6 +9,7 @@ export function up(knex) {
 		table.foreign('user_id').references('id').inTable('users');
 		table.integer('tenant_id').unsigned().notNullable();
 		table.foreign('tenant_id').references('id').inTable('tenants');
+		table.enu('role', ['HEAD_COACH', 'COACH']).notNullable().defaultTo('COACH');
 		table.timestamps(true, true);
 
 		table.index('tenant_id');

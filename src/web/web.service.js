@@ -117,8 +117,30 @@ export function WebService(WebRepository, redis, job) {
 			}
 			return null;
 		},
-		postTenant: async function ({ logo = '', banner = '', slug, name, links }) {
-			const [tenant] = await WebRepository.postTenant({ logo, banner, slug, name, links });
+		postTenant: async function ({
+			logo = '',
+			banner = '',
+			slug,
+			name,
+			links,
+			verified = false,
+			user_id,
+		}) {
+			const [tenant] = await WebRepository.postTenant({
+				logo,
+				banner,
+				slug,
+				name,
+				links,
+				verified,
+			});
+
+			let coach = {};
+			if (verified) {
+				// TODO: do only one db call
+				await WebRepository.postCoach({ user_id, tenant_id: tenant.id, role: 'HEAD_COACH' });
+				coach = await WebRepository.getUser({ id: user_id });
+			}
 
 			// clear tenants cache
 			const keys = await redis.keys('*');
@@ -129,7 +151,7 @@ export function WebService(WebRepository, redis, job) {
 			}
 
 			// send email to admin
-			await job.sendApproveTenantEmailJob(tenant);
+			await job.sendApproveTenantEmailJob({ tenant, coach });
 		},
 		postContact: async function ({ email, message, subject }) {
 			await job.sendContactEmailJob({ email, message, subject });

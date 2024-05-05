@@ -3,7 +3,7 @@ import path from 'node:path';
 import { sendMail } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
-export async function sendApproveTenantEmail({ subject = 'Approve Tenant', tenant }) {
+export async function sendApproveTenantEmail({ subject = 'Approve Tenant', tenant, coach }) {
 	try {
 		const template = path.resolve(
 			path.join(
@@ -16,7 +16,7 @@ export async function sendApproveTenantEmail({ subject = 'Approve Tenant', tenan
 			),
 		);
 
-		const html = await ejs.renderFile(template, { tenant });
+		const html = await ejs.renderFile(template, { tenant, coach });
 
 		await sendMail({
 			subject,

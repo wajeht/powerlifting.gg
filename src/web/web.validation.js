@@ -22,6 +22,15 @@ export const postTenantHandlerValidation = [
 			}
 			return true;
 		}),
+	body('verified')
+		.optional()
+		.trim()
+		.custom((verified) => {
+			if (verified !== 'on') {
+				throw new Error('Must claim this tenant!');
+			}
+			return true;
+		}),
 	body('agree')
 		.notEmpty()
 		.withMessage('Must agree to our terms of services!')

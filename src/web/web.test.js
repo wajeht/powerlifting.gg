@@ -162,7 +162,7 @@ describe('postTenantHandler', () => {
 		const tenant = await db.select('*').from('tenants').where({ slug: 'dog' }).first();
 		expect(tenant.slug).toBe('dog');
 		expect(job.sendApproveTenantEmailJob).toHaveBeenCalledTimes(1);
-		expect(job.sendApproveTenantEmailJob).toHaveBeenCalledWith(tenant);
+		expect(job.sendApproveTenantEmailJob).toHaveBeenCalledWith({ tenant, coach: {} });
 	});
 
 	it('should return validation error when create a tenant via /tenants without required fields', async () => {

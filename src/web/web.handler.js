@@ -44,10 +44,16 @@ export function getTenantsCreateHandler() {
 
 export function postTenantHandler(WebService) {
 	return async (req, res) => {
-		const { name, slug, social } = req.body;
+		let { name, slug, social, verified } = req.body;
 
-		let logo = req.files?.logo?.[0];
-		let banner = req.files?.banner?.[0];
+		const logo = req.files?.logo?.[0];
+		const banner = req.files?.banner?.[0];
+
+		if (verified === 'on') {
+			verified = true;
+		} else {
+			verified = false;
+		}
 
 		// TODO: put this inside service
 		let links = social;
@@ -64,11 +70,13 @@ export function postTenantHandler(WebService) {
 		}
 
 		await WebService.postTenant({
+			verified,
 			links,
 			name,
 			slug,
 			banner: banner?.location || '',
 			logo: logo?.location || '',
+			user_id: req.session.user.id,
 		});
 
 		req.flash(

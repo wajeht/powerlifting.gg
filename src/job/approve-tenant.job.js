@@ -11,7 +11,7 @@ export const sendApproveTenantEmailQueue = new Queue(queueName, {
 
 const processSendApproveTenantEmailJob = async (job) => {
 	try {
-		await sendApproveTenantEmail({ tenant: job.data });
+		await sendApproveTenantEmail({ tenant: job.data.tenant, coach: job.data.coach });
 		logger.info(`Approve Tenant email job sent`);
 	} catch (error) {
 		logger.error(`Failed to send Approve Tenant email job`, error);
