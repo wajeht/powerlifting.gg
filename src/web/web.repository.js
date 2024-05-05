@@ -49,8 +49,8 @@ export function WebRepository(db) {
 				})
 				.returning('*');
 		},
-		postCoach: async function ({ tenant_id, user_id }) {
-			return await db('coaches').insert({ user_id, tenant_id }).returning('*');
+		postCoach: async function ({ tenant_id, user_id, role = 'COACH' }) {
+			return await db('coaches').insert({ user_id, tenant_id, role }).returning('*');
 		},
 	};
 }
