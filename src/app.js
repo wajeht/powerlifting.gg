@@ -93,15 +93,14 @@ if (appConfig.env === 'production') {
 					'script-src': [
 						"'self'",
 						"'unsafe-inline'",
-						'plausible.jaw.dev',
 						"'unsafe-eval'",
+						'plausible.jaw.dev',
 						'powerlifting.gg',
 						'localtest.me',
 						'jaw.lol',
 						'blob:',
 						'text/javascript',
 					],
-					'script-src-attr': ["'none'"],
 					'img-src': [
 						"'self'",
 						'https://lh3.googleusercontent.com/',
