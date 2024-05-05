@@ -6,6 +6,7 @@
 	<!-- scroll-to-top -->
 	<%- include('../components/scroll-to-top.html') %>
 
+  <!-- body -->
 	<body id="app" class="flex min-h-screen flex-col overflow-auto max-w-full" v-cloak>
 		<!-- header -->
 		<%- include('../components/header.html') %>
@@ -40,15 +41,15 @@
 
           <h1><%= title %></h1>
 
-          <div class="grid grid-cols-4 gap-5">
+          <div class="sm:grid sm:grid-cols-4 flex flex-col gap-5">
 
             <!-- menu -->
-            <ul class="menu bg-base-100 border rounded-lg m-0 p-5 h-fit">
+            <ul class="menu sm:menu-vertical menu-horizontal justify-evenly bg-base-100 border rounded-lg m-0 p-5 h-fit w-full">
               <li class="m-0"><a class="no-underline <%= path === '/settings' ? 'active' : '' %>" href="/settings">Settings</a></li>
               <li class="m-0"><a class="no-underline <%= path === '/settings/tenant' ? 'active' : '' %>" href="/settings/tenant">Tenant</a></li>
             </ul>
 
-            <div class="col-span-3 px-3 flex flex-col gap-5">
+            <div class="col-span-3 sm:px-3 flex flex-col gap-5">
               <%- body %>
             </div>
           </div>
