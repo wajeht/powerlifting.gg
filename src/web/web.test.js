@@ -1,11 +1,14 @@
 import request from 'supertest';
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe, vi } from 'vitest';
 import { app as server } from '../app.js';
 import { db } from '../database/db.js';
 import { faker } from '@faker-js/faker';
 import { refreshDatabase } from '../tests/refresh-db.js';
 import { app as appEnv } from '../config/app.js';
 import { login } from '../tests/login.js';
+import { job } from '../job/job.js';
+
+vi.mock('../job/job.js');
 
 const app = request(server);
 
@@ -158,6 +161,8 @@ describe('postTenantHandler', () => {
 
 		const tenant = await db.select('*').from('tenants').where({ slug: 'dog' }).first();
 		expect(tenant.slug).toBe('dog');
+		expect(job.sendApproveTenantEmailJob).toHaveBeenCalledTimes(1);
+		expect(job.sendApproveTenantEmailJob).toHaveBeenCalledWith(tenant);
 	});
 
 	it('should return validation error when create a tenant via /tenants without required fields', async () => {

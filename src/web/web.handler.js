@@ -112,9 +112,9 @@ export function getLogoutHandler() {
 	};
 }
 
-export function postContactHandler(sendContactEmailJob) {
+export function postContactHandler(job) {
 	return async (req, res) => {
-		await sendContactEmailJob(req.body);
+		await job.sendContactEmailJob(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
 		return res.redirect('/contact');
 	};

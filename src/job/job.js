@@ -13,6 +13,13 @@ import {
 } from '../app.middleware.js';
 import { sendApproveTenantEmailQueue, sendApproveTenantEmailJob } from './approve-tenant.job.js';
 
+export const job = {
+	sendWelcomeEmailJob,
+	sendContactEmailJob,
+	scheduleBackupDatabaseJob,
+	sendApproveTenantEmailJob,
+};
+
 export function setupBullDashboard(app) {
 	const serverAdapter = new ExpressAdapter();
 	serverAdapter.setBasePath('/admin/jobs');
@@ -38,10 +45,3 @@ export function setupBullDashboard(app) {
 		app.use('/admin/jobs', serverAdapter.getRouter());
 	}
 }
-
-export {
-	sendWelcomeEmailJob,
-	sendContactEmailJob,
-	scheduleBackupDatabaseJob,
-	sendApproveTenantEmailJob,
-};

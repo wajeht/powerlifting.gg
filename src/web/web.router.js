@@ -2,11 +2,10 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
-import { sendContactEmailJob } from '../job/job.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
 import { test as testRouter } from './test/test.router.js';
 import badWord from 'bad-words';
-import * as job from '../job/job.js';
+import { job } from '../job/job.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
@@ -135,7 +134,7 @@ web.post(
 	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(postContactHandlerValidation),
-	catchAsyncErrorHandler(postContactHandler(sendContactEmailJob)),
+	catchAsyncErrorHandler(postContactHandler(job)),
 );
 
 /**
