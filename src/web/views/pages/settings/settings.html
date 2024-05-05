@@ -11,8 +11,8 @@
   <!-- username -->
   <label class="form-control w-full" for="username">
     <div class="label"><span class="label-text">Username</span></div>
-    <input type="text" name="username" id="username" placeholder="Username" value="<%= user.username %>" class="input input-bordered max-w-sm"
-      required />
+    <input type="text" name="username" id="username" placeholder="Username" value="<%= user.username %>"
+      class="input input-bordered max-w-sm" required />
   </label>
 
   <!-- email -->
@@ -40,7 +40,8 @@
         </div>
       </div>
     </div>
-    <input type="email" name="email" id="email" placeholder="Email" value="<%= user.email %>" class="input input-bordered max-w-sm" required />
+    <input type="email" name="email" id="email" placeholder="Email" value="<%= user.email %>"
+      class="input input-bordered max-w-sm" required />
   </label>
 
   <div class="w-fit self-end">
@@ -80,18 +81,30 @@
 </div>
 
 <!-- delete -->
-<form method="post" action="/settings/danger-zone" class="rounded-lg border p-5 flex flex-col gap-5">
+<div class="rounded-lg border p-5 flex flex-col gap-5">
   <!-- title -->
   <div>
     <h6 class="text-lg font-medium m-0 text-neutral">Danger Zone</h6>
     <p class="m-0 font-light">The following actions are destructive and cannot be reversed.</p>
   </div>
 
-  <!-- csrf -->
-  <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
-
   <!-- delete -->
   <div class="w-fit self-end">
-    <button type="submit" class="btn btn-error text-white">Delete my account</button>
+    <button class="btn btn-error text-white" onclick="my_modal_2.showModal()">Delete my account</button>
+    <dialog id="my_modal_2" class="modal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg m-0">Danger Zone</h3>
+        <p class="py-4 m-0">Are you sure you want to delete your account?</p>
+        <form class="modal-action" method="post" action="/settings/danger-zone">
+          <!-- csrf -->
+          <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+          <!-- button -->
+          <button type="submit" class="btn btn-error text-white">Delete my account</button>
+        </form>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
   </div>
-</form>
+</div>
