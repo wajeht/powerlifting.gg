@@ -286,7 +286,7 @@ export function postSettingsAccountHandler(WebService) {
 		}
 
 		req.flash('success', 'User account settings updated successfully.');
-		return res.redirect('/settings/account');
+		return res.redirect('/settings');
 	};
 }
 
