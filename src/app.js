@@ -102,8 +102,8 @@ if (appConfig.env === 'production') {
 						'text/javascript',
 						'https://jaw.dev/',
 					],
+					'script-src-elem': ["'self'", "'unsafe-inline'", 'https://plausible.jaw.dev'],
 					'script-src-attr': ["'self'", "'unsafe-inline'"],
-					'script-src-elem': ["'self'", "'unsafe-inline'"],
 					'img-src': [
 						"'self'",
 						'https://lh3.googleusercontent.com/',
