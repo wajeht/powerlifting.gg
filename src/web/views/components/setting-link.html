@@ -1,5 +1,5 @@
 <li>
-	<details>
+	<details class="dropdown dropdown-end">
 		<summary>
 			<div class="flex justify-center items-center gap-2">
 				<img
@@ -10,7 +10,7 @@
 				<span> <%= app.user.username %> </span>
 			</div>
 		</summary>
-		<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md">
+		<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md border">
 			<% if (app.user.role === 'SUPER_ADMIN') { %>
 				<!-- jobs -->
 				<li>
