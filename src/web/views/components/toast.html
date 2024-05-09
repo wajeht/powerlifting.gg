@@ -10,11 +10,17 @@
     const alertDiv = document.createElement('div');
     alertDiv.classList.add('alert', alertType, 'max-w-[40ch]', 'w-fit', 'text-wrap');
 
+    alertDiv.id = `alert-${message}`;
+
     const span = document.createElement('span');
     span.innerText = decodeURIComponent(message);
 
     alertDiv.appendChild(span);
     toastDiv.appendChild(alertDiv);
+
+    alertDiv.addEventListener('click', ()=> {
+      alertDiv.remove();
+    })
 
     document.body.appendChild(toastDiv);
   }
