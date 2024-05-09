@@ -34,6 +34,10 @@
     });
   });
 
+  function removeToast(id) {
+    document.getElementById(id).remove();
+  }
+
   // remove any toasts which are either from query string or flash messages from session/cookie after 30 seconds
   setTimeout(() => {
     const toastElements = document.querySelectorAll('.toast');
@@ -43,8 +47,6 @@
   }, 30000);
 </script>
 
-<!-- http://jaw.lol/?alert-success=you%20hvea%20been%20logged%20out%20you%20hvea%20been%20logged%20out%20you%20hvea%20been%20logged%20out%20you%20hvea%20been%20logged%20out -->
-
 <!-- flash messages from session/cookie -->
 <% if (typeof flashMessages !== 'undefined') { %>
   <div class="toast toast-top z-20 top-5 toast-center px-20 h-fit w-max flex justify-center items-center">
@@ -52,7 +54,7 @@
       const messages = JSON.parse(JSON.stringify(flashMessages));
       for (const message in messages) {
         render(`
-            <div class="alert alert-${message} max-w-[50ch] w-fit text-wrap">
+            <div id="alert-${messages[message]}" onClick="removeToast('alert-${messages[message]}')" class="alert alert-${message} max-w-[50ch] w-fit text-wrap">
               <span>${messages[message]}</span>
             </div>
         `);
