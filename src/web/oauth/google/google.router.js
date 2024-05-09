@@ -66,10 +66,10 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 	if (req.session.redirectUrl) {
 		const redirectUrl = req.session.redirectUrl;
 		delete req.session.redirectUrl;
-		return res.redirect(redirectUrl);
+		return res.redirect(`${redirectUrl}/?alert-success=Welcome back, ${foundUser.username}!`);
 	}
 
-	return res.redirect('/');
+	return res.redirect(`/?alert-success=Welcome back, ${foundUser.username}!`);
 });
 
 export { google };

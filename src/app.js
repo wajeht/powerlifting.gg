@@ -138,6 +138,7 @@ if (appConfig.env === 'production') {
 
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
+app.set('view options', { outputFunctionName: 'render' });
 app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'views', 'pages')));
 app.set(
 	'layout',

@@ -110,7 +110,7 @@ export function getLogoutHandler() {
 			});
 		}
 
-		return res.redirect('back');
+		return res.redirect("/?alert-success=You've have been logged out!");
 	};
 }
 

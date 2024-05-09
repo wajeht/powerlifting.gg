@@ -3,12 +3,12 @@
     return JSON.parse(flashMessage.replaceAll('&#34;', '"'));
   }
 
-  function createToast(alertType, message) {
+  function createToast (alertType, message) {
     const toastDiv = document.createElement('div');
-    toastDiv.classList.add('toast', 'bottom-24');
+    toastDiv.classList.add('toast', 'top-5', 'toast-center', 'z-20');
 
     const alertDiv = document.createElement('div');
-    alertDiv.classList.add('alert', `alert-${alertType}`);
+    alertDiv.classList.add('alert', alertType);
 
     const span = document.createElement('span');
     span.innerText = decodeURIComponent(message);
@@ -17,27 +17,44 @@
     toastDiv.appendChild(alertDiv);
 
     document.body.appendChild(toastDiv);
-
-    setTimeout(() => {
-      toastDiv.remove();
-    }, 10000);
   }
 
+  // create a toast from /alert-<type> query string
   document.addEventListener('DOMContentLoaded', () => {
-    const flashMessage = "<%= JSON.stringify(flashMessages) %>";
-    const flashMessagesObject = parseFlashMessage(flashMessage);
     const search = new URLSearchParams(window.location.search);
-
-    Object.entries(flashMessagesObject).forEach(([type, message]) => {
-      createToast(type, message);
-    });
-
     const alertTypes = ['alert-info', 'alert-success', 'alert-warning', 'alert-error'];
     alertTypes.forEach(type => {
       const message = search.get(type);
       if (message) {
         createToast(type, message);
+        // remove /alert-<type> query string
+        const urlWithoutQueryString = window.location.href.split('?')[0];
+        history.replaceState({}, document.title, urlWithoutQueryString);
       }
     });
   });
+
+  // remove any toasts which are either from query string or flash messages from session/cookie after 30 seconds
+  setTimeout(() => {
+    const toastElements = document.querySelectorAll('.toast');
+    toastElements.forEach(toast => {
+      toast.remove();
+    });
+  }, 30000);
 </script>
+
+<!-- flash messages from session/cookie -->
+<%
+  if (typeof flashMessages !== 'undefined') {
+    const messages = JSON.parse(JSON.stringify(flashMessages));
+    for (const message in messages) {
+      render(`
+        <div class="toast toast-top z-20 top-5 toast-center">
+          <div class="alert alert-${message}">
+            <span>${messages[message]}</span>
+          </div>
+        </div>
+      `);
+    }
+  }
+%>
