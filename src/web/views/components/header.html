@@ -16,67 +16,67 @@
 			<ul class="menu menu-horizontal px-1">
 				<!-- login/logout -->
 				<% if (app.user) { %>
-				<!-- tenants -->
-				<li>
-					<a
-						class="<%= path === '/tenants' ? 'active' : '' %>"
-						href="<%= app.mainDomain %>/tenants"
-						title="tenants"
-						>Tenants</a
-					>
-				</li>
+					<!-- tenants -->
+					<li>
+						<a
+							class="<%= path === '/tenants' ? 'active' : '' %>"
+							href="<%= app.mainDomain %>/tenants"
+							title="tenants"
+							>Tenants</a
+						>
+					</li>
 
-				<!-- resource -->
-				<li>
-					<details class="dropdown dropdown-end">
-						<summary>Resources</summary>
-						<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md border">
-							<!-- github -->
-							<li>
-								<a
-									href="https://github.com/wajeht/powerlifting.gg"
-									target="_blank"
-									class="link link-hover"
-									title="github"
-									>Github <span>️⤴</span></a
-								>
-							</li>
-							<!-- discord -->
-							<li>
-								<a href="https://discord.gg/m9GRxu2AZH" title="discord" target="_blank"
-									>Discord<span>⤴</span></a
-								>
-							</li>
-							<!-- api docs -->
-							<li>
-								<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
-									>API Docs <span>️⤴</span></a
-								>
-							</li>
-							<!-- blog -->
-							<li>
-								<a
-									class="<%= path === '/blog' ? 'active' : '' %>"
-									href="<%= app.mainDomain %>/blog"
-									title="blog"
-									>Blog</a
-								>
-							</li>
-							<!-- contact -->
-							<li>
-								<a
-									class="<%= path === '/contact' ? 'active' : '' %>"
-									href="<%= app.mainDomain %>/contact"
-									title="contact"
-									>Contact</a
-								>
-							</li>
-						</ul>
-					</details>
-				</li>
+					<!-- resource -->
+					<li>
+						<details class="dropdown dropdown-end">
+							<summary>Resources</summary>
+							<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md border">
+								<!-- github -->
+								<li>
+									<a
+										href="https://github.com/wajeht/powerlifting.gg"
+										target="_blank"
+										class="link link-hover"
+										title="github"
+										>Github <span>️⤴</span></a
+									>
+								</li>
+								<!-- discord -->
+								<li>
+									<a href="https://discord.gg/m9GRxu2AZH" title="discord" target="_blank"
+										>Discord<span>⤴</span></a
+									>
+								</li>
+								<!-- api docs -->
+								<li>
+									<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
+										>API Docs <span>️⤴</span></a
+									>
+								</li>
+								<!-- blog -->
+								<li>
+									<a
+										class="<%= path === '/blog' ? 'active' : '' %>"
+										href="<%= app.mainDomain %>/blog"
+										title="blog"
+										>Blog</a
+									>
+								</li>
+								<!-- contact -->
+								<li>
+									<a
+										class="<%= path === '/contact' ? 'active' : '' %>"
+										href="<%= app.mainDomain %>/contact"
+										title="contact"
+										>Contact</a
+									>
+								</li>
+							</ul>
+						</details>
+					</li>
 
-				<!-- settings -->
-				<%- include('../components/setting-link.html') %>
+					<!-- settings -->
+					<%- include('../components/setting-link.html') %>
 				<% } else { %>
 					<!-- resource -->
 					<li>
