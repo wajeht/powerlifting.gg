@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import { db } from '../../database/db.js';
 import express from 'express';
 import {
 	authenticationHandler,
@@ -5,7 +7,7 @@ import {
 	catchAsyncErrorHandler,
 	tenantIdentityHandler,
 	throwTenancyHandler,
-} from '../app.middleware.js';
+} from '../../app.middleware.js';
 const admin = express.Router();
 
 admin.get(
@@ -15,7 +17,14 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	catchAsyncErrorHandler(async (req, res) => {
+		const startOfMonth = dayjs().startOf('month').startOf('day').toDate();
+		const today = dayjs().endOf('day').toDate();
+		const userCount = await db('users')
+			.count()
+			.first();
+		console.log({ userCount });
 		return res.status(200).render('./admin/admin.html', {
+			userCount,
 			flashMessages: req.flash(),
 			title: 'Admin',
 			path: '/admin',

@@ -69,7 +69,7 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 		return res.redirect(`${redirectUrl}/?alert-success=Welcome back, ${foundUser.username}!`);
 	}
 
-	return res.redirect(`/?alert-success=Welcome back, ${foundUser.username}!`);
+	return res.redirect(`/?alert-success=Welcome ${foundUser.username}!`);
 });
 
 export { google };
