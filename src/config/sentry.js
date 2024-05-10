@@ -1,5 +1,5 @@
 import './env.js';
 
-export const sentry = {
+export const sentry = Object.freeze({
 	dsn: process.env.SENTRY_DSN,
-};
+});

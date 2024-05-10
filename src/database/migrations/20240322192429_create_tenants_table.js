@@ -11,6 +11,7 @@ export function up(knex) {
 		table.string('logo').nullable().defaultTo('/img/west-side.jpg');
 		table.text('links').nullable().defaultTo('[]');
 		table.boolean('verified').notNullable().defaultTo(false);
+		table.boolean('approved').notNullable().defaultTo(false);
 		table.float('ratings').nullable().defaultTo(0);
 		table.timestamps(true, true);
 	});

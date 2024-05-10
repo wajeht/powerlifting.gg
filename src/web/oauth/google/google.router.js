@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendWelcomeEmailJob } from '../../../job/job.js';
+import { job } from '../../../job/job.js';
 import { getGoogleOAuthURL, getGoogleOauthToken, getGoogleUser } from './google.util.js';
 import { UnauthorizedError } from '../../../app.error.js';
 import { tenantIdentityHandler } from '../../../app.middleware.js';
@@ -57,7 +57,7 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 
 		foundUser = foundUser[0];
 
-		await sendWelcomeEmailJob({ email: googleUser.email, username });
+		await job.sendWelcomeEmailJob({ email: googleUser.email, username });
 	}
 
 	req.session.user = foundUser;
@@ -66,10 +66,10 @@ google.get('/redirect', tenantIdentityHandler, async (req, res) => {
 	if (req.session.redirectUrl) {
 		const redirectUrl = req.session.redirectUrl;
 		delete req.session.redirectUrl;
-		return res.redirect(redirectUrl);
+		return res.redirect(`${redirectUrl}/?alert-success=Welcome back, ${foundUser.username}!`);
 	}
 
-	return res.redirect('/');
+	return res.redirect(`/?alert-success=Welcome ${foundUser.username}!`);
 });
 
 export { google };

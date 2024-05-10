@@ -72,11 +72,6 @@
 
 		<h1>Tenant / Create</h1>
 
-		<div class="mb-5 max-w-sm">
-			<!-- flash-messages -->
-			<%- include('../components/flash-message.html') %>
-		</div>
-
 		<div class="flex flex-col-reverse sm:grid sm:grid-cols-3 gap-10">
 			<!-- left -->
 			<form
@@ -90,7 +85,7 @@
 				<input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
 
 				<!-- name -->
-				<label class="form-control w-full" for="email">
+				<label class="form-control w-full" for="name">
 					<div class="label"><span class="label-text">Name</span></div>
 					<input
 						type="text"
@@ -103,7 +98,7 @@
 				</label>
 
 				<!-- slug -->
-				<label class="form-control w-full" for="email">
+				<label class="form-control w-full" for="slug">
 					<div class="label"><span class="label-text">Slug</span></div>
 					<input
 						type="text"
@@ -184,14 +179,31 @@
 					/>
 				</label>
 
+				<!-- verified -->
 				<div class="flex flex-col mt-2 gap-1">
 					<div class="w-fit">
-						<label class="label gap-2 justify-start">
-							<input type="checkbox" class="checkbox" id="checkbox" name="checkbox" required />
+						<label class="label gap-2 justify-start" for="verified">
+							<input type="checkbox" class="checkbox" id="verified" name="verified" />
+							<span class="label-text text-base flex justify-center items-center gap-1">
+								<span>I claim this Tenant</span>
+								<span class="text-neutral-400 font-light text-xs">(Optional)</span>
+							</span>
+						</label>
+					</div>
+					<div class="pl-1 text-base">
+						I am a coach of this Tenant and I claim this Tenant.
+					</div>
+				</div>
+
+				<!-- agree -->
+				<div class="flex flex-col mt-2 gap-1">
+					<div class="w-fit">
+						<label class="label gap-2 justify-start" for="agree">
+							<input type="checkbox" class="checkbox" id="agree" name="agree" required />
 							<span class="label-text text-base">I agree</span>
 						</label>
 					</div>
-					<div class="pl-1">
+					<div class="pl-1 text-base">
 						Agreeing up signifies that you have read and agree to the
 						<a href="/terms-of-services" class="link link-neutral" target="_blank"
 							>Terms of Service</a

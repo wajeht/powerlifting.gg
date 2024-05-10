@@ -2,10 +2,11 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
-import { sendContactEmailJob } from '../job/job.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
+import { admin as adminRouter } from './admin/admin.router.js';
 import { test as testRouter } from './test/test.router.js';
 import badWord from 'bad-words';
+import { job } from '../job/job.js';
 import {
 	tenantIdentityHandler,
 	catchAsyncErrorHandler,
@@ -20,8 +21,11 @@ import {
 	postContactHandlerValidation,
 	postReviewHandlerValidation,
 	postTenantHandlerValidation,
+	postSettingsAccountHandlerValidation,
 } from './web.validation.js';
 import {
+	postSettingsDangerZoneHandler,
+	getSettingsTenantHandler,
 	getContactHandler,
 	postContactHandler,
 	getHealthzHandler,
@@ -38,6 +42,7 @@ import {
 	getSettingsHandler,
 	getBlogHandler,
 	getBlogPostHandler,
+	postSettingsAccountHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -46,6 +51,8 @@ import { TenantService } from '../api/tenant/tenant.service.js';
 dayjs.extend(relativeTime);
 
 const web = express.Router();
+
+web.use(adminRouter);
 
 web.use(oauthRouter);
 
@@ -67,7 +74,7 @@ web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -79,7 +86,7 @@ web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -93,7 +100,50 @@ web.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(getSettingsHandler()),
+	catchAsyncErrorHandler(getSettingsHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * POST /settings/account
+ * @tags web
+ * @summary post settings account
+ */
+web.post(
+	'/settings/account',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	validateRequestHandler(postSettingsAccountHandlerValidation),
+	catchAsyncErrorHandler(postSettingsAccountHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * POST /settings/danger-zone
+ * @tags web
+ * @summary post settings danger zone
+ */
+web.post(
+	'/settings/danger-zone',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(postSettingsDangerZoneHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * GET /settings/tenant
+ * @tags web
+ * @summary get settings tenant page
+ */
+web.get(
+	'/settings/tenant',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(getSettingsTenantHandler()),
 );
 
 /**
@@ -134,7 +184,7 @@ web.post(
 	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(postContactHandlerValidation),
-	catchAsyncErrorHandler(postContactHandler(sendContactEmailJob)),
+	catchAsyncErrorHandler(postContactHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -179,7 +229,7 @@ web.post(
 	]),
 	csrfHandler,
 	validateRequestHandler(postTenantHandlerValidation),
-	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -241,7 +291,7 @@ web.get(
 	'/blog',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -253,7 +303,7 @@ web.get(
 	'/blog/:id',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis))),
+	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis, job))),
 );
 
 export { web };

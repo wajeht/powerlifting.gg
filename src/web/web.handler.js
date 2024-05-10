@@ -10,7 +10,8 @@ export function getHealthzHandler() {
 
 		return res.status(200).render('healthz.html', {
 			uptime,
-			title: '/healthz',
+			title: 'Healthz',
+			path: '/healthz',
 			layout: '../layouts/healthz.html',
 		});
 	};
@@ -19,7 +20,7 @@ export function getHealthzHandler() {
 export function getTenantsHandler(TenantService) {
 	return async (req, res) => {
 		const { q, per_page, current_page, sort } = req.query;
-		const tenants = await TenantService.getTenantSearch(q, {
+		const tenants = await TenantService.getApprovedTenantSearch(q, {
 			cache: true,
 			sort: sort ?? 'asc',
 			perPage: parseInt(per_page ?? 25),
@@ -28,7 +29,8 @@ export function getTenantsHandler(TenantService) {
 		return res.status(200).render('tenants.html', {
 			tenants,
 			q: req.query.q,
-			title: '/tenants',
+			title: 'Tenants',
+			path: '/tenants',
 		});
 	};
 }
@@ -37,17 +39,24 @@ export function getTenantsCreateHandler() {
 	return async (req, res) => {
 		return res.status(200).render('tenants-create.html', {
 			flashMessages: req.flash(),
-			title: '/tenants/create',
+			title: 'Tenants / Create',
+			path: '/tenants/create',
 		});
 	};
 }
 
 export function postTenantHandler(WebService) {
 	return async (req, res) => {
-		const { name, slug, social } = req.body;
+		let { name, slug, social, verified } = req.body;
 
-		let logo = req.files?.logo?.[0];
-		let banner = req.files?.banner?.[0];
+		const logo = req.files?.logo?.[0];
+		const banner = req.files?.banner?.[0];
+
+		if (verified === 'on') {
+			verified = true;
+		} else {
+			verified = false;
+		}
 
 		// TODO: put this inside service
 		let links = social;
@@ -64,14 +73,19 @@ export function postTenantHandler(WebService) {
 		}
 
 		await WebService.postTenant({
+			verified,
 			links,
 			name,
 			slug,
 			banner: banner?.location || '',
 			logo: logo?.location || '',
+			user_id: req.session.user.id,
 		});
 
-		req.flash('info', 'successfully created!');
+		req.flash(
+			'info',
+			"Thank you for submitting the tenant information. We'll review the details and get back to you with approval soon!",
+		);
 		return res.redirect('/tenants/create');
 	};
 }
@@ -82,15 +96,6 @@ export function getLoginHandler() {
 			return res.redirect('back');
 		}
 		return res.redirect('/oauth/google');
-	};
-}
-
-export function getSettingsHandler() {
-	return async (req, res) => {
-		return res.status(200).render('settings.html', {
-			flashMessages: req.flash(),
-			title: '/settings',
-		});
 	};
 }
 
@@ -105,13 +110,13 @@ export function getLogoutHandler() {
 			});
 		}
 
-		return res.redirect('back');
+		return res.redirect("/?alert-success=You've have been logged out!");
 	};
 }
 
-export function postContactHandler(sendContactEmailJob) {
+export function postContactHandler(WebService) {
 	return async (req, res) => {
-		await sendContactEmailJob(req.body);
+		await WebService.postContact(req.body);
 		req.flash('info', "Thanks for reaching out to us, we'll get back to you shortly!");
 		return res.redirect('/contact');
 	};
@@ -120,7 +125,8 @@ export function postContactHandler(sendContactEmailJob) {
 export function getContactHandler() {
 	return (req, res) => {
 		return res.status(200).render('contact.html', {
-			title: '/contact',
+			title: 'Contact',
+			path: '/contact',
 			flashMessages: req.flash(),
 		});
 	};
@@ -130,7 +136,8 @@ export function getPrivacyPolicyHandler(WebService) {
 	return async (req, res) => {
 		const content = await WebService.getMarkdownPage({ cache: true, page: 'privacy-policy' });
 		return res.status(200).render('markdown.html', {
-			title: '/privacy-policy',
+			title: 'Privacy Policy',
+			path: '/privacy-policy',
 			content,
 		});
 	};
@@ -140,7 +147,8 @@ export function getTermsOfServiceHandler(WebService) {
 	return async (req, res) => {
 		const content = await WebService.getMarkdownPage({ cache: true, page: 'terms-of-services' });
 		return res.status(200).render('markdown.html', {
-			title: '/terms-of-services',
+			title: 'Terms of Services',
+			path: '/terms-of-services',
 			content,
 		});
 	};
@@ -150,7 +158,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
 		if (req.tenant) {
 			const { q, per_page, current_page, sort } = req.query;
-			const reviews = await TenantService.getTenantReviews(q, req.tenant.id, {
+			const reviews = await TenantService.getApprovedTenantReviews(q, req.tenant.id, {
 				cache: true,
 				sort: sort ?? 'desc',
 				perPage: parseInt(per_page ?? 25),
@@ -161,14 +169,15 @@ export function getIndexHandler(WebRepository, TenantService) {
 				reviews,
 				q: req.query.q,
 				flashMessages: req.flash(),
-				title: '/',
+				title: 'Powerlifting.gg',
+				path: '/',
 				layout: '../layouts/tenant.html',
 			});
 		}
 
 		// TODO: do this at the database so we dont gotta iterate
 		//       another modification the second time here
-		const tenants = (await WebRepository.getRandomTenants({ size: 5 })).map((r) => {
+		const tenants = (await WebRepository.getRandomApprovedTenants({ size: 5 })).map((r) => {
 			let ratings = r.ratings;
 
 			if (ratings == null) {
@@ -184,7 +193,9 @@ export function getIndexHandler(WebRepository, TenantService) {
 			};
 		});
 		const reviews = await WebRepository.getRandomReviews({ size: 10 });
-		return res.status(200).render('home.html', { tenants, reviews, title: '/' });
+		return res
+			.status(200)
+			.render('home.html', { tenants, reviews, title: 'Powerlifting.gg', path: '/' });
 	};
 }
 
@@ -223,7 +234,8 @@ export function getBlogHandler(WebService) {
 		const posts = await WebService.getBlogPosts({ cache: true });
 
 		return res.status(200).render('blog.html', {
-			title: '/blog',
+			title: 'Blog',
+			path: '/blog',
 			posts,
 		});
 	};
@@ -234,8 +246,72 @@ export function getBlogPostHandler(WebService) {
 		const post = await WebService.getBlogPost({ cache: true, id: req.params.id });
 
 		return res.status(200).render('post.html', {
-			title: `/blog/title`,
+			title: `Blog / ${req.params.id}`,
+			path: `/blog/title`,
 			post,
+		});
+	};
+}
+
+// Settings
+
+export function getSettingsHandler(WebService) {
+	return async (req, res) => {
+		const user = await WebService.getUser({ id: req.session.user.id });
+		return res.status(200).render('./settings/settings.html', {
+			user,
+			flashMessages: req.flash(),
+			title: 'Settings',
+			path: '/settings',
+			layout: '../layouts/settings.html',
+		});
+	};
+}
+
+export function postSettingsAccountHandler(WebService) {
+	return async (req, res) => {
+		const { username, email } = req.body;
+
+		if (username !== req.session.user.username || email !== req.session.user.email) {
+			await WebService.updateUser({
+				id: req.session.user.id,
+				updates: {
+					username: req.body.username,
+					email: req.body.email,
+				},
+			});
+			req.session.user.username = username;
+			req.session.user.email = email;
+			req.session.save();
+		}
+
+		req.flash('success', 'User account settings updated successfully.');
+		return res.redirect('/settings');
+	};
+}
+
+export function postSettingsDangerZoneHandler(WebService) {
+	return async (req, res) => {
+		if (req.session && req.session.user) {
+			await WebService.deleteAccount({ id: req.session.user.id });
+			req.session.user = undefined;
+			req.session.destroy((error) => {
+				if (error) {
+					throw new Error('Something went wrong while logging out!', error);
+				}
+			});
+		}
+		return res.redirect('/');
+	};
+}
+
+export function getSettingsTenantHandler() {
+	return async (req, res) => {
+		return res.status(200).render('./settings/tenant.html', {
+			flashMessages: req.flash(),
+			title: 'Settings / Tenant',
+			path: '/settings/tenant',
+			layout: '../layouts/settings.html',
 		});
 	};
 }

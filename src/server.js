@@ -2,15 +2,17 @@ import { app } from './app.js';
 import { app as appConfig } from './config/app.js';
 import { logger } from './utils/logger.js';
 import { redis } from './database/db.js';
-import { scheduleBackupDatabaseJob } from './job/job.js';
+import { job } from './job/job.js';
 
 const server = app.listen(appConfig.port, async () => {
 	logger.info(`Server was started on http://localhost:${appConfig.port}`);
 
+	// start of the server might contains new migrations
+	// we need to flush old cache
 	await redis.flushall();
 
 	// crons
-	await scheduleBackupDatabaseJob();
+	await job.scheduleBackupDatabaseJob();
 });
 
 function gracefulShutdown() {

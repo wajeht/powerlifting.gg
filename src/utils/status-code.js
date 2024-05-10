@@ -1,4 +1,4 @@
-export const statusCodes = {
+export const statusCodes = Object.freeze({
 	CONTINUE: 100,
 	SWITCHING_PROTOCOLS: 101,
 	PROCESSING: 102,
@@ -57,4 +57,4 @@ export const statusCodes = {
 	HTTP_VERSION_NOT_SUPPORTED: 505,
 	INSUFFICIENT_STORAGE: 507,
 	NETWORK_AUTHENTICATION_REQUIRED: 511,
-};
+});

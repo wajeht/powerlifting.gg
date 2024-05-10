@@ -1,5 +1,11 @@
 export function WebRepository(db) {
 	return {
+		deleteUser: async function ({ id }) {
+			return await db('users').where({ id }).del();
+		},
+		updateUser: async function ({ id, updates }) {
+			return await db('users').where({ id }).update(updates).returning('*');
+		},
 		getUser: async ({ id = null, tenant_id = null, username = null }) => {
 			if (id && tenant_id) {
 				return await db.select('*').from('users').where({ tenant_id, id }).first();
@@ -9,16 +15,14 @@ export function WebRepository(db) {
 				return await db.select('*').from('users').where({ username }).first();
 			}
 		},
-		getTenants: async () => {
-			return await db.select('*').from('tenants');
+		getApprovedTenants: async () => {
+			return await db.select('*').from('tenants').where({ approved: true });
 		},
-		getTenantUsers: async ({ tenant_id }) => {
-			return await db.select('*').from('users').where({ tenant_id });
-		},
-		getRandomTenants: async ({ size = 5 } = {}) => {
+		getRandomApprovedTenants: async ({ size = 5 } = {}) => {
 			return await db
 				.select('*')
 				.from('tenants')
+				.where('approved', true)
 				.where('ratings', '>=', 3.5)
 				.orderByRaw('RANDOM()')
 				.limit(size);
@@ -35,10 +39,11 @@ export function WebRepository(db) {
 				.join('users', 'reviews.user_id', 'users.id')
 				.orderByRaw('RANDOM()')
 				.where('tenants.ratings', '>=', 3.5)
+				.where('tenants.approved', true)
 				.whereRaw('LENGTH(reviews.comment) <= 100')
 				.limit(size);
 		},
-		postTenant: async function ({ logo = '', banner = '', slug, name, links }) {
+		postTenant: async function ({ logo = '', banner = '', slug, name, links, verified = false }) {
 			return await db('tenants')
 				.insert({
 					logo,
@@ -46,8 +51,12 @@ export function WebRepository(db) {
 					banner,
 					slug,
 					name,
+					verified,
 				})
 				.returning('*');
+		},
+		postCoach: async function ({ tenant_id, user_id, role = 'COACH' }) {
+			return await db('coaches').insert({ user_id, tenant_id, role }).returning('*');
 		},
 	};
 }

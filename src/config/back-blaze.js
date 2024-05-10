@@ -1,7 +1,7 @@
 import './env.js';
 import { S3Client } from '@aws-sdk/client-s3';
 
-export const backBlaze = {
+export const backBlaze = Object.freeze({
 	private: {
 		bucket: process.env.PRIVATE_BACKBLAZE_BUCKET,
 		region: process.env.PRIVATE_BACKBLAZE_REGION,
@@ -16,7 +16,7 @@ export const backBlaze = {
 		key_id: process.env.PUBLIC_BACKBLAZE_KEY_ID,
 		application_key: process.env.PUBLIC_BACKBLAZE_APPLICATION_KEY,
 	},
-};
+});
 
 export const publicS3BucketConfig = new S3Client({
 	credentials: {

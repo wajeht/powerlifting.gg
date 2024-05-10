@@ -1,17 +1,20 @@
 import request from 'supertest';
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe, vi } from 'vitest';
 import { app as server } from '../app.js';
 import { db } from '../database/db.js';
 import { faker } from '@faker-js/faker';
 import { refreshDatabase } from '../tests/refresh-db.js';
 import { app as appEnv } from '../config/app.js';
 import { login } from '../tests/login.js';
+import { job } from '../job/job.js';
+
+vi.mock('../job/job.js');
 
 const app = request(server);
 
 await refreshDatabase();
 
-describe('getHealthzHandler', () => {
+describe.concurrent('getHealthzHandler', () => {
 	it('should be able to get /healthz end point with json', async () => {
 		const res = await app.get('/healthz').set('Content-Type', 'application/json');
 		expect(res.status).toBe(200);
@@ -34,6 +37,7 @@ describe('getTenantsHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 
@@ -48,6 +52,7 @@ describe('getTenantsHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -68,6 +73,7 @@ describe('getTenantsCreateHandler', () => {
 			await db('tenants')
 				.insert({
 					name: 'TenantName',
+					approved: true,
 					slug: 'tenant-slug',
 				})
 				.returning('*')
@@ -91,6 +97,7 @@ describe('getTenantsCreateHandler', () => {
 			.insert({
 				name: 'TenantName',
 				slug: 'tenant-slug',
+				approved: true,
 			})
 			.returning('*');
 
@@ -120,6 +127,7 @@ describe('postTenantHandler', () => {
 				.insert({
 					name: 'TenantName',
 					slug: 'tenant-slug',
+					approved: true,
 				})
 				.returning('*')
 		)[0];
@@ -146,13 +154,22 @@ describe('postTenantHandler', () => {
 			csrfToken,
 			name: 'dog',
 			slug: 'dog',
-			checkbox: 'on',
+			agree: 'on',
 		});
 		expect(res.status).toBe(302);
 		expect(res.header.location).toBe('/tenants/create');
 
 		const tenant = await db.select('*').from('tenants').where({ slug: 'dog' }).first();
 		expect(tenant.slug).toBe('dog');
+		expect(job.sendApproveTenantEmailJob).toHaveBeenCalledTimes(1);
+		expect(job.sendApproveTenantEmailJob).toHaveBeenCalledWith({ tenant, coach: {} });
+	});
+
+	describe.skip('when creating post request to /tenants page with auth', () => {
+		describe('when post user has claim the tenant', () => {
+			it('should be able to create a tenant and create a coach of it as well', async () => {});
+			expect(true).toBe(true);
+		});
 	});
 
 	it('should return validation error when create a tenant via /tenants without required fields', async () => {
@@ -173,7 +190,7 @@ describe('postTenantHandler', () => {
 	});
 });
 
-describe('getIndexHandler', () => {
+describe.concurrent('getIndexHandler', () => {
 	describe('when visiting / route, if there is no tenant', () => {
 		it('should go to the main domain page', async () => {
 			const tenants = Array.from({ length: 5 }, () => ({
@@ -193,6 +210,7 @@ describe('getIndexHandler', () => {
 		const tenant = await db('tenants')
 			.insert({
 				name: 'thanks',
+				approved: true,
 				slug: 'obama',
 			})
 			.returning('*');
@@ -204,12 +222,13 @@ describe('getIndexHandler', () => {
 	});
 });
 
-describe('getContactHandler', () => {
+describe.concurrent('getContactHandler', () => {
 	it('should not be able to get contact page with tenant domain', async () => {
 		const tenant = await db('tenants')
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -226,6 +245,55 @@ describe('getContactHandler', () => {
 	});
 });
 
+describe('postContactHandler', () => {
+	it('should not be able to post /contact page with tenant domain', async () => {
+		const tenant = await db('tenants')
+			.insert({
+				name: 'thanks',
+				slug: 'obama',
+				approved: true,
+			})
+			.returning('*');
+		const res = await app
+			.post('/contact')
+			.set('Host', `${tenant[0].slug}.${appEnv.development_app_url}`);
+		expect(res.statusCode).toBe(404);
+		expect(res.text).contain('Oops! The page you are looking for cannot be found.');
+	});
+
+	it('should be able to post /contact page', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'USER',
+			})
+			.returning('*');
+
+		// grab csrfToken from login, we need to better rename this
+		// function to something else instead of being `login`
+		const { cookie, csrfToken } = await login(app, appEnv.development_app_url, 'user1@test.com');
+
+		const res = await app
+			.post(`/contact`)
+			.send({
+				csrfToken,
+				subject: 'x',
+				message: 'x',
+				email: 'email@email.com',
+			})
+			.set('Cookie', cookie); // need to sends cookie
+
+		expect(res.statusCode).toBe(302);
+		expect(job.sendContactEmailJob).toHaveBeenCalledTimes(1);
+		expect(job.sendContactEmailJob).toHaveBeenCalledWith({
+			subject: 'x',
+			message: 'x',
+			email: 'email@email.com',
+		});
+	});
+});
+
 describe('getLoginHandler', () => {
 	it('should redirect to /oauth/google when visiting /login', async () => {
 		const res = await app.get('/login');
@@ -237,6 +305,7 @@ describe('getLoginHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -257,6 +326,7 @@ describe('getSettingsHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -278,6 +348,7 @@ describe('getSettingsHandler', () => {
 			.insert({
 				name: 'TenantName',
 				slug: 'tenant-slug',
+				approved: true,
 			})
 			.returning('*');
 
@@ -292,11 +363,11 @@ describe('getSettingsHandler', () => {
 		expect(res.status).toBe(200);
 		expect(res.req.path).toBe('/settings');
 		expect(res.text).includes('Settings');
-		expect(res.text).includes('Exciting updates are on the way! Our website is current');
+		expect(res.text).includes('Manage your account details.');
 	});
 });
 
-describe('getContactHandler', () => {
+describe.concurrent('getContactHandler', () => {
 	it('should be able to get /contact', async () => {
 		const res = await app.get('/contact');
 		expect(res.status).toBe(200);
@@ -308,6 +379,7 @@ describe('getContactHandler', () => {
 			.insert({
 				name: 'thanks',
 				slug: 'obama',
+				approved: true,
 			})
 			.returning('*');
 		const res = await app
@@ -335,6 +407,7 @@ describe('postReviewHandler', () => {
 					.insert({
 						name: 'TenantName',
 						slug: 'tenant-slug',
+						approved: true,
 					})
 					.returning('*')
 			)[0];
@@ -369,5 +442,51 @@ describe('postReviewHandler', () => {
 
 			expect(reviews.comment).toEqual('this is some bull ****');
 		});
+	});
+});
+
+describe('/admin/jobs', () => {
+	it('should not able to reach <subdomain>/admin/jobs', async () => {
+		const [tenant] = await db('tenants')
+			.insert({
+				name: 'thanks',
+				slug: 'obama',
+				approved: true,
+			})
+			.returning('*');
+		const res = await app
+			.get('/admin/jobs')
+			.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
+		expect(res.statusCode).toBe(404);
+		expect(res.text).contain('Oops! The page you are looking for cannot be found.');
+	});
+
+	it('should not able to reach /admin/jobs if current user is not SUPER_ADMIN', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'USER',
+			})
+			.returning('*');
+
+		const { cookie } = await login(app, appEnv.development_app_url, 'user1@test.com');
+		const res = await app.get('/admin/jobs').set('Cookie', cookie);
+		expect(res.statusCode).toBe(404);
+	});
+
+	it.skip('should able to reach /admin/jobs if current user is SUPER_ADMIN', async () => {
+		await db('users')
+			.insert({
+				username: 'user1',
+				email: 'user1@test.com',
+				role: 'SUPER_ADMIN',
+			})
+			.returning('*');
+
+		const { cookie } = await login(app, appEnv.development_app_url, 'user1@test.com');
+		const res = await app.get('/admin/jobs').set('Cookie', cookie);
+		console.log(res.text);
+		expect(res.statusCode).toBe(200);
 	});
 });

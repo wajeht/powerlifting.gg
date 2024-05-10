@@ -9,7 +9,7 @@ import {
 	HttpError,
 } from './app.error.js';
 
-describe('errorHandler', () => {
+describe.concurrent('errorHandler', () => {
 	const mockReq = {};
 	const mockRes = {
 		status: vi.fn(() => mockRes),
@@ -26,7 +26,8 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Oops! Something went wrong.',
 			statusCode: 500,
-			title: '/undefined',
+			title: 'Error',
+			path: '/undefined',
 		});
 	});
 
@@ -39,7 +40,8 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Oops! Something went wrong.',
 			statusCode: 500,
-			title: '/undefined',
+			title: 'Error',
+			path: '/undefined',
 		});
 	});
 
@@ -66,7 +68,8 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Oops! The page you are looking for cannot be found.',
 			statusCode: 404,
-			title: '/undefined',
+			title: 'Error',
+			path: '/undefined',
 		});
 	});
 
@@ -78,7 +81,8 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Forbidden',
 			statusCode: 403,
-			title: '/undefined',
+			title: 'Error',
+			path: '/undefined',
 		});
 	});
 
@@ -90,7 +94,8 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Unauthorized',
 			statusCode: 401,
-			title: '/undefined',
+			title: 'Error',
+			path: '/undefined',
 		});
 	});
 
@@ -101,7 +106,8 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Validation Error',
 			statusCode: 422,
-			title: '/undefined',
+			title: 'Error',
+			path: '/undefined',
 		});
 	});
 
@@ -113,7 +119,8 @@ describe('errorHandler', () => {
 		expect(mockRes.render).toHaveBeenCalledWith('error.html', {
 			error: 'Unimplemented Function',
 			statusCode: 501,
-			title: '/undefined',
+			title: 'Error',
+			path: '/undefined',
 		});
 	});
 });

@@ -57,7 +57,9 @@ wipe:
 	docker system prune -a --volumes -f
 
 all:
-	docker stop $(docker ps -aq) && docker system prune -af --volumes
+	make down
+	make clean
+	make wipe
 	docker volume rm $(docker volume ls -qf dangling=true)
 
 pull-db:

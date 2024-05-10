@@ -62,7 +62,7 @@ app.use(
 		cookie: {
 			httpOnly: false,
 			// prettier-ignore
-			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}`: `.${appConfig.development_app_url}`,
+			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}` : `.${appConfig.development_app_url}`,
 			maxAge: 1000 * 60 * 24, // 24 hours
 			// // TODO: fix why this aint working for production
 			// httpOnly: appConfig.env === 'production',
@@ -93,14 +93,17 @@ if (appConfig.env === 'production') {
 					'script-src': [
 						"'self'",
 						"'unsafe-inline'",
-						'plausible.jaw.dev',
 						"'unsafe-eval'",
+						'plausible.jaw.dev',
 						'powerlifting.gg',
 						'localtest.me',
 						'jaw.lol',
 						'blob:',
 						'text/javascript',
+						'https://jaw.dev/',
 					],
+					'script-src-elem': ["'self'", "'unsafe-inline'", 'https://plausible.jaw.dev'],
+					'script-src-attr': ["'self'", "'unsafe-inline'"],
 					'img-src': [
 						"'self'",
 						'https://lh3.googleusercontent.com/',
@@ -135,6 +138,7 @@ if (appConfig.env === 'production') {
 
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
+app.set('view options', { outputFunctionName: 'render' });
 app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'views', 'pages')));
 app.set(
 	'layout',
