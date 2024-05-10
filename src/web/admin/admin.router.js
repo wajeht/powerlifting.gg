@@ -114,7 +114,7 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	catchAsyncErrorHandler(async (req, res) => {
-		const tenants = await db.select('*').from('tenants').orderBy('created_at', 'asc');
+		const tenants = await db.select('*').from('tenants').orderBy('created_at', 'desc');
 
 		return res.status(200).render('./admin/tenants.html', {
 			tenants,
