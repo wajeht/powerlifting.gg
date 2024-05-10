@@ -25,7 +25,11 @@
           </th>
           <td>
             <div class="flex items-center gap-3">
-              <img class="w-10 h-10 rounded-full" src="<%= tenant.logo %>" alt="<%= tenant.name %>" />
+              <% if (tenant.logo) { %>
+                <img class="w-10 h-10 rounded-full" src="<%= tenant.logo %>" alt="<%= tenant.name %>" />
+              <% } else { %>
+                <div class="w-10 h-10 rounded-full bg-neutral-200"></div>
+              <% } %>
               <div>
                 <div class="font-bold flex gap-1 justify-center items-center">
                   <span><%= tenant.name %></span>
