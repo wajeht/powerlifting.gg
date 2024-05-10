@@ -9,7 +9,7 @@ if (appConfig.env === 'production') {
 	DOMAIN = appConfig.development_app_url;
 }
 
-export const swagger = {
+export const swagger = Object.freeze({
 	info: {
 		title: 'powerlifting.gg',
 		description: 'multitenancy coaching review systems',
@@ -34,4 +34,4 @@ export const swagger = {
 		customfavIcon: '/favicon.ico',
 	},
 	multiple: {},
-};
+});
