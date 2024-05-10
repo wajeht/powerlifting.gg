@@ -114,7 +114,10 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	catchAsyncErrorHandler(async (req, res) => {
+		const tenants = await db.select('*').from('tenants').orderBy('created_at', 'asc');
+
 		return res.status(200).render('./admin/tenants.html', {
+			tenants,
 			flashMessages: req.flash(),
 			title: 'Admin / Tenants',
 			path: '/admin/tenants',
