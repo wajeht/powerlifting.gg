@@ -4,19 +4,19 @@
   <div class="stat place-items-center">
     <div class="stat-title">Users</div>
     <div class="stat-value"><%= user.count %></div>
-    <div class="stat-desc"><%= user.startOfMonth %> to <%= user.today %></div>
+    <div class="stat-desc"><%= user.percentChange %></div>
   </div>
 
   <div class="stat place-items-center">
     <div class="stat-title">Tenants</div>
     <div class="stat-value"><%= tenant.count %></div>
-    <div class="stat-desc"><%= tenant.startOfMonth %> to <%= tenant.today %></div>
+    <div class="stat-desc"><%= tenant.startOfCurrentMonth %> to <%= tenant.endOfCurrentMonth %></div>
   </div>
 
   <div class="stat place-items-center">
     <div class="stat-title">Reviews</div>
     <div class="stat-value"><%= review.count %></div>
-    <div class="stat-desc"><%= review.startOfMonth %> to <%= review.today %></div>
+    <div class="stat-desc"><%= review.startOfCurrentMonth %> to <%= review.endOfCurrentMonth %></div>
   </div>
 
 </div>

@@ -17,40 +17,71 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	catchAsyncErrorHandler(async (req, res) => {
-		const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss');
-		const today = dayjs().format('YYYY-MM-DD HH:mm:ss');
-		const { count: userCount } = await db('users')
-			.whereRaw('created_at >= ?', startOfMonth)
-			.andWhereRaw('created_at <= ?', today)
+		const startOfCurrentMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss');
+		const endOfCurrentMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss');
+
+		const currentMonthStart = dayjs().startOf('month');
+		const previousMonthStart = dayjs().subtract(1, 'month').startOf('month');
+
+		const currentMonthStartFormatted = currentMonthStart.format('YYYY-MM-DD HH:mm:ss');
+		const previousMonthStartFormatted = previousMonthStart.format('YYYY-MM-DD HH:mm:ss');
+
+		const { count: currentUserCount } = await db('users')
+			.whereRaw('created_at >= ?', currentMonthStartFormatted)
 			.count('* as count')
 			.first();
-		const { count: tenantCount } = await db('tenants')
-			.whereRaw('created_at >= ?', startOfMonth)
-			.andWhereRaw('created_at <= ?', today)
+
+		const { count: previousUserCount } = await db('users')
+			.whereRaw('created_at >= ?', previousMonthStartFormatted)
+			.andWhereRaw('created_at < ?', currentMonthStartFormatted)
 			.count('* as count')
 			.first();
-		const { count: reviewCount } = await db('reviews')
-			.whereRaw('created_at >= ?', startOfMonth)
-			.andWhereRaw('created_at <= ?', today)
+
+		let percentChange;
+		if (previousUserCount === 0) {
+			percentChange = currentUserCount === 0 ? 0 : 100;
+		} else {
+			percentChange = ((currentUserCount - previousUserCount) / previousUserCount) * 100;
+		}
+
+		let changeDescription;
+		if (percentChange > 0) {
+			changeDescription = `↗︎ ${currentUserCount} (${percentChange.toFixed(2)}%)`;
+		} else if (percentChange < 0) {
+			changeDescription = `↘︎ ${currentUserCount} (${Math.abs(percentChange).toFixed(2)}%)`;
+		} else {
+			changeDescription = `${currentUserCount} (No change)`;
+		}
+
+		const { count: currentTenantCount } = await db('tenants')
+			.whereRaw('created_at >= ?', startOfCurrentMonth)
+			.andWhereRaw('created_at <= ?', endOfCurrentMonth)
 			.count('* as count')
 			.first();
-		const formattedStartOfMonth = dayjs(startOfMonth).format('MMMM D');
-		const formattedToday = dayjs(today).format('MMMM D');
+
+		const { count: currentReviewCount } = await db('reviews')
+			.whereRaw('created_at >= ?', startOfCurrentMonth)
+			.andWhereRaw('created_at <= ?', endOfCurrentMonth)
+			.count('* as count')
+			.first();
+
+		const formattedDndOfCurrentMonth = dayjs(startOfCurrentMonth).format('MMMM d');
+		const formattedEndOfCurrentMonth = dayjs(endOfCurrentMonth).format('MMMM d');
+
 		return res.status(200).render('./admin/admin.html', {
 			user: {
-				count: userCount,
-				startOfMonth: formattedStartOfMonth,
-				today: formattedToday,
+				count: currentUserCount,
+				percentChange: changeDescription,
 			},
 			tenant: {
-				count: tenantCount,
-				startOfMonth: formattedStartOfMonth,
-				today: formattedToday,
+				count: currentTenantCount,
+				startOfCurrentMonth: formattedDndOfCurrentMonth,
+				endOfCurrentMonth: formattedEndOfCurrentMonth,
 			},
 			review: {
-				count: reviewCount,
-				startOfMonth: formattedStartOfMonth,
-				today: formattedToday,
+				count: currentReviewCount,
+				startOfCurrentMonth: formattedDndOfCurrentMonth,
+				endOfCurrentMonth: formattedEndOfCurrentMonth,
 			},
 			flashMessages: req.flash(),
 			title: 'Admin',
