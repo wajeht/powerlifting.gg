@@ -17,14 +17,41 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	catchAsyncErrorHandler(async (req, res) => {
-		const startOfMonth = dayjs().startOf('month').startOf('day').toDate();
-		const today = dayjs().endOf('day').toDate();
-		const userCount = await db('users')
-			.count()
+		const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss');
+		const today = dayjs().format('YYYY-MM-DD HH:mm:ss');
+		const { count: userCount } = await db('users')
+			.whereRaw('created_at >= ?', startOfMonth)
+			.andWhereRaw('created_at <= ?', today)
+			.count('* as count')
 			.first();
-		console.log({ userCount });
+		const { count: tenantCount } = await db('tenants')
+			.whereRaw('created_at >= ?', startOfMonth)
+			.andWhereRaw('created_at <= ?', today)
+			.count('* as count')
+			.first();
+		const { count: reviewCount } = await db('reviews')
+			.whereRaw('created_at >= ?', startOfMonth)
+			.andWhereRaw('created_at <= ?', today)
+			.count('* as count')
+			.first();
+		const formattedStartOfMonth = dayjs(startOfMonth).format('MMMM D');
+		const formattedToday = dayjs(today).format('MMMM D');
 		return res.status(200).render('./admin/admin.html', {
-			userCount,
+			user: {
+				count: userCount,
+				startOfMonth: formattedStartOfMonth,
+				today: formattedToday,
+			},
+			tenant: {
+				count: tenantCount,
+				startOfMonth: formattedStartOfMonth,
+				today: formattedToday,
+			},
+			review: {
+				count: reviewCount,
+				startOfMonth: formattedStartOfMonth,
+				today: formattedToday,
+			},
 			flashMessages: req.flash(),
 			title: 'Admin',
 			path: '/admin',
