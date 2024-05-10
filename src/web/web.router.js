@@ -3,7 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime.js';
 import express from 'express';
 import { db, redis } from '../database/db.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
-import { admin as adminRouter } from './admin.router.js';
+import { admin as adminRouter } from './admin/admin.router.js';
 import { test as testRouter } from './test/test.router.js';
 import badWord from 'bad-words';
 import { job } from '../job/job.js';

@@ -3,20 +3,20 @@
 
   <div class="stat place-items-center">
     <div class="stat-title">Users</div>
-    <div class="stat-value">31K</div>
-    <div class="stat-desc">From January 1st to February 1st</div>
+    <div class="stat-value"><%= user.count %></div>
+    <div class="stat-desc"><%= user.percentChange %></div>
   </div>
 
   <div class="stat place-items-center">
     <div class="stat-title">Tenants</div>
-    <div class="stat-value">4,200</div>
-    <div class="stat-desc">↗︎ 40 (2%)</div>
+    <div class="stat-value"><%= tenant.count %></div>
+    <div class="stat-desc"><%= tenant.startOfCurrentMonth %> to <%= tenant.endOfCurrentMonth %></div>
   </div>
 
   <div class="stat place-items-center">
     <div class="stat-title">Reviews</div>
-    <div class="stat-value">1,200</div>
-    <div class="stat-desc">↘︎ 90 (14%)</div>
+    <div class="stat-value"><%= review.count %></div>
+    <div class="stat-desc"><%= review.startOfCurrentMonth %> to <%= review.endOfCurrentMonth %></div>
   </div>
 
 </div>
