@@ -24,20 +24,19 @@ admin.get(
 		const startOfCurrentMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss');
 		const endOfCurrentMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss');
 
-		const currentMonthStart = dayjs().startOf('month');
-		const previousMonthStart = dayjs().subtract(1, 'month').startOf('month');
-
-		const currentMonthStartFormatted = currentMonthStart.format('YYYY-MM-DD HH:mm:ss');
-		const previousMonthStartFormatted = previousMonthStart.format('YYYY-MM-DD HH:mm:ss');
+		const startOfPreviousMonth = dayjs()
+			.subtract(1, 'month')
+			.startOf('month')
+			.format('YYYY-MM-DD HH:mm:ss');
 
 		const { count: currentUserCount } = await db('users')
-			.whereRaw('created_at >= ?', currentMonthStartFormatted)
+			.whereRaw('created_at >= ?', startOfCurrentMonth)
 			.count('* as count')
 			.first();
 
 		const { count: previousUserCount } = await db('users')
-			.whereRaw('created_at >= ?', previousMonthStartFormatted)
-			.andWhereRaw('created_at < ?', currentMonthStartFormatted)
+			.whereRaw('created_at >= ?', startOfPreviousMonth)
+			.andWhereRaw('created_at < ?', startOfCurrentMonth)
 			.count('* as count')
 			.first();
 
@@ -69,8 +68,8 @@ admin.get(
 			.count('* as count')
 			.first();
 
-		const formattedDndOfCurrentMonth = dayjs(startOfCurrentMonth).format('MMMM d');
-		const formattedEndOfCurrentMonth = dayjs(endOfCurrentMonth).format('MMMM d');
+		const formattedDndOfCurrentMonth = dayjs(startOfCurrentMonth).format('MMMM D');
+		const formattedEndOfCurrentMonth = dayjs(endOfCurrentMonth).format('MMMM D');
 
 		return res.status(200).render('./admin/admin.html', {
 			user: {
