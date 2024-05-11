@@ -9,8 +9,8 @@
               <input type="checkbox" class="checkbox" />
             </label>
           </th>
-          <th>TTL</th>
           <th>Key</th>
+          <th>TTL</th>
           <th>Value</th>
           <th></th>
         </tr>
@@ -25,10 +25,10 @@
               </label>
             </th>
             <td>
-              <div class="font-bold"><%= c.ttl %></div>
+              <span class="badge badge-ghost"><%= c.key %></span>
             </td>
             <td>
-              <span class="badge badge-ghost badge-sm "><%= c.key %></span>
+              <div class="font-bold"><%= c.ttl %></div>
             </td>
             <td>
               <button class="btn btn-ghost btn-xs" onclick="my_modal_<%= i %>.showModal()">details</button>

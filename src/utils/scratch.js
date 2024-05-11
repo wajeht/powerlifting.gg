@@ -30,8 +30,3 @@
 // }
 
 // main();
-
-const x = 'bull:scheduleBackupDatabaseQueue:id';
-if (!x.startsWith('bull:')) {
-	console.log('x');
-}

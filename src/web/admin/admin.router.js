@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import path from 'path';
+import fs from 'fs/promises';
 import express from 'express';
 import { db, redis } from '../../database/db.js';
 import { session as sessionConfig } from '../../config/session.js';
@@ -124,6 +126,39 @@ admin.get(
 			flashMessages: req.flash(),
 			title: 'Admin / Tenants',
 			path: '/admin/tenants',
+			layout: '../layouts/admin.html',
+		});
+	}),
+);
+
+admin.get(
+	'/admin/database',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	authorizePermissionHandler('SUPER_ADMIN'),
+	csrfHandler,
+	catchAsyncErrorHandler(async (req, res) => {
+		const backupFiles = await fs.readdir(path.resolve(process.cwd(), 'src', 'database', 'backup'));
+
+		let backup = [];
+		for (const file of backupFiles) {
+			if (file.endsWith('.sqlite.gz')) {
+				let dateStr = file.replace('db-', '').replace('.sqlite.gz', '');
+				backup.push({
+					path: path.resolve(process.cwd(), 'src', 'database', 'backup', file),
+					created_at: dateStr,
+					name: file,
+				});
+			}
+		}
+		backup.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+		return res.status(200).render('./admin/database.html', {
+			backup,
+			flashMessages: req.flash(),
+			title: 'Admin / Database',
+			path: '/admin/database',
 			layout: '../layouts/admin.html',
 		});
 	}),
