@@ -1,0 +1,64 @@
+<% if (cache.length) { %>
+  <div class="overflow-x-auto rounded-lg border">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>
+            <label>
+              <input type="checkbox" class="checkbox" />
+            </label>
+          </th>
+          <th>TTL</th>
+          <th>Key</th>
+          <th>Value</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let i=0; i<cache.length; i++) { %>
+          <% const c = cache[i]; %>
+          <tr>
+            <th>
+              <label>
+                <input type="checkbox" class="checkbox" />
+              </label>
+            </th>
+            <td>
+              <div class="font-bold"><%= c.ttl %></div>
+            </td>
+            <td>
+              <span><%= c.key %></span>
+            </td>
+            <td>
+              <button class="btn btn-ghost btn-xs" onclick="my_modal_<%= i %>.showModal()">details</button>
+              <dialog id="my_modal_<%= i %>" class="modal">
+                <div class="modal-box">
+                  <pre><span><%= JSON.stringify(JSON.parse(c.value), null, 2) %></span></pre>
+                </div>
+                <form method="dialog" class="modal-backdrop">
+                  <button>close</button>
+                </form>
+                me
+              </dialog>
+            </td>
+            <th>
+              <form action="/admin/cache" method="post">
+				        <input type="text" name="csrfToken" value="<%= csrfToken %>" hidden/>
+                <input type="text" name="key" value="<%= c.key %>" hidden>
+                <input type="text" name="method" value="delete" hidden>
+                <button type="submit" class="btn btn-ghost btn-xs justify-center items-center flex">
+                  <svg class="text-red-500" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"/></svg>
+                </button>
+              </form>
+            </th>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+<% } else { %>
+  <div class="rounded-lg border p-[78px] flex flex-col gap-5 justify-center items-center">
+    Empty
+  </div>
+<% }  %>

@@ -25,15 +25,25 @@
           </th>
           <td>
             <div class="flex items-center gap-3">
-              <img class="w-10 h-10 rounded-full" src="<%= tenant.logo %>" alt="<%= tenant.name %>" />
-              <div>
+              <!-- imag -->
+              <% if (tenant.logo) { %>
+                <img class="w-12 h-12 rounded-full p-0 m-0" src="<%= tenant.logo %>" alt="<%= tenant.name %>" />
+              <% } else { %>
+                <div class="w-12 h-12 rounded-full bg-neutral-200 flex justify-center items-center">
+                  <span class="text-xs font-light">n/a</span>
+                </div>
+              <% } %>
+              <div class="flex flex-col gap-1 items-start">
                 <div class="font-bold flex gap-1 justify-center items-center">
+                  <!-- name -->
                   <span><%= tenant.name %></span>
+                  <!-- verified -->
                   <% if (tenant.verified) { %>
                     <svg class="text-sky-500" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="currentColor" d="M10.95 12.7L9.5 11.275Q9.225 11 8.813 11t-.713.3q-.275.275-.275.7t.275.7l2.15 2.15q.3.3.7.3t.7-.3l4.25-4.25q.3-.3.287-.7t-.287-.7q-.3-.3-.712-.312t-.713.287zm-2.8 9.05L6.7 19.3l-2.75-.6q-.375-.075-.6-.387t-.175-.688L3.45 14.8l-1.875-2.15q-.25-.275-.25-.65t.25-.65L3.45 9.2l-.275-2.825q-.05-.375.175-.688t.6-.387l2.75-.6l1.45-2.45q.2-.325.55-.438t.7.038l2.6 1.1l2.6-1.1q.35-.15.7-.038t.55.438L17.3 4.7l2.75.6q.375.075.6.388t.175.687L20.55 9.2l1.875 2.15q.25.275.25.65t-.25.65L20.55 14.8l.275 2.825q.05.375-.175.688t-.6.387l-2.75.6l-1.45 2.45q-.2.325-.55.438t-.7-.038l-2.6-1.1l-2.6 1.1q-.35.15-.7.038t-.55-.438"/></svg>
                   <% } %>
                 </div>
-                <div class="rating rating-xs mt-1">
+                <!-- stars -->
+                <div class="rating rating-xs">
                   <% for (let i = 0; i < 5; i++) { %>
                     <input
                       type="radio"
@@ -50,15 +60,15 @@
           <td>
             <div class="flex h-full w-fit gap-2">
               <% for (const link of JSON.parse(tenant.links)) { %>
-                <a class="h-full w-full" href="<%= link.url %>" target="_blank"><%= link.type %></a>
+                <a class="badge badge-ghost badge-sm no-underline hover:underline" href="<%= link.url %>" target="_blank"><%= link.type %></a>
               <% } %>
             </div>
           </td>
           <td>
             <% if (tenant.approved) { %>
-              <svg class="text-green-500" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" d="m10.5 16.2l-4-4l1.4-1.4l2.6 2.6l5.6-5.6l1.4 1.4l-7 7Z"/></svg>
+              <svg class="text-green-500" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" stroke-width="2" d="m10.5 16.2l-4-4l1.4-1.4l2.6 2.6l5.6-5.6l1.4 1.4l-7 7Z"/></svg>
             <% } else { %>
-              <svg class="text-red-500" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"/></svg>
+              <svg class="text-red-500" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"/></svg>
             <% } %>
           </td>
           <th>

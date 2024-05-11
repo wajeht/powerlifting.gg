@@ -10,7 +10,8 @@
     const alertDiv = document.createElement('div');
     alertDiv.classList.add('alert', alertType, 'max-w-[40ch]', 'w-fit', 'text-wrap');
 
-    alertDiv.id = `alert-${message}`;
+    const alerts = document.querySelectorAll('.alert');
+    alertDiv.id = `alert-${alerts.length + 1}`;
 
     const span = document.createElement('span');
     span.innerText = decodeURIComponent(message);
@@ -58,12 +59,14 @@
   <div class="toast toast-top z-20 top-5 toast-center px-20 h-fit w-max flex justify-center items-center">
     <%
       const messages = JSON.parse(JSON.stringify(flashMessages));
+      let index = 0;
       for (const message in messages) {
         render(`
-            <div id="alert-${messages[message]}" onClick="removeToast('alert-${messages[message]}')" class="alert alert-${message} max-w-[50ch] w-fit text-wrap">
+            <div id="alert-${index}" onclick="removeToast('alert-${index}')" class="alert alert-${message} max-w-[50ch] w-fit text-wrap">
               <span>${messages[message]}</span>
             </div>
         `);
+        index++;
       }
     %>
   </div>
