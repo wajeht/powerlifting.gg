@@ -1,0 +1,50 @@
+<div class="overflow-x-auto rounded-lg border">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>TTL</th>
+        <th>Key</th>
+        <th>Value</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let i=0; i<cache.length; i++) { %>
+      <% const c = cache[i]; %>
+        <tr>
+          <th>
+            <label>
+              <input type="checkbox" class="checkbox" />
+            </label>
+          </th>
+          <td>
+            <div class="font-bold"><%= c.ttl %></div>
+          </td>
+          <td>
+            <span><%= c.key %></span>
+          </td>
+          <td>
+            <button class="btn btn-ghost btn-xs" onclick="my_modal_<%= i %>.showModal()">details</button>
+            <dialog id="my_modal_<%= i %>" class="modal">
+              <div class="modal-box">
+                <pre><span><%= JSON.stringify(JSON.parse(c.value), null, 2) %></span></pre>
+              </div>
+              <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
+          </td>
+          <th>
+            <button class="btn btn-ghost btn-xs">delete</button>
+          </th>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

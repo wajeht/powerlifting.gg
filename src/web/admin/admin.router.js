@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import { db } from '../../database/db.js';
 import express from 'express';
+import { db, redis } from '../../database/db.js';
+import { session as sessionConfig } from '../../config/session.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
@@ -8,6 +9,7 @@ import {
 	tenantIdentityHandler,
 	throwTenancyHandler,
 } from '../../app.middleware.js';
+
 const admin = express.Router();
 
 admin.get(
@@ -121,6 +123,57 @@ admin.get(
 			flashMessages: req.flash(),
 			title: 'Admin / Tenants',
 			path: '/admin/tenants',
+			layout: '../layouts/admin.html',
+		});
+	}),
+);
+
+admin.get(
+	'/admin/cache',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	authorizePermissionHandler('SUPER_ADMIN'),
+	catchAsyncErrorHandler(async (req, res) => {
+		const cache = [];
+		const keys = await redis.keys('*');
+
+		for (const key of keys) {
+			const type = await redis.type(key);
+			let value;
+
+			switch (type) {
+				case 'string':
+					value = await redis.get(key);
+					break;
+				case 'hash':
+					value = await redis.hgetall(key);
+					break;
+				case 'list':
+					value = await redis.lrange(key, 0, -1);
+					break;
+				case 'set':
+					value = await redis.smembers(key);
+					break;
+				case 'zset':
+					value = await redis.zrange(key, 0, -1, 'WITHSCORES');
+					break;
+				default:
+					value = 'Unknown type';
+					break;
+			}
+
+			if (!key.startsWith('bull:') && !key.startsWith(sessionConfig.store_prefix)) {
+				const ttl = await redis.ttl(key);
+				cache.push({ key, ttl, value });
+			}
+		}
+
+		return res.status(200).render('./admin/cache.html', {
+			cache,
+			flashMessages: req.flash(),
+			title: 'Admin / Cache',
+			path: '/admin/cache',
 			layout: '../layouts/admin.html',
 		});
 	}),
