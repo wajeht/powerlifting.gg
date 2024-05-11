@@ -2,12 +2,14 @@ import dayjs from 'dayjs';
 import express from 'express';
 import { db, redis } from '../../database/db.js';
 import { session as sessionConfig } from '../../config/session.js';
+import { NotFoundError } from '../../app.error.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
 	catchAsyncErrorHandler,
 	tenantIdentityHandler,
 	throwTenancyHandler,
+	csrfHandler,
 } from '../../app.middleware.js';
 
 const admin = express.Router();
@@ -134,6 +136,7 @@ admin.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
+	csrfHandler,
 	catchAsyncErrorHandler(async (req, res) => {
 		const cache = [];
 		const keys = await redis.keys('*');
@@ -176,6 +179,36 @@ admin.get(
 			path: '/admin/cache',
 			layout: '../layouts/admin.html',
 		});
+	}),
+);
+
+admin.post(
+	'/admin/cache',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	authorizePermissionHandler('SUPER_ADMIN'),
+	csrfHandler,
+	catchAsyncErrorHandler(async (req, res) => {
+		const keys = await redis.keys('*');
+
+		if (req.body.method === 'delete') {
+			let keyFound = false;
+			for (const key of keys) {
+				if (key === req.body.id) {
+					await redis.del(key);
+					req.flash('success', `Cache ${key} has been deleted!`);
+					keyFound = true;
+					break; // Exit the loop once a match is found
+				}
+			}
+			if (!keyFound) {
+				throw new NotFoundError();
+			}
+			return res.redirect('/admin/cache');
+		}
+
+		throw new NotFoundError();
 	}),
 );
 

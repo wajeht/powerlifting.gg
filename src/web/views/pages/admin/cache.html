@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <% for (let i=0; i<cache.length; i++) { %>
-      <% const c = cache[i]; %>
+        <% const c = cache[i]; %>
         <tr>
           <th>
             <label>
@@ -41,7 +41,12 @@
             </dialog>
           </td>
           <th>
-            <button class="btn btn-ghost btn-xs">delete</button>
+            <form action="/admin/cache" method="post">
+				      <input type="text" name="csrfToken" value="<%= csrfToken %>" hidden/>
+              <input type="text" name="key" value="<%= c.key %>" hidden>
+              <input type="text" name="method" value="delete" hidden>
+              <button type="submit" class="btn btn-ghost btn-xs">delete</button>
+            </form>
           </th>
         </tr>
       <% } %>
