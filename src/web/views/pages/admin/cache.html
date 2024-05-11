@@ -34,7 +34,7 @@
               <button class="btn btn-ghost btn-xs" onclick="my_modal_<%= i %>.showModal()">details</button>
               <dialog id="my_modal_<%= i %>" class="modal">
                 <div class="modal-box">
-                  <pre><span><%= JSON.stringify(JSON.parse(c.value), null, 2) %></span></pre>
+                  <pre class="m-0 max-h-[500px] overflow-y-scroll"><span><%= JSON.stringify(JSON.parse(c.value), null, 2) %></span></pre>
                 </div>
                 <form method="dialog" class="modal-backdrop">
                   <button>close</button>
