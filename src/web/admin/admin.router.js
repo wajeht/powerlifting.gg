@@ -190,21 +190,17 @@ admin.post(
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
 	catchAsyncErrorHandler(async (req, res) => {
-		const keys = await redis.keys('*');
-
 		if (req.body.method === 'delete') {
-			let keyFound = false;
-			for (const key of keys) {
-				if (key === req.body.id) {
-					await redis.del(key);
-					req.flash('success', `Cache ${key} has been deleted!`);
-					keyFound = true;
-					break; // Exit the loop once a match is found
-				}
-			}
-			if (!keyFound) {
-				throw new NotFoundError();
-			}
+			const key = req.body.key;
+
+			const found = await redis.get(key);
+
+			if (!found) throw new NotFoundError();
+
+			await redis.del(key);
+
+			req.flash('success', `Cache ${key} has been deleted!`);
+
 			return res.redirect('/admin/cache');
 		}
 
