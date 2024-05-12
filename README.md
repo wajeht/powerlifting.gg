@@ -44,8 +44,8 @@ This project ain't no hack job. It's `clean`, it's `scalable`, it's `testable` a
 
 # 💻 Getting Started
 
-- See [DEVELOPMENT](./docs/DEVELOPMENT.md) for more information.
-- See [CONTRIBUTION](./docs/CONTRIBUTION.md) for more information.
+- See [DEVELOPMENT](./docs/DEVELOPMENT.md) for `development` guide.
+- See [CONTRIBUTION](./docs/CONTRIBUTION.md) for `contribution` guide.
 
 # 📜 License
 
