@@ -14,6 +14,10 @@ import {
 	csrfHandler,
 } from '../../app.middleware.js';
 
+import { getLog } from './admin.util.js';
+
+const logsDirPath = path.resolve(path.join(process.cwd(), 'src', 'logs'));
+
 const admin = express.Router();
 
 admin.get(
@@ -88,6 +92,7 @@ admin.get(
 				startOfCurrentMonth: formattedDndOfCurrentMonth,
 				endOfCurrentMonth: formattedEndOfCurrentMonth,
 			},
+			logs: await getLog({ date: dayjs().format('YYYY-MM-DD'), dirPath: logsDirPath }),
 			flashMessages: req.flash(),
 			title: 'Admin',
 			path: '/admin',

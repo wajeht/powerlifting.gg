@@ -20,13 +20,33 @@
 </div>
 
 <!-- admin -->
-<div class="rounded-lg border p-5 flex flex-col gap-5">
-  <div>
-    <h6 class="text-lg font-medium m-0 text-neutral">Admin</h6>
-    <p class="m-0 font-light">The following actions are destructive and cannot be reversed.</p>
-  </div>
-
-  <div class="w-fit self-end">
-    <button class="btn btn-error text-white">Delete my account</button>
-  </div>
+<div class="overflow-x-auto rounded-lg border ">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Timestamp</th>
+        <th>Log</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const log of logs) { %>
+        <tr>
+          <td>
+            <% if (log.level === 'info') { %><span class="badge badge-success"><%= log.level %></span><% } %>
+            <% if (log.level === 'error') { %><span class="badge badge-error"><%= log.level %></span><% } %>
+            <% if (log.level === 'debug') { %><span class="badge badge-info"><%= log.level %></span><% } %>
+            <% if (log.level === 'warning') { %><span class="badge badge-warning"><%= log.level %></span><% } %>
+          </td>
+          <td>
+            <%= log.time %>
+          </td>
+          <td>
+            <span class="badge badge-ghost"><%= log.msg %></span>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
 </div>

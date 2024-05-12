@@ -1,13 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const dirPath = path.resolve(path.join(process.cwd(), 'src', 'logs'));
-
-/**
- *
- * @param {string} dirPath  - as in `/Users/jaw/Dev/powerlifting.gg/src/logs`
- *
- */
 export async function getLogFilePath(dirPath) {
 	try {
 		const files = await fs.readdir(dirPath);
@@ -20,11 +13,6 @@ export async function getLogFilePath(dirPath) {
 	}
 }
 
-/**
- *
- * @param {string} filePath  - as in `/Users/jaw/Dev/powerlifting.gg/src/logs/2024-05-12.log`
- *
- */
 export async function transformLogToJSON(filePath) {
 	try {
 		const fileContents = await fs.readFile(filePath, 'utf-8');
@@ -38,7 +26,7 @@ export async function transformLogToJSON(filePath) {
 	}
 }
 
-export async function getLogs() {
+export async function getLogs(dirPath) {
 	try {
 		const logs = [];
 		const files = await getLogFilePath(dirPath);
@@ -56,12 +44,7 @@ export async function getLogs() {
 	}
 }
 
-/**
- *
- * @param {string} date - as in `2024-05-12` format
- *
- */
-export async function getLog(date) {
+export async function getLog({ date, dirPath }) {
 	try {
 		const [log] = (await getLogFilePath(dirPath)).filter(
 			(log) => log.name.split('.log')[0] === date,
@@ -72,5 +55,3 @@ export async function getLog(date) {
 		return [];
 	}
 }
-
-console.log(await getLogs());
