@@ -42,13 +42,10 @@ SHUT UP!
 
 This project ain't no hack job. It's `clean`, it's `scalable`, it's `testable` and guess what? No black magic under the hood. So zip it, haters!
 
-# 💻 Development
+# 💻 Getting Started
 
-See [DEVELOPMENT](./docs/DEVELOPMENT.md) for more information.
-
-# 🤝 Contribution
-
-See [CONTRIBUTION](./docs/CONTRIBUTION.md) for more information.
+- See [DEVELOPMENT](./docs/DEVELOPMENT.md) for more information.
+- See [CONTRIBUTION](./docs/CONTRIBUTION.md) for more information.
 
 # 📜 License
 
