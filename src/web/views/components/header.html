@@ -231,6 +231,18 @@
 								>Settings</a
 							>
 						</li>
+
+						<!-- my tenant -->
+						<% if (typeof app.user.tenant !== 'undefined') { %>
+							<li>
+								<a
+									href="<%- app.configureDomain(app.user.tenant.slug) %>"
+									title="my tenant"
+									>My Tenant</a
+								>
+							</li>
+						<% } %>
+
 						<hr class="my-2">
 						<li><a href="<%= app.mainDomain %>/logout" title="logout">Logout</a></li>
 					<% } else { %>

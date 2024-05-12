@@ -162,7 +162,7 @@ export async function tenantIdentityHandler(req, res, next) {
 	}
 }
 
-export function localVariables(req, res, next) {
+export async function localVariables(req, res, next) {
 	res.locals.app = {
 		env: appConfig.env,
 		copyRightYear: new Date().getFullYear(),
@@ -178,6 +178,19 @@ export function localVariables(req, res, next) {
 
 	if (req.session.user) {
 		res.locals.app['user'] = req.session.user;
+		const user = req.session.user;
+		const tenant = await db
+			.select('*')
+			.from('tenants')
+			.join('coaches', 'coaches.tenant_id', 'tenants.id')
+			.where({ 'coaches.user_id': user.id })
+			.andWhere({ 'tenants.approved': true })
+			.andWhere({ 'tenants.verified': true })
+			.orderBy('tenants.created_at', 'desc')
+			.first();
+		if (tenant) {
+			res.locals.app['user'].tenant = tenant;
+		}
 	}
 
 	return next();

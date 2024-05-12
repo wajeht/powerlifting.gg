@@ -11,6 +11,7 @@
 			</div>
 		</summary>
 		<ul class="p-2 bg-base-100 dropdown-content w-44 shadow-md border">
+			<!-- super admin stuff -->
 			<% if (app.user.role === 'SUPER_ADMIN') { %>
 				<!-- jobs -->
 				<li>
@@ -41,6 +42,17 @@
 					>Settings</a
 				>
 			</li>
+
+			<!-- my tenant -->
+			<% if (typeof app.user.tenant !== 'undefined') { %>
+				<li>
+					<a
+						href="<%- app.configureDomain(app.user.tenant.slug) %>"
+						title="my tenant"
+						>My Tenant</a
+					>
+				</li>
+			<% } %>
 
 			<hr class="my-2">
 
