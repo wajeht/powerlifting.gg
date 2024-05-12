@@ -177,21 +177,23 @@ export function getIndexHandler(WebRepository, TenantService) {
 
 		// TODO: do this at the database so we dont gotta iterate
 		//       another modification the second time here
-		const tenants = (await WebRepository.getRandomApprovedTenants({ size: 5 })).map((r) => {
-			let ratings = r.ratings;
+		const tenants = (await WebRepository.getRandomApprovedAndVerifiedTenants({ size: 5 })).map(
+			(r) => {
+				let ratings = r.ratings;
 
-			if (ratings == null) {
-				ratings = 0;
-			} else {
-				ratings =
-					ratings.toString().split('').length > 1 ? parseFloat(ratings.toFixed(1)) : ratings;
-			}
+				if (ratings == null) {
+					ratings = 0;
+				} else {
+					ratings =
+						ratings.toString().split('').length > 1 ? parseFloat(ratings.toFixed(1)) : ratings;
+				}
 
-			return {
-				...r,
-				ratings,
-			};
-		});
+				return {
+					...r,
+					ratings,
+				};
+			},
+		);
 		const reviews = await WebRepository.getRandomReviews({ size: 10 });
 		return res
 			.status(200)
