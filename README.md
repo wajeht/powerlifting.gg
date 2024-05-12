@@ -13,7 +13,7 @@ multitenancy coaching review systems
 - **[ejs](https://www.npmjs.com/package/ejs)** for server side rendering
 - **SQLite** for database
 - **[knex.js](https://github.com/knex/knex)** for database migration and query
-- **Vue 3** with **Vite** tooling for UI
+- ~~**Vue 3** with **Vite** tooling for UI~~ (we'll be getting rid of `Vue` soon!)
 - **[daisyUI](https://daisyui.com/)** for tailwind compatible ready made components
 - **[Animate.css](https://animate.style/)** for ready made animation
 - **[Commander.js](https://www.npmjs.com/package/commander)** for CLI commands
