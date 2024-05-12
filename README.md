@@ -19,11 +19,11 @@ multitenancy coaching review systems
 - **[Commander.js](https://www.npmjs.com/package/commander)** for CLI commands
 - **Redis** to cache some of the large queries
 
-# 🧐 Why?
+# 🤷‍♂️ Why?
 
 Yo, ever tried finding a solid coach on Insta? It's like sifting through a jungle. We're here to cut through the noise and give you the real deal. Our site's all about hooking you up with legit reviews and comparisons so you can pick the perfect coach, while also keeping them in check, you feel me?
 
-# 🤔 Technical Why?
+# 🤯 Technical Why?
 
 > [!Important]
 > Why not `Typescript`?
@@ -45,6 +45,10 @@ This project ain't no hack job. It's `clean`, it's `scalable`, it's `testable` a
 # 💻 Development
 
 See [DEVELOPMENT](./docs/DEVELOPMENT.md) for more information.
+
+# 🤝 Contribution
+
+See [CONTRIBUTION](./docs/CONTRIBUTION.md) for more information.
 
 # 📜 License
 
