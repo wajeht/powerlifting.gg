@@ -102,8 +102,20 @@ admin.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
+	csrfHandler,
 	catchAsyncErrorHandler(async (req, res) => {
+		const reviews = await db('reviews')
+			.select(
+				'reviews.*',
+				'users.username',
+				'users.profile_picture',
+				'tenants.slug',
+				'tenants.name as tenant_name',
+			)
+			.join('users', 'reviews.user_id', 'users.id')
+			.join('tenants', 'reviews.tenant_id', 'tenants.id');
 		return res.status(200).render('./admin/reviews.html', {
+			reviews,
 			flashMessages: req.flash(),
 			title: 'Admin / Reviews',
 			path: '/admin/reviews',
@@ -118,6 +130,7 @@ admin.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
+	csrfHandler,
 	catchAsyncErrorHandler(async (req, res) => {
 		const tenants = await db.select('*').from('tenants').orderBy('created_at', 'desc');
 
