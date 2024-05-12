@@ -18,12 +18,14 @@
 		"gainz",
 		"googleusercontent",
 		"healthz",
+		"hgetall",
 		"importmap",
 		"Insta",
 		"kindz",
 		"knexfile",
 		"litestream",
 		"localtest",
+		"lrange",
 		"mailhot",
 		"multitenancy",
 		"Nuxt",
@@ -32,6 +34,7 @@
 		"resave",
 		"rmds",
 		"sluggify",
+		"smembers",
 		"Synchronised",
 		"tailwindcss",
 		"templating",
@@ -40,6 +43,9 @@
 		"usapl",
 		"veryfast",
 		"wajeht",
-		"wajeht️"
+		"wajeht️",
+		"WITHSCORES",
+		"zrange",
+		"zset"
 	]
 }

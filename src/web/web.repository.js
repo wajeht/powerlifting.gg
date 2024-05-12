@@ -18,12 +18,13 @@ export function WebRepository(db) {
 		getApprovedTenants: async () => {
 			return await db.select('*').from('tenants').where({ approved: true });
 		},
-		getRandomApprovedTenants: async ({ size = 5 } = {}) => {
+		getRandomApprovedAndVerifiedTenants: async ({ size = 5 } = {}) => {
 			return await db
 				.select('*')
 				.from('tenants')
 				.where('approved', true)
-				.where('ratings', '>=', 3.5)
+				.andWhere('verified', true)
+				.where('ratings', '>=', 3)
 				.orderByRaw('RANDOM()')
 				.limit(size);
 		},
