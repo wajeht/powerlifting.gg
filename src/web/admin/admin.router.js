@@ -92,6 +92,7 @@ admin.get(
 				startOfCurrentMonth: formattedDndOfCurrentMonth,
 				endOfCurrentMonth: formattedEndOfCurrentMonth,
 			},
+			// TODO: figure out a way to filter by other dates too
 			logs: await getLog({ date: dayjs().format('YYYY-MM-DD'), dirPath: logsDirPath }),
 			flashMessages: req.flash(),
 			title: 'Admin',
