@@ -5,10 +5,10 @@ const dirPath = path.resolve(path.join(process.cwd(), 'src', 'logs'));
 
 /**
  *
- * @param {string} dirPath  - /Users/jaw/Dev/powerlifting.gg/src/logs
- * @returns
+ * @param {string} dirPath  - as in `/Users/jaw/Dev/powerlifting.gg/src/logs`
+ *
  */
-export async function getLogFiles(dirPath) {
+export async function getLogFilePath(dirPath) {
 	try {
 		const files = await fs.readdir(dirPath);
 		return files
@@ -22,8 +22,8 @@ export async function getLogFiles(dirPath) {
 
 /**
  *
- * @param {string} filePath  - /Users/jaw/Dev/powerlifting.gg/src/logs/2024-05-12.log
- * @returns
+ * @param {string} filePath  - as in `/Users/jaw/Dev/powerlifting.gg/src/logs/2024-05-12.log`
+ *
  */
 export async function transformLogToJSON(filePath) {
 	try {
@@ -38,14 +38,34 @@ export async function transformLogToJSON(filePath) {
 	}
 }
 
+export async function getLogs() {
+	try {
+		const logs = [];
+		const files = await getLogFilePath(dirPath);
+		for (const file of files) {
+			const json = await transformLogToJSON(file.path);
+			logs.push({
+				date: file.name,
+				logs: json,
+			});
+		}
+		return logs;
+	} catch (error) {
+		console.error('Error getting logs:', error);
+		return [];
+	}
+}
+
 /**
  *
  * @param {string} date - as in `2024-05-12` format
- * @returns
+ *
  */
 export async function getLog(date) {
 	try {
-		const [log] = (await getLogFiles(dirPath)).filter((log) => log.name.split('.log')[0] === date);
+		const [log] = (await getLogFilePath(dirPath)).filter(
+			(log) => log.name.split('.log')[0] === date,
+		);
 		return await transformLogToJSON(log.path);
 	} catch (error) {
 		console.error('Error getting log:', error);
@@ -53,4 +73,4 @@ export async function getLog(date) {
 	}
 }
 
-console.log(await getLog('2024-05-12'));
+console.log(await getLogs());
