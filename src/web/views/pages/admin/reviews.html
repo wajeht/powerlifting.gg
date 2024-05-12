@@ -33,9 +33,9 @@
                   <span class="text-xs font-light">n/a</span>
                 </div>
               <% } %>
-              <div class="flex flex-col gap-1 items-start">
+              <div class="flex flex-col gap-1 items-start min-w-fit">
                 <!-- name -->
-                <span class="font-bold "><%= review.username %></span>
+                <span class="font-bold"><%= review.username %></span>
                 <!-- stars -->
                 <div class="rating rating-xs">
                   <% for (let i = 0; i < 5; i++) { %>
@@ -52,7 +52,7 @@
             </div>
           </td>
           <td>
-            <div class="max-w-80 text-xs m-0 bg-[#F2F2F2] rounded-lg py-2 px-3 text-black"><%= review.comment %></div>
+            <div class="max-w-80 m-0 bg-[#F2F2F2] rounded-lg py-2 px-3 text-black line-clamp-2"><%= review.comment %></div>
           </td>
           <td>
             <a class="text-neutral flex items-center gap-1 no-underline hover:underline" href="<%- app.configureDomain(review.slug) %>" target="_blank">
