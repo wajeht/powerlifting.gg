@@ -49,7 +49,8 @@ export async function getLog({ date, dirPath }) {
 		const [log] = (await getLogFilePath(dirPath)).filter(
 			(log) => log.name.split('.log')[0] === date,
 		);
-		return await transformLogToJSON(log.path);
+		if (log) return await transformLogToJSON(log.path);
+		return [];
 	} catch (error) {
 		console.error('Error getting log:', error);
 		return [];
