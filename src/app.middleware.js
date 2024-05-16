@@ -228,8 +228,15 @@ export function errorHandler(err, req, res, _next) {
 
 	let statusCode = errorStatusCodes[err.constructor.name] || 500;
 
-	let errorMessage =
-		process.env.NODE_ENV === 'production' ? 'Oops! Something went wrong.' : err.stack;
+	let errorMessage = 'Oops! Something went wrong.';
+
+	if (req.user && req.user.role === 'SUPER_ADMIN') {
+		errorMessage = err.stack;
+	} else if (process.env.NODE_ENV === 'production') {
+		errorMessage = 'Oops! Something went wrong.';
+	} else {
+		errorMessage = 'Oops! Something went wrong.';
+	}
 
 	if (err instanceof NotFoundError) {
 		errorMessage = 'Oops! The page you are looking for cannot be found.';
