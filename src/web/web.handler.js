@@ -1,4 +1,3 @@
-import { NotFoundError } from '../app.error.js';
 import { extractDomainName } from './web.util.js';
 
 export function getHealthzHandler() {
@@ -209,10 +208,6 @@ export function getReviewsHandler() {
 
 export function postReviewHandler(TenantService) {
 	return async (req, res) => {
-		if (!req.tenant) {
-			throw new NotFoundError();
-		}
-
 		let { user_id, tenant_id, comment, ratings } = req.body;
 
 		comment = comment.trim();
