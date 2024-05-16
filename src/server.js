@@ -14,6 +14,10 @@ const server = app.listen(appConfig.port, async () => {
 	// TODO: refactor this later
 	const keys = await redis.keys('*');
 	for (const key of keys) {
+		// dont flush session data so we web deploy new version
+		// it does not logout current users
+		//
+		// only flash `cached` questions
 		if (!key.startsWith('bull:') && !key.startsWith(sessionConfig.store_prefix)) {
 			await redis.del(key);
 		}
