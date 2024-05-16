@@ -227,6 +227,8 @@ export function postReviewHandler(TenantService) {
 			comment: comment.trim(),
 		});
 
+		req.flash('success', 'comment has been posted successfully!');
+
 		return res.redirect('back');
 	};
 }
