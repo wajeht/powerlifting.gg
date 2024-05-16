@@ -1,5 +1,6 @@
 import { app } from './app.js';
 import { app as appConfig } from './config/app.js';
+import { session as sessionConfig } from './config/session.js';
 import { logger } from './utils/logger.js';
 import { redis } from './database/db.js';
 import { job } from './job/job.js';
@@ -9,7 +10,14 @@ const server = app.listen(appConfig.port, async () => {
 
 	// start of the server might contains new migrations
 	// we need to flush old cache
-	await redis.flushall();
+	//
+	// TODO: refactor this later
+	const keys = await redis.keys('*');
+	for (const key of keys) {
+		if (!key.startsWith('bull:') && !key.startsWith(sessionConfig.store_prefix)) {
+			await redis.del(key);
+		}
+	}
 
 	// crons
 	await job.scheduleBackupDatabaseJob();
