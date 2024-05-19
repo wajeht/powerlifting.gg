@@ -303,6 +303,7 @@ web.get(
 	'/blog/:id',
 	tenantIdentityHandler,
 	throwTenancyHandler,
+	csrfHandler,
 	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis, job))),
 );
 
