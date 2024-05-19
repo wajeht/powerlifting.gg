@@ -4,7 +4,6 @@ import { session as sessionConfig } from './config/session.js';
 import { logger } from './utils/logger.js';
 import { redis } from './database/db.js';
 import { job } from './job/job.js';
-import { startNewsletterEmailJob } from './job/newsletter.js';
 
 const server = app.listen(appConfig.port, async () => {
 	logger.info(`Server was started on http://localhost:${appConfig.port}`);
@@ -26,7 +25,7 @@ const server = app.listen(appConfig.port, async () => {
 
 	// crons
 	await job.scheduleBackupDatabaseJob();
-	await startNewsletterEmailJob();
+	await job.sendNewsletterEmailJob();
 });
 
 function gracefulShutdown() {

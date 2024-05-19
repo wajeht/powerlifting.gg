@@ -1,11 +1,13 @@
 import dayjs from 'dayjs';
 import { app as appConfig } from '../config/app.js';
-import { job } from './job.js';
 import { db, redis } from '../database/db.js';
 import { WebService } from '../web/web.service.js';
 import { WebRepository } from '../web/web.repository.js';
+import { sendNewsletterEmail } from '../emails/email.js';
+import { logger } from '../utils/logger.js';
 
-export async function startNewsletterEmailJob() {
+// TODO: clean this up. make it testable
+export async function sendNewsLetterEmailInBulk(job) {
 	let DOMAIN = '';
 
 	if (appConfig.env === 'production') {
@@ -38,14 +40,19 @@ export async function startNewsletterEmailJob() {
 		return user;
 	});
 
+	job.updateProgress(0);
+
 	for (const user of users) {
-		await job.sendNewsletterEmailJob({
+		await sendNewsletterEmail({
 			email: user.email,
 			username: user.username,
 			post: {
 				title: post.meta.title,
-				url: `http://${DOMAIN}/blog/${post.id}`,
+				url: `http://${DOMAIN}/blog/${post.meta.id}`,
 			},
 		});
+		logger.info(`Newsletter email job  sent to ${user.email}`);
 	}
+
+	job.updateProgress(100);
 }
