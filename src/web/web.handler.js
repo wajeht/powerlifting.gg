@@ -343,6 +343,7 @@ export function postNewsletterHandler(WebService) {
 	};
 }
 
+// TODO: move this to `WebService`
 export function postSubscriptionsHandler(WebService) {
 	return async (req, res) => {
 		let { changelog, promotion, newsletter, email } = req.body;
