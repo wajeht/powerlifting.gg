@@ -25,6 +25,7 @@ import {
 	postNewsletterHandlerValidation,
 } from './web.validation.js';
 import {
+	postSubscriptionsHandler,
 	postSettingsDangerZoneHandler,
 	getSettingsTenantHandler,
 	getContactHandler,
@@ -286,7 +287,7 @@ web.post(
 
 /**
  * POST /newsletter
- * @tags newsletter
+ * @tags web
  * @summary post /newsletter
  */
 web.post(
@@ -295,6 +296,18 @@ web.post(
 	validateRequestHandler(postNewsletterHandlerValidation),
 	catchAsyncErrorHandler(postNewsletterHandler(WebService(WebRepository(db), redis, job))),
 );
+
+/**
+ * POST /subscriptions
+ * @tags web
+ * @summary post /subscriptions
+ */
+web.post(
+	'/subscriptions',
+	csrfHandler,
+	catchAsyncErrorHandler(postSubscriptionsHandler(WebService(WebRepository(db), redis, job))),
+);
+
 
 /**
  * GET /blog

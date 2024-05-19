@@ -62,5 +62,8 @@ export function WebRepository(db) {
 		postSubscription: async function ({ email, subscriptions }) {
 			return await db('subscriptions').insert({ email, type: subscriptions });
 		},
+		getSubscription: async function (email) {
+			return await db.select('*').from('subscriptions').where({ email }).first();
+		}
 	};
 }

@@ -1,4 +1,5 @@
 import { extractDomainName } from './web.util.js';
+import { db } from '../database/db.js';
 
 export function getHealthzHandler() {
 	return (req, res) => {
@@ -260,7 +261,21 @@ export function getBlogPostHandler(WebService) {
 export function getSettingsHandler(WebService) {
 	return async (req, res) => {
 		const user = await WebService.getUser({ id: req.session.user.id });
+		let subscriptions = await WebService.getSubscription(req.session.user.email);
+		if (!subscriptions) {
+			subscriptions = {}
+			.type = {
+				newsletter: false,
+				changelog: false,
+				promotion: false,
+			}
+		}
+		subscriptions = {
+			...subscriptions,
+			type: JSON.parse(subscriptions.type)
+		}
 		return res.status(200).render('./settings/settings.html', {
+			subscriptions,
 			user,
 			flashMessages: req.flash(),
 			title: 'Settings',
@@ -323,6 +338,43 @@ export function postNewsletterHandler(WebService) {
 		await WebService.subscribeToNewsletter(req.body.email);
 		req.flash('info', 'Successfully subscribed to out newsletter, please confirm your email!');
 		if (req.headers.referer) return res.redirect(`${req.headers.referer}#newsletter-container`);
+		return res.redirect('back');
+	};
+}
+
+
+export function postSubscriptionsHandler(WebService) {
+	return async (req, res) => {
+		let { changelog, promotion, newsletter, email } = req.body;
+
+		if (changelog === 'on') {
+			changelog = true
+		}
+
+		if (promotion === 'on') {
+			promotion = true
+		}
+
+		if (newsletter === 'on') {
+			newsletter = true
+		}
+
+		let subscriptions = await WebService.getSubscription(email);
+
+		if (!subscriptions) {
+			// this will set all the default subscription to false
+			await db('subscriptions').insert({ email });
+		}
+
+		let type = JSON.parse(subscriptions.type) || {};
+
+		if (newsletter) type.newsletter = newsletter;
+		if (changelog) type.changelog = changelog;
+		if (promotion) type.promotion = promotion;
+
+		await db('subscriptions').where({ email }).update({ type: JSON.stringify(type) })
+
+		req.flash('info', 'User subscription settings updated successfully!');
 		return res.redirect('back');
 	};
 }

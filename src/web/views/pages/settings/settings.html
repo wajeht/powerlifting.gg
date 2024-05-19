@@ -52,26 +52,33 @@
 <!-- email -->
 <form action="/subscriptions" method="post" class="rounded-lg border p-5 flex flex-col gap-5">
   <div>
-    <h6 class="text-lg font-medium m-0 text-neutral">subscriptions</h6>
+    <h6 class="text-lg font-medium m-0 text-neutral">Subscriptions</h6>
     <p class="m-0 font-light">Choose the email that you'd like to receive from our platform.</p>
   </div>
 
   <div class="form-control">
+
+    <!-- email -->
+    <input type="email" name="email" value="<%= app.user.email %>" hidden />
+
+    <!-- csrf -->
+    <input type="text" name="csrfToken" value="<%= csrfToken %>" hidden />
+
     <!-- newsletter -->
     <label class="label cursor-pointer w-fit gap-5">
-      <input type="checkbox" class="checkbox" />
+      <input type="checkbox" name="newsletter" id="newsletter" class="checkbox" <%= subscriptions.type.newsletter ? 'checked' : '' %> />
       <span class="label-text">Subscribe to newsletter</span>
     </label>
 
     <!-- changelog -->
     <label class="label cursor-pointer w-fit gap-5">
-      <input type="checkbox" class="checkbox" />
+      <input type="checkbox" name="changelog" id="changelog" class="checkbox" <%= subscriptions.type.changelog ? 'checked' : '' %> />
       <span class="label-text">Subscribe to changelog</span>
     </label>
 
     <!-- changelog -->
     <label class="label cursor-pointer w-fit gap-5">
-      <input type="checkbox" class="checkbox" />
+      <input type="checkbox" name="promotion" id="promotion" class="checkbox" <%= subscriptions.type.promotion ? 'checked' : '' %> />
       <span class="label-text">Subscribe to promotion</span>
     </label>
   </div>
