@@ -23,6 +23,7 @@ import {
 	postTenantHandlerValidation,
 	postSettingsAccountHandlerValidation,
 	postNewsletterHandlerValidation,
+	postSubscriptionsHandlerValidation,
 } from './web.validation.js';
 import {
 	postSubscriptionsHandler,
@@ -305,6 +306,7 @@ web.post(
 web.post(
 	'/subscriptions',
 	csrfHandler,
+	validateRequestHandler(postSubscriptionsHandlerValidation),
 	catchAsyncErrorHandler(postSubscriptionsHandler(WebService(WebRepository(db), redis, job))),
 );
 
