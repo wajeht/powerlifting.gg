@@ -263,16 +263,17 @@ export function getSettingsHandler(WebService) {
 		const user = await WebService.getUser({ id: req.session.user.id });
 		let subscriptions = await WebService.getSubscription(req.session.user.email);
 		if (!subscriptions) {
-			subscriptions = {}
-			.type = {
+			subscriptions = {};
+			subscriptions.type = {
 				newsletter: false,
 				changelog: false,
 				promotion: false,
-			}
-		}
-		subscriptions = {
-			...subscriptions,
-			type: JSON.parse(subscriptions.type)
+			};
+		} else {
+			subscriptions = {
+				...subscriptions,
+				type: JSON.parse(subscriptions.type),
+			};
 		}
 		return res.status(200).render('./settings/settings.html', {
 			subscriptions,
@@ -342,37 +343,44 @@ export function postNewsletterHandler(WebService) {
 	};
 }
 
-
 export function postSubscriptionsHandler(WebService) {
 	return async (req, res) => {
 		let { changelog, promotion, newsletter, email } = req.body;
 
 		if (changelog === 'on') {
-			changelog = true
+			changelog = true;
+		} else {
+			changelog = false;
 		}
 
 		if (promotion === 'on') {
-			promotion = true
+			promotion = true;
+		} else {
+			promotion = false;
 		}
 
 		if (newsletter === 'on') {
-			newsletter = true
+			newsletter = true;
+		} else {
+			newsletter = false;
 		}
 
 		let subscriptions = await WebService.getSubscription(email);
 
 		if (!subscriptions) {
 			// this will set all the default subscription to false
-			await db('subscriptions').insert({ email });
+			[subscriptions] = await db('subscriptions').insert({ email }).returning('*');
 		}
 
 		let type = JSON.parse(subscriptions.type) || {};
 
-		if (newsletter) type.newsletter = newsletter;
-		if (changelog) type.changelog = changelog;
-		if (promotion) type.promotion = promotion;
+		type.newsletter = newsletter;
+		type.changelog = changelog;
+		type.promotion = promotion;
 
-		await db('subscriptions').where({ email }).update({ type: JSON.stringify(type) })
+		await db('subscriptions')
+			.where({ email })
+			.update({ type: JSON.stringify(type) });
 
 		req.flash('info', 'User subscription settings updated successfully!');
 		return res.redirect('back');

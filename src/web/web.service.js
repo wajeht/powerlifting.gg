@@ -6,7 +6,7 @@ import fs from 'fs/promises';
 
 export function WebService(WebRepository, redis, job) {
 	return {
-		getSubscription: async function(email) {
+		getSubscription: async function (email) {
 			return await WebRepository.getSubscription(email);
 		},
 		subscribeToNewsletter: async function (email) {

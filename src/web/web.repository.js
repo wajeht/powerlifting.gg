@@ -64,6 +64,6 @@ export function WebRepository(db) {
 		},
 		getSubscription: async function (email) {
 			return await db.select('*').from('subscriptions').where({ email }).first();
-		}
+		},
 	};
 }

@@ -308,7 +308,6 @@ web.post(
 	catchAsyncErrorHandler(postSubscriptionsHandler(WebService(WebRepository(db), redis, job))),
 );
 
-
 /**
  * GET /blog
  * @tags web
