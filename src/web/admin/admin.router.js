@@ -88,6 +88,8 @@ admin.get(
 			logs = await getLog({ date, dirPath: logsDirPath });
 		}
 
+		logs = logs.sort((a, b) => b.time.localeCompare(a.time))
+
 		const dates = (await getLogs(logsDirPath))
 			.map((l) => l.date)
 			.filter((d) => d !== `${date}.log`);
