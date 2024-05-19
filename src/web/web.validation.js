@@ -9,9 +9,10 @@ export const postSubscriptionsHandlerValidation = [
 		.trim()
 		.isEmail()
 		.withMessage('The email must be valid!')
-		.custom(async (email) => {
+		.custom(async (email, { req }) => {
+			const userEmail = req.session.user.email;
 			const user = await db.select('*').from('subscriptions').where({ email }).first();
-			if (user) {
+			if (user && user.email !== userEmail) {
 				throw new ValidationError('The email already exists!');
 			}
 			return true;
@@ -25,9 +26,10 @@ export const postNewsletterHandlerValidation = [
 		.trim()
 		.isEmail()
 		.withMessage('The email must be valid!')
-		.custom(async (email) => {
+		.custom(async (email, { req }) => {
+			const userEmail = req.session.user.email;
 			const user = await db.select('*').from('subscriptions').where({ email }).first();
-			if (user) {
+			if (user && user.email !== userEmail) {
 				throw new ValidationError('The email already exists!');
 			}
 			return true;

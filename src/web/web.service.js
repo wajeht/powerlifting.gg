@@ -10,10 +10,16 @@ export function WebService(WebRepository, redis, job) {
 			return await WebRepository.getSubscription(email);
 		},
 		subscribeToNewsletter: async function (email) {
-			return await WebRepository.postSubscription({
-				email,
-				subscriptions: JSON.stringify({ newsletter: true }),
-			});
+			const subscriptions = await this.getSubscription(email);
+
+			if (subscriptions) {
+				const type = JSON.parse(subscriptions.type);
+				type.newsletter = true;
+				await WebRepository.updateSubscription({ email, type });
+				return;
+			}
+
+			return await WebRepository.postSubscription({ email, type: { newsletter: true } });
 		},
 		clearSystemWideCache: async function () {
 			const keys = await redis.keys('*');
