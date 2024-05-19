@@ -8,7 +8,7 @@ export function up(knex) {
 		table.string('email').notNullable().unique().index();
 		table.boolean('newsletter').defaultTo(false);
 		table.boolean('changelog').defaultTo(false);
-		table.boolean('promotions').defaultTo(false);
+		table.boolean('promotion').defaultTo(false);
 		table.timestamps(true, true);
 	});
 }
