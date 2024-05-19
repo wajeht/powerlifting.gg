@@ -120,7 +120,7 @@ admin.get(
 			)
 			.join('users', 'reviews.user_id', 'users.id')
 			.join('tenants', 'reviews.tenant_id', 'tenants.id')
-			.orderBy('reviews.created_at', 'desc')
+			.orderBy('reviews.created_at', 'desc');
 
 		return res.status(200).render('./admin/reviews.html', {
 			reviews,
