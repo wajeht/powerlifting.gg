@@ -27,5 +27,9 @@ const processSendNewsletterEmailJob = async (job) => {
 new Worker(queueName, processSendNewsletterEmailJob, { connection: redis });
 
 export async function sendNewsletterEmailJob(data) {
-	await sendNewsletterEmailQueue.add('sendNewsletterEmailJob', data);
+	await sendNewsletterEmailQueue.add('sendNewsletterEmailJob', data, {
+		repeat: {
+			cron: '0 9 * * *', // every day at 9 AM
+		},
+	});
 }
