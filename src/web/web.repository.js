@@ -59,5 +59,16 @@ export function WebRepository(db) {
 		postCoach: async function ({ tenant_id, user_id, role = 'COACH' }) {
 			return await db('coaches').insert({ user_id, tenant_id, role }).returning('*');
 		},
+		postSubscription: async function ({ email, type }) {
+			return await db('subscriptions').insert({ email, type: JSON.stringify(type) });
+		},
+		updateSubscription: async function ({ email, type }) {
+			return await db('subscriptions')
+				.where({ email })
+				.update({ type: JSON.stringify(type) });
+		},
+		getSubscription: async function (email) {
+			return await db.select('*').from('subscriptions').where({ email }).first();
+		},
 	};
 }

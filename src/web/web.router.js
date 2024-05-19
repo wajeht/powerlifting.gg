@@ -22,8 +22,11 @@ import {
 	postReviewHandlerValidation,
 	postTenantHandlerValidation,
 	postSettingsAccountHandlerValidation,
+	postNewsletterHandlerValidation,
+	postSubscriptionsHandlerValidation,
 } from './web.validation.js';
 import {
+	postSubscriptionsHandler,
 	postSettingsDangerZoneHandler,
 	getSettingsTenantHandler,
 	getContactHandler,
@@ -43,6 +46,7 @@ import {
 	getBlogHandler,
 	getBlogPostHandler,
 	postSettingsAccountHandler,
+	postNewsletterHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -283,6 +287,30 @@ web.post(
 );
 
 /**
+ * POST /newsletter
+ * @tags web
+ * @summary post /newsletter
+ */
+web.post(
+	'/newsletter',
+	csrfHandler,
+	validateRequestHandler(postNewsletterHandlerValidation),
+	catchAsyncErrorHandler(postNewsletterHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * POST /subscriptions
+ * @tags web
+ * @summary post /subscriptions
+ */
+web.post(
+	'/subscriptions',
+	csrfHandler,
+	validateRequestHandler(postSubscriptionsHandlerValidation),
+	catchAsyncErrorHandler(postSubscriptionsHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
  * GET /blog
  * @tags web
  * @summary get blog page
@@ -303,6 +331,7 @@ web.get(
 	'/blog/:id',
 	tenantIdentityHandler,
 	throwTenancyHandler,
+	csrfHandler,
 	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis, job))),
 );
 
