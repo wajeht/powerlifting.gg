@@ -19,6 +19,31 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const logsFormDate = document.getElementById('logs-form-date');
+    if (logsFormDate) {
+      logsFormDate.querySelector('select').addEventListener('change', () => {
+        logsFormDate.submit();
+      });
+    }
+  });
+</script>
+
+<!-- admin logs date -->
+<form id="logs-form-date" method="get" action="/admin" class="flex justify-between items-center ">
+  <h3 class="m-0 p-0 sm:block hidden">Logs</h3>
+  <label for="date" class="form-control sm:max-w-xs w-full">
+    <select name="date" id="date" class="select select-bordered">
+      <option selected><%= date %></option>
+      <% for (const date of dates) { %>
+        <option><%= date %></option>
+      <% } %>
+    </select>
+  </label>
+</form>
+
+
 <!-- admin -->
 <% if (logs.length) { %>
   <div class="overflow-x-auto rounded-lg border ">

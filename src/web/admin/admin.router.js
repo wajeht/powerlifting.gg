@@ -14,7 +14,7 @@ import {
 	csrfHandler,
 } from '../../app.middleware.js';
 
-import { getLog } from './admin.util.js';
+import { getLog, getLogs } from './admin.util.js';
 
 const logsDirPath = path.resolve(path.join(process.cwd(), 'src', 'logs'));
 
@@ -77,6 +77,21 @@ admin.get(
 		const formattedDndOfCurrentMonth = dayjs(startOfCurrentMonth).format('MMMM D');
 		const formattedEndOfCurrentMonth = dayjs(endOfCurrentMonth).format('MMMM D');
 
+		let logs;
+		let date = req.query.date?.split('.log')[0];
+
+		if (date) {
+			date = dayjs(date).format('YYYY-MM-DD');
+			logs = await getLog({ date, dirPath: logsDirPath });
+		} else {
+			date = dayjs().format('YYYY-MM-DD');
+			logs = await getLog({ date, dirPath: logsDirPath });
+		}
+
+		const dates = (await getLogs(logsDirPath))
+			.map((l) => l.date)
+			.filter((d) => d !== `${date}.log`);
+
 		return res.status(200).render('./admin/admin.html', {
 			user: {
 				count: currentUserCount,
@@ -92,8 +107,9 @@ admin.get(
 				startOfCurrentMonth: formattedDndOfCurrentMonth,
 				endOfCurrentMonth: formattedEndOfCurrentMonth,
 			},
-			// TODO: figure out a way to filter by other dates too
-			logs: await getLog({ date: dayjs().format('YYYY-MM-DD'), dirPath: logsDirPath }),
+			date: date + '.log',
+			logs,
+			dates,
 			flashMessages: req.flash(),
 			title: 'Admin',
 			path: '/admin',
