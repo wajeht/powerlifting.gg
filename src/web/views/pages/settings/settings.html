@@ -57,7 +57,6 @@
   </div>
 
   <div class="form-control">
-
     <!-- email -->
     <input type="email" name="email" value="<%= app.user.email %>" hidden />
 
@@ -65,19 +64,19 @@
     <input type="text" name="csrfToken" value="<%= csrfToken %>" hidden />
 
     <!-- newsletter -->
-    <label class="label cursor-pointer w-fit gap-5">
+    <label for="newsletter" class="label cursor-pointer w-fit gap-5">
       <input type="checkbox" name="newsletter" id="newsletter" class="checkbox" <%= subscriptions.type.newsletter ? 'checked' : '' %> />
       <span class="label-text">Subscribe to newsletter</span>
     </label>
 
     <!-- changelog -->
-    <label class="label cursor-pointer w-fit gap-5">
+    <label for="changelog" class="label cursor-pointer w-fit gap-5">
       <input type="checkbox" name="changelog" id="changelog" class="checkbox" <%= subscriptions.type.changelog ? 'checked' : '' %> />
       <span class="label-text">Subscribe to changelog</span>
     </label>
 
     <!-- changelog -->
-    <label class="label cursor-pointer w-fit gap-5">
+    <label for="promotion" class="label cursor-pointer w-fit gap-5">
       <input type="checkbox" name="promotion" id="promotion" class="checkbox" <%= subscriptions.type.promotion ? 'checked' : '' %> />
       <span class="label-text">Subscribe to promotion</span>
     </label>
