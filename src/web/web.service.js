@@ -18,8 +18,9 @@ export function WebService(WebRepository, redis, job) {
 				return await WebRepository.updateSubscription({ email, type });
 			}
 
+			// TODO: send a user for email confirmation to make sure it is an actual email
+			//       check to see if valid user from `users` table
 			const type = { newsletter: true, changelog: false, promotion: false };
-
 			return await WebRepository.postSubscription({ email, type });
 		},
 		clearSystemWideCache: async function () {
