@@ -322,6 +322,7 @@ export function postNewsletterHandler(WebService) {
 	return async (req, res) => {
 		await WebService.subscribeToNewsletter(req.body.email);
 		req.flash('info', 'Successfully subscribed to out newsletter, please confirm your email!');
-		return res.redirect(`${req.headers.referer}#newsletter-container`);
+		if (req.headers.referer) return res.redirect(`${req.headers.referer}#newsletter-container`);
+		return res.redirect('back');
 	};
 }
