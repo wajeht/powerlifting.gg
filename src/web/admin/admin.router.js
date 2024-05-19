@@ -189,7 +189,8 @@ admin.get(
 				});
 			}
 		}
-		backup.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+		backup.sort((a, b) => b.created_at.localeCompare(a.created_at));
 
 		return res.status(200).render('./admin/database.html', {
 			backup,
