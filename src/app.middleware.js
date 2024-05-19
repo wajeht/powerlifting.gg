@@ -232,6 +232,8 @@ export function errorHandler(err, req, res, _next) {
 
 	if (req.user && req.user.role === 'SUPER_ADMIN') {
 		errorMessage = err.stack;
+	} else if (process.env.NODE_ENV === 'development') {
+		errorMessage = err.stack;
 	} else if (process.env.NODE_ENV === 'production') {
 		errorMessage = 'Oops! Something went wrong.';
 	} else {
