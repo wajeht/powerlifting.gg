@@ -384,6 +384,6 @@ export function postSubscriptionsHandler(WebService) {
 			.update({ type: JSON.stringify(type) });
 
 		req.flash('info', 'User subscription settings updated successfully!');
-		return res.redirect('back');
+		return res.redirect('/settings');
 	};
 }
