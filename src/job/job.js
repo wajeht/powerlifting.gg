@@ -5,6 +5,7 @@ import { ExpressAdapter } from '@bull-board/express';
 import { sendWelcomeEmailJob, sendWelcomeEmailQueue } from './welcome.job.js';
 import { sendContactEmailJob, sendContactEmailQueue } from './contact.job.js';
 import { scheduleBackupDatabaseJob, scheduleBackupDatabaseQueue } from './backup-database.job.js';
+import { sendNewsletterEmailJob, sendNewsletterEmailQueue } from './newsletter.job.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
@@ -19,6 +20,7 @@ export const job = {
 	sendContactEmailJob,
 	scheduleBackupDatabaseJob,
 	sendApproveTenantEmailJob,
+	sendNewsletterEmailJob,
 };
 
 export function setupBullDashboard(app) {
@@ -31,6 +33,7 @@ export function setupBullDashboard(app) {
 			new BullMQAdapter(sendWelcomeEmailQueue),
 			new BullMQAdapter(scheduleBackupDatabaseQueue),
 			new BullMQAdapter(sendApproveTenantEmailQueue),
+			new BullMQAdapter(sendNewsletterEmailQueue),
 		],
 		serverAdapter,
 	});
