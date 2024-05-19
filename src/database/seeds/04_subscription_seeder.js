@@ -1,5 +1,9 @@
 import { faker } from '@faker-js/faker';
 
+function randomBoolean() {
+	return Math.random() < 0.5;
+}
+
 export async function seed(db) {
 	const users = await db.select('*').from('users');
 
@@ -7,9 +11,9 @@ export async function seed(db) {
 
 	for (const user of users) {
 		const subscription = {
-			newsletter: faker.datatype.boolean(),
-			changelog: faker.datatype.boolean(),
-			promotions: faker.datatype.boolean(),
+			newsletter: randomBoolean(),
+			changelog: randomBoolean(),
+			promotions: randomBoolean(),
 		};
 
 		subscriptions.push({ email: user.email, type: JSON.stringify(subscription) });
@@ -18,9 +22,9 @@ export async function seed(db) {
 	// Add subscriptions for public users
 	for (let i = 0; i < 5; i++) {
 		const subscription = {
-			newsletter: faker.datatype.boolean(),
-			changelog: faker.datatype.boolean(),
-			promotions: faker.datatype.boolean(),
+			newsletter: randomBoolean(),
+			changelog: randomBoolean(),
+			promotions: randomBoolean(),
 		};
 
 		subscriptions.push({ email: faker.internet.email(), type: JSON.stringify(subscription) });
