@@ -1,0 +1,19 @@
+<html>
+	<body>
+		<!-- header -->
+		<%- include('../../components/header.html') %>
+
+		<main>
+			<div>
+				<p>Hi <%- username %>,</p>
+				<p>We have exciting news! Check out our latest post:</p>
+				<p><strong><%- postTitle %></strong></p>
+				<p><%- postExcerpt %></p>
+				<p><a href="<%- postUrl %>">Read more</a></p>
+			</div>
+		</main>
+
+		<!-- footer -->
+		<%- include('../../components/footer.html') %>
+	</body>
+</html>
