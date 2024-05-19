@@ -12,7 +12,11 @@ export const sendNewsletterEmailQueue = new Queue(queueName, {
 const processSendNewsletterEmailJob = async (job) => {
 	try {
 		job.updateProgress(0);
-		await sendNewsletterEmail({ email: job.data.email, username: job.data.username });
+		await sendNewsletterEmail({
+			email: job.data.email,
+			username: job.data.username,
+			post: job.data.post,
+		});
 		job.updateProgress(100);
 		logger.info(`Newsletter email job  sent to ${job.data.email}`);
 	} catch (error) {
