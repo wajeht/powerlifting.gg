@@ -6,6 +6,12 @@ import fs from 'fs/promises';
 
 export function WebService(WebRepository, redis, job) {
 	return {
+		subscribeToNewsletter: async function (email) {
+			return await WebRepository.postSubscription({
+				email,
+				subscriptions: JSON.stringify({ newsletter: true }),
+			});
+		},
 		clearSystemWideCache: async function () {
 			const keys = await redis.keys('*');
 			for (const key of keys) {

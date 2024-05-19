@@ -22,6 +22,7 @@ import {
 	postReviewHandlerValidation,
 	postTenantHandlerValidation,
 	postSettingsAccountHandlerValidation,
+	postNewsletterHandlerValidation,
 } from './web.validation.js';
 import {
 	postSettingsDangerZoneHandler,
@@ -43,6 +44,7 @@ import {
 	getBlogHandler,
 	getBlogPostHandler,
 	postSettingsAccountHandler,
+	postNewsletterHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -280,6 +282,18 @@ web.post(
 	csrfHandler,
 	validateRequestHandler(postReviewHandlerValidation),
 	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis, dayjs, badWord))),
+);
+
+/**
+ * POST /newsletter
+ * @tags newsletter
+ * @summary post /newsletter
+ */
+web.post(
+	'/newsletter',
+	csrfHandler,
+	validateRequestHandler(postNewsletterHandlerValidation),
+	catchAsyncErrorHandler(postNewsletterHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**

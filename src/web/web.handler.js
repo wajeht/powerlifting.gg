@@ -248,6 +248,7 @@ export function getBlogPostHandler(WebService) {
 
 		return res.status(200).render('post.html', {
 			title: `Blog / ${req.params.id}`,
+			flashMessages: req.flash(),
 			path: `/blog/title`,
 			post,
 		});
@@ -314,5 +315,13 @@ export function getSettingsTenantHandler() {
 			path: '/settings/tenant',
 			layout: '../layouts/settings.html',
 		});
+	};
+}
+
+export function postNewsletterHandler(WebService) {
+	return async (req, res) => {
+		await WebService.subscribeToNewsletter(req.body.email);
+		req.flash('info', 'Successfully subscribed to out newsletter, please confirm your email!');
+		return res.redirect('back');
 	};
 }
