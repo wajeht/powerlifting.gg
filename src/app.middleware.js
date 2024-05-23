@@ -230,14 +230,12 @@ export function errorHandler(err, req, res, _next) {
 
 	let errorMessage = 'Oops! Something went wrong.';
 
-	if (req.user && req.user.role === 'SUPER_ADMIN') {
-		errorMessage = err.stack;
+	if (process.env.NODE_ENV === 'production') {
+		if (req.user && req.user.role === 'SUPER_ADMIN') {
+			errorMessage = err.stack;
+		}
 	} else if (process.env.NODE_ENV === 'development') {
 		errorMessage = err.stack;
-	} else if (process.env.NODE_ENV === 'production') {
-		errorMessage = 'Oops! Something went wrong.';
-	} else {
-		errorMessage = 'Oops! Something went wrong.';
 	}
 
 	if (err instanceof NotFoundError) {
