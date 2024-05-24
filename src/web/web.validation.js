@@ -26,10 +26,9 @@ export const postNewsletterHandlerValidation = [
 		.trim()
 		.isEmail()
 		.withMessage('The email must be valid!')
-		.custom(async (email, { req }) => {
-			const userEmail = req.session.user.email;
-			const user = await db.select('*').from('subscriptions').where({ email }).first();
-			if (user && user.email !== userEmail) {
+		.custom(async (email) => {
+			const user = await db.select('*').from('subscriptions').where({ email }).andWhere('type', 'like', '%"newsletter":true%').first();
+			if (user) {
 				throw new ValidationError('The email already exists!');
 			}
 			return true;
