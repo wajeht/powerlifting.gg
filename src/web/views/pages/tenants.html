@@ -105,16 +105,16 @@
 						style="background-image: url(<%= tenant.banner %>)"
 					>
 						<!-- blur -->
-						<div class="flex gap-2 p-5 backdrop-blur-sm bg-black/70 hover:bg-black/80 rounded-md transition-all duration-300">
+						<div class="flex sm:flex-row flex-col gap-2 p-5 backdrop-blur-sm bg-black/70 hover:bg-black/80 rounded-md transition-all duration-300">
 							<!-- left -->
-							<div class="flex-0 min-h-full max-w-40 flex justify-center items-center">
+							<div class="flex-0 min-h-full flex justify-center items-center sm:justify-normal sm:items-start">
 								<div class="w-32 h-32 rounded-full flex justify-center items-center shadow-white shadow-sm">
 									<img class="h-full object-cover w-full rounded-full" src="<%= tenant.logo %>" alt="logo" />
 								</div>
 							</div>
 
 							<!-- mid -->
-							<div class="flex-1 p-5 flex flex-col gap-2">
+							<div class="flex-1 p-5 flex flex-col gap-2 justify-center items-center sm:justify-normal sm:items-start">
 								<!-- name -->
 								<div class="flex items-center">
 									<h3 class="p-0 m-0 text-white drop-shadow-sm"><%= tenant.name %></h3>
@@ -141,7 +141,7 @@
 							</div>
 
 							<!-- right -->
-							<div class="flex-0 p-5 text-white"><%= tenant.reviews_count %>
+							<div class="flex-0 p-5 text-white sm:visible hidden"><%= tenant.reviews_count %>
 								<% if (tenant.reviews_count > 0) { %>
 									<span>Reviews</span>
 								<% } else { %>
