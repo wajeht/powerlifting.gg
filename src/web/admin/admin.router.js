@@ -120,6 +120,26 @@ admin.get(
 	}),
 );
 
+admin.post(
+	'/admin/tenants/:id/approve',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	authorizePermissionHandler('SUPER_ADMIN'),
+	csrfHandler,
+	catchAsyncErrorHandler(async (req, res) => {
+		const id = req.params.id;
+		const tenant = await db.select('*').from('tenants').where({ id, approved: false }).first();
+
+		if (!tenant) throw new NotFoundError();
+
+		await db('tenants').where({ id }).update({ approved: true });
+
+		req.flash('success', `${tenant.slug} has been approved!`);
+		return res.redirect('/admin/tenants');
+	}),
+);
+
 admin.get(
 	'/admin/reviews',
 	tenantIdentityHandler,
