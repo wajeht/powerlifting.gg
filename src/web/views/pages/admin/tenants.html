@@ -1,12 +1,86 @@
+<script>
+  const states = {
+    approve: [],
+  };
+
+  function handleCheckboxChange(event) {
+    const checkbox = event.target;
+    if (states.approve.includes(checkbox.value)) {
+      states.approve = states.approve.filter(c => c !== checkbox.value);
+    } else {
+      states.approve.push(checkbox.value);
+    }
+  }
+
+  function approve(event) {
+    if (!states.approve.length) return;
+
+    const csrfToken = "<%= csrfToken %>";
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/admin/tenants/approve';
+
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfToken';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+
+    states.approve.forEach(value => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id[]';
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>
+
+
 <% if (tenants.length) { %>
-  <div class="overflow-x-auto rounded-lg border">
-    <table class="table">
+  <div class="overflow-x-auto rounded-lg border p-0">
+
+    <!-- action -->
+    <div class="flex items-center justify-between p-5">
+      <!-- left -->
+      <form action="/admin/tenants" method="get">
+        <div class="join w-full">
+          <input name="q" id="q" class="input input-sm input-bordered join-item w-full" placeholder="Search" type="text" required />
+          <button type="submit" class="btn btn-sm btn-neutral join-item">Search</button>
+        </div>
+      </form>
+
+      <!-- right -->
+      <div class="flex items-center gap-2">
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-sm m-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" stroke="1.4" d="M12 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2"/></svg>
+            <span>Action</span>
+          </div>
+          <div tabindex="0" class="dropdown-content flex flex-col mt-3 z-[1] p-2 shadow bg-base-100 border w-44 rounded-lg">
+            <button class="btn btn-sm btn-ghost" onclick="approve(event)">Approve</button>
+            <button class="btn btn-sm btn-ghost">Calibrate Reviews</button>
+          </div>
+        </div>
+
+        <!-- add -->
+        <button class="btn btn-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" stroke="1.4" d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- table -->
+    <table class="table my-0 border-t">
       <!-- head -->
       <thead>
         <tr>
           <th>
             <label>
-              <input type="checkbox" class="checkbox" />
+              <input type="checkbox" class="checkbox checkbox-sm" />
             </label>
           </th>
           <th>Name</th>
@@ -21,7 +95,7 @@
           <tr>
             <th>
               <label>
-                <input type="checkbox" class="checkbox" />
+                <input type="checkbox" class="checkbox checkbox-sm" onchange="handleCheckboxChange(event)" name="<%= tenant.slug %>" value="<%= tenant.id %>" />
               </label>
             </th>
             <td>

@@ -120,6 +120,32 @@ admin.get(
 	}),
 );
 
+admin.post(
+	'/admin/tenants/approve',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	authorizePermissionHandler('SUPER_ADMIN'),
+	csrfHandler,
+	catchAsyncErrorHandler(async (req, res) => {
+		const ids = req.body.id.map((id) => parseInt(id));
+
+		const tenants = await db
+			.select('*')
+			.from('tenants')
+			.whereIn('id', ids)
+			.andWhere({ approved: false });
+
+		if (!tenants.length) throw new NotFoundError();
+
+		await db('tenants').whereIn('id', ids).update({ approved: true });
+
+		tenants.forEach((tenant) => req.flash('success', `${tenant.slug} has been approved!`));
+
+		return res.redirect('/admin/tenants');
+	}),
+);
+
 admin.get(
 	'/admin/reviews',
 	tenantIdentityHandler,
