@@ -121,21 +121,27 @@ admin.get(
 );
 
 admin.post(
-	'/admin/tenants/:id/approve',
+	'/admin/tenants/approve',
 	tenantIdentityHandler,
 	throwTenancyHandler,
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
 	catchAsyncErrorHandler(async (req, res) => {
-		const id = req.params.id;
-		const tenant = await db.select('*').from('tenants').where({ id, approved: false }).first();
+		const ids = req.body.id.map((id) => parseInt(id));
 
-		if (!tenant) throw new NotFoundError();
+		const tenants = await db
+			.select('*')
+			.from('tenants')
+			.whereIn('id', ids)
+			.andWhere({ approved: false });
 
-		await db('tenants').where({ id }).update({ approved: true });
+		if (!tenants.length) throw new NotFoundError();
 
-		req.flash('success', `${tenant.slug} has been approved!`);
+		await db('tenants').whereIn('id', ids).update({ approved: true });
+
+		tenants.forEach((tenant) => req.flash('success', `${tenant.slug} has been approved!`));
+
 		return res.redirect('/admin/tenants');
 	}),
 );

@@ -15,9 +15,30 @@
   function approve(event) {
     if (!states.approve.length) return;
 
-    console.log(states.approve);
+    const csrfToken = "<%= csrfToken %>";
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/admin/tenants/approve';
+
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfToken';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+
+    states.approve.forEach(value => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id[]';
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
   }
-  </script>
+</script>
+
 
 <% if (tenants.length) { %>
   <div class="overflow-x-auto rounded-lg border p-0">
