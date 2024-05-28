@@ -23,7 +23,7 @@ export async function sendNewsletterEmail({
 
 		logger.info('Newsletter email sent to:', email);
 	} catch (error) {
-		logger.error('Error while sending newsletter email:', error);
+		logger.alert('Error while sending newsletter email:', error);
 		throw error;
 	}
 }

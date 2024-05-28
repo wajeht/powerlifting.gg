@@ -42,7 +42,7 @@ export async function getGoogleOauthToken({ code }) {
 
 		return data;
 	} catch (error) {
-		logger.error('Failed to fetch Google Oauth Tokens', error);
+		logger.alert('Failed to fetch Google Oauth Tokens', error);
 		throw error;
 	}
 }
@@ -60,7 +60,7 @@ export async function getGoogleUser({ id_token, access_token }) {
 
 		return data;
 	} catch (error) {
-		logger.error('Failed to fetch Google User info', error);
+		logger.alert('Failed to fetch Google User info', error);
 		throw error;
 	}
 }

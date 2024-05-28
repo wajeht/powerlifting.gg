@@ -13,7 +13,7 @@ const processSendNewsletterEmailJob = async (job) => {
 	try {
 		await sendNewsLetterEmailInBulk(job);
 	} catch (error) {
-		logger.error(`Failed to send newsletter email job to ${job.data.email}`, error);
+		logger.alert(`Failed to send newsletter email job to ${job.data.email}`, error);
 	}
 };
 

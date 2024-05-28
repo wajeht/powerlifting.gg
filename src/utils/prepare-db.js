@@ -21,7 +21,7 @@ fs.access(dbPath, fs.constants.F_OK, async (err) => {
 			await db.migrate.latest();
 			logger.info('Migrations are up to date.');
 		} catch (error) {
-			logger.error(`Error running migrations or seeding: ${error}`);
+			logger.alert(`Error running migrations or seeding: ${error}`);
 		}
 
 		await db.destroy();
@@ -32,7 +32,7 @@ fs.access(dbPath, fs.constants.F_OK, async (err) => {
 			await db.migrate.latest();
 			logger.info('Migrations are up to date.');
 		} catch (error) {
-			logger.error(`Error running migrations: ${error}`);
+			logger.alert(`Error running migrations: ${error}`);
 		}
 
 		await db.destroy();

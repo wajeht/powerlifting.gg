@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'testing') {
 }
 
 redis.on('error', (error) => {
-	logger.error('Error initializing Redis:', error);
+	logger.alert('Error initializing Redis:', error);
 	process.exit(1);
 });
 
