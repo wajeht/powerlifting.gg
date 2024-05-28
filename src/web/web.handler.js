@@ -35,6 +35,14 @@ export function getTenantsHandler(TenantService) {
 	};
 }
 
+export function postSubscribeToATenant(TenantService) {
+	return async (req, res) => {
+		const id = req.params.id;
+		req.flash('success', 'subscribed!' + id)
+		return res.redirect('back');
+	}
+}
+
 export function getTenantsCreateHandler() {
 	return async (req, res) => {
 		return res.status(200).render('tenants-create.html', {

@@ -18,6 +18,7 @@ import {
 	throwTenancyHandler,
 } from '../app.middleware.js';
 import {
+	postSubscribeToATenantValidation,
 	postContactHandlerValidation,
 	postReviewHandlerValidation,
 	postTenantHandlerValidation,
@@ -26,6 +27,7 @@ import {
 	postSubscriptionsHandlerValidation,
 } from './web.validation.js';
 import {
+	postSubscribeToATenant,
 	postSubscriptionsHandler,
 	postSettingsDangerZoneHandler,
 	getSettingsTenantHandler,
@@ -215,6 +217,18 @@ web.get(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(getTenantsCreateHandler()),
+);
+
+/**
+ * POST /tenants/{id}/subscribe
+ * @tags tenants
+ * @summary subscribe to a  tenant
+ */
+web.post(
+	'/tenants/:id/subscribe',
+	csrfHandler,
+	validateRequestHandler(postSubscribeToATenantValidation),
+	catchAsyncErrorHandler(postSubscribeToATenant(WebService(WebRepository(db), redis, job))),
 );
 
 /**
