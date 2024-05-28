@@ -38,6 +38,20 @@ export function getTenantsHandler(TenantService) {
 export function postSubscribeToATenant(TenantService) {
 	return async (req, res) => {
 		const id = req.params.id;
+		const email = req.body.email;
+		const tenant = await TenantService.getApprovedTenant({ tenantId: id });
+
+
+		// const sub = {
+		// 	"newsletter": false,
+		// 	"changelog": true,
+		// 	"promotions": true,
+		// 	tenants: [{
+		// 		id,
+		// 		name: tenant.name,
+		// 	}]
+		// }
+
 		req.flash('success', 'subscribed!' + id)
 		return res.redirect('back');
 	}
