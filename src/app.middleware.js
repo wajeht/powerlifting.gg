@@ -13,7 +13,7 @@ import {
 	ValidationError,
 	UnimplementedFunctionError,
 } from './app.error.js';
-import { Discord } from './utils/discord.js';
+import { alertDiscord } from './utils/discord.js';
 
 export const uploadHandler = multer({
 	storage: multerS3({
@@ -217,8 +217,8 @@ export async function notFoundHandler(req, res, _next) {
 	});
 }
 
-export function errorHandler(err, req, res, _next) {
-	Discord.send(err.msg, err.stack);
+export async function errorHandler(err, req, res, _next) {
+	await alertDiscord(err.msg, err.stack);
 
 	const errorStatusCodes = {
 		HttpError: new HttpError().statusCode,

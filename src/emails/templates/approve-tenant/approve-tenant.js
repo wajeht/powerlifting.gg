@@ -23,7 +23,7 @@ export async function sendApproveTenantEmail({ subject = 'Approve Tenant', tenan
 			html,
 		});
 	} catch (error) {
-		logger.error('error while sending approve tenant email:', error);
+		logger.alert('error while sending approve tenant email:', error);
 		throw error;
 	}
 }

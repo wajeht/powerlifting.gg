@@ -35,6 +35,51 @@ export function getTenantsHandler(TenantService) {
 	};
 }
 
+export function postSubscribeToATenant(TenantService, WebService) {
+	return async (req, res) => {
+		const id = req.params.id;
+		const email = req.body.email;
+		const tenant = await TenantService.getApprovedTenant({ tenantId: id });
+		const subscription = await WebService.getSubscription(email);
+
+		if (!subscription) {
+			const type = {
+				newsletter: true,
+				changelog: false,
+				promotion: false,
+				tenants: [
+					{
+						id,
+						name: tenant.name,
+					},
+				],
+			};
+			await WebService.createSubscription({ email, type });
+		}
+
+		const type = JSON.parse(subscription.type) || {};
+
+		if (!type.tenants) {
+			type.tenants = [
+				{
+					id,
+					name: tenant.name,
+				},
+			];
+		} else {
+			type.tenants.push({
+				id,
+				name: tenant.name,
+			});
+		}
+
+		await WebService.updateSubscription({ email, type });
+
+		req.flash('success', 'subscribed!' + id);
+		return res.redirect('back');
+	};
+}
+
 export function getTenantsCreateHandler() {
 	return async (req, res) => {
 		return res.status(200).render('tenants-create.html', {

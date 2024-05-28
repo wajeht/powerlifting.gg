@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { db } from '../database/db.js';
 import { ValidationError } from '../app.error.js';
 
@@ -66,6 +66,19 @@ export const postSettingsAccountHandlerValidation = [
 			const user = await db.select('*').from('users').where({ email }).first();
 			if (user && user.id !== userId) {
 				throw new ValidationError('The email already exists!');
+			}
+			return true;
+		}),
+];
+
+export const postSubscribeToATenantValidation = [
+	param('id')
+		.notEmpty()
+		.withMessage('The id must not be empty!')
+		.custom(async (id) => {
+			const tenant = await db.select('*').from('tenants').where({ id, approved: true }).first();
+			if (!tenant) {
+				throw new ValidationError('The tenant does not exist!');
 			}
 			return true;
 		}),

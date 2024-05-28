@@ -18,6 +18,7 @@
 import path from 'path';
 import pino from 'pino';
 import pretty from 'pino-pretty';
+import { alertDiscord } from './discord.js';
 
 const today = new Date().toISOString().split('T')[0];
 const root = path.resolve(process.cwd());
@@ -46,7 +47,7 @@ const streams = [
 	},
 ];
 
-export const logger = pino(
+const logger = pino(
 	{
 		customLevels: levels,
 		level: process.env.PINO_LOG_LEVEL || 'info',
@@ -60,3 +61,9 @@ export const logger = pino(
 	},
 	pino.multistream(streams),
 );
+
+logger.alert = async (msg, object = null) => {
+	return await alertDiscord(msg, object);
+};
+
+export { logger };

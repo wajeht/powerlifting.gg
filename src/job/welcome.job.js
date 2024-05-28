@@ -16,7 +16,7 @@ const processSendWelcomeEmailJob = async (job) => {
 		job.updateProgress(100);
 		logger.info(`Welcome email job  sent to ${job.data.email}`);
 	} catch (error) {
-		logger.error(`Failed to send welcome email job to ${job.data.email}`, error);
+		logger.alert(`Failed to send welcome email job to ${job.data.email}`, error);
 	}
 };
 

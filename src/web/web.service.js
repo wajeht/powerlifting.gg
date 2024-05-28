@@ -9,6 +9,12 @@ export function WebService(WebRepository, redis, job) {
 		getSubscription: async function (email) {
 			return await WebRepository.getSubscription(email);
 		},
+		updateSubscription: async function ({ email, type }) {
+			return await WebRepository.updateSubscription({ email, type });
+		},
+		createSubscription: async function ({ email, type }) {
+			return await WebRepository.postSubscription({ email, type });
+		},
 		subscribeToNewsletter: async function (email) {
 			const subscriptions = await this.getSubscription(email);
 

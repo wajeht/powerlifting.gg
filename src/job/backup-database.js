@@ -55,6 +55,6 @@ export async function backupDatabase(job) {
 
 		logger.info(`Successfully uploaded ${backupFileName}.gz to ${bucketName}`);
 	} catch (error) {
-		logger.error('Error:', error);
+		logger.alert('Error:', error);
 	}
 }
