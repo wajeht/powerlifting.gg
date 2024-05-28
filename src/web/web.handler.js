@@ -51,20 +51,29 @@ export function postSubscribeToATenant(TenantService, WebService) {
 					{
 						id,
 						name: tenant.name
-					}]
+					}
+				]
 			};
 			await WebService.createSubscription({ email, type })
 		}
 
-		// const sub = {
-		// 	"newsletter": false,
-		// 	"changelog": true,
-		// 	"promotions": true,
-		// 	tenants: [{
-		// 		id,
-		// 		name: tenant.name,
-		// 	}]
-		// }
+		const type = JSON.parse(subscription.type) || {};
+
+		if (!type.tenants) {
+			type.tenants = [{
+				id,
+				name: tenant.name
+
+			}]
+		} else {
+			type.tenants.push({
+				id,
+				name: tenant.name
+
+			});
+		}
+
+		await WebService.updateSubscription({ email, type })
 
 		req.flash('success', 'subscribed!' + id);
 		return res.redirect('back');

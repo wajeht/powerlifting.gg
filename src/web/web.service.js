@@ -10,7 +10,7 @@ export function WebService(WebRepository, redis, job) {
 			return await WebRepository.getSubscription(email);
 		},
 		updateSubscription: async function ({ email, type }) {
-			return await WebRepository.updateSubscription({ email, type: JSON.parse(type) });
+			return await WebRepository.updateSubscription({ email, type });
 		},
 		createSubscription: async function ({ email, type }) {
 			return await WebRepository.postSubscription({ email, type })
