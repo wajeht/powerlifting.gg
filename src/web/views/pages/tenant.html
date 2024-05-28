@@ -66,11 +66,25 @@
 			<!-- right -->
 			<div class="flex gap-3 w-full sm:w-fit justify-between">
 				<% if (!q) { %>
-					<form action="/tenants/<%= app.tenant.id %>/subscribe" method="post">
-  					<!-- csrf -->
-  					<input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
-						<input type="submit" class="btn btn-neutral text-white no-underline" value="Subscribe">
-					</form>
+					<div class="w-fit">
+						<button class="btn btn-neutral text-white" onclick="my_modal_2.showModal()">Subscribe</button>
+						<dialog id="my_modal_2" class="modal">
+							<div class="modal-box">
+								<h3 class="font-bold text-lg m-0">Subscribe to <%= app.tenant.name %></h3>
+								<form action="/tenants/<%= app.tenant.id %>/subscribe" method="post">
+									<input type="text" name="csrfToken" value="<%= csrfToken %>" hidden />
+									<p>Stay up to date with <%= app.tenant.name %>'s reviews</p>
+									<div class="join w-full">
+										<input name="email" id="email" class="input input-bordered join-item w-full" placeholder="Email" type="email" required />
+										<button type="submit" class="btn btn-neutral join-item">Subscribe</button>
+									</div>
+								</form>
+							</div>
+							<form method="dialog" class="modal-backdrop">
+								<button>close</button>
+							</form>
+						</dialog>
+					</div>
 				<% } %>
 
 				<% if (reviews.data.length === 0 && q) { %>
