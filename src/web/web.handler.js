@@ -40,6 +40,21 @@ export function postSubscribeToATenant(TenantService, WebService) {
 		const id = req.params.id;
 		const email = req.body.email;
 		const tenant = await TenantService.getApprovedTenant({ tenantId: id });
+		const subscription = await WebService.getSubscription(email);
+
+		if (!subscription) {
+			const type = {
+				newsletter: true,
+				changelog: false,
+				promotion: false,
+				tenants: [
+					{
+						id,
+						name: tenant.name
+					}]
+			};
+			await WebService.createSubscription({ email, type })
+		}
 
 		// const sub = {
 		// 	"newsletter": false,
