@@ -7,7 +7,7 @@
 				<%- include('../components/right-arrow-svg.html') %>
 				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/blog">Blog</a>
 				<%- include('../components/right-arrow-svg.html') %>
-				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/blog/<%= post.meta.id %>"><%= post.meta.title %></a>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/blog/<%= post.post.meta.id %>"><%= post.post.meta.title %></a>
 			</div>
 
 			<% if (app.user) { %>
@@ -16,25 +16,57 @@
 		</div>
 
 		<!-- meta -->
-		<h1><%= post.meta.title %></h1>
+		<h1><%= post.post.meta.title %></h1>
 		<div class="flex gap-2 items-center text-sm">
 			<div class="flex justify-center items-center gap-2 h-fit w-fit">
 				<img
 					class="w-5 h-5 rounded-full m-0"
-					src="<%= post.meta.profile_picture %>"
+					src="<%= post.post.meta.profile_picture %>"
 					alt="profile_picture"
 				/>
-				<span><%= post.meta.author %></span>
+				<span><%= post.post.meta.author %></span>
 			</div>
 			<span>/</span>
-			<span><%= new Date(post.meta.date).toLocaleString('en-US', { month: 'long' , day: 'numeric' }) %></span>
+			<span><%= new Date(post.post.meta.date).toLocaleString('en-US', { month: 'long' , day: 'numeric' }) %></span>
 			<span>/</span>
-			<span><%= post.meta.time.text %></span>
+			<span><%= post.post.meta.time.text %></span>
 			<span>/</span>
-			<span><%= post.meta.time.words %> words</span>
+			<span><%= post.post.meta.time.words %> words</span>
 		</div>
 
-		<%- post.content %>
+		<%- post.post.content %>
+
+		<% if (post.previous !== null || post.next !== null) { %>
+			<div class="flex justify-between mt-20">
+				<!-- previous -->
+				<% if (!post.previous) { %> <div></div> <% } %>
+				<% if (post.previous) { %>
+					<a href="/blog/<%= post.previous.meta.id %>" class="btn btn-sm md:btn-md gap-2 lg:gap-3">
+						<svg class="h-6 w-6 fill-current md:h-8 md:w-8" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
+						</svg>
+						<div class="flex flex-col items-start">
+							<span class="text-base-content/50 hidden text-xs font-normal md:block">Prev</span>
+							<span><%= post.previous.meta.title %></span>
+						</div>
+					</a>
+				<% } %>
+
+				<!-- next -->
+				<% if (!post.next) { %> <div></div> <% } %>
+				<% if (post.next) { %>
+					<a href="/blog/<%= post.next.meta.id %>" class="btn btn-neutral btn-sm md:btn-md gap-2 lg:gap-3">
+						<div class="flex flex-col items-end">
+							<span class="text-neutral-content/50 hidden text-xs font-normal md:block">Next</span>
+							<span><%= post.next.meta.title %></span>
+						</div>
+						<svg class="h-6 w-6 fill-current md:h-8 md:w-8" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+						</svg>
+					</a>
+				<% } %>
+			</div>
+		<% } %>
 
 		<%- include('../components/newsletter.html') %>
 	</div>
