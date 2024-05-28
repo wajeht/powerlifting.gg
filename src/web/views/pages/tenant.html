@@ -65,8 +65,8 @@
 
 			<!-- right -->
 			<div class="flex gap-3 w-full sm:w-fit justify-between">
-				<% if (reviews.data.length) { %>
-					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Submit a Review</a>
+				<% if (!q) { %>
+					<a class="btn btn-neutral text-white no-underline" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Subscribe</a>
 				<% } %>
 
 				<% if (reviews.data.length === 0 && q) { %>
