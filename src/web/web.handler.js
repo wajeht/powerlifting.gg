@@ -35,7 +35,7 @@ export function getTenantsHandler(TenantService) {
 	};
 }
 
-export function postSubscribeToATenant(TenantService) {
+export function postSubscribeToATenant(TenantService, WebService) {
 	return async (req, res) => {
 		const id = req.params.id;
 		const email = req.body.email;

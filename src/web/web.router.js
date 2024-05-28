@@ -228,7 +228,12 @@ web.post(
 	'/tenants/:id/subscribe',
 	csrfHandler,
 	validateRequestHandler(postSubscribeToATenantValidation),
-	catchAsyncErrorHandler(postSubscribeToATenant(WebService(WebRepository(db), redis, job))),
+	catchAsyncErrorHandler(
+		postSubscribeToATenant(
+			TenantService(db, redis, dayjs, badWord),
+			WebService(WebRepository(db), redis, job),
+		),
+	),
 );
 
 /**
