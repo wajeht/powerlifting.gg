@@ -7,7 +7,7 @@
 				<%- include('../components/right-arrow-svg.html') %>
 				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/blog">Blog</a>
 				<%- include('../components/right-arrow-svg.html') %>
-				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/blog/<%= post.meta.id %>"><%= post.meta.title %></a>
+				<a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/blog/<%= post.post.meta.id %>"><%= post.post.meta.title %></a>
 			</div>
 
 			<% if (app.user) { %>
@@ -16,25 +16,25 @@
 		</div>
 
 		<!-- meta -->
-		<h1><%= post.meta.title %></h1>
+		<h1><%= post.post.meta.title %></h1>
 		<div class="flex gap-2 items-center text-sm">
 			<div class="flex justify-center items-center gap-2 h-fit w-fit">
 				<img
 					class="w-5 h-5 rounded-full m-0"
-					src="<%= post.meta.profile_picture %>"
+					src="<%= post.post.meta.profile_picture %>"
 					alt="profile_picture"
 				/>
-				<span><%= post.meta.author %></span>
+				<span><%= post.post.meta.author %></span>
 			</div>
 			<span>/</span>
-			<span><%= new Date(post.meta.date).toLocaleString('en-US', { month: 'long' , day: 'numeric' }) %></span>
+			<span><%= new Date(post.post.meta.date).toLocaleString('en-US', { month: 'long' , day: 'numeric' }) %></span>
 			<span>/</span>
-			<span><%= post.meta.time.text %></span>
+			<span><%= post.post.meta.time.text %></span>
 			<span>/</span>
-			<span><%= post.meta.time.words %> words</span>
+			<span><%= post.post.meta.time.words %> words</span>
 		</div>
 
-		<%- post.content %>
+		<%- post.post.content %>
 
 		<%- include('../components/newsletter.html') %>
 	</div>
