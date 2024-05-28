@@ -41,7 +41,6 @@ export function postSubscribeToATenant(TenantService) {
 		const email = req.body.email;
 		const tenant = await TenantService.getApprovedTenant({ tenantId: id });
 
-
 		// const sub = {
 		// 	"newsletter": false,
 		// 	"changelog": true,
@@ -52,9 +51,9 @@ export function postSubscribeToATenant(TenantService) {
 		// 	}]
 		// }
 
-		req.flash('success', 'subscribed!' + id)
+		req.flash('success', 'subscribed!' + id);
 		return res.redirect('back');
-	}
+	};
 }
 
 export function getTenantsCreateHandler() {

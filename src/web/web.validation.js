@@ -82,8 +82,7 @@ export const postSubscribeToATenantValidation = [
 			}
 			return true;
 		}),
-]
-
+];
 
 export const postTenantHandlerValidation = [
 	body('name')
