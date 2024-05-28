@@ -137,12 +137,17 @@ export function WebService(WebRepository, redis, job) {
 			}
 
 			const posts = await this.getBlogPosts({ cache });
-			for (const post of posts) {
-				if (post.meta.id === id) {
+			for (let i = 0; i < posts.length; i++) {
+				const currentPost = posts[i];
+				if (currentPost.meta.id === id) {
 					if (cache) {
-						await redis.set(`blog-post-${id}`, JSON.stringify(post));
+						await redis.set(`blog-post-${id}`, JSON.stringify(currentPost));
 					}
-					return post;
+					return {
+						previous: posts[i - 1] || null,
+						post: currentPost,
+						next: posts[i + 1] || null,
+					};
 				}
 			}
 			return null;
