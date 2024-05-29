@@ -12,7 +12,11 @@ export const sendNewReviewEmailQueue = new Queue(queueName, {
 const processSendNewReviewEmailJob = async (job) => {
 	try {
 		job.updateProgress(0);
-		await sendNewReviewEmail({ tenant: job.data.tenant, coach: job.data.coach });
+		await sendNewReviewEmail({
+			tenant: job.data.tenant,
+			user: job.data.user,
+			review: job.data.review,
+		});
 		job.updateProgress(100);
 		logger.info(`new review email job sent`);
 	} catch (error) {
