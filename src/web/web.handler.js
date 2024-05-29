@@ -44,7 +44,7 @@ export function postSubscribeToATenant(TenantService, WebService) {
 
 		if (!subscription) {
 			const type = {
-				newsletter: true,
+				newsletter: false,
 				changelog: false,
 				promotion: false,
 				tenants: [
@@ -55,6 +55,8 @@ export function postSubscribeToATenant(TenantService, WebService) {
 				],
 			};
 			await WebService.createSubscription({ email, type });
+			req.flash('success', 'subscribed!' + id);
+			return res.redirect('back');
 		}
 
 		const type = JSON.parse(subscription.type) || {};
