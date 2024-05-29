@@ -6,6 +6,7 @@ import { sendWelcomeEmailJob, sendWelcomeEmailQueue } from './welcome.job.js';
 import { sendContactEmailJob, sendContactEmailQueue } from './contact.job.js';
 import { scheduleBackupDatabaseJob, scheduleBackupDatabaseQueue } from './backup-database.job.js';
 import { sendNewsletterEmailJob, sendNewsletterEmailQueue } from './newsletter.job.js';
+import { sendNewReviewEmailJob, sendNewReviewEmailQueue } from './new-review.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
@@ -14,7 +15,6 @@ import {
 	throwTenancyHandler,
 } from '../app.middleware.js';
 import { sendApproveTenantEmailQueue, sendApproveTenantEmailJob } from './approve-tenant.job.js';
-import { sendNewReviewEmail } from '../emails/email.js';
 
 export const job = {
 	sendWelcomeEmailJob,
@@ -22,7 +22,7 @@ export const job = {
 	scheduleBackupDatabaseJob,
 	sendApproveTenantEmailJob,
 	sendNewsletterEmailJob,
-	sendNewReviewEmail,
+	sendNewReviewEmailJob,
 };
 
 export function setupBullDashboard(app) {
@@ -36,6 +36,7 @@ export function setupBullDashboard(app) {
 			new BullMQAdapter(scheduleBackupDatabaseQueue),
 			new BullMQAdapter(sendApproveTenantEmailQueue),
 			new BullMQAdapter(sendNewsletterEmailQueue),
+			new BullMQAdapter(sendNewReviewEmailQueue),
 		],
 		serverAdapter,
 	});
