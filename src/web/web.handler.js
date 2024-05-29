@@ -44,17 +44,20 @@ export function postSubscribeToATenant(TenantService, WebService) {
 
 		if (!subscription) {
 			const type = {
-				newsletter: true,
+				newsletter: false,
 				changelog: false,
 				promotion: false,
 				tenants: [
 					{
 						id,
 						name: tenant.name,
+						subscribed: true,
 					},
 				],
 			};
 			await WebService.createSubscription({ email, type });
+			req.flash('success', 'subscribed!' + id);
+			return res.redirect('back');
 		}
 
 		const type = JSON.parse(subscription.type) || {};
@@ -64,18 +67,20 @@ export function postSubscribeToATenant(TenantService, WebService) {
 				{
 					id,
 					name: tenant.name,
+					subscribed: true,
 				},
 			];
 		} else {
 			type.tenants.push({
 				id,
 				name: tenant.name,
+				subscribed: true,
 			});
 		}
 
 		await WebService.updateSubscription({ email, type });
 
-		req.flash('success', 'subscribed!' + id);
+		req.flash('success', `Successfully subscribed to ${tenant.name}`);
 		return res.redirect('back');
 	};
 }
@@ -252,7 +257,7 @@ export function getReviewsHandler() {
 	};
 }
 
-export function postReviewHandler(TenantService) {
+export function postReviewHandler(TenantService, WebService) {
 	return async (req, res) => {
 		let { user_id, tenant_id, comment, ratings } = req.body;
 
@@ -263,12 +268,17 @@ export function postReviewHandler(TenantService) {
 			return res.redirect('back');
 		}
 
-		await TenantService.addReviewToTenant({
+		const review = {
 			user_id: parseInt(user_id),
 			tenant_id: parseInt(tenant_id),
 			ratings: parseInt(ratings),
 			comment,
-		});
+		};
+
+		await TenantService.addReviewToTenant(review);
+		const tenant = await TenantService.getApprovedTenant({ tenantId: review.tenant_id });
+		const user = await WebService.getUser({ id: review.user_id, tenant_id: null });
+		await WebService.sendNewReviewEmailJob({ review, tenant, user });
 
 		req.flash('success', 'comment has been posted successfully!');
 
@@ -391,7 +401,7 @@ export function postNewsletterHandler(WebService) {
 // TODO: move this to `WebService`
 export function postSubscriptionsHandler(WebService) {
 	return async (req, res) => {
-		let { changelog, promotion, newsletter, email } = req.body;
+		let { changelog, promotion, newsletter, email, tenants } = req.body;
 
 		if (changelog === 'on') {
 			changelog = true;
@@ -423,6 +433,25 @@ export function postSubscriptionsHandler(WebService) {
 		type.newsletter = newsletter;
 		type.changelog = changelog;
 		type.promotion = promotion;
+
+		type.newsletter = newsletter;
+		type.changelog = changelog;
+		type.promotion = promotion;
+
+		if (tenants && tenants.length) {
+			for (let i = 0; i < type.tenants.length; i++) {
+				for (const t of tenants) {
+					if (type.tenants[i].id === t) {
+						type.tenants[i].subscribed = true;
+					}
+				}
+			}
+		} else {
+			type.tenants = type.tenants.map((t) => ({
+				...t,
+				subscribed: false,
+			}));
+		}
 
 		await db('subscriptions')
 			.where({ email })

@@ -75,7 +75,11 @@
 									<input type="text" name="csrfToken" value="<%= csrfToken %>" hidden />
 									<p>Stay up to date with <%= app.tenant.name %>'s reviews</p>
 									<div class="join w-full">
-										<input name="email" id="email" class="input input-bordered join-item w-full" placeholder="Email" type="email" required />
+										<% if (typeof app.user !== 'undefined') { %>
+											<input name="email" id="email" class="input input-bordered join-item w-full" placeholder="Email" type="email" value="<%= app.user.email %>" required />
+										<% } else { %>
+											<input name="email" id="email" class="input input-bordered join-item w-full" placeholder="Email" type="email" required />
+										<% } %>
 										<button type="submit" class="btn btn-neutral join-item">Subscribe</button>
 									</div>
 								</form>

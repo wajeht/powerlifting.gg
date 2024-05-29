@@ -302,7 +302,12 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	validateRequestHandler(postReviewHandlerValidation),
-	catchAsyncErrorHandler(postReviewHandler(TenantService(db, redis, dayjs, badWord))),
+	catchAsyncErrorHandler(
+		postReviewHandler(
+			TenantService(db, redis, dayjs, badWord),
+			WebService(WebRepository(db), redis, job),
+		),
+	),
 );
 
 /**

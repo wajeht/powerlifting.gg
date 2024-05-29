@@ -14,6 +14,7 @@ import {
 	throwTenancyHandler,
 } from '../app.middleware.js';
 import { sendApproveTenantEmailQueue, sendApproveTenantEmailJob } from './approve-tenant.job.js';
+import { sendNewReviewEmail } from '../emails/email.js';
 
 export const job = {
 	sendWelcomeEmailJob,
@@ -21,6 +22,7 @@ export const job = {
 	scheduleBackupDatabaseJob,
 	sendApproveTenantEmailJob,
 	sendNewsletterEmailJob,
+	sendNewReviewEmail,
 };
 
 export function setupBullDashboard(app) {

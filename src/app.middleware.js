@@ -218,7 +218,9 @@ export async function notFoundHandler(req, res, _next) {
 }
 
 export async function errorHandler(err, req, res, _next) {
-	await alertDiscord(err.msg, err.stack);
+	if (appConfig.env !== 'testing') {
+		await alertDiscord(err.msg, err.stack);
+	}
 
 	const errorStatusCodes = {
 		HttpError: new HttpError().statusCode,

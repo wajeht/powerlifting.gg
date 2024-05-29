@@ -1,0 +1,17 @@
+<html>
+	<body>
+		<!-- header -->
+		<%- include('../../components/header.html') %>
+
+		<main>
+			<div>
+				<p>Hello <%= user.username %>,</p>
+				<p>A new review has been posted on <%= tenant.name %></p>
+				<pre> <%= JSON.stringify(review) %></pre>
+			</div>
+		</main>
+
+		<!-- footer -->
+		<%- include('../../components/footer.html') %>
+	</body>
+</html>

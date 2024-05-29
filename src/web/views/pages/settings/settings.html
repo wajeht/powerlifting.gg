@@ -75,11 +75,21 @@
       <span class="label-text">Subscribe to changelog</span>
     </label>
 
-    <!-- changelog -->
+    <!-- promotion -->
     <label for="promotion" class="label cursor-pointer w-fit gap-5">
       <input type="checkbox" name="promotion" id="promotion" class="checkbox" <%= subscriptions.type.promotion ? 'checked' : '' %> />
       <span class="label-text">Subscribe to promotion</span>
     </label>
+
+    <!-- tenants -->
+    <% if (subscriptions.type.tenants) { %>
+      <% for (const tenant of subscriptions.type.tenants) { %>
+        <label for="tenant-<%= tenant.id %>" class="label cursor-pointer w-fit gap-5">
+          <input type="checkbox" name="tenants[]" value="<%= tenant.id %>" id="tenant-<%= tenant.id %>" class="checkbox" <%= tenant.subscribed ? 'checked' : '' %> />
+          <span class="label-text">Subscribe to <%= tenant.name %>'s reviews</span>
+        </label>
+      <% } %>
+    <% } %>
   </div>
 
   <div class="w-fit self-end">
