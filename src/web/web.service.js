@@ -197,5 +197,8 @@ export function WebService(WebRepository, redis, job) {
 		postContact: async function ({ email, message, subject }) {
 			await job.sendContactEmailJob({ email, message, subject });
 		},
+		sendNewReviewEmailJob({ tenant, user, review }) {
+			return job.sendNewReviewEmail({ tenant, user, review });
+		},
 	};
 }

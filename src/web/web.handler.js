@@ -257,7 +257,7 @@ export function getReviewsHandler() {
 	};
 }
 
-export function postReviewHandler(TenantService) {
+export function postReviewHandler(TenantService, WebService) {
 	return async (req, res) => {
 		let { user_id, tenant_id, comment, ratings } = req.body;
 
@@ -268,12 +268,17 @@ export function postReviewHandler(TenantService) {
 			return res.redirect('back');
 		}
 
-		await TenantService.addReviewToTenant({
+		const review = {
 			user_id: parseInt(user_id),
 			tenant_id: parseInt(tenant_id),
 			ratings: parseInt(ratings),
 			comment,
-		});
+		};
+
+		await TenantService.addReviewToTenant(review);
+		const tenant = await TenantService.getApprovedTenant({ tenantId: review.tenant_id });
+		const user = await WebService.getUser({ id: review.user_id, tenant_id: null });
+		await WebService.sendNewReviewEmailJob({ review, tenant, user });
 
 		req.flash('success', 'comment has been posted successfully!');
 
