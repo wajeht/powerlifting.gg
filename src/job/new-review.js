@@ -14,11 +14,14 @@ const processSendNewReviewEmailJob = async (job) => {
 	try {
 		job.updateProgress(0);
 		const user = await db.select('*').from('users').where({ id: job.data.user_id }).first();
+		const subscription = await db
+			.select('*')
+			.from('subscriptions')
+			.where({ email: user.email })
+			.first();
 
-		const subscriptionInfo = JSON.parse(user.type);
-		const subscribedTenant = subscriptionInfo.tenants.find(
-			(t) => t.subscribed && t.id === job.data.tenant_id,
-		);
+		const subscriptionInfo = JSON.parse(subscription.type);
+		const subscribedTenant = subscriptionInfo.tenants.find((t) => t.subscribed && t.id === job.data.tenant_id); // prettier-ignore
 
 		if (subscribedTenant) {
 			const tenant = await db.select('*').from('tenants').where({ id: job.data.tenant_id }).first();
