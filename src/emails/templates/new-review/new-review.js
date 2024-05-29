@@ -6,14 +6,7 @@ import { logger } from '../../../utils/logger.js';
 export async function sendNewReviewEmail({ subject = 'Approve Tenant', user, tenant, review }) {
 	try {
 		const template = path.resolve(
-			path.join(
-				process.cwd(),
-				'src',
-				'emails',
-				'templates',
-				'approve-tenant',
-				'approve-tenant.html',
-			),
+			path.join(process.cwd(), 'src', 'emails', 'templates', 'new-review', 'new-review.html'),
 		);
 
 		const html = await ejs.renderFile(template, { user, tenant, review });

@@ -5,12 +5,9 @@
 
 		<main>
 			<div>
-				<pre> <%= JSON.stringify(tenant) %></pre>
-				<pre> <%= JSON.stringify(coach) %></pre>
-				<p>
-					A new submission for a tenant is awaiting your approval. Please review it at your earliest
-					convenience.
-				</p>
+				<p>Hello <%= user.username %>,</p>
+				<p>A new review has been posted on <%= tenant.name %></p>
+				<pre> <%= JSON.stringify(review) %></pre>
 			</div>
 		</main>
 
