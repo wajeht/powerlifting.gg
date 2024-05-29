@@ -71,11 +71,21 @@ export function postSubscribeToATenant(TenantService, WebService) {
 				},
 			];
 		} else {
-			type.tenants.push({
-				id,
-				name: tenant.name,
-				subscribed: true,
-			});
+			// string only ==
+			const tenantIndex = type.tenants.findIndex((t) => t.id == id);
+
+			if (tenantIndex !== -1) {
+				if (!type.tenants[tenantIndex].subscribed) {
+					type.tenants[tenantIndex].subscribed = true;
+				}
+			} else {
+				// Tenant does not exist, add a new entry
+				type.tenants.push({
+					id,
+					name: tenant.name,
+					subscribed: true,
+				});
+			}
 		}
 
 		await WebService.updateSubscription({ email, type });
