@@ -20,11 +20,17 @@ const processSendNewReviewEmailJob = async (job) => {
 			.where({ email: user.email })
 			.first();
 
-		const subscriptionInfo = JSON.parse(subscription.type);
-		const subscribedTenant = subscriptionInfo.tenants.find((t) => t.subscribed && t.id === job.data.tenant_id); // prettier-ignore
+		const type = JSON.parse(subscription.type);
+		let tenant = null;
 
-		if (subscribedTenant) {
-			const tenant = await db.select('*').from('tenants').where({ id: job.data.tenant_id }).first();
+		if (type.tenants.length)
+			[
+				([tenant] = type.tenants.filter(
+					(t) => t.subscribed && t.id === job.data.tenant_id.toString(),
+				)),
+			];
+
+		if (tenant) {
 			await sendNewReviewEmail({
 				tenant,
 				user,
@@ -32,9 +38,6 @@ const processSendNewReviewEmailJob = async (job) => {
 			});
 			job.updateProgress(100);
 			logger.info(`new review email job sent`);
-		} else {
-			logger.info(`Tenant with ID ${job.data.tenant_id} is not subscribed or does not exist`);
-			job.updateProgress(100);
 		}
 	} catch (error) {
 		logger.alert(`Failed to send new review email job`, error);
