@@ -276,6 +276,9 @@ export function postReviewHandler(TenantService, WebService) {
 		};
 
 		await TenantService.addReviewToTenant(review);
+
+		// TODO: too much db calls, just send user_id and tenant_id
+		//       do db calls inside job queue
 		const tenant = await TenantService.getApprovedTenant({ tenantId: review.tenant_id });
 		const user = await WebService.getUser({ id: review.user_id, tenant_id: null });
 		await WebService.sendNewReviewEmailJob({ review, tenant, user });

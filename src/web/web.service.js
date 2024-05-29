@@ -195,10 +195,10 @@ export function WebService(WebRepository, redis, job) {
 			await job.sendApproveTenantEmailJob({ tenant, coach });
 		},
 		postContact: async function ({ email, message, subject }) {
-			return await job.sendContactEmailJob({ email, message, subject });
+			await job.sendContactEmailJob({ email, message, subject });
 		},
 		sendNewReviewEmailJob: async function ({ tenant, user, review }) {
-			return await job.sendNewReviewEmail({ tenant, user, review });
+			await job.sendNewReviewEmail({ tenant, user, review });
 		},
 	};
 }
