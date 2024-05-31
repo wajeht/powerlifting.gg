@@ -41,5 +41,5 @@ process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
 
 process.on('unhandledRejection', async (reason, promise) => {
-	logger.alert('Unhandled Rejection at: ', await promise(), ' reason: ', reason);
+	logger.alert('Unhandled Rejection at: ', promise, ' reason: ', reason);
 });
