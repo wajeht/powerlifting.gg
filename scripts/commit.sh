@@ -10,7 +10,7 @@ regular_git_commit() {
 }
 
 if check_aicommits_installed; then
-    /usr/bin/expect ./aicommits.exp
+    /usr/bin/expect ./scripts/aicommits.exp
 else
     echo ""
     echo "aicommits not installed."

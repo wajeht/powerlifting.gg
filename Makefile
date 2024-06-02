@@ -3,7 +3,7 @@ push:
 	npm run lint
 	npm run format
 	git add -A
-	./commit.sh
+	./scripts/commit.sh
 	git push --no-verify
 
 fix_git:
@@ -27,7 +27,7 @@ reset-db:
 	docker compose -f docker-compose.dev.yml exec powerlifting npm run db:prepare:dev
 
 deploy:
-	./deploy.sh
+	./scripts/deploy.sh
 
 up:
 	docker compose -f docker-compose.dev.yml up
@@ -66,7 +66,7 @@ all:
 	make real-clean
 
 pull-db:
-	./pull-db.sh
+	./scripts/pull-db.sh
 
 push-db:
-	./push-db.sh
+	./scripts/push-db.sh
