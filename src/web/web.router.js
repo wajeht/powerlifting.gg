@@ -18,6 +18,7 @@ import {
 	throwTenancyHandler,
 } from '../app.middleware.js';
 import {
+	getUnsubscribeHandlerValidation,
 	postSubscribeToATenantValidation,
 	postContactHandlerValidation,
 	postReviewHandlerValidation,
@@ -33,6 +34,7 @@ import {
 	getSettingsTenantHandler,
 	getContactHandler,
 	postContactHandler,
+	getUnsubscribeHandler,
 	getHealthzHandler,
 	getIndexHandler,
 	getTenantsHandler,
@@ -122,6 +124,20 @@ web.post(
 	csrfHandler,
 	validateRequestHandler(postSettingsAccountHandlerValidation),
 	catchAsyncErrorHandler(postSettingsAccountHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * GET /unsubscribe
+ * @tags web
+ * @summary get unsubscribe endpoint
+ */
+web.get(
+	'/unsubscribe',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	csrfHandler,
+	validateRequestHandler(getUnsubscribeHandlerValidation),
+	catchAsyncErrorHandler(getUnsubscribeHandler()),
 );
 
 /**

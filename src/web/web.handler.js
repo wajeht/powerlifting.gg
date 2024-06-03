@@ -1,6 +1,13 @@
 import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
 
+export function getUnsubscribeHandler(WebService) {
+	return async (req, res) => {
+		console.log(WebService);
+		return res.redirect("/?alert-success=You've have unsubscribe from our mailing list!");
+	};
+}
+
 export function getHealthzHandler() {
 	return (req, res) => {
 		const uptime = process.uptime();
