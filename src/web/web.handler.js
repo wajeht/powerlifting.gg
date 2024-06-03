@@ -3,17 +3,19 @@ import { db } from '../database/db.js';
 
 export function getUnsubscribeHandler(WebService, NotFoundError) {
 	return async (req, res) => {
-		const email = req.query.email;
-		const subscriptions = await WebService.getSubscription(email);
+		const subscriptions = await WebService.getSubscription(req.query.email);
 
-		if (!subscriptions)
+		if (!subscriptions) {
 			throw new NotFoundError('The email does not exist within our mailing list!');
+		}
 
 		return res.status(200).render('unsubscribe.html', {
 			title: 'Unsubscribe',
 			path: '/unsubscribe',
-			email,
-			subscriptions,
+			subscriptions: {
+				...subscriptions,
+				type: JSON.parse(subscriptions.type),
+			},
 			flashMessages: req.flash(),
 		});
 	};
