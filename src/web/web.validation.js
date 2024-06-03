@@ -1,6 +1,15 @@
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 import { db } from '../database/db.js';
 import { ValidationError } from '../app.error.js';
+
+export const getUnsubscribeHandlerValidation = [
+	query('email')
+		.notEmpty()
+		.withMessage('The email must not be empty!')
+		.trim()
+		.isEmail()
+		.withMessage('The email must be valid!'),
+];
 
 export const postSubscriptionsHandlerValidation = [
 	body('email')
@@ -10,9 +19,9 @@ export const postSubscriptionsHandlerValidation = [
 		.isEmail()
 		.withMessage('The email must be valid!')
 		.custom(async (email, { req }) => {
-			const userEmail = req.session.user.email;
+			const sessionUser = req?.session?.user;
 			const user = await db.select('*').from('subscriptions').where({ email }).first();
-			if (user && user.email !== userEmail) {
+			if (user && sessionUser && user.email !== sessionUser.email) {
 				throw new ValidationError('The email already exists!');
 			}
 			return true;

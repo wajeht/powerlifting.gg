@@ -1,6 +1,26 @@
 import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
 
+export function getUnsubscribeHandler(WebService, NotFoundError) {
+	return async (req, res) => {
+		const subscriptions = await WebService.getSubscription(req.query.email);
+
+		if (!subscriptions) {
+			throw new NotFoundError('The email does not exist within our mailing list!');
+		}
+
+		return res.status(200).render('unsubscribe.html', {
+			title: 'Unsubscribe',
+			path: '/unsubscribe',
+			subscriptions: {
+				...subscriptions,
+				type: JSON.parse(subscriptions.type),
+			},
+			flashMessages: req.flash(),
+		});
+	};
+}
+
 export function getHealthzHandler() {
 	return (req, res) => {
 		const uptime = process.uptime();
@@ -450,6 +470,10 @@ export function postSubscriptionsHandler(WebService) {
 		type.changelog = changelog;
 		type.promotion = promotion;
 
+		if (!type.tenants) {
+			type.tenants = [];
+		}
+
 		if (tenants && tenants.length) {
 			for (let i = 0; i < type.tenants.length; i++) {
 				for (const t of tenants) {
@@ -470,6 +494,6 @@ export function postSubscriptionsHandler(WebService) {
 			.update({ type: JSON.stringify(type) });
 
 		req.flash('info', 'User subscription settings updated successfully!');
-		return res.redirect('/settings');
+		return res.redirect('back');
 	};
 }

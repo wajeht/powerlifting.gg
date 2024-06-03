@@ -1,0 +1,73 @@
+<div class="p-10">
+  <div class="mx-auto max-w-7xl w-full prose">
+
+    <!-- breadcrumbs -->
+    <div class="flex justify-between items-center mb-6">
+      <div class="text-sm flex gap-2 items-center my-5 text-[#4A5569]">
+        <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>">Home</a>
+        <%- include('../components/right-arrow-svg.html') %>
+          <a class="no-underline hover:underline opacity-70 hover:opacity-100"
+            href="<%= app.mainDomain %>/unsubscribe">Unsubscribe</a>
+      </div>
+
+      <% if (app.user) { %>
+        <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout"
+          title="logout">Logout</a>
+        <% } %>
+    </div>
+
+    <h1>Unsubscribe</h1>
+
+    <!-- email -->
+    <form action="/subscriptions" method="post" class="rounded-lg border p-5 flex flex-col gap-5">
+      <div>
+        <h6 class="text-lg font-medium m-0 text-neutral">Subscriptions</h6>
+        <p class="m-0 font-light">Choose the email that you'd like to receive from our platform.</p>
+      </div>
+
+      <div class="form-control">
+        <!-- email -->
+        <input type="email" name="email" value="<%= subscriptions.email %>" hidden />
+
+        <!-- csrf -->
+        <input type="text" name="csrfToken" value="<%= csrfToken %>" hidden />
+
+        <!-- newsletter -->
+        <label for="newsletter" class="label cursor-pointer w-fit gap-5">
+          <input type="checkbox" name="newsletter" id="newsletter" class="checkbox" <%=subscriptions.type.newsletter
+            ? 'checked' : '' %> />
+          <span class="label-text">Subscribe to newsletter</span>
+        </label>
+
+        <!-- changelog -->
+        <label for="changelog" class="label cursor-pointer w-fit gap-5">
+          <input type="checkbox" name="changelog" id="changelog" class="checkbox" <%=subscriptions.type.changelog
+            ? 'checked' : '' %> />
+          <span class="label-text">Subscribe to changelog</span>
+        </label>
+
+        <!-- promotion -->
+        <label for="promotion" class="label cursor-pointer w-fit gap-5">
+          <input type="checkbox" name="promotion" id="promotion" class="checkbox" <%=subscriptions.type.promotion
+            ? 'checked' : '' %> />
+          <span class="label-text">Subscribe to promotion</span>
+        </label>
+
+        <!-- tenants -->
+        <% if (subscriptions.type.tenants) { %>
+          <% for (const tenant of subscriptions.type.tenants) { %>
+            <label for="tenant-<%= tenant.id %>" class="label cursor-pointer w-fit gap-5">
+              <input type="checkbox" name="tenants[]" value="<%= tenant.id %>" id="tenant-<%= tenant.id %>"
+                class="checkbox" <%=tenant.subscribed ? 'checked' : '' %> />
+              <span class="label-text">Subscribe to <%= tenant.name %>'s reviews</span>
+            </label>
+            <% } %>
+              <% } %>
+      </div>
+
+      <div class="w-fit self-end">
+        <button type="submit" class="btn btn-neutral no-animation">Update</button>
+      </div>
+    </form>
+  </div>
+</div>

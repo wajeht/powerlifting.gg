@@ -5,6 +5,7 @@ import { db, redis } from '../database/db.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
 import { admin as adminRouter } from './admin/admin.router.js';
 import { test as testRouter } from './test/test.router.js';
+import { NotFoundError } from '../app.error.js';
 import badWord from 'bad-words';
 import { job } from '../job/job.js';
 import {
@@ -18,6 +19,7 @@ import {
 	throwTenancyHandler,
 } from '../app.middleware.js';
 import {
+	getUnsubscribeHandlerValidation,
 	postSubscribeToATenantValidation,
 	postContactHandlerValidation,
 	postReviewHandlerValidation,
@@ -33,6 +35,7 @@ import {
 	getSettingsTenantHandler,
 	getContactHandler,
 	postContactHandler,
+	getUnsubscribeHandler,
 	getHealthzHandler,
 	getIndexHandler,
 	getTenantsHandler,
@@ -122,6 +125,22 @@ web.post(
 	csrfHandler,
 	validateRequestHandler(postSettingsAccountHandlerValidation),
 	catchAsyncErrorHandler(postSettingsAccountHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * GET /unsubscribe
+ * @tags web
+ * @summary get unsubscribe endpoint
+ */
+web.get(
+	'/unsubscribe',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	csrfHandler,
+	validateRequestHandler(getUnsubscribeHandlerValidation),
+	catchAsyncErrorHandler(
+		getUnsubscribeHandler(WebService(WebRepository(db), redis, job), NotFoundError),
+	),
 );
 
 /**
