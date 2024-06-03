@@ -4,7 +4,9 @@ import { db } from '../database/db.js';
 export function getUnsubscribeHandler(WebService) {
 	return async (req, res) => {
 		console.log(WebService);
-		return res.redirect("/?alert-success=You've have unsubscribe from our mailing list!");
+		return res
+			.status(200)
+			.render('unsubscribe.html', { title: 'Unsubscribe', path: '/unsubscribe' });
 	};
 }
 
