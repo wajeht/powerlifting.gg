@@ -1,12 +1,21 @@
 import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
 
-export function getUnsubscribeHandler(WebService) {
+export function getUnsubscribeHandler(WebService, NotFoundError) {
 	return async (req, res) => {
-		console.log(WebService);
-		return res
-			.status(200)
-			.render('unsubscribe.html', { title: 'Unsubscribe', path: '/unsubscribe' });
+		const email = req.query.email;
+		const subscriptions = await WebService.getSubscription(email);
+
+		if (!subscriptions)
+			throw new NotFoundError('The email does not exist within our mailing list!');
+
+		return res.status(200).render('unsubscribe.html', {
+			title: 'Unsubscribe',
+			path: '/unsubscribe',
+			email,
+			subscriptions,
+			flashMessages: req.flash(),
+		});
 	};
 }
 

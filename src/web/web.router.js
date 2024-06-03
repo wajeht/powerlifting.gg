@@ -5,6 +5,7 @@ import { db, redis } from '../database/db.js';
 import { oauth as oauthRouter } from './oauth/oauth.router.js';
 import { admin as adminRouter } from './admin/admin.router.js';
 import { test as testRouter } from './test/test.router.js';
+import { NotFoundError } from '../app.error.js';
 import badWord from 'bad-words';
 import { job } from '../job/job.js';
 import {
@@ -137,7 +138,9 @@ web.get(
 	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(getUnsubscribeHandlerValidation),
-	catchAsyncErrorHandler(getUnsubscribeHandler()),
+	catchAsyncErrorHandler(
+		getUnsubscribeHandler(WebService(WebRepository(db), redis, job), NotFoundError),
+	),
 );
 
 /**
