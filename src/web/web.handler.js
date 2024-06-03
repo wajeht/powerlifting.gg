@@ -468,6 +468,10 @@ export function postSubscriptionsHandler(WebService) {
 		type.changelog = changelog;
 		type.promotion = promotion;
 
+		if (!type.tenants) {
+			type.tenants = [];
+		}
+
 		if (tenants && tenants.length) {
 			for (let i = 0; i < type.tenants.length; i++) {
 				for (const t of tenants) {
