@@ -120,6 +120,7 @@
           <th>Name</th>
           <th>Links</th>
           <th>Status</th>
+          <th>Ratings Calibrated At</th>
           <th></th>
         </tr>
       </thead>
@@ -192,6 +193,9 @@
                 <% } else { %>
                   <span class="bg-blue-100 border border-blue-300 rounded-md text-xs px-1 py-[2px]">Pending</span>
                   <% } %>
+            </td>
+            <td>
+              <%= tenant.ratings_calibrated_at %>
             </td>
             <th>
               <form action="/admin/tenants" method="post">
