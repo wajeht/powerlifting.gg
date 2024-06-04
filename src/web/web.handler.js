@@ -1,9 +1,11 @@
 import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
 
-export function postCalibrateTenantRatings() {
+export function postCalibrateTenantRatings(WebService) {
 	return async (req, res) => {
-		return res.json({ message: 'ok ' });
+		await WebService.calibrateRatingsJob({ ids: req.body.id.map((i) => parseInt(i)) });
+		req.flash('success', 'calibrated ratings job has been run!');
+		return res.redirect('back');
 	};
 }
 

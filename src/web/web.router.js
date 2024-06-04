@@ -266,7 +266,7 @@ web.post(
 	'/tenants/calibrate-ratings',
 	csrfHandler,
 	validateRequestHandler(postCalibrateTenantRatingsValidation),
-	catchAsyncErrorHandler(postCalibrateTenantRatings(TenantService(db, redis, dayjs, badWord))),
+	catchAsyncErrorHandler(postCalibrateTenantRatings(WebService(WebRepository(db), redis, job))),
 );
 
 /**

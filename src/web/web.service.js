@@ -200,5 +200,8 @@ export function WebService(WebRepository, redis, job) {
 		sendNewReviewEmailJob: async function ({ tenant_id, user_id, review }) {
 			await job.sendNewReviewEmailJob({ tenant_id, user_id, review });
 		},
+		calibrateRatingsJob: async function ({ ids }) {
+			await job.calibrateRatingsJob({ ids });
+		},
 	};
 }

@@ -13,7 +13,6 @@ const processCalibrateRatingsJob = async (job) => {
 		job.log('calibrate ratings job was started');
 		await calibrateRatings({ ids: job.data.ids });
 		job.log('calibrate ratings job job was finished');
-		return true;
 	} catch (error) {
 		job.log('calibrate ratings job job failed');
 	}
