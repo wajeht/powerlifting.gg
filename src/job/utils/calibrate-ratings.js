@@ -3,7 +3,7 @@ import { db } from '../../database/db.js';
 
 async function updateRatings(tenantId) {
 	const reviews = await db('reviews').where({ tenant_id: tenantId });
-	const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
+	const totalRating = reviews.reduce((acc, curr) => acc + curr.ratings, 0);
 	const averageRating = reviews.length ? totalRating / reviews.length : null;
 	await db('tenants').where({ id: tenantId }).update({ ratings: averageRating });
 	logger.info(`Updated tenant ID: ${tenantId} with average rating: ${averageRating}`);
