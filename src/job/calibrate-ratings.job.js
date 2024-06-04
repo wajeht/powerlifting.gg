@@ -11,7 +11,7 @@ export const calibrateRatingsQueue = new Queue(queueName, {
 const processCalibrateRatingsJob = async (job) => {
 	try {
 		job.log('calibrate ratings job was started');
-		await calibrateRatings(job);
+		await calibrateRatings({ ids: job.data.ids });
 		job.log('calibrate ratings job job was finished');
 		return true;
 	} catch (error) {

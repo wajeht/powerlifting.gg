@@ -1,1 +1,3 @@
-export async function calibrateRatings() {}
+export async function calibrateRatings({ ids = [] } = {}) {
+	console.log(ids);
+}
