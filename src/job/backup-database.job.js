@@ -1,6 +1,6 @@
 import { Queue, Worker } from 'bullmq';
 import { redis } from '../database/db.js';
-import { backupDatabase } from './backup-database.js';
+import { backupDatabase } from './utils/backup-database.js';
 
 const queueName = 'scheduleBackupDatabaseQueue';
 
