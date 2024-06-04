@@ -1,6 +1,6 @@
 import ejs from 'ejs';
 import path from 'node:path';
-import { sendMail } from '../../mailer.util.js';
+import { sendMail, domain } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
 export async function sendApproveTenantEmail({ subject = 'Approve Tenant', tenant, coach }) {
@@ -16,7 +16,7 @@ export async function sendApproveTenantEmail({ subject = 'Approve Tenant', tenan
 			),
 		);
 
-		const html = await ejs.renderFile(template, { tenant, coach });
+		const html = await ejs.renderFile(template, { tenant, coach, domain });
 
 		await sendMail({
 			subject,

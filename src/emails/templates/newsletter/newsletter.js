@@ -1,6 +1,6 @@
 import ejs from 'ejs';
 import path from 'node:path';
-import { sendMail } from '../../mailer.util.js';
+import { sendMail, domain } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
 export async function sendNewsletterEmail({
@@ -13,7 +13,7 @@ export async function sendNewsletterEmail({
 		const template = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'newsletter', 'newsletter.html'),
 		);
-		const html = await ejs.renderFile(template, { username, post, email });
+		const html = await ejs.renderFile(template, { username, post, email, domain });
 
 		await sendMail({
 			to: email,

@@ -1,6 +1,6 @@
 import ejs from 'ejs';
 import path from 'node:path';
-import { sendMail } from '../../mailer.util.js';
+import { sendMail, domain } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
 export async function sendNewReviewEmail({ subject = 'New review', user, tenant, review }) {
@@ -9,7 +9,13 @@ export async function sendNewReviewEmail({ subject = 'New review', user, tenant,
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'new-review', 'new-review.html'),
 		);
 
-		const html = await ejs.renderFile(template, { user, tenant, review, email: user.email });
+		const html = await ejs.renderFile(template, {
+			user,
+			tenant,
+			review,
+			email: user.email,
+			domain,
+		});
 
 		await sendMail({
 			subject,
