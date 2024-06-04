@@ -3,19 +3,32 @@ import { db } from '../database/db.js';
 import { ValidationError } from '../app.error.js';
 
 export const postCalibrateTenantReviewsValidation = [
-	param('id')
+	body('id')
 		.notEmpty()
 		.withMessage('The id must not be empty!')
 		.custom(async (id, { req }) => {
-			const tenant = await db.select('*').from('tenants').where({ id, approved: true }).first();
+			if (Array.isArray(id) && req?.session?.user?.role !== 'SUPER_ADMIN') {
+				throw new Error('Only admins can send an array of IDs!');
+			}
 
-			if (!tenant) {
-				throw new ValidationError('The tenant does not exist!');
+			const ids = id.map((i) => parseInt(i));
+			const tenants = await db
+				.select('*')
+				.from('tenants')
+				.whereIn('id', ids)
+				.andWhere({ approved: true });
+
+			if (!tenants.length) {
+				throw new ValidationError('One or more tenants do not exist!');
 			}
 
 			if (req?.session?.user?.role === 'SUPER_ADMIN') return true;
 
-			if (tenant.ratings_calibration_count > 1) throw new Error('Exceeded calibration!');
+			for (const tenant of tenants) {
+				if (tenant.ratings_calibration_count > 1) {
+					throw new Error(`Exceeded calibration for tenant with ID ${tenant.id}!`);
+				}
+			}
 
 			return true;
 		}),

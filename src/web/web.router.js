@@ -258,12 +258,12 @@ web.post(
 );
 
 /**
- * POST /tenants/{id}/calibrate-reviews
+ * POST /tenants/calibrate-reviews
  * @tags tenants
  * @summary calibrate a tenant reviews
  */
 web.post(
-	'/tenants/:id/calibrate-reviews',
+	'/tenants/calibrate-reviews',
 	csrfHandler,
 	validateRequestHandler(postCalibrateTenantReviewsValidation),
 	catchAsyncErrorHandler(postCalibrateTenantReviews(TenantService(db, redis, dayjs, badWord))),
