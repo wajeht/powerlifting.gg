@@ -109,7 +109,11 @@
 							<!-- left -->
 							<div class="flex-0 min-h-full flex justify-center items-center sm:justify-normal sm:items-start">
 								<div class="w-32 h-32 rounded-full flex justify-center items-center shadow-white shadow-sm">
-									<img class="h-full object-cover w-full rounded-full" src="<%= tenant.logo %>" alt="logo" />
+									<% if (tenant.logo.length) { %>
+										<img class="h-full object-cover w-full rounded-full" src="<%= tenant.logo %>" alt="logo" />
+									<% } else { %>
+										<div class="bg-white rounded-full w-full h-full justify-center items-center flex">n/a</div>
+									<% } %>
 								</div>
 							</div>
 
