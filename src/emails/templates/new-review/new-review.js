@@ -18,6 +18,7 @@ export async function sendNewReviewEmail({ subject = 'New review', user, tenant,
 		});
 
 		await sendMail({
+			to: user.email,
 			subject,
 			html,
 		});
