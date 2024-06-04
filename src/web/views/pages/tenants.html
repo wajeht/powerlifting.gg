@@ -105,7 +105,7 @@
 						<% if (tenant.banner.length) { %>
 							style="background-image: url(<%= tenant.banner %>)"
 						<% } else { %>
-							style="background-color: #2C3440"
+							style="background-color: #242C38"
 						<% } %>
 					>
 						<!-- blur -->
@@ -117,7 +117,7 @@
 										<img class="h-full object-cover w-full rounded-full" src="<%= tenant.logo %>" alt="logo" />
 									<% } else { %>
 										<div class="bg-white rounded-full w-full h-full justify-center items-center flex">
-											<span class="font-bold">
+											<span class="font-bold text-xl">
 												<% const split = tenant.slug.split('-'); %>
 												<% const capitalizedInitials = split.map(part => part.charAt(0).toUpperCase()).join(''); %>
 												<%= capitalizedInitials %>
