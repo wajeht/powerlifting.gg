@@ -45,16 +45,17 @@
 
 <!-- admin -->
 <% if (logs.length) { %>
-  <div class="overflow-x-auto rounded-lg border ">
+  <div class="overflow-x-auto rounded-lg border overflow-y-scroll sm:max-h-96 max-h-full">
     <table class="table">
       <!-- head -->
-      <thead>
+      <thead class="sticky top-0 bg-white">
         <tr>
           <th>Level</th>
           <th>Timestamp</th>
           <th>Log</th>
         </tr>
       </thead>
+
       <tbody>
         <% for (const log of logs) { %>
           <tr>
