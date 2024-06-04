@@ -13,7 +13,7 @@ export async function sendNewsletterEmail({
 		const template = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'newsletter', 'newsletter.html'),
 		);
-		const html = await ejs.renderFile(template, { username, post });
+		const html = await ejs.renderFile(template, { username, post, email });
 
 		await sendMail({
 			to: email,

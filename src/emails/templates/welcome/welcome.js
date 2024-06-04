@@ -12,7 +12,7 @@ export async function sendWelcomeEmail({
 		const template = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome', 'welcome.html'),
 		);
-		const html = await ejs.renderFile(template, { username });
+		const html = await ejs.renderFile(template, { username, email });
 
 		await sendMail({
 			to: email,

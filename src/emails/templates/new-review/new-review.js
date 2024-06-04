@@ -9,7 +9,7 @@ export async function sendNewReviewEmail({ subject = 'New review', user, tenant,
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'new-review', 'new-review.html'),
 		);
 
-		const html = await ejs.renderFile(template, { user, tenant, review });
+		const html = await ejs.renderFile(template, { user, tenant, review, email: user.email });
 
 		await sendMail({
 			subject,
