@@ -1,6 +1,14 @@
 import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
 
+export function postCalibrateTenantRatings(WebService) {
+	return async (req, res) => {
+		await WebService.calibrateRatingsJob({ ids: req.body.id.map((i) => parseInt(i)) });
+		req.flash('success', 'calibrated ratings job has been run!');
+		return res.redirect('back');
+	};
+}
+
 export function getUnsubscribeHandler(WebService, NotFoundError) {
 	return async (req, res) => {
 		const subscriptions = await WebService.getSubscription(req.query.email);

@@ -1,11 +1,11 @@
 import { Upload } from '@aws-sdk/lib-storage';
-import { backBlaze as backBlazeConfig, privateS3BucketConfig } from '../config/back-blaze.js';
-import { logger } from '../utils/logger.js';
+import { backBlaze as backBlazeConfig, privateS3BucketConfig } from '../../config/back-blaze.js';
+import { logger } from '../../utils/logger.js';
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import { exec } from 'child_process';
-import { app as appConfig } from '../config/app.js';
+import { app as appConfig } from '../../config/app.js';
 
 const execAsync = promisify(exec);
 

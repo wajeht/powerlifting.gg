@@ -13,6 +13,8 @@ export function up(knex) {
 		table.boolean('verified').notNullable().defaultTo(false);
 		table.boolean('approved').notNullable().defaultTo(false);
 		table.float('ratings').nullable().defaultTo(0);
+		table.integer('ratings_calibration_count').nullable().defaultTo(0);
+		table.timestamp('ratings_calibrated_at').nullable().defaultTo(knex.fn.now());
 		table.timestamps(true, true);
 	});
 }
