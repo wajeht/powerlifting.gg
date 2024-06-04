@@ -33,7 +33,7 @@ export const swagger = Object.freeze({
 	},
 	baseDir: path.resolve(path.join(process.cwd(), 'src')),
 	filesPattern: ['./**/*.router.js'],
-	swaggerUIPath: '/api-docs',
+	swaggerUIPath: '/admin/api-docs',
 	exposeSwaggerUI: true,
 	notRequiredAsNullable: false,
 	swaggerUiOptions: {
@@ -45,7 +45,7 @@ export const swagger = Object.freeze({
 
 export function expressJSDocSwaggerHandler(app, swaggerConfig) {
 	app.use(
-		'/api-docs',
+		'/admin/api-docs',
 		tenantIdentityHandler,
 		throwTenancyHandler,
 		authenticationHandler,
