@@ -52,6 +52,13 @@ export function getGoogleRedirectHandler() {
 		req.session.user = foundUser;
 		req.session.save();
 
+		if (req.session.user?.role === 'SUPER_ADMIN') {
+			if (req.session.redirectUrl) {
+				delete req.session.redirectUrl;
+			}
+			return res.redirect(`/admin?alert-success=Welcome back admin, ${foundUser.username}!`);
+		}
+
 		if (req.session.redirectUrl) {
 			const redirectUrl = req.session.redirectUrl;
 			delete req.session.redirectUrl;
