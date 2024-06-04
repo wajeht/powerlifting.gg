@@ -6,11 +6,17 @@ export const postCalibrateTenantReviews = [
 	param('id')
 		.notEmpty()
 		.withMessage('The id must not be empty!')
-		.custom(async (id) => {
+		.custom(async (id, { req }) => {
 			const tenant = await db.select('*').from('tenants').where({ id, approved: true }).first();
+
 			if (!tenant) {
 				throw new ValidationError('The tenant does not exist!');
 			}
+
+			if (req?.session?.user?.role === 'SUPER_ADMIN') return true;
+
+			if (tenant.ratings_calibration_count > 1) throw new Error('Exceeded calibration!');
+
 			return true;
 		}),
 ];
