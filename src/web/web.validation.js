@@ -2,7 +2,7 @@ import { body, param, query } from 'express-validator';
 import { db } from '../database/db.js';
 import { ValidationError } from '../app.error.js';
 
-export const postCalibrateTenantReviews = [
+export const postCalibrateTenantReviewsValidation = [
 	param('id')
 		.notEmpty()
 		.withMessage('The id must not be empty!')
