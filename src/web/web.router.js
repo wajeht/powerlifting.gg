@@ -20,6 +20,7 @@ import {
 } from '../app.middleware.js';
 import {
 	getUnsubscribeHandlerValidation,
+	postCalibrateTenantReviewsValidation,
 	postSubscribeToATenantValidation,
 	postContactHandlerValidation,
 	postReviewHandlerValidation,
@@ -29,6 +30,7 @@ import {
 	postSubscriptionsHandlerValidation,
 } from './web.validation.js';
 import {
+	postCalibrateTenantReviews,
 	postSubscribeToATenant,
 	postSubscriptionsHandler,
 	postSettingsDangerZoneHandler,
@@ -253,6 +255,18 @@ web.post(
 			WebService(WebRepository(db), redis, job),
 		),
 	),
+);
+
+/**
+ * POST /tenants/{id}/calibrate-reviews
+ * @tags tenants
+ * @summary calibrate a tenant reviews
+ */
+web.post(
+	'/tenants/:id/calibrate-reviews',
+	csrfHandler,
+	validateRequestHandler(postCalibrateTenantReviewsValidation),
+	catchAsyncErrorHandler(postCalibrateTenantReviews(TenantService(db, redis, dayjs, badWord))),
 );
 
 /**

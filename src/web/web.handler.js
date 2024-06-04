@@ -1,6 +1,12 @@
 import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
 
+export function postCalibrateTenantReviews() {
+	return async (req, res) => {
+		return res.json({ message: 'ok ' });
+	};
+}
+
 export function getUnsubscribeHandler(WebService, NotFoundError) {
 	return async (req, res) => {
 		const subscriptions = await WebService.getSubscription(req.query.email);
