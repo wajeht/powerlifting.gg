@@ -21,6 +21,6 @@ const processCalibrateRatingsJob = async (job) => {
 
 new Worker(queueName, processCalibrateRatingsJob, { connection: redis });
 
-export async function scheduleCalibrateRatingsJob(data) {
-	await calibrateRatingsQueue.add('sendApproveTenantEmailJob', data);
+export async function calibrateRatingsJob(data) {
+	await calibrateRatingsQueue.add('calibrateRatingsJob', data);
 }
