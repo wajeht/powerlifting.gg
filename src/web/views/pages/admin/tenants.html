@@ -38,13 +38,13 @@
     form.submit();
   }
 
-  function calibrateReviews(event) {
+  function calibrateRatings(event) {
     if (!states.approve.length) return;
 
     const csrfToken = "<%= csrfToken %>";
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '/tenants/calibrate-reviews';
+    form.action = '/tenants/calibrate-ratings';
 
     const csrfInput = document.createElement('input');
     csrfInput.type = 'hidden';
@@ -93,7 +93,7 @@
           <div tabindex="0"
             class="dropdown-content flex flex-col mt-3 z-[1] p-2 shadow bg-base-100 border w-44 rounded-lg">
             <button class="btn btn-sm btn-ghost" onclick="approve(event)">Approve</button>
-            <button class="btn btn-sm btn-ghost" onclick="calibrateReviews(event)">Calibrate Reviews</button>
+            <button class="btn btn-sm btn-ghost" onclick="calibrateRatings(event)">Calibrate Reviews</button>
           </div>
         </div>
 

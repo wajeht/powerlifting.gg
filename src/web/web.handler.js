@@ -1,7 +1,7 @@
 import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
 
-export function postCalibrateTenantReviews() {
+export function postCalibrateTenantRatings() {
 	return async (req, res) => {
 		return res.json({ message: 'ok ' });
 	};
