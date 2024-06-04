@@ -12,7 +12,7 @@
 			<% if (app.user) { %>
 				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
 			<% } else { %>
-			<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Login</a>
+				<a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="<%- app.configureDomain(app.tenant.slug) %>/reviews" title="login with google">Login</a>
 			<% } %>
 		</div>
 

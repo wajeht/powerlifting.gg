@@ -1,7 +1,9 @@
 <!-- background img -->
 <header
 	class="bg-center bg-cover bg-no-repeat min-h-[766px] h-full bg-neutral"
-	style="background-image: url(<%= tenant.banner %>);"
+	<% if (tenant.banner.length) { %>
+		style="background-image: url(<%= tenant.banner %>);"
+	<% } %>
 >
 	<!-- blur -->
 	<div class="bg-black/70 min-h-[766px] w-full p-10">
@@ -12,11 +14,21 @@
 				<div class="backdrop-blur-md p-5 bg-black/10 w-fit rounded-md flex gap-5">
 					<!-- logo -->
 					<div class="h-[150px] w-[150px] rounded-full shadow-white shadow-sm">
-						<img
-							class="object-cover h-full rounded-full"
-							src="<%= tenant.logo %>"
-							alt="logo"
-						/>
+						<% if (tenant.logo.length) { %>
+							<img
+								class="object-cover h-full rounded-full"
+								src="<%= tenant.logo %>"
+								alt="logo"
+							/>
+						<% }else { %>
+							<div class="bg-white h-full w-full rounded-full flex justify-center items-center">
+								<span class="font-bold text-2xl">
+									<% const split = tenant.slug.split('-'); %>
+									<% const capitalizedInitials = split.map(part => part.charAt(0).toUpperCase()).join(''); %>
+									<%= capitalizedInitials %>
+								</span>
+							</div>
+						<% } %>
 					</div>
 
 					<div class="flex flex-col gap-3 justify-center w-fit">
@@ -50,13 +62,13 @@
 						<!-- ratings -->
 						<div class="rating rating-xs mt-2">
 							<% for (let i = 0; i < 5; i++) { %>
-							<input
-								type="radio"
-								id="<%= tenant.slug %>-star-<%= i + 1 %>"
-								name="<%= tenant.slug %>-star-<%= i + 1 %>"
-								class="mask mask-star-2 <%= i + 1 <= Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
-								disabled
-							/>
+								<input
+									type="radio"
+									id="<%= tenant.slug %>-star-<%= i + 1 %>"
+									name="<%= tenant.slug %>-star-<%= i + 1 %>"
+									class="mask mask-star-2 <%= i + 1 <= Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+									disabled
+								/>
 							<% } %>
 						</div>
 

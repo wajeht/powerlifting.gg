@@ -101,15 +101,13 @@
 				<% for (const tenant of tenants.data) { %>
 					<div
 						id="<%= tenant.slug %>-tenant-card"
-						class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat"
+						class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat bg-neutral"
 						<% if (tenant.banner.length) { %>
 							style="background-image: url(<%= tenant.banner %>)"
-						<% } else { %>
-							style="background-color: #242C38"
 						<% } %>
 					>
 						<!-- blur -->
-						<div class="flex sm:flex-row flex-col gap-2 p-5 rounded-md <%- tenant.banner.length ? 'backdrop-blur-sm  bg-black/70 hover:bg-black/80 transition-all duration-300': '' %>">
+						<div class="flex sm:flex-row flex-col gap-2 p-5 rounded-md backdrop-blur-sm bg-black/70 <%- tenant.banner.length ? 'hover:bg-black/80 transition-all duration-300': '' %>">
 							<!-- left -->
 							<div class="flex-0 min-h-full flex justify-center items-center sm:justify-normal sm:items-start">
 								<div class="w-32 h-32 rounded-full flex justify-center items-center shadow-white shadow-sm">
