@@ -102,17 +102,27 @@
 					<div
 						id="<%= tenant.slug %>-tenant-card"
 						class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat"
-						style="background-image: url(<%= tenant.banner %>)"
+						<% if (tenant.banner.length) { %>
+							style="background-image: url(<%= tenant.banner %>)"
+						<% } else { %>
+							style="background-color: #2C3440"
+						<% } %>
 					>
 						<!-- blur -->
-						<div class="flex sm:flex-row flex-col gap-2 p-5 backdrop-blur-sm bg-black/70 hover:bg-black/80 rounded-md transition-all duration-300">
+						<div class="flex sm:flex-row flex-col gap-2 p-5 rounded-md <%- tenant.banner.length ? 'backdrop-blur-sm  bg-black/70 hover:bg-black/80 transition-all duration-300': '' %>">
 							<!-- left -->
 							<div class="flex-0 min-h-full flex justify-center items-center sm:justify-normal sm:items-start">
 								<div class="w-32 h-32 rounded-full flex justify-center items-center shadow-white shadow-sm">
 									<% if (tenant.logo.length) { %>
 										<img class="h-full object-cover w-full rounded-full" src="<%= tenant.logo %>" alt="logo" />
 									<% } else { %>
-										<div class="bg-white rounded-full w-full h-full justify-center items-center flex">n/a</div>
+										<div class="bg-white rounded-full w-full h-full justify-center items-center flex">
+											<span class="font-bold">
+												<% const split = tenant.slug.split('-'); %>
+												<% const capitalizedInitials = split.map(part => part.charAt(0).toUpperCase()).join(''); %>
+												<%= capitalizedInitials %>
+											</span>
+										</div>
 									<% } %>
 								</div>
 							</div>
