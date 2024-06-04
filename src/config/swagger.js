@@ -1,5 +1,12 @@
 import { app as appConfig } from './app.js';
 import path from 'path';
+import expressJSDocSwagger from 'express-jsdoc-swagger';
+import {
+	authenticationHandler,
+	authorizePermissionHandler,
+	tenantIdentityHandler,
+	throwTenancyHandler,
+} from '../app.middleware.js';
 
 let DOMAIN = '';
 
@@ -35,3 +42,14 @@ export const swagger = Object.freeze({
 	},
 	multiple: {},
 });
+
+export function expressJSDocSwaggerHandler(app, swaggerConfig) {
+	app.use(
+		'/api-docs',
+		tenantIdentityHandler,
+		throwTenancyHandler,
+		authenticationHandler,
+		authorizePermissionHandler('SUPER_ADMIN'),
+	);
+	expressJSDocSwagger(app)(swaggerConfig);
+}

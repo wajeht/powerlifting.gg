@@ -48,11 +48,13 @@
 									>
 								</li>
 								<!-- api docs -->
-								<li>
-									<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
-										>API Docs <span>️⤴</span></a
-									>
-								</li>
+								<% if (app.user.role === 'SUPER_ADMIN') { %>
+									<li>
+										<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
+											>API Docs <span>️⤴</span></a
+										>
+									</li>
+								<% } %>
 								<!-- blog -->
 								<li>
 									<a
@@ -100,11 +102,13 @@
 									>
 								</li>
 								<!-- api docs -->
-								<li>
-									<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
-										>API Docs <span>️⤴</span></a
-									>
-								</li>
+								<% if (app.user.role === 'SUPER_ADMIN') { %>
+									<li>
+										<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
+											>API Docs <span>️⤴</span></a
+										>
+									</li>
+								<% } %>
 								<!-- blog -->
 								<li>
 									<a
@@ -166,12 +170,14 @@
 							>Discord<span>⤴</span></a
 						>
 					</li>
-					<!-- api docs -->
-					<li>
-						<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
-							>API Docs <span>️⤴</span></a
-						>
-					</li>
+					<% if (app.user.role === 'SUPER_ADMIN') { %>
+						<!-- api docs -->
+						<li>
+							<a href="<%= app.mainDomain %>/api-docs" title="api docs" target="_blank"
+								>API Docs <span>️⤴</span></a
+							>
+						</li>
+					<% } %>
 					<!-- blog -->
 					<li>
 						<a

@@ -9,8 +9,8 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import RedisStore from 'connect-redis';
 import Sentry from '@sentry/node';
-import expressJSDocSwagger from 'express-jsdoc-swagger';
 
+import { expressJSDocSwaggerHandler } from './config/swagger.js';
 import { setupBullDashboard } from './job/job.js';
 import { web as webRoutes } from './web/web.router.js';
 import { api as apiRoutes } from './api/api.router.js';
@@ -148,7 +148,7 @@ app.set(
 app.use(localVariables);
 
 setupBullDashboard(app);
-expressJSDocSwagger(app)(swaggerConfig);
+expressJSDocSwaggerHandler(app, swaggerConfig);
 
 app.use(expressLayouts);
 
