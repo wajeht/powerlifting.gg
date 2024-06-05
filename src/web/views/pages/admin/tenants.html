@@ -137,7 +137,7 @@
               <div class="flex items-center gap-3">
                 <!-- imag -->
                 <% if (tenant.logo) { %>
-                  <img class="w-12 h-12 rounded-full p-0 m-0" src="<%= tenant.logo %>" alt="<%= tenant.name %>" />
+                  <img class="w-12 h-12 rounded-full p-0 m-0 object-cover" src="<%= tenant.logo %>" alt="<%= tenant.name %>" />
                 <% } else { %>
                   <div class="w-12 h-12 rounded-full bg-neutral-200 flex justify-center items-center">
                     <span class="text-xs font-light">n/a</span>
