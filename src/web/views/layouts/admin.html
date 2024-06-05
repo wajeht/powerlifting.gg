@@ -45,6 +45,12 @@
                 <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/admin/cache">Cache</a>
               <% } %>
 
+              <% if (path === '/admin/users') { %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/admin">Admin</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/admin/users">Users</a>
+              <% } %>
+
             </div>
             <% if (app.user) { %>
               <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
@@ -66,8 +72,14 @@
                 </a>
               </li>
               <li class="m-0">
-                <a class="no-underline <%= path === '/admin/tenants' ? 'active' : '' %> flex gap-3 items-center" href="/admin/tenants">
+                <a class="no-underline <%= path === '/admin/users' ? 'active' : '' %> flex gap-3 items-center" href="/admin/users">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19.128a9.38 9.38 0 0 0 2.625.372a9.337 9.337 0 0 0 4.121-.952a4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0a3.375 3.375 0 0 1 6.75 0m8.25 2.25a2.625 2.625 0 1 1-5.25 0a2.625 2.625 0 0 1 5.25 0"/></svg>
+                  <span>Users</span>
+                </a>
+              </li>
+              <li class="m-0">
+                <a class="no-underline <%= path === '/admin/tenants' ? 'active' : '' %> flex gap-3 items-center" href="/admin/tenants">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6l9 6m-1.5 12V10.333A48.4 48.4 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12z"/></svg>
                   <span>Tenants</span>
                 </a>
               </li>

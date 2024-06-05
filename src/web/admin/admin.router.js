@@ -14,6 +14,7 @@ import {
 	getCacheHandler,
 	getDatabaseHandler,
 	getReviewsHandler,
+	getUsersHandler,
 	getTenantsHandler,
 	postApproveTenantHandler,
 } from './admin.handler.js';
@@ -77,6 +78,16 @@ admin.get(
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
 	catchAsyncErrorHandler(getCacheHandler()),
+);
+
+admin.get(
+	'/admin/users',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	authorizePermissionHandler('SUPER_ADMIN'),
+	csrfHandler,
+	catchAsyncErrorHandler(getUsersHandler()),
 );
 
 admin.post(

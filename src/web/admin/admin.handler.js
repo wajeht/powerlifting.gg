@@ -148,6 +148,19 @@ export function getReviewsHandler() {
 	};
 }
 
+export function getUsersHandler() {
+	return async (req, res) => {
+		const users = await db.select('*').from('users');
+		return res.status(200).render('./admin/users.html', {
+			users,
+			flashMessages: req.flash(),
+			title: 'Admin / Users',
+			path: '/admin/users',
+			layout: '../layouts/admin.html',
+		});
+	};
+}
+
 export function getTenantsHandler() {
 	return async (req, res) => {
 		const tenants = await db.select('*').from('tenants').orderBy('created_at', 'desc');
