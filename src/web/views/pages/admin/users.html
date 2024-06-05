@@ -50,7 +50,7 @@
             <th>
               <form action="/admin/users" method="post">
                 <input type="text" name="csrfToken" value="<%= csrfToken %>" hidden />
-                <input type="text" name="key" value="<%= user.id %>" hidden>
+                <input type="text" name="id" value="<%= user.id %>" hidden>
                 <input type="text" name="method" value="delete" hidden>
                 <button type="submit" class="btn btn-ghost btn-xs justify-center items-center flex text-red-500">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
