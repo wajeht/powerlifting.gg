@@ -1,10 +1,18 @@
+import helmet from 'helmet';
+import session from 'express-session';
+import multerS3 from 'multer-s3';
+import multer from 'multer';
+import RedisStore from 'connect-redis';
+
 import { csrfSync } from 'csrf-sync';
 import { validationResult } from 'express-validator';
 import { db } from './database/db.js';
 import { app as appConfig } from './config/app.js';
 import { backBlaze as backBlazeConfig, publicS3BucketConfig } from './config/back-blaze.js';
-import multerS3 from 'multer-s3';
-import multer from 'multer';
+import { rateLimit } from 'express-rate-limit';
+import { redis } from './database/db.js';
+import { session as sessionConfig } from './config/session.js';
+import { alertDiscord } from './utils/discord.js';
 import {
 	HttpError,
 	NotFoundError,
@@ -13,7 +21,12 @@ import {
 	ValidationError,
 	UnimplementedFunctionError,
 } from './app.error.js';
-import { alertDiscord } from './utils/discord.js';
+
+const redisStore = new RedisStore({
+	client: redis,
+	prefix: sessionConfig.store_prefix,
+	disableTouch: true,
+});
 
 export const uploadHandler = multer({
 	storage: multerS3({
@@ -123,13 +136,6 @@ export function throwTenancyHandler(req, res, next) {
 	} catch (error) {
 		next(error);
 	}
-}
-
-export function rateLimitHandler(req, res) {
-	if (req.get('Content-Type') === 'application/json') {
-		return res.json({ message: 'Too many requests, please try again later.' });
-	}
-	return res.status(429).render('./rate-limit.html');
 }
 
 export async function tenantIdentityHandler(req, res, next) {
@@ -273,7 +279,79 @@ export async function errorHandler(err, req, res, _next) {
 	});
 }
 
-export async function skipOnMyIp(req, _res) {
-	const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
-	return myIp == appConfig.myIp || process.env.NODE_ENV === 'development';
+export function rateLimitHandler() {
+	return rateLimit({
+		windowMs: 15 * 60 * 1000, // 15 minutes
+		limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+		standardHeaders: 'draft-7',
+		legacyHeaders: false,
+		handler: (req, res) => {
+			if (req.get('Content-Type') === 'application/json') {
+				return res.json({ message: 'Too many requests, please try again later.' });
+			}
+			return res.status(429).render('./rate-limit.html');
+		},
+		skip: (req, _res) => {
+			const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
+			return myIp == appConfig.myIp || process.env.NODE_ENV === 'development';
+		},
+	});
+}
+
+export function helmetHandler() {
+	return helmet({
+		contentSecurityPolicy: {
+			directives: {
+				...helmet.contentSecurityPolicy.getDefaultDirectives(),
+				'default-src': [
+					"'self'",
+					'plausible.jaw.dev',
+					'powerlifting.gg',
+					'localtest.me',
+					'jaw.lol',
+				],
+				'script-src': [
+					"'self'",
+					"'unsafe-inline'",
+					"'unsafe-eval'",
+					'plausible.jaw.dev',
+					'powerlifting.gg',
+					'localtest.me',
+					'jaw.lol',
+					'blob:',
+					'text/javascript',
+					'https://jaw.dev/',
+				],
+				'script-src-elem': ["'self'", "'unsafe-inline'", 'https://plausible.jaw.dev'],
+				'script-src-attr': ["'self'", "'unsafe-inline'"],
+				'img-src': [
+					"'self'",
+					'https://lh3.googleusercontent.com/',
+					'https://s3.us-east-005.backblazeb2.com',
+					'data:',
+					'blob:',
+				],
+			},
+		},
+	});
+}
+
+export function sessionHandler() {
+	return session({
+		secret: sessionConfig.secret,
+		resave: true,
+		saveUninitialized: true,
+		store: redisStore,
+		proxy: appConfig.env === 'production',
+		cookie: {
+			httpOnly: false,
+			// prettier-ignore
+			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}` : `.${appConfig.development_app_url}`,
+			maxAge: 1000 * 60 * 24, // 24 hours
+			// // TODO: fix why this aint working for production
+			// httpOnly: appConfig.env === 'production',
+			// sameSite: appConfig.env === 'production' ? 'none' : 'lax',
+			// secure: appConfig.env === 'production',
+		},
+	});
 }
