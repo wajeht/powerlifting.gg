@@ -5,16 +5,15 @@ import cors from 'express';
 import compression from 'compression';
 import express from 'express';
 import flash from 'connect-flash';
-import Sentry from '@sentry/node';
 
 import { web as webRoutes } from './web/web.router.js';
 import { api as apiRoutes } from './api/api.router.js';
 import { expressJSDocSwaggerHandler } from './config/swagger.js';
 import { setupBullDashboard } from './job/job.js';
 import { swagger as swaggerConfig } from './config/swagger.js';
+import { sentry as sentryConfig } from './config/sentry.js';
 
 import { app as appConfig } from './config/app.js';
-import { sentry as sentryConfig } from './config/sentry.js';
 import {
 	notFoundHandler,
 	errorHandler,
@@ -26,18 +25,12 @@ import {
 
 const app = express();
 
-Sentry.init({
-	dsn: sentryConfig.dsn,
-	integrations: [
-		new Sentry.Integrations.Http({ tracing: true }),
-		new Sentry.Integrations.Express({ app }),
-	],
-	tracesSampleRate: 1.0,
-	profilesSampleRate: 1.0,
-});
+const sentry = sentryConfig(app);
 
-app.use(Sentry.Handlers.requestHandler());
-app.use(Sentry.Handlers.tracingHandler());
+sentry.init();
+
+app.use(sentry.requestHandler());
+app.use(sentry.tracingHandler());
 
 app.set('trust proxy', true);
 
@@ -74,7 +67,7 @@ app.use(expressLayouts);
 app.use(apiRoutes);
 app.use(webRoutes);
 
-app.use(Sentry.Handlers.errorHandler());
+app.use(sentry.errorHandler());
 app.use(notFoundHandler);
 app.use(errorHandler);
 
