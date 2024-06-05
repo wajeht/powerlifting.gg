@@ -84,7 +84,7 @@ export function postSubscribeToATenant(TenantService, WebService) {
 				],
 			};
 			await WebService.createSubscription({ email, type });
-			req.flash('success', 'subscribed!' + id);
+			req.flash('success', `Successfully subscribed to ${tenant.name}`);
 			return res.redirect('back');
 		}
 
