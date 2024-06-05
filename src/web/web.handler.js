@@ -252,7 +252,24 @@ export function getIndexHandler(WebRepository, TenantService) {
 				perPage: parseInt(per_page ?? 25),
 				currentPage: parseInt(current_page ?? 1),
 			});
+
+			let subscribed = false;
+
+			if (req.session?.user) {
+				const { email } = req.session.user;
+				const subscription = await WebRepository.getSubscription(email);
+
+				if (subscription) {
+					const tenants = JSON.parse(subscription.type)?.tenants || [];
+					const currentTenantId = req.tenant.id.toString();
+					subscribed = tenants.some(
+						(tenant) => tenant.id.toString() === currentTenantId && tenant.subscribed,
+					);
+				}
+			}
+
 			return res.status(200).render('tenant.html', {
+				subscribed,
 				tenant: req.tenant,
 				reviews,
 				q: req.query.q,
