@@ -5,8 +5,7 @@ import { app as appConfig } from '../config/app.js';
 
 const transporter = nodemailer.createTransport(emailConfig);
 
-export const domain =
-	appConfig.env === 'production' ? appConfig.production_app_url : appConfig.development_app_url;
+export const domain = appConfig.env === 'production' ? appConfig.production_app_url : appConfig.development_app_url; // prettier-ignore
 
 export async function sendMail({
 	to = `${domain} <${emailConfig.email_alias}>`,
