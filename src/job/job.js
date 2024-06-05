@@ -6,7 +6,7 @@ import { sendWelcomeEmailJob, sendWelcomeEmailQueue } from './welcome.job.js';
 import { sendContactEmailJob, sendContactEmailQueue } from './contact.job.js';
 import { scheduleBackupDatabaseJob, scheduleBackupDatabaseQueue } from './backup-database.job.js';
 import { sendNewsletterEmailJob, sendNewsletterEmailQueue } from './newsletter.job.js';
-import { sendNewReviewEmailJob, sendNewReviewEmailQueue } from './new-review.js';
+import { sendNewReviewEmailJob, sendNewReviewEmailQueue } from './new-review.job.js';
 import { calibrateRatingsQueue, calibrateRatingsJob } from './calibrate-ratings.job.js';
 import {
 	authenticationHandler,

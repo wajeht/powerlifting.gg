@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
-import { app as appConfig } from '../config/app.js';
-import { db, redis } from '../database/db.js';
-import { WebService } from '../web/web.service.js';
-import { WebRepository } from '../web/web.repository.js';
-import { sendNewsletterEmail } from '../emails/email.js';
-import { logger } from '../utils/logger.js';
+import { app as appConfig } from '../../config/app.js';
+import { db, redis } from '../../database/db.js';
+import { WebService } from '../../web/web.service.js';
+import { WebRepository } from '../../web/web.repository.js';
+import { sendNewsletterEmail } from '../../emails/email.js';
+import { logger } from '../../utils/logger.js';
 
 // TODO: clean this up. make it testable
 export async function sendNewsLetterEmailInBulk(job) {

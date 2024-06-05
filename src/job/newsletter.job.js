@@ -1,7 +1,7 @@
 import { Queue, Worker } from 'bullmq';
 import { logger } from '../utils/logger.js';
 import { redis } from '../database/db.js';
-import { sendNewsLetterEmailInBulk } from './newsletter.job.util.js';
+import { sendNewsLetterEmailInBulk } from './utils/newsletter.js';
 
 const queueName = 'sendNewsletterEmailQueue';
 
