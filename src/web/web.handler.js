@@ -262,9 +262,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 				if (subscription) {
 					const tenants = JSON.parse(subscription.type)?.tenants || [];
 					const currentTenantId = req.tenant.id.toString();
-					subscribed = tenants.some(
-						(tenant) => tenant.id.toString() === currentTenantId && tenant.subscribed,
-					);
+					subscribed = tenants.some((tenant) => tenant.id.toString() === currentTenantId && tenant.subscribed); // prettier-ignore
 				}
 			}
 
