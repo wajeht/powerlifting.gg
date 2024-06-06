@@ -269,7 +269,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 			}
 
 			return res.status(200).render('tenant.html', {
-				subscribed,
+				subscribed: subscribed,
 				tenant: req.tenant,
 				reviews,
 				q: req.query.q,
