@@ -1,5 +1,6 @@
 import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
+import { NotFoundError } from '../app.error.js';
 
 export function postCalibrateTenantRatings(WebService) {
 	return async (req, res) => {
@@ -356,6 +357,10 @@ export function getBlogHandler(WebService) {
 export function getBlogPostHandler(WebService) {
 	return async (req, res) => {
 		const post = await WebService.getBlogPost({ cache: true, id: req.params.id });
+
+		if (post === null) {
+			throw new NotFoundError('post does not exist!');
+		}
 
 		return res.status(200).render('post.html', {
 			title: `Blog / ${req.params.id}`,

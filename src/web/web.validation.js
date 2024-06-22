@@ -112,6 +112,19 @@ export const postSettingsAccountHandlerValidation = [
 		}),
 ];
 
+export const getBlogPostHandlerValidation = [
+	param('id')
+		.notEmpty()
+		.withMessage('The id must not be empty!')
+		.custom(async (id) => {
+			const dashCasePattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+			if (!dashCasePattern.test(id)) {
+				throw new ValidationError('must be in dash case!');
+			}
+			return true;
+		}),
+];
+
 export const postSubscribeToATenantValidation = [
 	param('id')
 		.notEmpty()

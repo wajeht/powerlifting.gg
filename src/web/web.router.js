@@ -20,6 +20,7 @@ import {
 } from '../app.middleware.js';
 import {
 	getUnsubscribeHandlerValidation,
+	getBlogPostHandlerValidation,
 	postCalibrateTenantRatingsValidation,
 	postSubscribeToATenantValidation,
 	postContactHandlerValidation,
@@ -389,6 +390,7 @@ web.get(
 	tenantIdentityHandler,
 	throwTenancyHandler,
 	csrfHandler,
+	validateRequestHandler(getBlogPostHandlerValidation),
 	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis, job))),
 );
 
