@@ -1,6 +1,41 @@
 <script>
+  const states = {
+    selected: [],
+  };
+
+  function handleCheckboxChange(event) {
+    const checkbox = event.target;
+    if (states.selected.includes(checkbox.value)) {
+      states.selected = states.selected.filter(c => c !== checkbox.value);
+    } else {
+      states.selected.push(checkbox.value);
+    }
+  }
+
   function calibrateRatings(event) {
-    alert('has not been implemented yet')
+    if (!states.selected.length) return;
+
+    const csrfToken = "<%= csrfToken %>";
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/tenants/calibrate-ratings';
+
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfToken';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+
+    states.selected.forEach(value => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id[]';
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
   }
 </script>
 
@@ -120,7 +155,7 @@
             </div>
           </td>
           <td>
-            <% if (tenant.approved) { %>
+            <% if (tenant.selectedd) { %>
               <span class="bg-green-100 border border-green-300 rounded-md text-xs px-1 py-[2px]">Published</span>
             <% } else { %>
               <span class="bg-blue-100 border border-blue-300 rounded-md text-xs px-1 py-[2px]">Pending</span>
