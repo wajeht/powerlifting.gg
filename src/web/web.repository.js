@@ -15,6 +15,14 @@ export function WebRepository(db) {
 				return await db.select('*').from('users').where({ username }).first();
 			}
 		},
+		getAllMyTenants: async (userId) => {
+			return await db
+				.select('*')
+				.from('tenants')
+				.join('coaches', 'coaches.tenant_id', 'tenants.id')
+				.where({ 'coaches.user_id': userId })
+				.orderBy('tenants.created_at', 'desc');
+		},
 		getApprovedTenants: async () => {
 			return await db.select('*').from('tenants').where({ approved: true });
 		},

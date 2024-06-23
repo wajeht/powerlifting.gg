@@ -438,9 +438,12 @@ export function postSettingsDangerZoneHandler(WebService) {
 	};
 }
 
-export function getSettingsTenantHandler() {
+export function getSettingsTenantHandler(WebService) {
 	return async (req, res) => {
+		const user = req.session.user;
+		const tenants = await WebService.getAllMyTenants(user.id);
 		return res.status(200).render('./settings/tenant.html', {
+			tenants,
 			flashMessages: req.flash(),
 			title: 'Settings / Tenant',
 			path: '/settings/tenant',

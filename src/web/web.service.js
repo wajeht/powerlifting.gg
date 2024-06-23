@@ -1,11 +1,14 @@
 import { marked } from 'marked';
 import readingTime from 'reading-time';
 import matter from 'gray-matter';
-import path from 'path';
-import fs from 'fs/promises';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 
 export function WebService(WebRepository, redis, job) {
 	return {
+		getAllMyTenants: async function (userId) {
+			return await WebRepository.getAllMyTenants(userId);
+		},
 		getSubscription: async function (email) {
 			return await WebRepository.getSubscription(email);
 		},
