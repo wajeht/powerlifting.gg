@@ -171,7 +171,7 @@ web.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(getSettingsTenantHandler()),
+	catchAsyncErrorHandler(getSettingsTenantHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**
