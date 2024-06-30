@@ -24,7 +24,7 @@ const server = app.listen(appConfig.port, async () => {
 		}
 	}
 
-	// command
+	// commands
 	if (appConfig.env === 'production') {
 		await shell('powerlifting clear --cloudflare_cache');
 	}
