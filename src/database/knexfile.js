@@ -50,4 +50,10 @@ if (process.env.NODE_ENV === 'testing') {
 	};
 }
 
+if (process.env.NODE_ENV === 'ci') {
+	knexConfig.connection = {
+		filename: path.resolve(__dirname, 'db.sqlite'),
+	};
+}
+
 export default knexConfig;
