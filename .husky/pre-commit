@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+docker compose exec -T gains npm run format
+docker compose exec -T gains npm run lint
+docker compose exec -T gains npm run test

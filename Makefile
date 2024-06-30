@@ -2,14 +2,14 @@ push:
 	npm run test
 	npm run lint
 	npm run format
-	git add -A
+	git add -A --no-verify
 	./scripts/commit.sh
 	git push --no-verify
 
 fix_git:
 	git rm -r --cached .
-	git add .
-	git commit -m "chore: untrack files in .gitignore"
+	git add . --no-verify
+	git commit -m "chore: untrack files in .gitignore" --no-verify
 
 test:
 	docker compose -f docker-compose.dev.yml exec powerlifting npm run test
