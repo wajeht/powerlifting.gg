@@ -8,5 +8,6 @@ export default defineConfig({
 		watch: true,
 		setupFiles: './src/tests/test-setup.js',
 		environment: 'jsdom',
+		exclude: ['node_modules', './src/tests/ete'],
 	},
 });

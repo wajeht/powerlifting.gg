@@ -151,3 +151,5 @@ env.json
 src/utils/tempCodeRunnerFile.js
 *.gz
 public/js/TenantCreate.js
+
+playwright-report
