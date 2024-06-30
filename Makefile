@@ -2,13 +2,13 @@ push:
 	npm run test
 	npm run lint
 	npm run format
-	git add -A --no-verify
+	git add -A
 	./scripts/commit.sh
 	git push --no-verify
 
 fix_git:
 	git rm -r --cached .
-	git add . --no-verify
+	git add .
 	git commit -m "chore: untrack files in .gitignore" --no-verify
 
 test:
