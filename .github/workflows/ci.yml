@@ -94,7 +94,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Create SQLite database for Playwright
-        run: touch src/database/db.sqlite
+        run: touch ./src/database/db.sqlite
 
       - name: Migrate database for Playwright
         run: npm run db:migrate:latest
