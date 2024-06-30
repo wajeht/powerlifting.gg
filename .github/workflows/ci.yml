@@ -96,7 +96,7 @@ jobs:
       - name: Migrate database for Playwright
         run: npm run db:migrate:latest
 
-      - name: Migrate database for Playwright
+      - name: Seed database for Playwright
         run: npm run db:seed:run
 
       - name: Test codes
