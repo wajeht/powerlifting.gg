@@ -4,6 +4,7 @@ import { session as sessionConfig } from './config/session.js';
 import { logger } from './utils/logger.js';
 import { redis } from './database/db.js';
 import { job } from './job/job.js';
+import { shell } from './utils/shell.js';
 
 const server = app.listen(appConfig.port, async () => {
 	logger.info(`Server was started on http://localhost:${appConfig.port}`);
@@ -21,6 +22,11 @@ const server = app.listen(appConfig.port, async () => {
 		if (!key.startsWith('bull:') && !key.startsWith(sessionConfig.store_prefix)) {
 			await redis.del(key);
 		}
+	}
+
+	// command
+	if (appConfig.env === 'production') {
+		await shell('powerlifting clear --cloudflare_cache');
 	}
 
 	// crons
