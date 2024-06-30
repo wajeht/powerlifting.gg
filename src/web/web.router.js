@@ -161,12 +161,12 @@ web.post(
 );
 
 /**
- * GET /settings/tenant
+ * GET /settings/tenants
  * @tags web
  * @summary get settings tenant page
  */
 web.get(
-	'/settings/tenant',
+	'/settings/tenants',
 	tenantIdentityHandler,
 	throwTenancyHandler,
 	authenticationHandler,
