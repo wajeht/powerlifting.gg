@@ -8,8 +8,8 @@ export async function clear(option) {
 	if (cloudflare_cache) {
 		try {
 			await clearCloudflareCache({
-				zoneId: cloudflareConfig.POWERLIFTINGDOTGG_ZONE_ID,
-				apiToken: cloudflareConfig.PURGE_CACHE_API_KEY,
+				zoneId: cloudflareConfig.zone_id,
+				apiToken: cloudflareConfig.api_key,
 			});
 
 			logger.info('Cache cleared');
