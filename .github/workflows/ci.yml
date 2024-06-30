@@ -93,6 +93,9 @@ jobs:
       - name: Test codes
         run: npm run test
 
+      - name: Create empty SQLite database file for Playwright
+        run: touch src/database/db.sqlite
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
