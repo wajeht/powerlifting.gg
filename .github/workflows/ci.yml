@@ -90,10 +90,7 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-      - name: Test codes
-        run: npm run test
-
-      - name: Create empty SQLite database file for Playwright
+      - name: Create SQLite database for Playwright
         run: touch src/database/db.sqlite
 
       - name: Migrate database for Playwright
@@ -101,6 +98,9 @@ jobs:
 
       - name: Migrate database for Playwright
         run: npm run db:seed:run
+
+      - name: Test codes
+        run: npm run test
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
