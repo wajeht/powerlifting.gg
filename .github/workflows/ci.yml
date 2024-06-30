@@ -96,8 +96,11 @@ jobs:
       - name: Create empty SQLite database file for Playwright
         run: touch src/database/db.sqlite
 
-      - name: Migrate database
+      - name: Migrate database for Playwright
         run: npm run db:migrate:latest
+
+      - name: Migrate database for Playwright
+        run: npm run db:seed:run
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
