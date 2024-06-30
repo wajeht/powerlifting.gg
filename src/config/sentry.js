@@ -5,9 +5,15 @@ export const sentryConfig = Object.freeze({
 	dsn: process.env.SENTRY_DSN,
 });
 
-export function sentry(app) {
+export function sentry(app, env) {
 	return {
-		init: () => {
+		skipProduction: function () {
+			if (env !== 'production') {
+				return (req, res, next) => next();
+			}
+		},
+		init: function () {
+			this.skipProduction();
 			return sentryNode.init({
 				dsn: sentryConfig.dsn,
 				integrations: [
@@ -18,13 +24,16 @@ export function sentry(app) {
 				profilesSampleRate: 1.0,
 			});
 		},
-		requestHandler: () => {
+		requestHandler: function () {
+			this.skipProduction();
 			return sentryNode.Handlers.requestHandler();
 		},
-		tracingHandler: () => {
+		tracingHandler: function () {
+			this.skipProduction();
 			return sentryNode.Handlers.tracingHandler();
 		},
-		errorHandler: () => {
+		errorHandler: function () {
+			if (env !== 'production') return (req, res, next) => next();
 			return sentryNode.Handlers.errorHandler();
 		},
 	};

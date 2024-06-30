@@ -25,7 +25,7 @@ import {
 
 const app = express();
 
-const sentry = sentryConfig(app);
+const sentry = sentryConfig(app, appConfig.env);
 
 sentry.init();
 
