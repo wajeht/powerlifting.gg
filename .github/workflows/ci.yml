@@ -56,7 +56,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npm run test:ete
 
       - uses: actions/upload-artifact@v3
         if: always()
