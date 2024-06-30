@@ -6,35 +6,30 @@ export const sentryConfig = Object.freeze({
 });
 
 export function sentry(app, env) {
+	const isProduction = env === 'production';
+
 	return {
-		skipProduction: function () {
-			if (env !== 'production') {
-				return (req, res, next) => next();
+		init: function () {
+			if (isProduction) {
+				sentryNode.init({
+					dsn: sentryConfig.dsn,
+					integrations: [
+						new sentryNode.Integrations.Http({ tracing: true }),
+						new sentryNode.Integrations.Express({ app }),
+					],
+					tracesSampleRate: 1.0,
+					profilesSampleRate: 1.0,
+				});
 			}
 		},
-		init: function () {
-			this.skipProduction();
-			return sentryNode.init({
-				dsn: sentryConfig.dsn,
-				integrations: [
-					new sentryNode.Integrations.Http({ tracing: true }),
-					new sentryNode.Integrations.Express({ app }),
-				],
-				tracesSampleRate: 1.0,
-				profilesSampleRate: 1.0,
-			});
-		},
 		requestHandler: function () {
-			this.skipProduction();
-			return sentryNode.Handlers.requestHandler();
+			return isProduction ? sentryNode.Handlers.requestHandler() : (req, res, next) => next();
 		},
 		tracingHandler: function () {
-			this.skipProduction();
-			return sentryNode.Handlers.tracingHandler();
+			return isProduction ? sentryNode.Handlers.tracingHandler() : (req, res, next) => next();
 		},
 		errorHandler: function () {
-			if (env !== 'production') return (req, res, next) => next();
-			return sentryNode.Handlers.errorHandler();
+			return isProduction ? sentryNode.Handlers.errorHandler() : (err, req, res, next) => next(err);
 		},
 	};
 }
