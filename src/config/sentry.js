@@ -45,7 +45,7 @@ export function sentry(app, env) {
 					next();
 				};
 			}
-			sentryNode.Handlers.errorHandler();
+			return sentryNode.Handlers.errorHandler();
 		},
 	};
 }
