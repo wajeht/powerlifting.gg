@@ -6,10 +6,10 @@ push:
 	./scripts/commit.sh
 	git push --no-verify
 
-fix_git:
-	git rm -r --cached .
-	git add .
-	git commit -m "chore: untrack files in .gitignore" --no-verify
+fix-git:
+	@git rm -r --cached .
+	@git add .
+	@git commit -m "Untrack files in .gitignore"
 
 test:
 	docker compose -f docker-compose.dev.yml exec powerlifting npm run test
