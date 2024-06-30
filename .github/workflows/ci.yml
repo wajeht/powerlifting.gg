@@ -99,8 +99,8 @@ jobs:
       - name: Migrate database for Playwright
         run: npm run db:migrate:latest
 
-      - name: Seed database for Playwright
-        run: NODE_ENV=ci npm run db:seed:run
+      # - name: Seed database for Playwright
+      #   run: npm run db:seed:run
 
       - name: Run Playwright tests
         run: npm run test:ete
