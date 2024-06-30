@@ -35,8 +35,45 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PORT: 80
       DEBUG: true
+      PORT: 80
+      NODE_ENV: 'testing'
+      MY_IP_ADDRESS: '127.0.0.1'
+      DEVELOPMENT_APP_URL: 'jaw.lol'
+      PRODUCTION_APP_URL: 'app.test'
+      SUDO_PASSWORD: 'password'
+      SUPER_ADMIN_EMAIL: 'mail@gmail.com'
+      PRODUCTION_SSH_URL: 'jaw@127.0.0.1'
+      CLOUDFLARE_PURGE_CACHE_API_KEY: 'xxx'
+      CLOUDFLARE_POWERLIFTINGDOTGG_ZONE_ID: 'xxx'
+      CLOUDFLARE_EMAIL: 'mail@gmail.com'
+      SENTRY_DSN: 'xxx'
+      GOOGLE_ID: 'xxx'
+      GOOGLE_SECRET: 'xxx'
+      GOOGLE_REDIRECT_URL: 'xxx'
+      SESSION_STORE_PREFIX: 'xxx'
+      SESSION_SECRET: 'xxx'
+      PRIVATE_BACKBLAZE_BUCKET: 'xxx'
+      PRIVATE_BACKBLAZE_REGION: 'xxx'
+      PRIVATE_BACKBLAZE_END_POINT: 'xxx'
+      PRIVATE_BACKBLAZE_KEY_ID: 'xxx'
+      PRIVATE_BACKBLAZE_APPLICATION_KEY: 'xxx'
+      PUBLIC_BACKBLAZE_BUCKET: 'xxx'
+      PUBLIC_BACKBLAZE_REGION: 'xxx'
+      PUBLIC_BACKBLAZE_END_POINT: 'xxx'
+      PUBLIC_BACKBLAZE_KEY_ID: 'xxx'
+      PUBLIC_BACKBLAZE_APPLICATION_KEY: 'xxx'
+      REDIS_HOST: 'redis'
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: 'password'
+      EMAIL_HOST: 'mailhot'
+      EMAIL_PORT: 1025
+      EMAIL_AUTH_EMAIL: 'name@email.com'
+      EMAIL_AUTH_ALIAS: 'mail@jaw.dev'
+      EMAIL_AUTH_PASS: 'password'
+      DISCORD_ID: 'xxx'
+      DISCORD_TOKEN: 'xxx'
+      DISCORD_URL: 'xxx'
 
     strategy:
       matrix:
