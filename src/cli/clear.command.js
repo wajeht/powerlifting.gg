@@ -12,7 +12,7 @@ export async function clear(option) {
 				apiToken: cloudflareConfig.api_key,
 			});
 
-			logger.info('Cache cleared');
+			logger.info('Cloudflare cache has been cleared');
 		} catch (error) {
 			const message = error.response.data.errors.map((e) => e.message).join(' ');
 			logger.error(message);
