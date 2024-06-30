@@ -225,7 +225,10 @@ export async function notFoundHandler(req, res, _next) {
 
 export async function errorHandler(err, req, res, _next) {
 	if (appConfig.env !== 'testing') {
-		await alertDiscord(err.msg, err.stack);
+		// NOTE: skip 404 errors
+		if (!(err instanceof NotFoundError)) {
+			await alertDiscord(err.message, err.stack);
+		}
 	}
 
 	const errorStatusCodes = {
