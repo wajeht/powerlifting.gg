@@ -14,6 +14,9 @@ fix-git:
 test:
 	docker compose -f docker-compose.dev.yml exec powerlifting npm run test
 
+test-ete:
+	docker compose -f docker-compose.dev.yml exec powerlifting npm run test:ete
+
 test-w:
 	docker compose -f docker-compose.dev.yml exec powerlifting npm run test:watch
 
