@@ -93,8 +93,8 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Create SQLite database for Playwright
-        run: touch ./src/database/db.sqlite
+      # - name: Create SQLite database for Playwright
+      #   run: touch ./src/database/db.sqlite
 
       - name: Migrate database for Playwright
         run: npm run db:migrate:latest
