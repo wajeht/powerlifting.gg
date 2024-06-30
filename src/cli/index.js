@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { clear } from './clear.command.js'
+import { clear } from './clear.command.js';
 
 const program = new Command();
 
