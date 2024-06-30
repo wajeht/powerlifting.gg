@@ -6,7 +6,7 @@ check_aicommits_installed() {
 
 regular_git_commit() {
     read -p "Enter your commit message: " commit_message
-    git commit -m "$commit_message"
+    git commit -m "$commit_message" --no-verify
 }
 
 if check_aicommits_installed; then
