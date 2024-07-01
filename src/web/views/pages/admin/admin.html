@@ -21,12 +21,29 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+
     const logsFormDate = document.getElementById('logs-form-date');
     if (logsFormDate) {
       logsFormDate.querySelector('select').addEventListener('change', () => {
         logsFormDate.submit();
       });
     }
+
+    let expend = false;
+    const logTable = document.getElementById("log-table");
+    const expendCollapseButton = document.getElementById('expend-collapse-button');
+    expendCollapseButton.addEventListener('click', ()=> {
+      expend = !expend;
+
+
+      if (expend === true) {
+        logTable.classList.remove('sm:max-h-96');
+        expendCollapseButton.innerText = 'Collapse'
+      } else {
+        logTable.classList.add('sm:max-h-96');
+        expendCollapseButton.innerText = 'Expend'
+      }
+    })
   });
 </script>
 
@@ -45,7 +62,7 @@
 
 <!-- admin -->
 <% if (logs.length) { %>
-  <div class="overflow-x-auto rounded-lg border overflow-y-scroll sm:max-h-96 max-h-full">
+  <div id="log-table" class="overflow-x-auto rounded-lg border overflow-y-scroll sm:max-h-96 max-h-full">
     <table class="table">
       <!-- head -->
       <thead class="sticky top-0 bg-white">
@@ -53,6 +70,9 @@
           <th>Level</th>
           <th>Timestamp</th>
           <th>Log</th>
+          <th>
+            <button id="expend-collapse-button">Expend</button>
+          </th>
         </tr>
       </thead>
 
@@ -71,6 +91,7 @@
             <td>
               <span class="badge badge-ghost"><%= log.msg %></span>
             </td>
+            <td></td>
           </tr>
         <% } %>
       </tbody>
