@@ -463,7 +463,7 @@ export function getSettingsTenantHandler(WebService) {
 			tenant,
 			flashMessages: req.flash(),
 			title: `Settings / Tenant / ${tenant.name}`,
-			path: '/settings/tenants',
+			path: `/settings/tenants/${tenant.id}`,
 			layout: '../layouts/settings.html',
 		});
 	};
