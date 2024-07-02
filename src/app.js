@@ -1,3 +1,4 @@
+import './global.js';
 import path from 'path';
 import ejs from 'ejs';
 import expressLayouts from 'express-ejs-layouts';
