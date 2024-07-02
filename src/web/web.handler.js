@@ -450,7 +450,7 @@ export function getSettingsTenantsHandler(WebService) {
 			tenants,
 			flashMessages: req.flash(),
 			title: 'Settings / Tenant',
-			path: '/settings/tenant',
+			path: '/settings/tenants',
 			layout: '../layouts/settings.html',
 		});
 	};
@@ -458,13 +458,12 @@ export function getSettingsTenantsHandler(WebService) {
 
 export function getSettingsTenantHandler(WebService) {
 	return async (req, res) => {
-		const user = req.session.user;
-		const tenants = await WebService.getAllMyTenants(user.id);
-		return res.status(200).render('./settings/tenants.html', {
-			tenants,
+		const tenant = await WebService.getTenant({ tenantId: req.params.id });
+		return res.status(200).render('./settings/tenant-details.html', {
+			tenant,
 			flashMessages: req.flash(),
-			title: 'Settings / Tenant',
-			path: '/settings/tenant',
+			title: `Settings / Tenant / ${tenant.name}`,
+			path: '/settings/tenants',
 			layout: '../layouts/settings.html',
 		});
 	};

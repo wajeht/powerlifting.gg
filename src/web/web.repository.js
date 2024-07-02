@@ -26,6 +26,9 @@ export function WebRepository(db) {
 		getApprovedTenants: async () => {
 			return await db.select('*').from('tenants').where({ approved: true });
 		},
+		getTenant: async (tenantId) => {
+			return await db.select('*').from('tenants').where({ id: tenantId }).first();
+		},
 		getRandomApprovedAndVerifiedTenants: async ({ size = 5 } = {}) => {
 			return await db
 				.select('*')
