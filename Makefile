@@ -56,11 +56,10 @@ down:
 clean:
 	docker compose -f docker-compose.dev.yml down --rmi all
 
-real-clean:
-	docker volume rm $(docker volume ls -qf dangling=true)
-
 wipe:
 	docker system prune -a --volumes -f
+	docker volume prune -f
+	docker volume ls -qf dangling=true
 
 all:
 	make down
