@@ -216,6 +216,7 @@ export async function localVariables(req, res, next) {
 				// straight from s3
 				og.image = tenant.banner;
 			} else {
+				// from our fs
 				og.image = `${tenantDomain}${tenant.banner}`;
 			}
 
