@@ -8,6 +8,7 @@ import { scheduleBackupDatabaseJob, scheduleBackupDatabaseQueue } from './backup
 import { sendNewsletterEmailJob, sendNewsletterEmailQueue } from './newsletter.job.js';
 import { sendNewReviewEmailJob, sendNewReviewEmailQueue } from './new-review.job.js';
 import { calibrateRatingsQueue, calibrateRatingsJob } from './calibrate-ratings.job.js';
+import { generateOgImageJob, generateOgImageQueue } from './generate-og-image.job.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
@@ -25,6 +26,7 @@ export const job = {
 	sendNewsletterEmailJob,
 	sendNewReviewEmailJob,
 	calibrateRatingsJob,
+	generateOgImageJob,
 };
 
 export function setupBullDashboard(app) {
@@ -40,6 +42,7 @@ export function setupBullDashboard(app) {
 			new BullMQAdapter(sendNewsletterEmailQueue),
 			new BullMQAdapter(sendNewReviewEmailQueue),
 			new BullMQAdapter(calibrateRatingsQueue),
+			new BullMQAdapter(generateOgImageQueue),
 		],
 		serverAdapter,
 	});

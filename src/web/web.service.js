@@ -196,6 +196,9 @@ export function WebService(WebRepository, redis, job) {
 
 			// send email to admin
 			await job.sendApproveTenantEmailJob({ tenant, coach });
+
+			// generate og image for seo
+			await job.generateOgImageJob({ tenant });
 		},
 		postContact: async function ({ email, message, subject }) {
 			await job.sendContactEmailJob({ email, message, subject });
@@ -205,6 +208,9 @@ export function WebService(WebRepository, redis, job) {
 		},
 		calibrateRatingsJob: async function ({ ids }) {
 			await job.calibrateRatingsJob({ ids });
+		},
+		generateOgImageJob: async function ({ tenant }) {
+			await job.generateOgImageJob({ tenant });
 		},
 	};
 }

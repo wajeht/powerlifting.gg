@@ -16,7 +16,7 @@ const processSendApproveTenantEmailJob = async (job) => {
 		job.updateProgress(100);
 		logger.info(`Approve Tenant email job sent`);
 	} catch (error) {
-		logger.alert(`Failed to send Approve Tenant email job`, error);
+		logger.error(`Failed to send Approve Tenant email job`, error);
 	}
 };
 
