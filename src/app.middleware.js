@@ -211,7 +211,13 @@ export async function localVariables(req, res, next) {
 			const tenantDomain = app.configureDomain(tenant.slug);
 			og.domainWithProtocol = tenantDomain;
 			og.domainWithoutProtocol = tenantDomain.replace(/https?:\/\//, '');
-			og.image = `${tenantDomain}${tenant.banner}`;
+
+			if (tenant.banner.startsWith('https://')) {
+				// straight from s3
+				og.image = tenant.banner;
+			} else {
+				og.image = `${tenantDomain}${tenant.banner}`;
+			}
 
 			res.locals.app.og = og;
 		}
