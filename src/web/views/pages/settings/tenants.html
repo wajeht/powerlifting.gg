@@ -89,6 +89,7 @@
         <th>Status</th>
         <th>Ratings Calibrated At</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
 
@@ -164,8 +165,13 @@
           <td>
             <%= tenant.ratings_calibrated_at %>
           </td>
+          <td>
+            <a class="badge badge-ghost badge-sm no-underline hover:underline" href="/settings/tenants/<%= tenant.id %>">
+              details
+            </a>
+          </td>
           <th>
-            <form action="/settings/tenant" method="post">
+            <form action="/settings/tenants" method="post">
               <input type="text" name="csrfToken" value="<%= csrfToken %>" hidden />
               <input type="text" name="key" value="<%= tenant.id %>" hidden>
               <input type="text" name="method" value="delete" hidden>

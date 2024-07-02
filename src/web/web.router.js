@@ -35,6 +35,7 @@ import {
 	postSubscribeToATenant,
 	postSubscriptionsHandler,
 	postSettingsDangerZoneHandler,
+	getSettingsTenantsHandler,
 	getSettingsTenantHandler,
 	getContactHandler,
 	postContactHandler,
@@ -167,6 +168,20 @@ web.post(
  */
 web.get(
 	'/settings/tenants',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(getSettingsTenantsHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * GET /settings/tenants/{id}
+ * @tags web
+ * @summary get settings tenant page
+ */
+web.get(
+	'/settings/tenants/:id',
 	tenantIdentityHandler,
 	throwTenancyHandler,
 	authenticationHandler,
