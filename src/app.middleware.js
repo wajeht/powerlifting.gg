@@ -98,18 +98,33 @@ export const catchAsyncErrorHandler = (fn) => {
 	};
 };
 
-export function authenticationHandler(req, res, next) {
+export async function authenticationHandler(req, res, next) {
 	try {
-		if (!req.session.user) {
+		const user = req.session?.user;
+		if (!user) {
 			if (req.tenant) {
 				const tenantUrl = res.locals.app.configureDomain(res.locals.app.tenant.slug);
 				req.session.redirectUrl = `${tenantUrl}${req.originalUrl}`;
 			} else {
 				req.session.redirectUrl = req.originalUrl;
 			}
-
 			return res.redirect('/login');
 		}
+
+		// force logout
+		if (user) {
+			const u = await db.select('id').from('users').where({ id: user.id }).first();
+			if (!u) {
+				req.session.user = undefined;
+				req.session.destroy((error) => {
+					if (error) {
+						throw new Error(error);
+					}
+				});
+				return res.redirect("/?alert-success=You've have been logged out!");
+			}
+		}
+
 		next();
 	} catch (error) {
 		next(error);
