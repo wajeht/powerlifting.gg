@@ -33,8 +33,11 @@ export async function clear(option) {
 		if (all_cache) {
 			logger.info('all cache clear function called');
 		}
+
+		return process.exit(0);
 	} catch (error) {
 		const message = error.response.data.errors.map((e) => e.message).join(' ');
 		logger.error(message);
+		return process.exit(1);
 	}
 }
