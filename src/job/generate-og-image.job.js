@@ -1,6 +1,7 @@
 import { Queue, Worker } from 'bullmq';
 import { redis } from '../database/db.js';
 import { generateOgImage } from './utils/generate-og-image.js';
+import { logger } from '../utils/logger.js';
 
 const queueName = 'generateOgImageQueue';
 
@@ -10,11 +11,11 @@ export const generateOgImageQueue = new Queue(queueName, {
 
 const processGenerateOgImageJob = async (job) => {
 	try {
-		job.log('generate og image job was started');
+		logger.info('generate og image job was started');
 		await generateOgImage({ tenant: job.data.tenant, job });
-		job.log('generate og image job job was finished');
+		logger.info('generate og image job job was finished');
 	} catch (error) {
-		job.log('generate og image job failed');
+		logger.error('generate og image job failed');
 	}
 };
 
