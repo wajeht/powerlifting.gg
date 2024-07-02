@@ -183,6 +183,16 @@ export async function localVariables(req, res, next) {
 		},
 	};
 
+	const app = res.locals.app;
+
+	const og = {
+		domainWithProtocol: app.mainDomain,
+		domainWithoutProtocol: app.mainDomain.replace(/https?:\/\//, ''),
+		image: `${app.mainDomain}/img/crowd.jpg`,
+	};
+
+	res.locals.app.og = og;
+
 	if (req.session.user) {
 		res.locals.app['user'] = req.session.user;
 		const user = req.session.user;
@@ -197,6 +207,13 @@ export async function localVariables(req, res, next) {
 			.first();
 		if (tenant) {
 			res.locals.app['user'].tenant = tenant;
+
+			const tenantDomain = app.configureDomain(tenant.slug);
+			og.domainWithProtocol = tenantDomain;
+			og.domainWithoutProtocol = tenantDomain.replace(/https?:\/\//, '');
+			og.image = `${tenantDomain}${tenant.banner}`;
+
+			res.locals.app.og = og;
 		}
 	}
 
