@@ -18,6 +18,8 @@ git reset --hard origin/main
 
 # echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build
 
-echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build --no-cache --no-deps powerlifting
+echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml build --no-cache powerlifting
+
+echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --no-deps powerlifting
 
 EOF
