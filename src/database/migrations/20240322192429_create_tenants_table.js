@@ -9,7 +9,7 @@ export function up(knex) {
 		table.string('slug').notNullable().unique();
 		table.string('banner').nullable().defaultTo('/img/crowd.jpg');
 		table.string('logo').nullable().defaultTo('/img/west-side.jpg');
-		table.string('og_image').nullable().defaultTo('/img/crowd.jpg');
+		table.string('og_image').nullable().defaultTo('/img/og.jpeg');
 		table.text('links').nullable().defaultTo('[]');
 		table.boolean('verified').notNullable().defaultTo(false);
 		table.boolean('approved').notNullable().defaultTo(false);
