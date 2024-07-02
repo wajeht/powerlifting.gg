@@ -164,7 +164,7 @@ web.post(
 /**
  * GET /settings/tenants
  * @tags web
- * @summary get settings tenant page
+ * @summary get settings tenants page
  */
 web.get(
 	'/settings/tenants',
@@ -178,7 +178,7 @@ web.get(
 /**
  * GET /settings/tenants/{id}
  * @tags web
- * @summary get settings tenant page
+ * @summary get settings tenant details page
  */
 web.get(
 	'/settings/tenants/:id',
