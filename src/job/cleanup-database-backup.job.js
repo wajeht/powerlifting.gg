@@ -22,5 +22,9 @@ const processCleanupDatabaseBackupJob = async (job) => {
 new Worker(queueName, processCleanupDatabaseBackupJob, { connection: redis });
 
 export async function cleanupDatabaseBackupJob(data) {
-	await cleanupDatabaseBackupQueue.add('cleanupDatabaseBackupJob', data);
+	await cleanupDatabaseBackupQueue.add(
+		'cleanupDatabaseBackupJob',
+		data,
+		{ repeat: { cron: '0 */7 * * *' } }, // every 7 hours
+	);
 }
