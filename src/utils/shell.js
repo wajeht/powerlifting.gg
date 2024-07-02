@@ -1,8 +1,10 @@
-import { spawn } from 'child_process';
+import { exec } from 'child_process';
 
 export async function shell(command) {
 	return new Promise((resolve, reject) => {
-		const childProcess = spawn(command, { shell: true, stdio: 'inherit', env: process.env });
+		const childProcess = exec(command, {
+			env: process.env,
+		});
 
 		if (childProcess.stdout) {
 			childProcess.stdout.on('data', (data) => {
@@ -17,7 +19,6 @@ export async function shell(command) {
 		}
 
 		childProcess.on('close', (code) => {
-			childProcess.kill();
 			if (code === 0) {
 				resolve();
 			} else {
@@ -26,8 +27,7 @@ export async function shell(command) {
 		});
 
 		childProcess.on('error', (error) => {
-			childProcess.kill();
-			reject(new Error(`Spawn error: ${error}`));
+			reject(new Error(`Exec error: ${error}`));
 		});
 	});
 }

@@ -1,10 +1,10 @@
 push:
-	make test
-	make lint
-	make format
-	git add -A
+	@make test
+	@make lint
+	@make format
+	@git add -A
 	./scripts/commit.sh
-	git push --no-verify
+	@git push --no-verify
 
 fix-git:
 	@git rm -r --cached .
@@ -59,8 +59,8 @@ clean:
 	@docker volume ls -qf dangling=true | xargs -r docker volume rm
 
 all:
-	make down
-	make clean
+	@make down
+	@make clean
 
 pull-db:
 	./scripts/pull-db.sh
