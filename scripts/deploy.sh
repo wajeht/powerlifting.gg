@@ -16,6 +16,8 @@ git fetch origin main
 
 git reset --hard origin/main
 
-echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build
+# echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build
+
+echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build --no-cache --no-deps powerlifting
 
 EOF
