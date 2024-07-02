@@ -214,7 +214,7 @@ export async function localVariables(req, res, next) {
 
 			if (tenant.banner.startsWith('https://')) {
 				// straight from s3
-				og.image = tenant.banner;
+				og.image = tenant.og_image;
 			} else {
 				// from our fs
 				og.image = `${tenantDomain}${tenant.banner}`;
