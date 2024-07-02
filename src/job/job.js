@@ -12,7 +12,7 @@ import { generateOgImageJob, generateOgImageQueue } from './generate-og-image.jo
 import {
 	cleanupDatabaseBackupJob,
 	cleanupDatabaseBackupQueue,
-} from './cleanup-database-backup.job';
+} from './cleanup-database-backup.job.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
