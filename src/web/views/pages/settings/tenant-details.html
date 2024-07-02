@@ -1,5 +1,68 @@
-<div class="overflow-x-auto rounded-lg border p-0">
-  <div class="p-5">
-    <pre><%= JSON.stringify(tenant, null, 2) %></pre>
+<div
+  id="<%= tenant.slug %>-tenant-card"
+  class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat bg-neutral"
+  <% if (tenant.banner.length) { %>
+    style="background-image: url(<%= tenant.banner %>)"
+  <% } %>
+  >
+  <!-- blur -->
+  <div class="flex sm:flex-row flex-col gap-2 p-5 rounded-md backdrop-blur-sm bg-black/70 <%- tenant.banner.length ? 'hover:bg-black/80 transition-all duration-300': '' %>">
+    <!-- left -->
+    <div class="flex-0 min-h-full flex justify-center items-center sm:justify-normal sm:items-start">
+      <div class="w-32 h-32 rounded-full flex justify-center items-center shadow-white shadow-sm">
+        <% if (tenant.logo.length) { %>
+          <img class="h-full object-cover w-full rounded-full" src="<%= tenant.logo %>" alt="logo" />
+        <% } else { %>
+          <div class="bg-white rounded-full w-full h-full justify-center items-center flex">
+            <span class="font-bold text-xl">
+              <% const split = tenant.slug.split('-'); %>
+              <% const capitalizedInitials = split.map(part => part.charAt(0).toUpperCase()).join(''); %>
+              <%= capitalizedInitials %>
+            </span>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- mid -->
+    <div class="flex-1 p-5 flex flex-col gap-2 justify-center items-center sm:justify-normal sm:items-start">
+      <!-- name -->
+      <div class="flex items-center">
+        <h3 class="p-0 m-0 text-white drop-shadow-sm"><%= tenant.name %></h3>
+        <% if (tenant.verified) { %>
+          <img class="w-6 h-6 p-0 m-0" src="/img/verified.png" alt="verified" />
+        <% } %>
+      </div>
+
+      <!-- stars -->
+      <div class="rating rating-xs">
+        <% for (let i = 0; i < 5; i++) { %>
+          <input
+            type="radio"
+            id="<%= tenant.slug %>-star-<%= i + 1 %>"
+            name="<%= tenant.slug %>-star-<%= i + 1 %>"
+            class="mask mask-star-2 <%= i + 1 < Math.floor(tenant.ratings) ? 'bg-orange-400' : 'bg-orange-200'%>"
+            disabled
+          />
+        <% } %>
+      </div>
+
+      <!-- link -->
+      <div><a class="text-white drop-shadow-sm" href="<%- app.configureDomain(tenant.slug) %>"><%= app.configureDomain(tenant.slug) %> ⤴️</a></div>
+    </div>
+
+    <!-- right -->
+    <div class="flex-0 p-5 text-white sm:block hidden"><%= tenant.reviews_count %>
+      <% if (tenant.reviews_count > 0) { %>
+        <span>Reviews</span>
+      <% } else { %>
+        <span>Review</span>
+      <% } %>
+    </div>
   </div>
+</div>
+
+
+<div class="rounded-lg border p-5">
+  <pre><%= JSON.stringify(tenant, null, 2) %></pre>
 </div>
