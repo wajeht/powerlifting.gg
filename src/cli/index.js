@@ -13,7 +13,9 @@ program
 program
 	.command('clear')
 	.description('clear some stuff')
-	.option('-cc, --cloudflare_cache', 'cloudflare cache')
+	.option('-cc, --cloudflare_cache', 'clear cloudflare cache')
+	.option('-rc, --redis_cache', 'clear redis cache')
+	.option('-a, --all_cache', 'clear all cache')
 	.action(async (option) => await clear(option));
 
 if (process.argv.length < 3) {
