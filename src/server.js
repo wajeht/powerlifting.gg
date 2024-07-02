@@ -32,6 +32,7 @@ const server = app.listen(appConfig.port, async () => {
 	// crons
 	await job.scheduleBackupDatabaseJob();
 	await job.sendNewsletterEmailJob();
+	await job.cleanupDatabaseBackupJob({ amount: 5 });
 });
 
 function gracefulShutdown() {

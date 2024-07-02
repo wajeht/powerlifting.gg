@@ -10,6 +10,10 @@ import { sendNewReviewEmailJob, sendNewReviewEmailQueue } from './new-review.job
 import { calibrateRatingsQueue, calibrateRatingsJob } from './calibrate-ratings.job.js';
 import { generateOgImageJob, generateOgImageQueue } from './generate-og-image.job.js';
 import {
+	cleanupDatabaseBackupJob,
+	cleanupDatabaseBackupQueue,
+} from './cleanup-database-backup.job';
+import {
 	authenticationHandler,
 	authorizePermissionHandler,
 	catchAsyncErrorHandler,
@@ -27,6 +31,7 @@ export const job = {
 	sendNewReviewEmailJob,
 	calibrateRatingsJob,
 	generateOgImageJob,
+	cleanupDatabaseBackupJob,
 };
 
 export function setupBullDashboard(app) {
@@ -43,6 +48,7 @@ export function setupBullDashboard(app) {
 			new BullMQAdapter(sendNewReviewEmailQueue),
 			new BullMQAdapter(calibrateRatingsQueue),
 			new BullMQAdapter(generateOgImageQueue),
+			new BullMQAdapter(cleanupDatabaseBackupQueue),
 		],
 		serverAdapter,
 	});
