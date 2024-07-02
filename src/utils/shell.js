@@ -20,8 +20,7 @@ export async function shell(command) {
 			if (code === 0) {
 				resolve();
 			} else {
-				// reject(new Error(`Command failed with exit code ${code}`));
-				process.exit(code);
+				reject(new Error(`Command failed with exit code ${code}`));
 			}
 		});
 
