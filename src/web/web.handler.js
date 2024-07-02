@@ -245,6 +245,21 @@ export function getTermsOfServiceHandler(WebService) {
 
 export function getIndexHandler(WebRepository, TenantService) {
 	return async (req, res) => {
+		const app = res.locals.app;
+		const tenant = res.locals.app?.tenant;
+		const og = {
+			domainWithProtocol: app.mainDomain,
+			domainWithoutProtocol: app.mainDomain.replace(/https?:\/\//, ''),
+			image: `${app.mainDomain}/img/crowd.jpg`,
+		};
+
+		if (tenant) {
+			const tenantDomain = app.configureDomain(tenant.slug);
+			og.domainWithProtocol = tenantDomain;
+			og.domainWithoutProtocol = tenantDomain.replace(/https?:\/\//, '');
+			og.image = `${tenantDomain}${tenant.banner}`;
+		}
+
 		if (req.tenant) {
 			const { q, per_page, current_page, sort } = req.query;
 			const reviews = await TenantService.getApprovedTenantReviews(q, req.tenant.id, {
@@ -276,6 +291,7 @@ export function getIndexHandler(WebRepository, TenantService) {
 				title: 'Powerlifting.gg',
 				path: '/',
 				layout: '../layouts/tenant.html',
+				og,
 			});
 		}
 
@@ -299,9 +315,13 @@ export function getIndexHandler(WebRepository, TenantService) {
 			},
 		);
 		const reviews = await WebRepository.getRandomReviews({ size: 10 });
-		return res
-			.status(200)
-			.render('home.html', { tenants, reviews, title: 'Powerlifting.gg', path: '/' });
+		return res.status(200).render('home.html', {
+			tenants,
+			reviews,
+			title: 'Powerlifting.gg',
+			path: '/',
+			og,
+		});
 	};
 }
 
