@@ -17,18 +17,17 @@ export async function shell(command) {
 		}
 
 		childProcess.on('close', (code) => {
+			childProcess.kill();
 			if (code === 0) {
 				resolve();
-				process.exit(0);
 			} else {
 				reject(new Error(`Command failed with exit code ${code}`));
-				process.exit(code);
 			}
 		});
 
 		childProcess.on('error', (error) => {
+			childProcess.kill();
 			reject(new Error(`Spawn error: ${error}`));
-			process.exit(1);
 		});
 	});
 }

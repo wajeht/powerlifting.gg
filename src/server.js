@@ -10,8 +10,9 @@ const server = app.listen(appConfig.port, async () => {
 	// commands
 	if (appConfig.env === 'production') {
 		await shell('powerlifting clear --cloudflare_cache');
-		await shell('powerlifting clear --redis_cache');
 	}
+
+	await shell('powerlifting clear --redis_cache');
 
 	// crons
 	await job.scheduleBackupDatabaseJob();
