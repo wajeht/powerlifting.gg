@@ -55,17 +55,12 @@ down:
 
 clean:
 	docker compose -f docker-compose.dev.yml down --rmi all
-
-wipe:
 	docker system prune -a --volumes -f
-	docker volume prune -f
-	docker volume ls -qf dangling=true
+	docker volume ls -qf dangling=true | xargs -r docker volume rm
 
 all:
 	make down
-	make wipe
 	make clean
-	make real-clean
 
 pull-db:
 	./scripts/pull-db.sh
