@@ -12,12 +12,22 @@ fi
 
 cd powerlifting.gg
 
-git fetch origin main
+git fetch origin feature/ssl
 
-git reset --hard origin/main
+git checkout feature/ssl
 
-# echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build
+git reset --hard origin/feature/ssl
 
-echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build --no-deps powerlifting
+# Start Docker Compose without Certbot
+echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build --no-deps powerlifting nginx redis
+
+# Obtain the initial SSL certificates
+docker-compose run --rm --entrypoint "
+  certbot certonly --webroot -w /var/www/certbot \
+  -d powerlifting.gg -d *.powerlifting.gg \
+  --email your-email@example.com --agree-tos --no-eff-email" certbot
+
+# Restart Nginx to apply SSL certificates
+echo $SUDO_PASSWORD | sudo -S docker compose restart nginx
 
 EOF
