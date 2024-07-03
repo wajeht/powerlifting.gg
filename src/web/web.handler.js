@@ -462,7 +462,6 @@ export function getSettingsTenantHandler(WebService) {
 		tenant.social = JSON.parse(tenant.links)
 			.map((l) => l.url)
 			.join(', ');
-		console.log(tenant);
 		return res.status(200).render('./settings/tenant-details.html', {
 			tenant,
 			flashMessages: req.flash(),
