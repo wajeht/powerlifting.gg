@@ -16,9 +16,6 @@ git fetch origin main
 
 git reset --hard origin/main
 
-# Run the script to generate SSL certificates
-echo $SUDO_PASSWORD | sudo -S ./scripts/letsencrypt.sh
-
 echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build
 
 EOF
