@@ -1,5 +1,4 @@
 import './env.js';
-import { logger } from '../utils/logger.js';
 import sentryNode from '@sentry/node';
 
 export const sentryConfig = Object.freeze({
@@ -10,6 +9,8 @@ export function sentry(app, env) {
 	const isProduction = env === 'production';
 	return {
 		init: function () {
+			if (!isProduction) return;
+
 			sentryNode.init({
 				dsn: sentryConfig.dsn,
 				integrations: [
@@ -23,7 +24,7 @@ export function sentry(app, env) {
 		requestHandler: function () {
 			if (!isProduction) {
 				return (req, res, next) => {
-					logger.info('skipping sentry request handler');
+					console.log('skipping sentry request handler');
 					next();
 				};
 			}
@@ -32,7 +33,7 @@ export function sentry(app, env) {
 		tracingHandler: function () {
 			if (!isProduction) {
 				return (req, res, next) => {
-					logger.info('skipping sentry request handler');
+					console.log('skipping sentry request handler');
 					next();
 				};
 			}
@@ -41,7 +42,7 @@ export function sentry(app, env) {
 		errorHandler: function () {
 			if (!isProduction) {
 				return (req, res, next) => {
-					logger.info('skipping sentry request handler');
+					console.log('skipping sentry request handler');
 					next();
 				};
 			}
