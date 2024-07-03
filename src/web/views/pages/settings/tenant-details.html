@@ -1,3 +1,18 @@
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const slugInput = document.getElementById('slug');
+		const nameInput = document.getElementById('name');
+
+		function generateSlugWithDomain() {
+			const slug = nameInput.value.trim().split(' ').join('-').toLowerCase();
+			const domain = `https://${slug}.powerlifting.gg/`;
+			slugInput.value = slug;
+		}
+
+		nameInput.addEventListener('input', generateSlugWithDomain);
+	});
+</script>
+
 <!-- banner -->
 <div
   id="<%= tenant.slug %>-tenant-card"
@@ -122,48 +137,66 @@
   <!-- csrf -->
   <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
 
-  <!-- name -->
-  <label class="form-control w-full" for="name">
-    <div class="label"><span class="label-text">Name</span></div>
-    <input type="text" name="name" id="name" placeholder="Name" value="<%= tenant.name %>"
-      class="input input-bordered max-w-sm" required />
-  </label>
+	<!-- name -->
+	<label class="form-control w-full" for="name">
+		<div class="label"><span class="label-text">Name</span></div>
+		<input
+			type="text"
+			name="name"
+			id="name"
+			placeholder="Name"
+			class="input input-bordered max-w-sm"
+			required
+		/>
+	</label>
 
-  <!-- slug -->
-  <label class="form-control w-full" for="email">
-    <div class="text-left flex items-center">
-      <!-- title -->
-      <div class="label">
-        <span class="label-text flex justify-center items-center gap-1">
-          <span>Email</span>
-        </span>
-      </div>
-      <div class="dropdown dropdown-hover dropdown-top p-0 m-0">
-        <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info p-0 m-0">
-          <svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            class="w-3 h-3 stroke-current">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
-        <div tabindex="0" class="card compact dropdown-content border z-[1] shadow-lg bg-base-100 rounded-box">
-          <div tabindex="0" class="card-body min-w-max">
-            <h3 class="m-0">Warning</h3>
-            <p class="m-0 w-full">You must login with this email</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <input type="email" name="email" id="email" placeholder="Email"
-      class="input input-bordered max-w-sm" required />
-  </label>
+	<!-- slug -->
+	<label class="form-control w-full" for="slug">
+		<div class="label"><span class="label-text">Slug</span></div>
+		<input
+			type="text"
+			name="slug"
+			id="slug"
+			placeholder="Slug"
+			class="input input-bordered max-w-sm"
+			readonly
+		/>
+	</label>
 
-  <!-- name -->
-  <label class="form-control w-full" for="name">
-    <div class="label"><span class="label-text">Social</span></div>
-    <input type="text" name="social" id="social" placeholder="Social" value="<%= tenant.links %>"
-      class="input input-bordered max-w-sm" required />
-  </label>
+	<!-- social -->
+	<label class="form-control w-full" for="social">
+		<div class="text-left flex items-center">
+			<!-- title -->
+			<div class="label">
+				<span class="label-text flex justify-center items-center gap-1">
+					<span>Social</span>
+					<span class="text-neutral-400 font-light text-xs">(Optional)</span>
+				</span>
+			</div>
+			<div class="dropdown dropdown-hover dropdown-top p-0 m-0">
+				<div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info p-0 m-0">
+					<svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-3 h-3 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+				</div>
+				<div tabindex="0" class="card compact dropdown-content border z-[1] shadow-lg bg-base-100 rounded-box w-fit">
+					<div tabindex="0" class="card-body">
+						<h3 class="m-0">Social</h3>
+						<p class="m-0">Add links by having a comma between them.</p>
+						<h4 class="m-0">A single domain:</h4>
+						<pre class="m-0">https://google.com</pre>
+						<h4 class="m-0">Multiple domain:</h4>
+						<pre class="m-0">https://google.com, youtube.com, www.instagram.com</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input
+			type="text"
+			name="social"
+			id="social"
+			placeholder="https://google.com/, google.com, www.tiktok.com"
+			class="input input-bordered max-w-sm"
+		/>
+	</label>
 
   <div class="w-fit self-end">
     <button type="submit" class="btn btn-neutral">Update</button>
