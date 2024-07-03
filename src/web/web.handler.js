@@ -459,6 +459,9 @@ export function getSettingsTenantsHandler(WebService) {
 export function getSettingsTenantHandler(WebService) {
 	return async (req, res) => {
 		const tenant = await WebService.getTenant({ tenantId: req.params.id });
+		tenant.links = JSON.parse(tenant.links)
+			.map((l) => l.url)
+			.join(', ');
 		return res.status(200).render('./settings/tenant-details.html', {
 			tenant,
 			flashMessages: req.flash(),
