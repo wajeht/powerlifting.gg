@@ -28,6 +28,11 @@ services:
       - powerlifting-network
     volumes:
       - 'redis-data:/data'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   redis-commander:
     container_name: redis-commander
@@ -43,6 +48,11 @@ services:
       - '8081:8081'
     networks:
       - powerlifting-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8081/']
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mailhog:
     container_name: mailhot
@@ -53,6 +63,11 @@ services:
       - '8025:8025'
     networks:
       - powerlifting-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8025/']
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   redis-data:
