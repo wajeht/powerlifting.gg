@@ -34,6 +34,14 @@
                 <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants">Tenant</a>
               <% } %>
 
+              <% if (path === '/tenants/settings/create') { %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants">Tenant</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/tenants/settings/create">Create</a>
+              <% } %>
+
               <% if (/\/settings\/tenants\/.*/.test(path) && typeof tenant !== 'undefined' && tenant) { %>
                 <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
                 <%- include('../components/right-arrow-svg.html') %>
@@ -72,11 +80,24 @@
                   </svg>
                   <span>Tenants</span>
                 </a>
+
+                <!-- tenant-details -->
                 <% if (typeof tenant !== 'undefined' && tenant) { %>
                   <ul>
                     <li class="m-0">
                       <a class="no-underline <%= /\/settings\/tenants\/.*/.test(path) ? 'active' : '' %> flex gap-3 items-center" href="/settings/tenants/<%= tenant.id %>">
                         <span><%= tenant.name %></span>
+                      </a>
+                    </li>
+                  </ul>
+                <% } %>
+
+                <!-- tenant-create -->
+                <% if (path === '/tenants/settings/create') { %>
+                  <ul>
+                    <li class="m-0">
+                      <a class="no-underline active flex gap-3 items-center" href="/settings/tenants/create">
+                        <span>Create</span>
                       </a>
                     </li>
                   </ul>
