@@ -243,12 +243,12 @@ web.get(
 );
 
 /**
- * GET /tenants/create
+ * GET /tenants/settings/create
  * @tags tenants
  * @summary get tenant create page
  */
 web.get(
-	'/tenants/create',
+	'/tenants/settings/create',
 	tenantIdentityHandler,
 	throwTenancyHandler,
 	authenticationHandler,

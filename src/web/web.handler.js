@@ -126,10 +126,11 @@ export function postSubscribeToATenant(TenantService, WebService) {
 
 export function getTenantsCreateHandler() {
 	return async (req, res) => {
-		return res.status(200).render('tenants-create.html', {
+		return res.status(200).render('./settings/tenants-create.html', {
 			flashMessages: req.flash(),
 			title: 'Tenants / Create',
-			path: '/tenants/create',
+			layout: '../layouts/settings.html',
+			path: '/tenants/settings/create',
 		});
 	};
 }
@@ -176,7 +177,7 @@ export function postTenantHandler(WebService) {
 			"Thank you for submitting the tenant information. We'll review the details and get back to you with approval soon!",
 		);
 
-		return res.redirect('/tenants/create');
+		return res.redirect('/tenants/settings/create');
 	};
 }
 
