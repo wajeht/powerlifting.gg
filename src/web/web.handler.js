@@ -439,7 +439,7 @@ export function postSettingsDangerZoneHandler(WebService) {
 				}
 			});
 		}
-		return res.redirect('/');
+		return res.redirect('/?alert-success=Your account has been deleted!');
 	};
 }
 
