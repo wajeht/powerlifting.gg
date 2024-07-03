@@ -22,7 +22,7 @@ git reset --hard origin/feature/ssl
 echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build --no-deps powerlifting nginx redis
 
 # Obtain the initial SSL certificates
-docker-compose run --rm --entrypoint "
+docker compose run --rm --entrypoint "
   certbot certonly --webroot -w /var/www/certbot \
   -d powerlifting.gg -d *.powerlifting.gg \
   --email your-email@example.com --agree-tos --no-eff-email" certbot
