@@ -169,3 +169,32 @@
     <button type="submit" class="btn btn-neutral">Update</button>
   </div>
 </form>
+
+<!-- delete -->
+<div class="rounded-lg border p-5 flex flex-col gap-5">
+  <!-- title -->
+  <div>
+    <h6 class="text-lg font-medium m-0 text-neutral">Danger Zone</h6>
+    <p class="m-0 font-light">The following actions are destructive and cannot be reversed.</p>
+  </div>
+
+  <!-- delete -->
+  <div class="w-fit self-end">
+    <button class="btn btn-error text-white" onclick="my_modal_2.showModal()">Delete my tenant</button>
+    <dialog id="my_modal_2" class="modal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg m-0">Danger Zone</h3>
+        <p class="py-4 m-0">Are you sure you want to delete <strong><%= tenant.name %></strong>?</p>
+        <form class="modal-action" method="post" action="/settings/tenants/<%= tenant.id %>">
+          <!-- csrf -->
+          <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+          <!-- button -->
+          <button type="submit" class="btn btn-error text-white">Delete my tenant</button>
+        </form>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+  </div>
+</div>
