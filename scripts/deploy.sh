@@ -25,7 +25,7 @@ echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --
 docker compose run --rm --entrypoint "
   certbot certonly --webroot -w /var/www/certbot \
   -d powerlifting.gg -d *.powerlifting.gg \
-  --email your-email@example.com --agree-tos --no-eff-email" certbot
+  --email noreply@powerlifting.gg --agree-tos --no-eff-email" certbot
 
 # Restart Nginx to apply SSL certificates
 echo $SUDO_PASSWORD | sudo -S docker compose restart nginx
