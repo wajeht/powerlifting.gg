@@ -1,3 +1,4 @@
+<!-- banner -->
 <div
   id="<%= tenant.slug %>-tenant-card"
   class="shadow-sm rounded-md border border-1 bg-cover bg-center bg-no-repeat bg-neutral"
@@ -62,7 +63,60 @@
   </div>
 </div>
 
+<!-- account -->
+<form method="post" action="/settings/tenants/<%= tenant.id %>" class="rounded-lg border p-5 flex flex-col gap-5">
+  <div>
+    <h6 class="text-lg font-medium m-0 text-neutral">Tenant</h6>
+    <p class="m-0 font-light">Manage your tenant details.</p>
+  </div>
 
-<div class="rounded-lg border p-5">
-  <pre><%= JSON.stringify(tenant, null, 2) %></pre>
-</div>
+  <!-- csrf -->
+  <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+
+  <!-- name -->
+  <label class="form-control w-full" for="name">
+    <div class="label"><span class="label-text">Name</span></div>
+    <input type="text" name="name" id="name" placeholder="Name" value="<%= tenant.name %>"
+      class="input input-bordered max-w-sm" required />
+  </label>
+
+  <!-- slug -->
+  <label class="form-control w-full" for="email">
+    <div class="text-left flex items-center">
+      <!-- title -->
+      <div class="label">
+        <span class="label-text flex justify-center items-center gap-1">
+          <span>Email</span>
+        </span>
+      </div>
+      <div class="dropdown dropdown-hover dropdown-top p-0 m-0">
+        <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info p-0 m-0">
+          <svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            class="w-3 h-3 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div tabindex="0" class="card compact dropdown-content border z-[1] shadow-lg bg-base-100 rounded-box">
+          <div tabindex="0" class="card-body min-w-max">
+            <h3 class="m-0">Warning</h3>
+            <p class="m-0 w-full">You must login with this email</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type="email" name="email" id="email" placeholder="Email"
+      class="input input-bordered max-w-sm" required />
+  </label>
+
+  <!-- name -->
+  <label class="form-control w-full" for="name">
+    <div class="label"><span class="label-text">Social</span></div>
+    <input type="text" name="social" id="social" placeholder="Social" value="<%= tenant.links %>"
+      class="input input-bordered max-w-sm" required />
+  </label>
+
+  <div class="w-fit self-end">
+    <button type="submit" class="btn btn-neutral">Update</button>
+  </div>
+</form>

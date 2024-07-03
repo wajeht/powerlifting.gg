@@ -28,13 +28,21 @@
                 <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
               <% } %>
 
-              <% if (path === '/settings/tenant') { %>
+              <% if (path === '/settings/tenants') { %>
                 <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
                 <%- include('../components/right-arrow-svg.html') %>
-                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenant">Tenant</a>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants">Tenant</a>
               <% } %>
 
+              <% if (/\/settings\/tenants\/.*/.test(path) && typeof tenant !== 'undefined' && tenant) { %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants">Tenants</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants/<%= tenant.id %>"><%= tenant.name %></a>
+              <% } %>
             </div>
+
             <% if (app.user) { %>
               <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
             <% } else { %>
