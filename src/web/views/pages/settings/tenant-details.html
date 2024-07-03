@@ -63,10 +63,59 @@
   </div>
 </div>
 
-<!-- account -->
+<!-- images -->
 <form method="post" action="/settings/tenants/<%= tenant.id %>" class="rounded-lg border p-5 flex flex-col gap-5">
   <div>
-    <h6 class="text-lg font-medium m-0 text-neutral">Tenant</h6>
+    <h6 class="text-lg font-medium m-0 text-neutral">Images</h6>
+    <p class="m-0 font-light">Manage your image details.</p>
+  </div>
+
+  <!-- csrf -->
+  <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
+
+	<!-- logo -->
+	<label class="form-control w-full" for="logo">
+		<div class="label">
+			<span class="label-text flex justify-center items-center gap-1">
+				<span>Logo</span>
+				<span class="text-neutral-400 font-light text-xs">(Optional)</span>
+			</span>
+		</div>
+		<input
+			type="file"
+			name="logo"
+			id="logo"
+      class="file-input file-input-bordered max-w-sm"
+			accept="image/*"
+		/>
+	</label>
+
+  <!-- banner -->
+  <label class="form-control w-full" for="banner">
+    <div class="label">
+      <span class="label-text flex justify-center items-center gap-1">
+        <span>Banner</span>
+        <span class="text-neutral-400 font-light text-xs">(Optional)</span>
+      </span>
+    </div>
+    <input
+      type="file"
+      name="banner"
+      id="banner"
+      class="file-input file-input-bordered max-w-sm"
+      accept="image/*"
+    />
+  </label>
+
+  <div class="w-fit self-end">
+    <button type="submit" class="btn btn-neutral">Update</button>
+  </div>
+</form>
+
+<!-- details -->
+<form method="post" action="/settings/tenants/<%= tenant.id %>" class="rounded-lg border p-5 flex flex-col gap-5">
+  <div>
+    <h6 class="text-lg font-medium m-0 text-neutral">Details</h6>
     <p class="m-0 font-light">Manage your tenant details.</p>
   </div>
 
