@@ -11,6 +11,15 @@ export async function generateOgImage({ tenant, job }) {
 		job.updateProgress(0);
 
 		const bannerUrl = tenant.banner;
+
+		if (!bannerUrl) {
+			logger.info(
+				`no banner image to generate og image for tenant: ${tenant.slug}. exiting generateOgImage job.`,
+			);
+			job.updateProgress(100);
+			return;
+		}
+
 		const response = await axios({
 			url: bannerUrl,
 			responseType: 'arraybuffer',

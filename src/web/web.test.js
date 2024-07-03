@@ -63,12 +63,12 @@ describe('getTenantsHandler', () => {
 });
 
 describe('getTenantsCreateHandler', () => {
-	it('should not be able to get /tenants/create page without auth', async () => {
-		const res = await app.get('/tenants/create');
+	it('should not be able to get /tenants/settings/create page without auth', async () => {
+		const res = await app.get('/tenants/settings/create');
 		expect(res.status).toBe(302);
 	});
 
-	it('should not be able to get /tenants/create page without auth and <subdomain>/tenants/create', async () => {
+	it('should not be able to get /tenants/settings/create page without auth and <subdomain>/tenants/settings/create', async () => {
 		const tenant = (
 			await db('tenants')
 				.insert({
@@ -79,12 +79,12 @@ describe('getTenantsCreateHandler', () => {
 				.returning('*')
 		)[0];
 		const res = await app
-			.get('/tenants/create')
+			.get('/tenants/settings/create')
 			.set('Host', `${tenant.slug}.${appEnv.development_app_url}`);
 		expect(res.status).toBe(404);
 	});
 
-	it('should be able to get /tenants/create page with auth', async () => {
+	it('should be able to get /tenants/settings/create page with auth', async () => {
 		await db('users')
 			.insert({
 				username: 'user1',
@@ -108,9 +108,9 @@ describe('getTenantsCreateHandler', () => {
 			'tenant-slug',
 		);
 
-		const res = await app.get('/tenants/create').set('Cookie', cookie);
+		const res = await app.get('/tenants/settings/create').set('Cookie', cookie);
 		expect(res.status).toBe(200);
-		expect(res.req.path).toBe('/tenants/create');
+		expect(res.req.path).toBe('/tenants/settings/create');
 		expect(res.text).includes('Agreeing up signifies that you have read and agree to ');
 	});
 });
@@ -157,7 +157,7 @@ describe('postTenantHandler', () => {
 			agree: 'on',
 		});
 		expect(res.status).toBe(302);
-		expect(res.header.location).toBe('/tenants/create');
+		expect(res.header.location).toBe('/tenants/settings/create');
 
 		const tenant = await db.select('*').from('tenants').where({ slug: 'dog' }).first();
 		expect(tenant.slug).toBe('dog');

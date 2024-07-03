@@ -28,13 +28,29 @@
                 <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
               <% } %>
 
-              <% if (path === '/settings/tenant') { %>
+              <% if (path === '/settings/tenants') { %>
                 <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
                 <%- include('../components/right-arrow-svg.html') %>
-                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenant">Tenant</a>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants">Tenant</a>
               <% } %>
 
+              <% if (path === '/tenants/settings/create') { %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants">Tenant</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/tenants/settings/create">Create</a>
+              <% } %>
+
+              <% if (/\/settings\/tenants\/.*/.test(path) && typeof tenant !== 'undefined' && tenant) { %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings">Settings</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants">Tenants</a>
+                <%- include('../components/right-arrow-svg.html') %>
+                <a class="no-underline hover:underline opacity-70 hover:opacity-100" href="<%= app.mainDomain %>/settings/tenants/<%= tenant.id %>"><%= tenant.name %></a>
+              <% } %>
             </div>
+
             <% if (app.user) { %>
               <a class="text-sm no-underline hover:underline opacity-70 hover:opacity-100" href="/logout" title="logout">Logout</a>
             <% } else { %>
@@ -58,10 +74,34 @@
 
               <!-- tenants -->
               <li class="m-0">
-                <a class="no-underline <%= path === '/settings/tenant' ? 'active' : '' %> flex gap-3 items-center" href="/settings/tenants">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 6a3.75 3.75 0 1 1-7.5 0a3.75 3.75 0 0 1 7.5 0M4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632"/></svg>
+                <a class="no-underline <%= path === '/settings/tenants' ? 'active' : '' %> flex gap-3 items-center" href="/settings/tenants">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 6a3.75 3.75 0 1 1-7.5 0a3.75 3.75 0 0 1 7.5 0M4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632"/>
+                  </svg>
                   <span>Tenants</span>
                 </a>
+
+                <!-- tenant-details -->
+                <% if (typeof tenant !== 'undefined' && tenant) { %>
+                  <ul>
+                    <li class="m-0">
+                      <a class="no-underline <%= /\/settings\/tenants\/.*/.test(path) ? 'active' : '' %> flex gap-3 items-center" href="/settings/tenants/<%= tenant.id %>">
+                        <span><%= tenant.name %></span>
+                      </a>
+                    </li>
+                  </ul>
+                <% } %>
+
+                <!-- tenant-create -->
+                <% if (path === '/tenants/settings/create') { %>
+                  <ul>
+                    <li class="m-0">
+                      <a class="no-underline active flex gap-3 items-center" href="/settings/tenants/create">
+                        <span>Create</span>
+                      </a>
+                    </li>
+                  </ul>
+                <% } %>
               </li>
 
               <!-- admin -->

@@ -126,10 +126,11 @@ export function postSubscribeToATenant(TenantService, WebService) {
 
 export function getTenantsCreateHandler() {
 	return async (req, res) => {
-		return res.status(200).render('tenants-create.html', {
+		return res.status(200).render('./settings/tenants-create.html', {
 			flashMessages: req.flash(),
 			title: 'Tenants / Create',
-			path: '/tenants/create',
+			layout: '../layouts/settings.html',
+			path: '/tenants/settings/create',
 		});
 	};
 }
@@ -176,7 +177,7 @@ export function postTenantHandler(WebService) {
 			"Thank you for submitting the tenant information. We'll review the details and get back to you with approval soon!",
 		);
 
-		return res.redirect('/tenants/create');
+		return res.redirect('/tenants/settings/create');
 	};
 }
 
@@ -442,15 +443,31 @@ export function postSettingsDangerZoneHandler(WebService) {
 	};
 }
 
-export function getSettingsTenantHandler(WebService) {
+export function getSettingsTenantsHandler(WebService) {
 	return async (req, res) => {
 		const user = req.session.user;
 		const tenants = await WebService.getAllMyTenants(user.id);
-		return res.status(200).render('./settings/tenant.html', {
+		return res.status(200).render('./settings/tenants.html', {
 			tenants,
 			flashMessages: req.flash(),
 			title: 'Settings / Tenant',
-			path: '/settings/tenant',
+			path: '/settings/tenants',
+			layout: '../layouts/settings.html',
+		});
+	};
+}
+
+export function getSettingsTenantHandler(WebService) {
+	return async (req, res) => {
+		const tenant = await WebService.getTenant({ tenantId: req.params.id });
+		tenant.social = JSON.parse(tenant.links)
+			.map((l) => l.url)
+			.join(', ');
+		return res.status(200).render('./settings/tenant-details.html', {
+			tenant,
+			flashMessages: req.flash(),
+			title: `Settings / Tenant / ${tenant.name}`,
+			path: `/settings/tenants/${tenant.id}`,
 			layout: '../layouts/settings.html',
 		});
 	};

@@ -92,10 +92,11 @@ describe('getTenantsCreateHandler', () => {
 		await handler(req, res);
 
 		expect(res.status).toHaveBeenCalledWith(200);
-		expect(res.render).toHaveBeenCalledWith('tenants-create.html', {
+		expect(res.render).toHaveBeenCalledWith('./settings/tenants-create.html', {
 			flashMessages: { success: 'Tenant created successfully' },
 			title: 'Tenants / Create',
-			path: '/tenants/create',
+			path: '/tenants/settings/create',
+			layout: '../layouts/settings.html',
 		});
 	});
 });

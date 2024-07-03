@@ -6,6 +6,23 @@ import fs from 'node:fs/promises';
 
 export function WebService(WebRepository, redis, job) {
 	return {
+		getTenant: async function ({ tenantId, cache = true }) {
+			if (!cache) {
+				return await WebRepository.getTenant(tenantId);
+			}
+
+			let tenant = await redis.get(`tenants-${tenantId}`);
+
+			if (!tenant) {
+				tenant = await WebRepository.getTenant(tenantId);
+
+				await redis.set(`tenants-${tenantId}`, JSON.stringify(tenant));
+			} else {
+				tenant = JSON.parse(tenant);
+			}
+
+			return tenant;
+		},
 		getAllMyTenants: async function (userId) {
 			return await WebRepository.getAllMyTenants(userId);
 		},
