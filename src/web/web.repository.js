@@ -17,10 +17,12 @@ export function WebRepository(db) {
 		},
 		getAllMyTenants: async (userId) => {
 			return await db
-				.select('*')
+				.select('tenants.*')
 				.from('tenants')
+				.leftJoin('reviews', 'tenants.id', 'reviews.tenant_id')
 				.join('coaches', 'coaches.tenant_id', 'tenants.id')
 				.where({ 'coaches.user_id': userId })
+				.count('reviews.id as reviews_count')
 				.orderBy('tenants.created_at', 'desc');
 		},
 		getApprovedTenants: async () => {
