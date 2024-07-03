@@ -50,19 +50,22 @@
 
     <!-- right -->
     <div class="flex items-center gap-2">
-      <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-sm m-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-            <path fill="currentColor" stroke="1.4"
-              d="M12 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2" />
-          </svg>
-          <span>Action</span>
+      <% if (tenants.length) { %>
+        <!-- action -->
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-sm m-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+              <path fill="currentColor" stroke="1.4"
+                d="M12 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2" />
+            </svg>
+            <span>Action</span>
+          </div>
+          <div tabindex="0"
+            class="dropdown-content flex flex-col mt-3 z-[1] p-2 shadow bg-base-100 border w-44 rounded-lg">
+            <button class="btn btn-sm btn-ghost" onclick="calibrateRatings(event)">Calibrate Ratings</button>
+          </div>
         </div>
-        <div tabindex="0"
-          class="dropdown-content flex flex-col mt-3 z-[1] p-2 shadow bg-base-100 border w-44 rounded-lg">
-          <button class="btn btn-sm btn-ghost" onclick="calibrateRatings(event)">Calibrate Ratings</button>
-        </div>
-      </div>
+      <% } %>
 
       <!-- add -->
        <a href="/tenants/settings/create" class="btn btn-sm">

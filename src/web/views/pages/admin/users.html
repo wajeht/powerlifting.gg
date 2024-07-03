@@ -1,20 +1,22 @@
-<% if (users.length) { %>
-  <div class="overflow-x-auto rounded-lg border">
-    <table class="table">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" class="checkbox" />
-            </label>
-          </th>
-          <th>User</th>
-          <th>Email</th>
-          <th>Created At</th>
-          <th></th>
-        </tr>
-      </thead>
+<div class="overflow-x-auto rounded-lg border">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>User</th>
+        <th>Email</th>
+        <th>Created At</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <!-- table body -->
+     <% if (users.length) { %>
       <tbody>
         <% for (const user of users) { %>
         <tr>
@@ -65,10 +67,12 @@
         </tr>
         <% } %>
       </tbody>
-    </table>
-  </div>
-<% } else { %>
-  <div class="rounded-lg border p-[78px] flex flex-col gap-5 justify-center items-center">
-    Empty
-  </div>
-<% }  %>
+    <% } %>
+  </table>
+
+  <% if (!users.length) { %>
+    <div class="p-[78px] flex flex-col gap-5 justify-center items-center">
+      Empty
+    </div>
+  <% } %>
+</div>

@@ -1,20 +1,22 @@
-<% if (reviews.length) { %>
-  <div class="overflow-x-auto rounded-lg border">
-    <table class="table">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" class="checkbox" />
-            </label>
-          </th>
-          <th>Name</th>
-          <th>Comment</th>
-          <th>Tenant</th>
-          <th></th>
-        </tr>
-      </thead>
+<div class="overflow-x-auto rounded-lg border">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>Name</th>
+        <th>Comment</th>
+        <th>Tenant</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <% if (reviews.length) { %>
+      <!-- table body -->
       <tbody>
         <% for (const review of reviews) { %>
         <tr>
@@ -73,10 +75,12 @@
         </tr>
         <% } %>
       </tbody>
-    </table>
-  </div>
-<% } else { %>
-  <div class="rounded-lg border p-[78px] flex flex-col gap-5 justify-center items-center">
-    Empty
-  </div>
-<% }  %>
+    <% } %>
+  </table>
+
+  <% if (!reviews.length) { %>
+    <div class="p-[78px] flex flex-col gap-5 justify-center items-center">
+      Empty
+    </div>
+  <% } %>
+</div>

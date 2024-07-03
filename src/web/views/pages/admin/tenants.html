@@ -65,66 +65,67 @@
   }
 </script>
 
-<% if (tenants.length) { %>
-  <div class="overflow-x-auto rounded-lg border p-0">
+<div class="overflow-x-auto rounded-lg border p-0">
 
-    <!-- action -->
-    <div class="flex items-center justify-between p-5">
-      <!-- left -->
-      <form action="/admin/tenants" method="get">
-        <div class="join w-full">
-          <input name="q" id="q" class="input input-sm input-bordered join-item w-full" placeholder="Search" type="text"
-            required />
-          <button type="submit" class="btn btn-sm btn-neutral join-item">Search</button>
-        </div>
-      </form>
+  <!-- action -->
+  <div class="flex items-center justify-between p-5">
+    <!-- left -->
+    <form action="/admin/tenants" method="get">
+      <div class="join w-full">
+        <input name="q" id="q" class="input input-sm input-bordered join-item w-full" placeholder="Search" type="text"
+          required />
+        <button type="submit" class="btn btn-sm btn-neutral join-item">Search</button>
+      </div>
+    </form>
 
-      <!-- right -->
-      <div class="flex items-center gap-2">
-        <div class="dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-sm m-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-              <path fill="currentColor" stroke="1.4"
-                d="M12 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2" />
-            </svg>
-            <span>Action</span>
-          </div>
-          <div tabindex="0"
-            class="dropdown-content flex flex-col mt-3 z-[1] p-2 shadow bg-base-100 border w-44 rounded-lg">
-            <button class="btn btn-sm btn-ghost" onclick="approve(event)">Approve</button>
-            <button class="btn btn-sm btn-ghost" onclick="calibrateRatings(event)">Calibrate Ratings</button>
-          </div>
-        </div>
-
-        <!-- add -->
-        <a href="/tenants/settings/create" class="btn btn-sm">
+    <!-- right -->
+    <div class="flex items-center gap-2">
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-sm m-1">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
             <path fill="currentColor" stroke="1.4"
-              d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z" />
+              d="M12 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2" />
           </svg>
-          <span>Create</span>
-         </a>
+          <span>Action</span>
+        </div>
+        <div tabindex="0"
+          class="dropdown-content flex flex-col mt-3 z-[1] p-2 shadow bg-base-100 border w-44 rounded-lg">
+          <button class="btn btn-sm btn-ghost" onclick="approve(event)">Approve</button>
+          <button class="btn btn-sm btn-ghost" onclick="calibrateRatings(event)">Calibrate Ratings</button>
+        </div>
       </div>
+
+      <!-- add -->
+      <a href="/tenants/settings/create" class="btn btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+          <path fill="currentColor" stroke="1.4"
+            d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z" />
+        </svg>
+        <span>Create</span>
+        </a>
     </div>
+  </div>
 
-    <!-- table -->
-    <table class="table my-0 border-t">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" class="checkbox checkbox-sm" />
-            </label>
-          </th>
-          <th>Name</th>
-          <th>Links</th>
-          <th>Status</th>
-          <th>Ratings Calibrated At</th>
-          <th></th>
-        </tr>
-      </thead>
+  <!-- table -->
+  <table class="table my-0 border-t">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox checkbox-sm" />
+          </label>
+        </th>
+        <th>Name</th>
+        <th>Links</th>
+        <th>Status</th>
+        <th>Ratings Calibrated At</th>
+        <th></th>
+      </tr>
+    </thead>
 
+    <!-- table body -->
+     <% if (tenants.length) { %>
       <tbody>
         <% for (const tenant of tenants) { %>
           <tr>
@@ -214,10 +215,12 @@
           </tr>
         <% } %>
       </tbody>
-    </table>
-  </div>
-<% } else { %>
-  <div class="rounded-lg border p-[78px] flex flex-col gap-5 justify-center items-center">
-    Empty
-  </div>
-<% } %>
+    <% } %>
+  </table>
+
+  <% if (!tenants.length) { %>
+    <div class="p-[78px] flex flex-col gap-5 justify-center items-center">
+      Empty
+    </div>
+  <% } %>
+</div>
