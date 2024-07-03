@@ -13,7 +13,9 @@ export async function generateOgImage({ tenant, job }) {
 		const bannerUrl = tenant.banner;
 
 		if (!bannerUrl) {
-			logger.info(`no banner image to generate og image for tenant: ${tenant.slug}`);
+			logger.info(
+				`no banner image to generate og image for tenant: ${tenant.slug}. exiting generateOgImage job.`,
+			);
 			job.updateProgress(100);
 			return;
 		}
