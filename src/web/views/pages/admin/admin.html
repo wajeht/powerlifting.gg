@@ -61,21 +61,23 @@
 </form>
 
 <!-- admin -->
-<% if (logs.length) { %>
-  <div id="log-table" class="overflow-x-auto rounded-lg border overflow-y-scroll sm:max-h-96 max-h-full">
-    <table class="table">
-      <!-- head -->
-      <thead class="sticky top-0 bg-white">
-        <tr>
-          <th>Level</th>
-          <th>Timestamp</th>
-          <th>Log</th>
+<div id="log-table" class="overflow-x-auto rounded-lg border overflow-y-scroll sm:max-h-96 max-h-full">
+  <table class="table">
+    <!-- head -->
+    <thead class="sticky top-0 bg-white">
+      <tr>
+        <th>Level</th>
+        <th>Timestamp</th>
+        <th>Log</th>
+        <% if (logs.length) { %>
           <th>
             <button id="expend-collapse-button">Expend</button>
           </th>
-        </tr>
-      </thead>
+        <% } %>
+      </tr>
+    </thead>
 
+    <% if (logs.length) { %>
       <tbody>
         <% for (const log of logs) { %>
           <tr>
@@ -94,10 +96,12 @@
           </tr>
         <% } %>
       </tbody>
-    </table>
-  </div>
-<% } else { %>
-  <div class="rounded-lg border p-[78px] flex flex-col gap-5 justify-center items-center">
-    No logs currently
-  </div>
-<% }  %>
+    <% } %>
+  </table>
+
+  <% if (!logs.length) { %>
+    <div class="p-[78px] flex flex-col gap-5 justify-center items-center">
+      Empty
+    </div>
+  <% } %>
+</div>
