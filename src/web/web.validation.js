@@ -43,6 +43,29 @@ export const getUnsubscribeHandlerValidation = [
 		.withMessage('The email must be valid!'),
 ];
 
+export const postExportTenantReviewsHandlerValidation = [
+	body('id')
+		.notEmpty()
+		.withMessage('The id must not be empty!')
+		.custom(async (id, { req }) => {
+			if (Array.isArray(id) && req?.session?.user?.role !== 'SUPER_ADMIN') {
+				throw new Error('Only admins can send an array of IDs!');
+			}
+
+			const ids = id.map((i) => parseInt(i));
+			const reviews = await db
+				.select('*')
+				.from('reviews')
+				.whereIn('id', ids);
+
+			if (!reviews.length) {
+				throw new ValidationError('One or more reviews do not exist!');
+			}
+
+			return true;
+		}),
+]
+
 export const postSubscriptionsHandlerValidation = [
 	body('email')
 		.notEmpty()

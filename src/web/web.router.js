@@ -29,6 +29,7 @@ import {
 	postSettingsAccountHandlerValidation,
 	postNewsletterHandlerValidation,
 	postSubscriptionsHandlerValidation,
+	postExportTenantReviewsHandlerValidation,
 } from './web.validation.js';
 import {
 	postCalibrateTenantRatings,
@@ -56,6 +57,7 @@ import {
 	getBlogPostHandler,
 	postSettingsAccountHandler,
 	postNewsletterHandler,
+	postExportTenantReviewsHandler,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -271,6 +273,18 @@ web.post(
 			WebService(WebRepository(db), redis, job),
 		),
 	),
+);
+
+/**
+ * POST /tenants/export-reviews
+ * @tags tenants
+ * @summary export tenant reviews
+ */
+web.post(
+	'/tenants/export-reviews',
+	csrfHandler,
+	validateRequestHandler(postExportTenantReviewsHandlerValidation),
+	catchAsyncErrorHandler(postExportTenantReviewsHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**

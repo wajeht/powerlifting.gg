@@ -10,6 +10,12 @@ export function postCalibrateTenantRatings(WebService) {
 	};
 }
 
+export function postExportTenantReviewsHandler(WebService) {
+	return async (req, res) => {
+		return "ok";
+	};
+}
+
 export function getUnsubscribeHandler(WebService, NotFoundError) {
 	return async (req, res) => {
 		const subscriptions = await WebService.getSubscription(req.query.email);
