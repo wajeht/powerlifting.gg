@@ -12,7 +12,8 @@ export function postCalibrateTenantRatings(WebService) {
 
 export function postExportTenantReviewsHandler(WebService) {
 	return async (req, res) => {
-		return "ok";
+		console.log(WebService);
+		return res.redirect('back');
 	};
 }
 

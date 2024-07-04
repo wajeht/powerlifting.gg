@@ -48,23 +48,34 @@ export const postExportTenantReviewsHandlerValidation = [
 		.notEmpty()
 		.withMessage('The id must not be empty!')
 		.custom(async (id, { req }) => {
-			if (Array.isArray(id) && req?.session?.user?.role !== 'SUPER_ADMIN') {
-				throw new Error('Only admins can send an array of IDs!');
+			if (!Array.isArray(id)) {
+				throw new ValidationError('ID must be an array.');
 			}
 
-			const ids = id.map((i) => parseInt(i));
-			const reviews = await db
-				.select('*')
-				.from('reviews')
-				.whereIn('id', ids);
+			const tenantIds = id.map((i) => parseInt(i));
+			const userTenantIds = await db('coaches')
+				.where({ user_id: req?.session?.user.id })
+				.pluck('tenant_id')
+				.then((ids) => ids.map((tid) => parseInt(tid)));
 
-			if (!reviews.length) {
-				throw new ValidationError('One or more reviews do not exist!');
+			const hasValidTenants = tenantIds.every((tid) => userTenantIds.includes(tid));
+
+			if (!hasValidTenants) {
+				throw new ValidationError('Must only request your tenant');
+			}
+
+			const reviewsCount = await db('reviews')
+				.whereIn('tenant_id', tenantIds)
+				.count({ count: '*' })
+				.first();
+
+			if (reviewsCount.count === 0) {
+				throw new ValidationError('No reviews exist currently');
 			}
 
 			return true;
 		}),
-]
+];
 
 export const postSubscriptionsHandlerValidation = [
 	body('email')
