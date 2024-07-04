@@ -1,6 +1,5 @@
-import fs from 'fs';
+import fs from 'node:fs/promises';
 import papa from 'papaparse';
-
 import { db } from '../../database/db.js';
 import { logger } from '../../utils/logger.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
@@ -17,10 +16,10 @@ export async function exportTenantReviews({ job, tenant_id }) {
 		job.updateProgress(50);
 
 		const filePath = `./src/tmp/${Date.now().toString()}-tenant-id-${tenant_id}-reviews.csv`;
-		fs.writeFileSync(filePath, csv);
+		await fs.writeFile(filePath, csv);
 		job.updateProgress(75);
 
-		const fileStream = fs.createReadStream(filePath);
+		const fileStream = await fs.readFile(filePath);
 		const fileName = filePath.split('/').pop();
 		const uploadParams = {
 			Bucket: process.env.PUBLIC_BACKBLAZE_BUCKET,
@@ -36,7 +35,7 @@ export async function exportTenantReviews({ job, tenant_id }) {
 		logger.info(`CSV file successfully uploaded to S3: ${uploadedImageUrl}`);
 		job.updateProgress(100);
 
-		fs.unlinkSync(filePath);
+		await fs.unlink(filePath);
 	} catch (error) {
 		logger.error(error);
 		logger.error('failed to export tenant reviews', error);
@@ -54,4 +53,4 @@ export async function exportTenantReviews({ job, tenant_id }) {
 
 // const job = j();
 
-// await exportTenantReviews({ job, tenant_id: 1 })
+// await exportTenantReviews({ job, tenant_id: 1 });
