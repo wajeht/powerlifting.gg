@@ -7,6 +7,7 @@
 		const bannerContainerBlur = document.getElementById('bannerContainerBlur');
 		const slugInput = document.getElementById('slug');
 		const nameInput = document.getElementById('name');
+		const yourName = document.getElementById('yourName');
 		const slugWithDomain = document.getElementById('slugWithDomain');
 
 		function handleLogoChange(event) {
@@ -24,6 +25,7 @@
 		}
 
 		function generateSlugWithDomain() {
+			yourName.innerText = nameInput.value.trim();
 			const slug = nameInput.value.trim().split(' ').join('-').toLowerCase();
 			const domain = `https://${slug}.powerlifting.gg/`;
 			slugWithDomain.innerText = domain;
@@ -85,7 +87,7 @@
 
 		<!-- name -->
 		<div class="flex items-center mt-1 -mb-1 justify-center">
-			<h4 class="m-0 p-0 text-white drop-shadow-sm text-3xl font-extrabold">Your Name</h4>
+			<h4 id="yourName" class="m-0 p-0 text-white drop-shadow-sm text-3xl font-extrabold">Your Name</h4>
 			<img class="w-8 h-8 p-0 m-0 -mb-[3px]" src="/img/verified.png" alt="verified" />
 		</div>
 
