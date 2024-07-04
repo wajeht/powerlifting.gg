@@ -155,3 +155,4 @@ public/js/TenantCreate.js
 playwright-report
 test-results
 letsencrypt
+src/tmp/*.csv
