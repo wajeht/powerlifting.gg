@@ -1,0 +1,17 @@
+<html>
+	<body>
+		<!-- header -->
+		<%- include('../../components/header.html') %>
+
+		<main>
+			<div>
+				<p>Hello <%= user.username %>,</p>
+				<p>Your requested reviews export for <%= tenant.name %> is ready for download.</p>
+				<p><a href="<%= downloadUrl %>">Download</a></p>
+			</div>
+		</main>
+
+		<!-- footer -->
+		<%- include('../../components/footer.html') %>
+	</body>
+</html>

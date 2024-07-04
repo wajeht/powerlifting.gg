@@ -12,7 +12,7 @@ export const exportTenantReviewsQueue = new Queue(queueName, {
 const processExportTenantReviewsJob = async (job) => {
 	try {
 		logger.info('calibrate ratings job was started');
-		await exportTenantReviews({ job, tenant_id: job.data.tenant_id });
+		await exportTenantReviews({ job, tenant: job.data.tenant, user: job.data.user });
 		logger.info('calibrate ratings job job was finished');
 	} catch (error) {
 		logger.error('calibrate ratings job job failed');
