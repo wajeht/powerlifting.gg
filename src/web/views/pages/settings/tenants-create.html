@@ -106,10 +106,12 @@
 	method="post"
 	class="flex flex-col gap-5 col-span-2 rounded-lg border p-5"
 >
-<div>
-  <h6 class="text-lg font-medium m-0 text-neutral">Tenants</h6>
-  <p class="m-0 font-light">Create a new tenant.</p>
-</div>
+	<!-- title -->
+	<div>
+  	<h6 class="text-lg font-medium m-0 text-neutral">Tenants</h6>
+  	<p class="m-0 font-light">Create a new tenant.</p>
+	</div>
+
 	<!-- csrf -->
 	<input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
 
