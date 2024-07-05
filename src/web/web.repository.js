@@ -85,7 +85,7 @@ export function WebRepository(db) {
 			for (const key in updates) {
 				if (Object.prototype.hasOwnProperty.call(updates, key)) {
 					if (key === 'links') {
-						if (updates[key].trim().length) {
+						if (updates[key].length) {
 							formattedUpdates[key] = JSON.stringify(updates[key]);
 						} else {
 							formattedUpdates[key] = JSON.stringify([]);

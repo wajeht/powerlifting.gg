@@ -3,6 +3,7 @@ import readingTime from 'reading-time';
 import matter from 'gray-matter';
 import path from 'node:path';
 import fs from 'node:fs/promises';
+import { extractDomainName } from './web.util.js';
 
 export function WebService(WebRepository, redis, job) {
 	return {
@@ -222,7 +223,25 @@ export function WebService(WebRepository, redis, job) {
 				throw new Error('No fields to update');
 			}
 
-			const [tenant] = await WebRepository.updateTenant(id, updates);
+			let links = updates.links;
+			if (links && links.length) {
+				links = links
+					.split(',')
+					.map((s) => s.trim())
+					.map((s) => ({
+						type: extractDomainName(s),
+						url: s,
+					}));
+			} else {
+				links = [];
+			}
+
+			const formattedUpdates = {
+				...updates,
+				links,
+			};
+
+			const [tenant] = await WebRepository.updateTenant(id, formattedUpdates);
 
 			const keys = await redis.keys('*');
 			for (const i of keys) {

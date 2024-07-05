@@ -34,6 +34,39 @@ export const postCalibrateTenantRatingsValidation = [
 		}),
 ];
 
+export const postSettingsTenantsDetailsValidation = [
+	body('name')
+		.notEmpty()
+		.withMessage('The name must not be empty!')
+		.trim()
+		.isLength({ min: 1, max: 50 })
+		.withMessage('The name must be at least 1 character long or less than 50 character long'),
+	body('slug')
+		.notEmpty()
+		.withMessage('The slug must not be empty!')
+		.trim()
+		.isLength({ min: 1, max: 50 })
+		.withMessage('The slug must be at least 1 character long or less than 50 character long')
+		.custom(async (slug, { req }) => {
+			const tenantId = req.params.id;
+			const tenant = await db('tenants').where('slug', slug).andWhereNot('id', tenantId).first();
+			if (tenant) {
+				throw new ValidationError('The slug already exists!');
+			}
+			return true;
+		}),
+	body('social')
+		.optional()
+		.custom((social) => {
+			if (social.trim().length === 0) return true;
+			const regex = /^((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(, ?)?)+$/;
+			if (!regex.test(social)) {
+				throw new Error('The social field contains invalid URLs.');
+			}
+			return true;
+		}),
+];
+
 export const getUnsubscribeHandlerValidation = [
 	query('email')
 		.notEmpty()
