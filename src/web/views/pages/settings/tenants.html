@@ -12,6 +12,32 @@
     }
   }
 
+  function exportReviews(event) {
+    if (!states.selected.length) return;
+
+    const csrfToken = "<%= csrfToken %>";
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/tenants/export-reviews';
+
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfToken';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+
+    states.selected.forEach(value => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id[]';
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+
   function calibrateRatings(event) {
     if (!states.selected.length) return;
 
@@ -62,6 +88,7 @@
           </div>
           <div tabindex="0"
             class="dropdown-content flex flex-col mt-3 z-[1] p-2 shadow bg-base-100 border w-44 rounded-lg">
+            <button class="btn btn-sm btn-ghost" onclick="exportReviews(event)">Export Reviews</button>
             <button class="btn btn-sm btn-ghost" onclick="calibrateRatings(event)">Calibrate Ratings</button>
           </div>
         </div>

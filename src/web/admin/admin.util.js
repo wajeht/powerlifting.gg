@@ -16,6 +16,7 @@ export async function getLogFilePath(dirPath) {
 export async function transformLogToJSON(filePath) {
 	try {
 		const fileContents = await fs.readFile(filePath, 'utf-8');
+		if (fileContents.length === 0) return [];
 		return fileContents
 			.trim()
 			.split('\n')

@@ -63,7 +63,15 @@ export function WebRepository(db) {
 				.whereRaw('LENGTH(reviews.comment) <= 100')
 				.limit(size);
 		},
-		postTenant: async function ({ logo = '', banner = '', slug, name, links, verified = false }) {
+		postTenant: async function ({
+			logo = '',
+			banner = '',
+			slug,
+			name,
+			links,
+			verified = false,
+			approved = false,
+		}) {
 			return await db('tenants')
 				.insert({
 					logo,
@@ -71,9 +79,31 @@ export function WebRepository(db) {
 					banner,
 					slug,
 					name,
+					approved,
 					verified,
 				})
 				.returning('*');
+		},
+		updateTenant: async function (id, updates) {
+			if (Object.keys(updates).length === 0) {
+				throw new Error('No fields to update');
+			}
+
+			const formattedUpdates = {};
+
+			for (const key in updates) {
+				if (Object.prototype.hasOwnProperty.call(updates, key)) {
+					if (key === 'links') {
+						if (updates[key].length) {
+							formattedUpdates[key] = JSON.stringify(updates[key]);
+						}
+					} else {
+						formattedUpdates[key] = updates[key];
+					}
+				}
+			}
+
+			return await db('tenants').where({ id }).update(formattedUpdates).returning('*');
 		},
 		postCoach: async function ({ tenant_id, user_id, role = 'COACH' }) {
 			return await db('coaches').insert({ user_id, tenant_id, role }).returning('*');
@@ -88,6 +118,11 @@ export function WebRepository(db) {
 		},
 		getSubscription: async function (email) {
 			return await db.select('*').from('subscriptions').where({ email }).first();
+		},
+		deleteTenant: async function (tenantId) {
+			await db('coaches').where({ tenant_id: tenantId }).del();
+			await db('reviews').where({ tenant_id: tenantId }).del();
+			await db('tenants').where({ id: tenantId }).del();
 		},
 	};
 }

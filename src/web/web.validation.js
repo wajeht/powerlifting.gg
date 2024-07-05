@@ -34,6 +34,55 @@ export const postCalibrateTenantRatingsValidation = [
 		}),
 ];
 
+export const postSettingsTenantsDangerZoneHandlerValidation = [
+	param('id')
+		.notEmpty()
+		.withMessage('The id must not be empty!')
+		.custom(async (id) => {
+			const tenant_id = parseInt(id);
+			const tenant_ids = (await db.select('tenant_id').from('coaches').where({ tenant_id })).map(
+				(c) => parseInt(c.tenant_id),
+			);
+			if (!tenant_ids.includes(tenant_id)) {
+				throw new ValidationError('must be your own tenant');
+			}
+			return true;
+		}),
+];
+
+export const postSettingsTenantsDetailsValidation = [
+	body('name')
+		.notEmpty()
+		.withMessage('The name must not be empty!')
+		.trim()
+		.isLength({ min: 1, max: 50 })
+		.withMessage('The name must be at least 1 character long or less than 50 character long'),
+	body('slug')
+		.notEmpty()
+		.withMessage('The slug must not be empty!')
+		.trim()
+		.isLength({ min: 1, max: 50 })
+		.withMessage('The slug must be at least 1 character long or less than 50 character long')
+		.custom(async (slug, { req }) => {
+			const tenantId = req.params.id;
+			const tenant = await db('tenants').where('slug', slug).andWhereNot('id', tenantId).first();
+			if (tenant) {
+				throw new ValidationError('The slug already exists!');
+			}
+			return true;
+		}),
+	body('social')
+		.optional()
+		.custom((social) => {
+			if (social.trim().length === 0) return true;
+			const regex = /^((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(, ?)?)+$/;
+			if (!regex.test(social)) {
+				throw new Error('The social field contains invalid URLs.');
+			}
+			return true;
+		}),
+];
+
 export const getUnsubscribeHandlerValidation = [
 	query('email')
 		.notEmpty()
@@ -41,6 +90,40 @@ export const getUnsubscribeHandlerValidation = [
 		.trim()
 		.isEmail()
 		.withMessage('The email must be valid!'),
+];
+
+export const postExportTenantReviewsHandlerValidation = [
+	body('id')
+		.notEmpty()
+		.withMessage('The id must not be empty!')
+		.custom(async (id, { req }) => {
+			if (!Array.isArray(id)) {
+				throw new ValidationError('ID must be an array.');
+			}
+
+			const tenantIds = id.map((i) => parseInt(i));
+			const userTenantIds = await db('coaches')
+				.where({ user_id: req?.session?.user.id })
+				.pluck('tenant_id')
+				.then((ids) => ids.map((tid) => parseInt(tid)));
+
+			const hasValidTenants = tenantIds.every((tid) => userTenantIds.includes(tid));
+
+			if (!hasValidTenants) {
+				throw new ValidationError('Must only request your tenant');
+			}
+
+			const reviewsCount = await db('reviews')
+				.whereIn('tenant_id', tenantIds)
+				.count({ count: '*' })
+				.first();
+
+			if (reviewsCount.count === 0) {
+				throw new ValidationError('No reviews exist currently');
+			}
+
+			return true;
+		}),
 ];
 
 export const postSubscriptionsHandlerValidation = [

@@ -26,15 +26,19 @@ import {
 	postContactHandlerValidation,
 	postReviewHandlerValidation,
 	postTenantHandlerValidation,
+	postSettingsTenantsDetailsValidation,
+	postSettingsTenantsDangerZoneHandlerValidation,
 	postSettingsAccountHandlerValidation,
 	postNewsletterHandlerValidation,
 	postSubscriptionsHandlerValidation,
+	postExportTenantReviewsHandlerValidation,
 } from './web.validation.js';
 import {
 	postCalibrateTenantRatings,
 	postSubscribeToATenant,
 	postSubscriptionsHandler,
 	postSettingsDangerZoneHandler,
+	postSettingsTenantsDangerZoneHandler,
 	getSettingsTenantsHandler,
 	getSettingsTenantHandler,
 	getContactHandler,
@@ -55,7 +59,10 @@ import {
 	getBlogHandler,
 	getBlogPostHandler,
 	postSettingsAccountHandler,
+	postSettingsTenantsImagesHandler,
 	postNewsletterHandler,
+	postExportTenantReviewsHandler,
+	postSettingsTenantsDetails,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -159,6 +166,58 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(postSettingsDangerZoneHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * POST /settings/tenants/{id}/danger-zone
+ * @tags web
+ * @summary post settings tenants danger zone
+ */
+web.post(
+	'/settings/tenants/:id/danger-zone',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	validateRequestHandler(postSettingsTenantsDangerZoneHandlerValidation),
+	catchAsyncErrorHandler(
+		postSettingsTenantsDangerZoneHandler(WebService(WebRepository(db), redis, job)),
+	),
+);
+
+/**
+ * POST /settings/tenants/{id}/images
+ * @tags web
+ * @summary post settings tenants images
+ */
+web.post(
+	'/settings/tenants/:id/images',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	uploadHandler.fields([
+		{ name: 'logo', maxCount: 1 },
+		{ name: 'banner', maxCount: 1 },
+	]),
+	csrfHandler,
+	catchAsyncErrorHandler(
+		postSettingsTenantsImagesHandler(WebService(WebRepository(db), redis, job)),
+	),
+);
+
+/**
+ * POST /settings/tenants/{id}/details
+ * @tags web
+ * @summary post settings tenants details
+ */
+web.post(
+	'/settings/tenants/:id/details',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	validateRequestHandler(postSettingsTenantsDetailsValidation),
+	catchAsyncErrorHandler(postSettingsTenantsDetails(WebService(WebRepository(db), redis, job))),
 );
 
 /**
@@ -271,6 +330,18 @@ web.post(
 			WebService(WebRepository(db), redis, job),
 		),
 	),
+);
+
+/**
+ * POST /tenants/export-reviews
+ * @tags tenants
+ * @summary export tenant reviews
+ */
+web.post(
+	'/tenants/export-reviews',
+	csrfHandler,
+	validateRequestHandler(postExportTenantReviewsHandlerValidation),
+	catchAsyncErrorHandler(postExportTenantReviewsHandler(WebService(WebRepository(db), redis, job))),
 );
 
 /**

@@ -10,6 +10,17 @@ export function postCalibrateTenantRatings(WebService) {
 	};
 }
 
+export function postExportTenantReviewsHandler(WebService) {
+	return async (req, res) => {
+		const { id } = req.body;
+		const tenant = await WebService.getTenant({ tenantId: id });
+		const user = req.session.user;
+		await WebService.exportTenantReviewsJob({ tenant, user });
+		req.flash('info', 'Your request to generated export has been submitted.');
+		return res.redirect('back');
+	};
+}
+
 export function getUnsubscribeHandler(WebService, NotFoundError) {
 	return async (req, res) => {
 		const subscriptions = await WebService.getSubscription(req.query.email);
@@ -162,7 +173,10 @@ export function postTenantHandler(WebService) {
 			links = [];
 		}
 
+		const autoApproveIfSuperAdmin = req.session.user.role === 'SUPER_ADMIN' ? true : false;
+
 		await WebService.postTenant({
+			approved: autoApproveIfSuperAdmin,
 			verified,
 			links,
 			name,
@@ -428,6 +442,30 @@ export function postSettingsAccountHandler(WebService) {
 	};
 }
 
+export function postSettingsTenantsImagesHandler(WebService) {
+	return async (req, res) => {
+		const id = req.params.id;
+		const logo = req.files?.logo?.[0];
+		const banner = req.files?.banner?.[0];
+		await WebService.updateTenant(id, {
+			banner: banner?.location || '',
+			logo: logo?.location || '',
+		});
+		req.flash('success', 'Your tenant images have been updated!');
+		return res.redirect('back');
+	};
+}
+
+export function postSettingsTenantsDangerZoneHandler(WebService) {
+	return async (req, res) => {
+		const id = req.params.id;
+		await WebService.deleteTenant(id);
+		delete req.session.user.tenant;
+		req.session.save();
+		return res.redirect('/?alert-success=Your tenant has been deleted!');
+	};
+}
+
 export function postSettingsDangerZoneHandler(WebService) {
 	return async (req, res) => {
 		if (req.session && req.session.user) {
@@ -440,6 +478,16 @@ export function postSettingsDangerZoneHandler(WebService) {
 			});
 		}
 		return res.redirect('/?alert-success=Your account has been deleted!');
+	};
+}
+
+export function postSettingsTenantsDetails(WebService) {
+	return async (req, res) => {
+		const { name, slug, social } = req.body;
+		const id = req.params.id;
+		await WebService.updateTenant(id, { name, slug, links: social });
+		req.flash('success', 'Your tenant details has been updated!');
+		return res.redirect('back');
 	};
 }
 

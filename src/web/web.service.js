@@ -3,9 +3,14 @@ import readingTime from 'reading-time';
 import matter from 'gray-matter';
 import path from 'node:path';
 import fs from 'node:fs/promises';
+import { extractDomainName } from './web.util.js';
 
 export function WebService(WebRepository, redis, job) {
 	return {
+		deleteTenant: async function (tenantId) {
+			await WebRepository.deleteTenant(tenantId);
+			await this.clearSystemWideCache();
+		},
 		getTenant: async function ({ tenantId, cache = true }) {
 			if (!cache) {
 				return await WebRepository.getTenant(tenantId);
@@ -185,6 +190,7 @@ export function WebService(WebRepository, redis, job) {
 			name,
 			links,
 			verified = false,
+			approved = false,
 			user_id,
 		}) {
 			const [tenant] = await WebRepository.postTenant({
@@ -192,6 +198,7 @@ export function WebService(WebRepository, redis, job) {
 				banner,
 				slug,
 				name,
+				approved,
 				links,
 				verified,
 			});
@@ -212,10 +219,56 @@ export function WebService(WebRepository, redis, job) {
 			}
 
 			// send email to admin
-			await job.sendApproveTenantEmailJob({ tenant, coach });
+			if (!approved) {
+				await job.sendApproveTenantEmailJob({ tenant, coach });
+			}
 
 			// generate og image for seo
-			await job.generateOgImageJob({ tenant });
+			if (banner) {
+				await job.generateOgImageJob({ tenant });
+			}
+		},
+		updateTenant: async function (id, updates) {
+			if (Object.keys(updates).length === 0) {
+				throw new Error('No fields to update');
+			}
+
+			let links = updates.links;
+			if (links && links.length) {
+				links = links
+					.split(',')
+					.map((s) => s.trim())
+					.map((s) => ({
+						type: extractDomainName(s),
+						url: s,
+					}));
+			} else {
+				links = [];
+			}
+
+			const formattedUpdates = {
+				...updates,
+				links,
+			};
+
+			const [tenant] = await WebRepository.updateTenant(id, formattedUpdates);
+
+			const keys = await redis.keys('*');
+			for (const i of keys) {
+				if (i.startsWith('search?q=&per_page=')) {
+					await redis.del(i);
+				}
+
+				if (i === `tenants-${id}`) {
+					await redis.del(i);
+				}
+			}
+
+			if ('banner' in updates) {
+				await job.generateOgImageJob({ tenant });
+			}
+
+			return tenant;
 		},
 		postContact: async function ({ email, message, subject }) {
 			await job.sendContactEmailJob({ email, message, subject });
@@ -228,6 +281,9 @@ export function WebService(WebRepository, redis, job) {
 		},
 		generateOgImageJob: async function ({ tenant }) {
 			await job.generateOgImageJob({ tenant });
+		},
+		exportTenantReviewsJob: async function ({ tenant, user }) {
+			await job.exportTenantReviewsJob({ tenant, user });
 		},
 	};
 }

@@ -107,8 +107,9 @@
     </div>
 
     <!-- right -->
-    <div class="flex-0 p-5 text-white sm:block hidden"><%= tenant.reviews_count %>
-      <% if (tenant.reviews_count > 0) { %>
+    <div class="flex-0 p-5 text-white sm:block hidden">
+      <span><%= tenant.reviews_count %> </span>
+      <% if (tenant.reviews_count > 1) { %>
         <span>Reviews</span>
       <% } else { %>
         <span>Review</span>
@@ -118,7 +119,12 @@
 </div>
 
 <!-- images -->
-<form method="post" action="/settings/tenants/<%= tenant.id %>" class="rounded-lg border p-5 flex flex-col gap-5">
+<form
+  enctype="multipart/form-data"
+  method="post"
+  action="/settings/tenants/<%= tenant.id %>/images"
+  class="rounded-lg border p-5 flex flex-col gap-5"
+>
   <div>
     <h6 class="text-lg font-medium m-0 text-neutral">Images</h6>
     <p class="m-0 font-light">Manage your image details.</p>
@@ -167,7 +173,7 @@
 </form>
 
 <!-- details -->
-<form method="post" action="/settings/tenants/<%= tenant.id %>" class="rounded-lg border p-5 flex flex-col gap-5">
+<form method="post" action="/settings/tenants/<%= tenant.id %>/details" class="rounded-lg border p-5 flex flex-col gap-5">
   <div>
     <h6 class="text-lg font-medium m-0 text-neutral">Details</h6>
     <p class="m-0 font-light">Manage your tenant details.</p>
@@ -260,7 +266,7 @@
       <div class="modal-box">
         <h3 class="font-bold text-lg m-0">Danger Zone</h3>
         <p class="py-4 m-0">Are you sure you want to delete <strong><%= tenant.name %></strong>?</p>
-        <form class="modal-action" method="post" action="/settings/tenants/<%= tenant.id %>">
+        <form class="modal-action" method="post" action="/settings/tenants/<%= tenant.id %>/danger-zone">
           <!-- csrf -->
           <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
           <!-- button -->

@@ -9,10 +9,12 @@ import { sendNewsletterEmailJob, sendNewsletterEmailQueue } from './newsletter.j
 import { sendNewReviewEmailJob, sendNewReviewEmailQueue } from './new-review.job.js';
 import { calibrateRatingsQueue, calibrateRatingsJob } from './calibrate-ratings.job.js';
 import { generateOgImageJob, generateOgImageQueue } from './generate-og-image.job.js';
+import { sendApproveTenantEmailQueue, sendApproveTenantEmailJob } from './approve-tenant.job.js';
 import {
 	cleanupDatabaseBackupJob,
 	cleanupDatabaseBackupQueue,
 } from './cleanup-database-backup.job.js';
+import { exportTenantReviewsJob, exportTenantReviewsQueue } from './export-tenant-reviews.job.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
@@ -20,7 +22,6 @@ import {
 	tenantIdentityHandler,
 	throwTenancyHandler,
 } from '../app.middleware.js';
-import { sendApproveTenantEmailQueue, sendApproveTenantEmailJob } from './approve-tenant.job.js';
 
 export const job = {
 	sendWelcomeEmailJob,
@@ -32,6 +33,7 @@ export const job = {
 	calibrateRatingsJob,
 	generateOgImageJob,
 	cleanupDatabaseBackupJob,
+	exportTenantReviewsJob,
 };
 
 export function setupBullDashboard(app) {
@@ -49,6 +51,7 @@ export function setupBullDashboard(app) {
 			new BullMQAdapter(calibrateRatingsQueue),
 			new BullMQAdapter(generateOgImageQueue),
 			new BullMQAdapter(cleanupDatabaseBackupQueue),
+			new BullMQAdapter(exportTenantReviewsQueue),
 		],
 		serverAdapter,
 	});

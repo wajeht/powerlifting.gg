@@ -1,6 +1,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
 		const logo = document.getElementById('logo');
+		const initial = document.getElementById('initial');
 		const banner = document.getElementById('banner');
 		const logoContainer = document.getElementById('logoContainer');
 		const bannerContainer = document.getElementById('bannerContainer');
@@ -13,6 +14,9 @@
 		function handleLogoChange(event) {
 			const file = event.target.files[0];
 			if (file) {
+				if (initial) {
+					initial.remove();
+				}
 				logoContainer.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
 			}
 		}
@@ -24,7 +28,29 @@
 			}
 		}
 
+		function generateCapitalizeInitials() {
+			const fullName = nameInput.value.trim().split(' ')
+			let name = ''
+
+			if (fullName.length > 1) {
+				// Ensure both elements are defined before accessing
+				if (fullName[0] && fullName[1]) {
+					name = fullName[0][0].toUpperCase() + fullName[1][0].toUpperCase();
+				}
+			} else if (fullName.length === 1) {
+				// Ensure the first element is defined before accessing
+				if (fullName[0]) {
+					name = fullName[0][0].toUpperCase();
+				}
+			}
+			// Only update initials if no file is present
+			if (!logoContainer.style.backgroundImage) {
+				initial.innerText = name;
+			}
+		}
+
 		function generateSlugWithDomain() {
+			generateCapitalizeInitials();
 			yourName.innerText = nameInput.value.trim();
 			const slug = nameInput.value.trim().split(' ').join('-').toLowerCase();
 			const domain = `https://${slug}.powerlifting.gg/`;
@@ -68,8 +94,11 @@
 		>
 			<div
 				id="logoContainer"
-				class="bg-cover bg-center bg-no-repeat max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full"
-			></div>
+				class="bg-cover bg-center bg-no-repeat max-h-[100px] max-w-[100px] h-[100px] w-[100px] rounded-full flex justify-center items-center"
+			>
+				<div id="initial" class="bg-white h-full w-full rounded-full flex justify-center items-center font-bold text-2xl">
+				</div>
+			</div>
 		</div>
 
 		<!-- rating -->
