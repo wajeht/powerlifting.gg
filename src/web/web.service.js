@@ -224,7 +224,9 @@ export function WebService(WebRepository, redis, job) {
 			}
 
 			// generate og image for seo
-			await job.generateOgImageJob({ tenant });
+			if (banner) {
+				await job.generateOgImageJob({ tenant });
+			}
 		},
 		updateTenant: async function (id, updates) {
 			if (Object.keys(updates).length === 0) {
