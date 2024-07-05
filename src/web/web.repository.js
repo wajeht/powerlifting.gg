@@ -63,7 +63,15 @@ export function WebRepository(db) {
 				.whereRaw('LENGTH(reviews.comment) <= 100')
 				.limit(size);
 		},
-		postTenant: async function ({ logo = '', banner = '', slug, name, links, verified = false }) {
+		postTenant: async function ({
+			logo = '',
+			banner = '',
+			slug,
+			name,
+			links,
+			verified = false,
+			approved = false,
+		}) {
 			return await db('tenants')
 				.insert({
 					logo,
@@ -71,6 +79,7 @@ export function WebRepository(db) {
 					banner,
 					slug,
 					name,
+					approved,
 					verified,
 				})
 				.returning('*');

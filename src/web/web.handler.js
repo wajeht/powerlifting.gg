@@ -169,7 +169,10 @@ export function postTenantHandler(WebService) {
 			links = [];
 		}
 
+		const autoApproveIfSuperAdmin = req.session.user.role === 'SUPER_ADMIN' ? true : false;
+
 		await WebService.postTenant({
+			approved: autoApproveIfSuperAdmin,
 			verified,
 			links,
 			name,

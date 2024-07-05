@@ -190,6 +190,7 @@ export function WebService(WebRepository, redis, job) {
 			name,
 			links,
 			verified = false,
+			approved = false,
 			user_id,
 		}) {
 			const [tenant] = await WebRepository.postTenant({
@@ -197,6 +198,7 @@ export function WebService(WebRepository, redis, job) {
 				banner,
 				slug,
 				name,
+				approved,
 				links,
 				verified,
 			});
@@ -217,7 +219,9 @@ export function WebService(WebRepository, redis, job) {
 			}
 
 			// send email to admin
-			await job.sendApproveTenantEmailJob({ tenant, coach });
+			if (!approved) {
+				await job.sendApproveTenantEmailJob({ tenant, coach });
+			}
 
 			// generate og image for seo
 			await job.generateOgImageJob({ tenant });
