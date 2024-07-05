@@ -1,5 +1,5 @@
-import { extractDomainName } from './web.util.js';
 import { db } from '../database/db.js';
+import { extractDomainName } from './web.util.js';
 import { NotFoundError } from '../app.error.js';
 
 export function postCalibrateTenantRatings(WebService) {

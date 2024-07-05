@@ -1,1 +1,3 @@
-console.log('backup');
+export async function backup(option) {
+	console.log(option);
+}

@@ -5,10 +5,10 @@ import { redis } from '../database/db.js';
 import { session as sessionConfig } from '../config/session.js';
 
 export async function clear(option) {
-	const { cloudflare_cache, all_cache, redis_cache } = option;
+	const { cloudflareCache, allCache, redisCache } = option;
 
 	try {
-		if (cloudflare_cache) {
+		if (cloudflareCache) {
 			await clearCloudflareCache({
 				zoneId: cloudflareConfig.zone_id,
 				apiToken: cloudflareConfig.api_key,
@@ -16,7 +16,7 @@ export async function clear(option) {
 			logger.info('cloudflare cache has been cleared');
 		}
 
-		if (redis_cache) {
+		if (redisCache) {
 			const keys = await redis.keys('*');
 			for (const key of keys) {
 				// dont flush session data so we web deploy new version
@@ -30,7 +30,7 @@ export async function clear(option) {
 			logger.info('redis cache has been cleared');
 		}
 
-		if (all_cache) {
+		if (allCache) {
 			logger.info('all cache clear function called');
 		}
 
