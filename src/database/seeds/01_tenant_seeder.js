@@ -74,6 +74,7 @@ export async function seed(db) {
 				links: JSON.stringify(links),
 				name: name,
 				slug: slug,
+				ratings_calibration_count: 0,
 				ratings: faker.number.int({ min: 1, max: 5 }),
 				...approvedAndVerified,
 			});
