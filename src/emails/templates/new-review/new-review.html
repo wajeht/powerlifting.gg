@@ -7,7 +7,9 @@
 			<div>
 				<p>Hello <%= user.username %>,</p>
 				<p>A new review has been posted on <%= tenant.name %></p>
-				<pre> <%= JSON.stringify(review) %></pre>
+				<br />
+				<p><strong>ratings:</strong> <%= review.ratings %></p>
+				<p><strong>comment:</strong> <%= review.comment %></p>
 			</div>
 		</main>
 
