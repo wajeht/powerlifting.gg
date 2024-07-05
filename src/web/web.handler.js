@@ -452,7 +452,7 @@ export function postSettingsTenantsImagesHandler(WebService) {
 			logo: logo?.location || '',
 		});
 		req.flash('success', 'Your tenant images have been updated!');
-		return res.redirect('back');
+		return res.redirect(`/settings/tenants/${id}`);
 	};
 }
 
@@ -487,7 +487,7 @@ export function postSettingsTenantsDetails(WebService) {
 		const id = req.params.id;
 		await WebService.updateTenant(id, { name, slug, links: social });
 		req.flash('success', 'Your tenant details has been updated!');
-		return res.redirect('back');
+		return res.redirect(`/settings/tenants/${id}`);
 	};
 }
 
@@ -594,6 +594,7 @@ export function postSubscriptionsHandler(WebService) {
 			.update({ type: JSON.stringify(type) });
 
 		req.flash('info', 'User subscription settings updated successfully!');
+		if (req.headers.referer) return res.redirect(req.headers.referer);
 		return res.redirect('back');
 	};
 }
