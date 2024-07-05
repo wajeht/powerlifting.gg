@@ -439,6 +439,8 @@ export function postSettingsTenantsDangerZoneHandler(WebService) {
 	return async (req, res) => {
 		const id = req.params.id;
 		await WebService.deleteTenant(id);
+		delete req.session.user.tenant;
+		req.session.save();
 		return res.redirect('/?alert-success=Your tenant has been deleted!');
 	};
 }

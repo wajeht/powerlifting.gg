@@ -34,6 +34,22 @@ export const postCalibrateTenantRatingsValidation = [
 		}),
 ];
 
+export const postSettingsTenantsDangerZoneHandlerValidation = [
+	param('id')
+		.notEmpty()
+		.withMessage('The id must not be empty!')
+		.custom(async (id) => {
+			const tenant_id = parseInt(id);
+			const tenant_ids = (await db.select('tenant_id').from('coaches').where({ tenant_id })).map(
+				(c) => parseInt(c.tenant_id),
+			);
+			if (!tenant_ids.includes(tenant_id)) {
+				throw new ValidationError('must be your own tenant');
+			}
+			return true;
+		}),
+];
+
 export const postSettingsTenantsDetailsValidation = [
 	body('name')
 		.notEmpty()

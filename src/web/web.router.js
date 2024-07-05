@@ -27,6 +27,7 @@ import {
 	postReviewHandlerValidation,
 	postTenantHandlerValidation,
 	postSettingsTenantsDetailsValidation,
+	postSettingsTenantsDangerZoneHandlerValidation,
 	postSettingsAccountHandlerValidation,
 	postNewsletterHandlerValidation,
 	postSubscriptionsHandlerValidation,
@@ -177,6 +178,7 @@ web.post(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
+	validateRequestHandler(postSettingsTenantsDangerZoneHandlerValidation),
 	catchAsyncErrorHandler(
 		postSettingsTenantsDangerZoneHandler(WebService(WebRepository(db), redis, job)),
 	),
