@@ -53,8 +53,7 @@
 			generateCapitalizeInitials();
 			yourName.innerText = nameInput.value.trim();
 			const slug = nameInput.value.trim().split(' ').join('-').toLowerCase();
-			const domain = `https://${slug}.powerlifting.gg/`;
-			slugWithDomain.innerText = domain;
+			slugWithDomain.innerText = `https://${slug}.powerlifting.gg/`;
 			slugInput.value = slug;
 		}
 
