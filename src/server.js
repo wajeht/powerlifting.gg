@@ -1,8 +1,8 @@
 import { app } from './app.js';
-import { app as appConfig } from './config/app.js';
-import { logger } from './utils/logger.js';
 import { job } from './job/job.js';
 import { shell } from './utils/shell.js';
+import { logger } from './utils/logger.js';
+import { app as appConfig } from './config/app.js';
 
 const server = app.listen(appConfig.port, async () => {
 	logger.info(`Server was started on http://localhost:${appConfig.port}`);
@@ -34,4 +34,5 @@ process.on('SIGTERM', gracefulShutdown);
 
 process.on('unhandledRejection', async (reason, promise) => {
 	logger.alert('Unhandled Rejection at: ', promise, ' reason: ', reason);
+	gracefulShutdown();
 });
