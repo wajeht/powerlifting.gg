@@ -7,6 +7,10 @@ import { extractDomainName } from './web.util.js';
 
 export function WebService(WebRepository, redis, job) {
 	return {
+		deleteTenant: async function (tenantId) {
+			await WebRepository.deleteTenant(tenantId);
+			await this.clearSystemWideCache();
+		},
 		getTenant: async function ({ tenantId, cache = true }) {
 			if (!cache) {
 				return await WebRepository.getTenant(tenantId);

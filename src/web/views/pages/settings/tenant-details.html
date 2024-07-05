@@ -261,7 +261,7 @@
       <div class="modal-box">
         <h3 class="font-bold text-lg m-0">Danger Zone</h3>
         <p class="py-4 m-0">Are you sure you want to delete <strong><%= tenant.name %></strong>?</p>
-        <form class="modal-action" method="post" action="/settings/tenants/<%= tenant.id %>">
+        <form class="modal-action" method="post" action="/settings/tenants/<%= tenant.id %>/danger-zone">
           <!-- csrf -->
           <input type="hidden" id="csrfToken" name="csrfToken" value="<%= csrfToken %>" />
           <!-- button -->

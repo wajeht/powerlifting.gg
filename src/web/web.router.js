@@ -37,6 +37,7 @@ import {
 	postSubscribeToATenant,
 	postSubscriptionsHandler,
 	postSettingsDangerZoneHandler,
+	postSettingsTenantsDangerZoneHandler,
 	getSettingsTenantsHandler,
 	getSettingsTenantHandler,
 	getContactHandler,
@@ -163,6 +164,22 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(postSettingsDangerZoneHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * POST /settings/tenants/{id}/danger-zone
+ * @tags web
+ * @summary post settings tenants danger zone
+ */
+web.post(
+	'/settings/tenants/:id/danger-zone',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(
+		postSettingsTenantsDangerZoneHandler(WebService(WebRepository(db), redis, job)),
+	),
 );
 
 /**

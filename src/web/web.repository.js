@@ -112,5 +112,10 @@ export function WebRepository(db) {
 		getSubscription: async function (email) {
 			return await db.select('*').from('subscriptions').where({ email }).first();
 		},
+		deleteTenant: async function (tenantId) {
+			await db('coaches').where({ tenant_id: tenantId }).del();
+			await db('reviews').where({ tenant_id: tenantId }).del();
+			await db('tenants').where({ id: tenantId }).del();
+		},
 	};
 }
