@@ -282,5 +282,8 @@ export function WebService(WebRepository, redis, job) {
 		generateOgImageJob: async function ({ tenant }) {
 			await job.generateOgImageJob({ tenant });
 		},
+		exportTenantReviewsJob: async function ({ tenant, user }) {
+			await job.exportTenantReviewsJob({ tenant, user });
+		},
 	};
 }

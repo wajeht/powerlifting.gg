@@ -12,7 +12,11 @@ export function postCalibrateTenantRatings(WebService) {
 
 export function postExportTenantReviewsHandler(WebService) {
 	return async (req, res) => {
-		console.log(WebService);
+		const { id } = req.body;
+		const tenant = await WebService.getTenant({ tenantId: id });
+		const user = req.session.user;
+		await WebService.exportTenantReviewsJob({ tenant, user });
+		req.flash('info', 'Your request to generated export has been submitted.');
 		return res.redirect('back');
 	};
 }
