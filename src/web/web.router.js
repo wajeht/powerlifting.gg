@@ -59,6 +59,7 @@ import {
 	getBlogHandler,
 	getBlogPostHandler,
 	postSettingsAccountHandler,
+	postSettingsTenantsImagesHandler,
 	postNewsletterHandler,
 	postExportTenantReviewsHandler,
 	postSettingsTenantsDetails,
@@ -181,6 +182,26 @@ web.post(
 	validateRequestHandler(postSettingsTenantsDangerZoneHandlerValidation),
 	catchAsyncErrorHandler(
 		postSettingsTenantsDangerZoneHandler(WebService(WebRepository(db), redis, job)),
+	),
+);
+
+/**
+ * POST /settings/tenants/{id}/images
+ * @tags web
+ * @summary post settings tenants images
+ */
+web.post(
+	'/settings/tenants/:id/images',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	uploadHandler.fields([
+		{ name: 'logo', maxCount: 1 },
+		{ name: 'banner', maxCount: 1 },
+	]),
+	csrfHandler,
+	catchAsyncErrorHandler(
+		postSettingsTenantsImagesHandler(WebService(WebRepository(db), redis, job)),
 	),
 );
 

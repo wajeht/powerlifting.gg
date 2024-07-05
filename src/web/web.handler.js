@@ -438,6 +438,20 @@ export function postSettingsAccountHandler(WebService) {
 	};
 }
 
+export function postSettingsTenantsImagesHandler(WebService) {
+	return async (req, res) => {
+		const id = req.params.id;
+		const logo = req.files?.logo?.[0];
+		const banner = req.files?.banner?.[0];
+		await WebService.updateTenant(id, {
+			banner: banner?.location || '',
+			logo: logo?.location || '',
+		});
+		req.flash('success', 'Your tenant images have been updated!');
+		return res.redirect('back');
+	};
+}
+
 export function postSettingsTenantsDangerZoneHandler(WebService) {
 	return async (req, res) => {
 		const id = req.params.id;

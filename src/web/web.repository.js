@@ -96,8 +96,6 @@ export function WebRepository(db) {
 					if (key === 'links') {
 						if (updates[key].length) {
 							formattedUpdates[key] = JSON.stringify(updates[key]);
-						} else {
-							formattedUpdates[key] = JSON.stringify([]);
 						}
 					} else {
 						formattedUpdates[key] = updates[key];

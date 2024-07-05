@@ -119,7 +119,12 @@
 </div>
 
 <!-- images -->
-<form method="post" action="/settings/tenants/<%= tenant.id %>" class="rounded-lg border p-5 flex flex-col gap-5">
+<form
+  enctype="multipart/form-data"
+  method="post"
+  action="/settings/tenants/<%= tenant.id %>/images"
+  class="rounded-lg border p-5 flex flex-col gap-5"
+>
   <div>
     <h6 class="text-lg font-medium m-0 text-neutral">Images</h6>
     <p class="m-0 font-light">Manage your image details.</p>
