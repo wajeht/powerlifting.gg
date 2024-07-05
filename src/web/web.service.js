@@ -217,6 +217,30 @@ export function WebService(WebRepository, redis, job) {
 			// generate og image for seo
 			await job.generateOgImageJob({ tenant });
 		},
+		updateTenant: async function (id, updates) {
+			if (Object.keys(updates).length === 0) {
+				throw new Error('No fields to update');
+			}
+
+			const [tenant] = await WebRepository.updateTenant(id, updates);
+
+			const keys = await redis.keys('*');
+			for (const i of keys) {
+				if (i.startsWith('search?q=&per_page=')) {
+					await redis.del(i);
+				}
+
+				if (i === `tenants-${id}`) {
+					await redis.del(i);
+				}
+			}
+
+			if ('banner' in updates) {
+				await job.generateOgImageJob({ tenant });
+			}
+
+			return tenant;
+		},
 		postContact: async function ({ email, message, subject }) {
 			await job.sendContactEmailJob({ email, message, subject });
 		},

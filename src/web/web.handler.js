@@ -450,6 +450,16 @@ export function postSettingsDangerZoneHandler(WebService) {
 	};
 }
 
+export function postSettingsTenantsDetails(WebService) {
+	return async (req, res) => {
+		const { name, slug, social } = req.body;
+		const id = req.params.id;
+		await WebService.updateTenant(id, { name, slug, links: social });
+		req.flash('success', 'Your tenant details has been updated!');
+		return res.redirect('back');
+	};
+}
+
 export function getSettingsTenantsHandler(WebService) {
 	return async (req, res) => {
 		const user = req.session.user;

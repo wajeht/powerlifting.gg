@@ -75,6 +75,27 @@ export function WebRepository(db) {
 				})
 				.returning('*');
 		},
+		updateTenant: async function (id, updates) {
+			if (Object.keys(updates).length === 0) {
+				throw new Error('No fields to update');
+			}
+
+			const formattedUpdates = {};
+
+			for (const key in updates) {
+				if (Object.prototype.hasOwnProperty.call(updates, key)) {
+					if (key === 'links') {
+						if (updates[key].trim().length) {
+							formattedUpdates[key] = JSON.stringify(updates[key]);
+						}
+					} else {
+						formattedUpdates[key] = updates[key];
+					}
+				}
+			}
+
+			return await db('tenants').where({ id }).update(formattedUpdates).returning('*');
+		},
 		postCoach: async function ({ tenant_id, user_id, role = 'COACH' }) {
 			return await db('coaches').insert({ user_id, tenant_id, role }).returning('*');
 		},

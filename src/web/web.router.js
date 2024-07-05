@@ -58,6 +58,7 @@ import {
 	postSettingsAccountHandler,
 	postNewsletterHandler,
 	postExportTenantReviewsHandler,
+	postSettingsTenantsDetails,
 } from './web.handler.js';
 import { WebRepository } from './web.repository.js';
 import { WebService } from './web.service.js';
@@ -161,6 +162,20 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	catchAsyncErrorHandler(postSettingsDangerZoneHandler(WebService(WebRepository(db), redis, job))),
+);
+
+/**
+ * POST /settings/tenants/{id}/details
+ * @tags web
+ * @summary post settings tenants details
+ */
+web.post(
+	'/settings/tenants/:id/details',
+	tenantIdentityHandler,
+	throwTenancyHandler,
+	authenticationHandler,
+	csrfHandler,
+	catchAsyncErrorHandler(postSettingsTenantsDetails(WebService(WebRepository(db), redis, job))),
 );
 
 /**
