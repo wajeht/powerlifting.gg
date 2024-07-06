@@ -65,6 +65,9 @@
 					></textarea>
 				</label>
 
+				<!-- cloudflare CAPTCHA -->
+				<div class="cf-turnstile" data-sitekey="<%= app.cloudflare_turnstile_secret_key %>"></div>
+
 				<!-- submit -->
 				<div><input type="submit" value="Submit" class="btn btn-neutral text-white" /></div>
 			</form>

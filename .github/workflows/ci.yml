@@ -47,6 +47,8 @@ jobs:
       CLOUDFLARE_PURGE_CACHE_API_KEY: 'xxx'
       CLOUDFLARE_POWERLIFTINGDOTGG_ZONE_ID: 'xxx'
       CLOUDFLARE_EMAIL: 'mail@gmail.com'
+      CLOUDFLARE_TURNSTILE_SITE_KEY: 'xxx'
+      CLOUDFLARE_TURNSTILE_SITE_SECRET_KEY: 'xxx'
       SENTRY_DSN: 'xxx'
       GOOGLE_ID: 'xxx'
       GOOGLE_SECRET: 'xxx'
