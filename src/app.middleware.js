@@ -381,6 +381,7 @@ export function helmetHandler() {
 					'data:',
 					'blob:',
 				],
+				'frame-src': ["'self'", 'https://challenges.cloudflare.com'],
 			},
 		},
 	});
