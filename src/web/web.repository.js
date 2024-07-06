@@ -38,12 +38,20 @@ export function WebRepository(db) {
 				.first();
 		},
 		getRandomApprovedAndVerifiedTenants: async ({ size = 5 } = {}) => {
-			return await db
-				.select('*')
-				.from('tenants')
+			return await db('tenants')
+				.select(
+					'*',
+					db.raw(`
+					CASE
+						WHEN ratings IS NULL THEN 0
+						WHEN LENGTH(ratings) > 1 THEN ROUND(CAST(ratings AS REAL), 1)
+						ELSE ratings
+					END AS ratings
+				`),
+				)
 				.where('approved', true)
 				.andWhere('verified', true)
-				.where('ratings', '>=', 3)
+				.andWhere('ratings', '>=', 3)
 				.orderByRaw('RANDOM()')
 				.limit(size);
 		},
