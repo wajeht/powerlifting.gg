@@ -365,8 +365,14 @@ export function helmetHandler() {
 					'blob:',
 					'text/javascript',
 					'https://jaw.dev/',
+					'https://challenges.cloudflare.com',
 				],
-				'script-src-elem': ["'self'", "'unsafe-inline'", 'https://plausible.jaw.dev'],
+				'script-src-elem': [
+					"'self'",
+					"'unsafe-inline'",
+					'https://plausible.jaw.dev',
+					'https://challenges.cloudflare.com',
+				],
 				'script-src-attr': ["'self'", "'unsafe-inline'"],
 				'img-src': [
 					"'self'",
