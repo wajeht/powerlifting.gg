@@ -49,7 +49,7 @@ if (appConfig.env === 'production') {
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.resolve(path.join(process.cwd(), 'public')), { maxAge: '24h' }));
+app.use(express.static(path.resolve(path.join(process.cwd(), 'public')), { maxAge: '30d' }));
 
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
