@@ -296,8 +296,8 @@ export function getIndexHandler(WebRepository, TenantService) {
 		}
 
 		const tenants = await WebRepository.getRandomApprovedAndVerifiedTenants({ size: 5 });
-
 		const reviews = await WebRepository.getRandomReviews({ size: 10 });
+
 		return res.status(200).render('home.html', {
 			tenants,
 			reviews,
@@ -372,8 +372,6 @@ export function getBlogPostHandler(WebService) {
 		});
 	};
 }
-
-// Settings
 
 export function getSettingsHandler(WebService) {
 	return async (req, res) => {
