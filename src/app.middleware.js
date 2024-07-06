@@ -21,6 +21,7 @@ import {
 	ValidationError,
 	UnimplementedFunctionError,
 } from './app.error.js';
+import { cloudflare as cloudflareConfig } from './config/cloudflare.js';
 
 const redisStore = new RedisStore({
 	client: redis,
@@ -188,6 +189,7 @@ export async function localVariables(req, res, next) {
 	res.locals.app = {
 		env: appConfig.env,
 		copyRightYear: new Date().getFullYear(),
+		cloudflare_turnstile_secret_key: cloudflareConfig.turnstile.site_key,
 		// prettier-ignore
 		mainDomain: appConfig.env === 'production' ? `https://${appConfig.production_app_url}` : `http://${appConfig.development_app_url}`,
 		configureDomain: (subdomain) => {
