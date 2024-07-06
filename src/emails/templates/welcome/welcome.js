@@ -9,11 +9,13 @@ export async function sendWelcomeEmail({
 	username,
 }) {
 	try {
+		const layout = path.resolve(path.join(process.cwd(), 'src', 'emails', 'layouts', 'main.html'));
 		const template = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome', 'welcome.html'),
 		);
 
-		const html = await ejs.renderFile(template, { username, email, domain });
+		const body = await ejs.renderFile(template, { username });
+		const html = await ejs.renderFile(layout, { body, domain, email });
 
 		await sendMail({
 			to: email,
