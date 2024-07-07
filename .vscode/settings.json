@@ -41,6 +41,7 @@
 		"resave",
 		"rmds",
 		"sluggify",
+		"slugified",
 		"smembers",
 		"Synchronised",
 		"tailwindcss",

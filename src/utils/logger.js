@@ -63,8 +63,12 @@ const logger = pino(
 );
 
 logger.alert = async (msg, object = null) => {
-	logger.error(object, msg);
-	return await alertDiscord(msg, object);
+	try {
+		logger.error(object, msg);
+		await alertDiscord(msg, object);
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 export { logger };

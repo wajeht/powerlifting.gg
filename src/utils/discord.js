@@ -3,8 +3,6 @@ import { app as appConfig } from '../config/app.js';
 import { discord as discordConfig } from '../config/discord.js';
 import axios from 'axios';
 
-/* It sends a message to a Discord channel */
-// https://gist.github.com/Birdie0/78ee79402a4301b1faf412ab5f1cdcf9
 export async function alertDiscord(msg, object = null) {
 	try {
 		if (appConfig.env !== 'production') {
