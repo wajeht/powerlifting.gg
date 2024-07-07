@@ -3,22 +3,18 @@ import path from 'node:path';
 import { sendMail, domain } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
-export async function sendWelcomeEmail({
-	email,
-	subject = 'Welcome to powerlifting.gg',
-	username,
-}) {
+export async function sendWelcomeEmail({ email, subject = `Welcome to ${domain}`, username }) {
 	try {
-		const template = path.resolve(
+		const welcomeTemplate = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome', 'welcome.html'),
 		);
 
-		const html = await ejs.renderFile(template, { username, email, domain });
+		const welcomeHtml = await ejs.renderFile(welcomeTemplate, { username });
 
 		await sendMail({
 			to: email,
 			subject,
-			html,
+			html: welcomeHtml,
 		});
 
 		logger.info('welcome email sent to:', email);

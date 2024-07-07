@@ -1,6 +1,6 @@
 import ejs from 'ejs';
 import path from 'node:path';
-import { sendMail, domain } from '../../mailer.util.js';
+import { sendMail } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
 export async function sendExportTenantReviewsEmail({
@@ -10,7 +10,7 @@ export async function sendExportTenantReviewsEmail({
 	downloadUrl,
 }) {
 	try {
-		const template = path.resolve(
+		const exportTenantReviewsTemplate = path.resolve(
 			path.join(
 				process.cwd(),
 				'src',
@@ -21,19 +21,20 @@ export async function sendExportTenantReviewsEmail({
 			),
 		);
 
-		const html = await ejs.renderFile(template, {
+		const exportTenantReviewsHtml = await ejs.renderFile(exportTenantReviewsTemplate, {
 			user,
 			tenant,
 			downloadUrl,
 			email: user.email,
-			domain,
 		});
 
 		await sendMail({
 			to: user.email,
 			subject,
-			html,
+			html: exportTenantReviewsHtml,
 		});
+
+		logger.info('export tenant reviews email sent to:', user.email);
 	} catch (error) {
 		logger.alert('error while sending export tenant reviews email:', error);
 		throw error;
