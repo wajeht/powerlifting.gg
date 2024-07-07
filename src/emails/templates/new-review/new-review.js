@@ -1,15 +1,10 @@
 import ejs from 'ejs';
-import path from 'node:path';
 import { sendMail } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
 export async function sendNewReviewEmail({ subject = 'New review', user, tenant, review }) {
 	try {
-		const newReviewTemplate = path.resolve(
-			path.join(process.cwd(), 'src', 'emails', 'templates', 'new-review', 'new-review.html'),
-		);
-
-		const newReviewHtml = await ejs.renderFile(newReviewTemplate, {
+		const newReviewHtml = await ejs.renderFile(`${import.meta.dirname}/new-review.html`, {
 			user,
 			tenant,
 			review,

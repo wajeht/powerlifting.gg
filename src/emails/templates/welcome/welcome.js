@@ -1,15 +1,10 @@
 import ejs from 'ejs';
-import path from 'node:path';
 import { sendMail, domain } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
 export async function sendWelcomeEmail({ email, subject = `Welcome to ${domain}`, username }) {
 	try {
-		const welcomeTemplate = path.resolve(
-			path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome', 'welcome.html'),
-		);
-
-		const welcomeHtml = await ejs.renderFile(welcomeTemplate, { username });
+		const welcomeHtml = await ejs.renderFile(`${import.meta.dirname}/welcome.html`, { username });
 
 		await sendMail({
 			to: email,
