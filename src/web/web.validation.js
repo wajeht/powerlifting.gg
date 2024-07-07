@@ -1,6 +1,6 @@
-import { body, param, query } from 'express-validator';
 import { db } from '../database/db.js';
 import { ValidationError } from '../app.error.js';
+import { body, param, query } from 'express-validator';
 
 export const postCalibrateTenantRatingsValidation = [
 	body('id')

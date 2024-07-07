@@ -1,6 +1,6 @@
-import { app as appConfig } from './app.js';
-import path from 'path';
+import path from 'node:path';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
+import { app as appConfig } from './app.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,

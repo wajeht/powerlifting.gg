@@ -10,6 +10,13 @@ process.env.SUPER_ADMIN_EMAIL = 'zombyard@gmail.com';
 
 process.env.PRODUCTION_SSH_URL = 'dog@127.0.0.1';
 
+// cloudflare
+process.env.CLOUDFLARE_PURGE_CACHE_API_KEY = 'xxx';
+process.env.CLOUDFLARE_POWERLIFTINGDOTGG_ZONE_ID = 'xxx';
+process.env.CLOUDFLARE_EMAIL = 'xxx';
+process.env.CLOUDFLARE_TURNSTILE_SITE_KEY = 'xxx';
+process.env.CLOUDFLARE_TURNSTILE_SITE_SECRET_KEY = 'xxx';
+
 // having this commented out will not register sentry while testing
 // process.env.SENTRY_DSN = null;
 
@@ -46,3 +53,7 @@ process.env.EMAIL_PORT = 1025;
 process.env.EMAIL_AUTH_EMAIL = 'name@email.com';
 process.env.EMAIL_AUTH_ALIAS = 'mail@jaw.dev';
 process.env.EMAIL_AUTH_PASS = 'password';
+
+process.env.DISCORD_ID = 'xxx';
+process.env.DISCORD_TOKEN = 'xxx';
+process.env.DISCORD_URL = 'xxx';

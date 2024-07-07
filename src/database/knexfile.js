@@ -1,11 +1,11 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-// import { app as appConfig } from '../config/app.js';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { app as appConfig } from '../config/app.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// const developmentEnvironmentOnly = appConfig.env === 'development';
+const developmentEnvironmentOnly = appConfig.env === 'development';
 
 const knexConfig = {
 	client: 'sqlite3',
@@ -17,7 +17,7 @@ const knexConfig = {
 		tableName: 'knex_migrations',
 		directory: path.resolve(__dirname, './migrations'),
 	},
-	// debug: developmentEnvironmentOnly,
+	debug: developmentEnvironmentOnly,
 	seeds: { directory: path.resolve(__dirname, './seeds') },
 	pool: {
 		afterCreate: (conn, done) => {
@@ -47,12 +47,6 @@ const knexConfig = {
 if (process.env.NODE_ENV === 'testing') {
 	knexConfig.connection = {
 		filename: ':memory:',
-	};
-}
-
-if (process.env.NODE_ENV === 'ci') {
-	knexConfig.connection = {
-		filename: path.resolve(__dirname, 'db.sqlite'),
 	};
 }
 

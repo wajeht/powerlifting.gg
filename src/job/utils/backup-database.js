@@ -1,11 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { Upload } from '@aws-sdk/lib-storage';
-import { backBlaze as backBlazeConfig, privateS3BucketConfig } from '../../config/back-blaze.js';
 import { logger } from '../../utils/logger.js';
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
-import { exec } from 'child_process';
+import { promisify } from 'node:util';
+import { exec } from 'node:child_process';
 import { app as appConfig } from '../../config/app.js';
+import { backBlaze as backBlazeConfig, privateS3BucketConfig } from '../../config/back-blaze.js';
 
 const execAsync = promisify(exec);
 
