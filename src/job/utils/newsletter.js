@@ -6,7 +6,6 @@ import { WebRepository } from '../../web/web.repository.js';
 import { sendNewsletterEmail } from '../../emails/email.js';
 import { logger } from '../../utils/logger.js';
 
-// TODO: clean this up. make it testable
 export async function sendNewsLetterEmailInBulk(job) {
 	try {
 		let DOMAIN = '';

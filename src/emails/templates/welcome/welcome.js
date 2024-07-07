@@ -3,11 +3,7 @@ import path from 'node:path';
 import { sendMail, domain } from '../../mailer.util.js';
 import { logger } from '../../../utils/logger.js';
 
-export async function sendWelcomeEmail({
-	email,
-	subject = 'Welcome to powerlifting.gg',
-	username,
-}) {
+export async function sendWelcomeEmail({ email, subject = `Welcome to ${domain}`, username }) {
 	try {
 		const layout = path.resolve(path.join(process.cwd(), 'src', 'emails', 'layouts', 'main.html'));
 		const template = path.resolve(

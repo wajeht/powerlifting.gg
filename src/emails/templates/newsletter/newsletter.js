@@ -5,15 +5,18 @@ import { logger } from '../../../utils/logger.js';
 
 export async function sendNewsletterEmail({
 	email,
-	subject = 'New Post on powerlifting.gg',
+	subject = `New post on ${domain}`,
 	username,
 	post,
 }) {
 	try {
+		const layout = path.resolve(path.join(process.cwd(), 'src', 'emails', 'layouts', 'main.html'));
 		const template = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'newsletter', 'newsletter.html'),
 		);
-		const html = await ejs.renderFile(template, { username, post, email, domain });
+
+		const newsletterTemplate = await ejs.renderFile(template, { username, post });
+		const html = await ejs.renderFile(layout, { body: newsletterTemplate, domain, email });
 
 		await sendMail({
 			to: email,
