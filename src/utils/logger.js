@@ -1,9 +1,7 @@
 // export const logger = {
 // 	debug: (...value) => {
-// 		if (process.env.DEBUG === 'true' || process.env.NODE_ENV !== 'production') {
-// 			const timestamp = new Date().toLocaleString();
-// 			console.debug(`\x1b[33m 🐛 ${timestamp}`, ...value, '\x1b[0m');
-// 		}
+// 		const timestamp = new Date().toLocaleString();
+// 		console.debug(`\x1b[33m 🐛 ${timestamp}`, ...value, '\x1b[0m');
 // 	},
 // 	error: (...value) => {
 // 		const timestamp = new Date().toLocaleString();
