@@ -32,6 +32,6 @@ export async function alertDiscord(msg, object = null) {
 			logger.info(`Discord bot has sent: ${msg}`);
 		}
 	} catch (error) {
-		logger.alert(error);
+		console.error(error);
 	}
 }
