@@ -2,7 +2,7 @@ import { NotFoundError } from '../../app.error.js';
 
 export function TenantService(db, redis, dayjs, badWord) {
 	return {
-		getApprovedTenant: async function ({ tenantId, cache = true }) {
+		getApprovedTenant: async function ({ tenantId, cache = false }) {
 			if (!cache) {
 				return await db.select('*').from('tenants').where({ id: tenantId, approved: true }).first();
 			}
@@ -27,7 +27,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 
 			return tenant;
 		},
-		getAllApprovedTenant: async function ({ cache = true }) {
+		getAllApprovedTenant: async function ({ cache = false }) {
 			if (!cache) {
 				return await db
 					.select('tenants.*')
@@ -98,7 +98,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 		getApprovedTenantReviews: async function (
 			q = '',
 			tenantId,
-			pagination = { perPage: 25, currentPage: 1, sort: 'desc', cache: true },
+			pagination = { perPage: 25, currentPage: 1, sort: 'desc', cache: false },
 		) {
 			const cacheKey = `tenants-${tenantId}-reviews?q=${encodeURIComponent(q)}&per_page=${pagination.perPage}&current_page=${pagination.currentPage}&sort=${pagination.sort}`;
 
@@ -159,7 +159,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 		},
 		getApprovedTenantSearch: async function (
 			q = '',
-			pagination = { perPage: 25, currentPage: 1, sort: 'asc', cache: true },
+			pagination = { perPage: 25, currentPage: 1, sort: 'asc', cache: false },
 		) {
 			const cacheKey = `search?q=${encodeURIComponent(q)}&per_page=${pagination.perPage}&current_page=${pagination.currentPage}&sort=${pagination.sort}`;
 

@@ -61,7 +61,7 @@ export function getTenantsHandler(TenantService) {
 	return async (req, res) => {
 		const { q, per_page, current_page, sort } = req.query;
 		const tenants = await TenantService.getApprovedTenantSearch(q, {
-			cache: true,
+			cache: false,
 			sort: sort ?? 'asc',
 			perPage: parseInt(per_page ?? 25),
 			currentPage: parseInt(current_page ?? 1),
@@ -239,7 +239,7 @@ export function getContactHandler() {
 
 export function getPrivacyPolicyHandler(WebService) {
 	return async (req, res) => {
-		const content = await WebService.getMarkdownPage({ cache: true, page: 'privacy-policy' });
+		const content = await WebService.getMarkdownPage({ cache: false, page: 'privacy-policy' });
 		return res.status(200).render('markdown.html', {
 			title: 'Privacy Policy',
 			path: '/privacy-policy',
@@ -250,7 +250,7 @@ export function getPrivacyPolicyHandler(WebService) {
 
 export function getTermsOfServiceHandler(WebService) {
 	return async (req, res) => {
-		const content = await WebService.getMarkdownPage({ cache: true, page: 'terms-of-services' });
+		const content = await WebService.getMarkdownPage({ cache: false, page: 'terms-of-services' });
 		return res.status(200).render('markdown.html', {
 			title: 'Terms of Services',
 			path: '/terms-of-services',
@@ -346,7 +346,7 @@ export function postReviewHandler(TenantService, WebService) {
 
 export function getBlogHandler(WebService) {
 	return async (req, res) => {
-		const posts = await WebService.getBlogPosts({ cache: true });
+		const posts = await WebService.getBlogPosts({ cache: false });
 
 		return res.status(200).render('blog.html', {
 			title: 'Blog',
@@ -358,7 +358,7 @@ export function getBlogHandler(WebService) {
 
 export function getBlogPostHandler(WebService) {
 	return async (req, res) => {
-		const post = await WebService.getBlogPost({ cache: true, id: req.params.id });
+		const post = await WebService.getBlogPost({ cache: false, id: req.params.id });
 
 		if (post === null) {
 			throw new NotFoundError('post does not exist!');

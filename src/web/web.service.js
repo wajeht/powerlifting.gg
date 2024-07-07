@@ -11,7 +11,7 @@ export function WebService(WebRepository, redis, job) {
 			await WebRepository.deleteTenant(tenantId);
 			await this.clearSystemWideCache();
 		},
-		getTenant: async function ({ tenantId, cache = true }) {
+		getTenant: async function ({ tenantId, cache = false }) {
 			if (!cache) {
 				return await WebRepository.getTenant(tenantId);
 			}
@@ -100,7 +100,7 @@ export function WebService(WebRepository, redis, job) {
 
 			return markdown;
 		},
-		getBlogPosts: async function ({ cache = true }) {
+		getBlogPosts: async function ({ cache = false }) {
 			if (cache) {
 				const cachedPosts = await redis.get('blog-posts');
 				if (cachedPosts) {
@@ -159,7 +159,7 @@ export function WebService(WebRepository, redis, job) {
 
 			return posts;
 		},
-		getBlogPost: async function ({ cache = true, id }) {
+		getBlogPost: async function ({ cache = false, id }) {
 			if (cache) {
 				const cachedPost = await redis.get(`blog-posts-${id}`);
 				if (cachedPost) {
