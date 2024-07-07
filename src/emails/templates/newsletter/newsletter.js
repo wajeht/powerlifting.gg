@@ -10,16 +10,16 @@ export async function sendNewsletterEmail({
 	post,
 }) {
 	try {
-		const template = path.resolve(
+		const newsletterTemplate = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'newsletter', 'newsletter.html'),
 		);
 
-		const newsletterTemplate = await ejs.renderFile(template, { username, post });
+		const newsletterHtml = await ejs.renderFile(newsletterTemplate, { username, post });
 
 		await sendMail({
 			to: email,
 			subject,
-			html: newsletterTemplate,
+			html: newsletterHtml,
 		});
 
 		logger.info('Newsletter email sent to:', email);

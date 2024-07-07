@@ -5,11 +5,11 @@ import { logger } from '../../../utils/logger.js';
 
 export async function sendNewReviewEmail({ subject = 'New review', user, tenant, review }) {
 	try {
-		const template = path.resolve(
+		const newReviewTemplate = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'new-review', 'new-review.html'),
 		);
 
-		const newReviewHtml = await ejs.renderFile(template, {
+		const newReviewHtml = await ejs.renderFile(newReviewTemplate, {
 			user,
 			tenant,
 			review,

@@ -5,16 +5,16 @@ import { logger } from '../../../utils/logger.js';
 
 export async function sendWelcomeEmail({ email, subject = `Welcome to ${domain}`, username }) {
 	try {
-		const template = path.resolve(
+		const welcomeTemplate = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'welcome', 'welcome.html'),
 		);
 
-		const welcomeTemplate = await ejs.renderFile(template, { username });
+		const welcomeHtml = await ejs.renderFile(welcomeTemplate, { username });
 
 		await sendMail({
 			to: email,
 			subject,
-			html: welcomeTemplate,
+			html: welcomeHtml,
 		});
 
 		logger.info('welcome email sent to:', email);

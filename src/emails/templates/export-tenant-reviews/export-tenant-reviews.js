@@ -10,7 +10,7 @@ export async function sendExportTenantReviewsEmail({
 	downloadUrl,
 }) {
 	try {
-		const template = path.resolve(
+		const exportTenantReviewsTemplate = path.resolve(
 			path.join(
 				process.cwd(),
 				'src',
@@ -21,7 +21,7 @@ export async function sendExportTenantReviewsEmail({
 			),
 		);
 
-		const exportTenantReviewsHtml = await ejs.renderFile(template, {
+		const exportTenantReviewsHtml = await ejs.renderFile(exportTenantReviewsTemplate, {
 			user,
 			tenant,
 			downloadUrl,

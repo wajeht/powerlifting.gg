@@ -5,11 +5,11 @@ import { logger } from '../../../utils/logger.js';
 
 export async function sendContactEmail({ email, subject = 'Contact', message }) {
 	try {
-		const template = path.resolve(
+		const contactTemplate = path.resolve(
 			path.join(process.cwd(), 'src', 'emails', 'templates', 'contact', 'contact.html'),
 		);
 
-		const contactHtml = await ejs.renderFile(template, { email, subject, message });
+		const contactHtml = await ejs.renderFile(contactTemplate, { email, subject, message });
 
 		await sendMail({
 			subject,
