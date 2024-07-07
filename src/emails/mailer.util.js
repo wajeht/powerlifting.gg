@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import ejs from 'ejs';
+import path from 'node:path';
 
 import { email as emailConfig } from '../config/email.js';
 import { app as appConfig } from '../config/app.js';
@@ -13,10 +15,19 @@ export async function sendMail({
 	html,
 	from = `${domain} <${emailConfig.email_alias}>`,
 }) {
-	return await transporter.sendMail({
-		from,
-		to,
-		subject,
-		html,
-	});
+	try {
+		const layout = path.resolve(path.join(process.cwd(), 'src', 'emails', 'layouts', 'main.html'));
+		const content = await ejs.renderFile(layout, { body: html, domain, email: to });
+
+		await transporter.sendMail({
+			from,
+			to,
+			subject,
+			html: content,
+		});
+
+		logger.info('email sent to:', to);
+	} catch (error) {
+		logger.alert('error while sending email:', error);
+	}
 }
