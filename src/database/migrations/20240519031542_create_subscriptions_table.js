@@ -5,7 +5,7 @@
 export function up(knex) {
 	return knex.schema.createTable('subscriptions', function (table) {
 		table.increments('id').index();
-		table.string('email').notNullable().unique().index(); // no `user_id` so public user can subscript to it
+		table.string('email').notNullable().unique().index(); // no `user_id` so public user can subscribe to it
 		table
 			.text('type')
 			.notNullable()
