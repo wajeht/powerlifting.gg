@@ -35,7 +35,3 @@ $ dig app.test @127.0.0.1
 You should get an answer back that points to 127.0.0.1.
 
 `https://medium.com/@hjblokland/how-to-setup-automatic-local-domains-with-dnsmasq-and-nginx-on-macos-5f34174bdf82`
-
-```
-
-```
