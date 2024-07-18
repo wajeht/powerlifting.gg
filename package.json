@@ -17,7 +17,7 @@
 		"build:vue": "vite build",
 		"build:tailwind": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --minify",
 		"build:tailwind:colors": "node ./src/utils/tailwind.js",
-		"minify": "if [ \"$NODE_ENV\" != \"development\" ]; then html-minifier --input-dir ./src/web --output-dir ./src/web --collapse-whitespace --minify-js --minify-css --remove-comments --file-ext html; else echo 'Cannot minify in development environment'; fi",
+		"minify": "if [ \"$NODE_ENV\" != \"development\" ]; then html-minifier --input-dir ./src/web --output-dir ./src/web --collapse-whitespace --minify-js --minify-css --remove-comments --file-ext html && find ./src -name '*.js' -exec uglifyjs {} -o {} \\;; else echo 'Cannot minify in development environment'; fi",
 		"update:deps": " npx npm-check -u",
 		"check:deps": "npx depcheck",
 		"format:check": "prettier --check .",
@@ -119,6 +119,7 @@
 		"prettier": "^3.3.2",
 		"supertest": "^7.0.0",
 		"tailwindcss": "^3.4.4",
+		"uglify-js": "^3.19.0",
 		"vitest": "^1.6.0"
 	}
 }
