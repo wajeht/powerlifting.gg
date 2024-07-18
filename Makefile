@@ -54,6 +54,7 @@ down:
 	@docker compose -f docker-compose.dev.yml down
 
 clean:
+	@rm -rf ./node_modules
 	@docker compose -f docker-compose.dev.yml down --rmi all
 	@docker system prune -a --volumes -f
 	@docker volume ls -qf dangling=true | xargs -r docker volume rm
