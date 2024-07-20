@@ -1,3 +1,9 @@
+export const roles = Object.freeze({
+	SUPER_ADMIN: 'SUPER_ADMIN',
+	ADMIN: 'ADMIN', // coach
+	USER: 'USER',
+});
+
 export const comments = [
 	'Dude, this coach made me feel like I could bench press a truck. Solid gains, bro!',
 	"Bro, this coach turned my dad bod into a rad bod. Can't thank him enough!",

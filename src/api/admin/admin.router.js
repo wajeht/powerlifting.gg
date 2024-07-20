@@ -1,4 +1,5 @@
 import express from 'express';
+import { roles } from '../../utils/constants.js';
 
 import {
 	authenticationHandler,
@@ -16,7 +17,7 @@ admin.post(
 	tenantIdentityHandler,
 	throwTenancyHandler,
 	authenticationHandler,
-	authorizePermissionHandler('SUPER_ADMIN'),
+	authorizePermissionHandler(roles.SUPER_ADMIN),
 	catchAsyncErrorHandler(async (req, res) => {
 		const keys = await redis.keys('*');
 

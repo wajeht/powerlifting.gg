@@ -1,3 +1,5 @@
+import { roles } from '../../utils/constants.js';
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -8,7 +10,7 @@ export function up(knex) {
 		table.string('username').notNullable().unique().index();
 		table.string('email').notNullable().unique().index();
 		table.string('profile_picture').notNullable().defaultTo('/img/chad.jpeg');
-		table.enu('role', ['USER', 'ADMIN', 'SUPER_ADMIN']).notNullable().defaultTo('USER');
+		table.enu('role', Object.keys(roles)).notNullable().defaultTo(roles.USER);
 		table.timestamps(true, true);
 	});
 }

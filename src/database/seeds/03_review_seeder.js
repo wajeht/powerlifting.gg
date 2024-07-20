@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { comments } from '../../utils/comments.js';
+import { comments } from '../../utils/constants.js';
 
 export async function seed(db) {
 	const users = await db.select('*').from('users');
