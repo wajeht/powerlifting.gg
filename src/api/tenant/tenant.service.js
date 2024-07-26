@@ -69,7 +69,7 @@ export function TenantService(db, redis, dayjs, badWord) {
 			const [reviewId] = await db('reviews').insert({
 				tenant_id,
 				user_id,
-				comment: new badWord().clean(comment),
+				comment: comment.length === 1 ? comment : new badWord().clean(comment),
 				ratings,
 			});
 
