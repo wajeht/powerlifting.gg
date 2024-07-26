@@ -12,9 +12,9 @@ fi
 
 cd powerlifting.gg
 
-git fetch origin main
+echo $SUDO_PASSWORD | sudo git fetch origin main
 
-git reset --hard origin/main
+echo $SUDO_PASSWORD | sudo git reset --hard origin/main
 
 echo $SUDO_PASSWORD | sudo -S docker compose -f docker-compose.prod.yml up -d --build
 
