@@ -12,6 +12,7 @@ import { expressJSDocSwaggerHandler } from './config/swagger.js';
 import { setupBullDashboard } from './job/job.js';
 import { swagger as swaggerConfig } from './config/swagger.js';
 import { sentry as sentryConfig } from './config/sentry.js';
+import { getIpAddress } from './utils/get-ip-address.js';
 
 import { app as appConfig } from './config/app.js';
 import {
@@ -43,7 +44,7 @@ app.use(cors());
 
 if (appConfig.env === 'production') {
 	app.use(helmetHandler());
-	app.use(rateLimitHandler());
+	app.use(rateLimitHandler(getIpAddress));
 }
 
 app.use(express.json({ limit: '1mb' }));

@@ -323,7 +323,7 @@ export async function errorHandler(err, req, res, _next) {
 	});
 }
 
-export function rateLimitHandler() {
+export function rateLimitHandler(getIpAddress) {
 	return rateLimit({
 		windowMs: 15 * 60 * 1000, // 15 minutes
 		limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
@@ -336,7 +336,7 @@ export function rateLimitHandler() {
 			return res.status(429).render('./rate-limit.html');
 		},
 		skip: (req, _res) => {
-			const myIp = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).split(', ')[0];
+			const myIp = getIpAddress(req);
 			return myIp == appConfig.myIp || process.env.NODE_ENV === 'development';
 		},
 	});
