@@ -3,6 +3,7 @@ import { job } from './job/job.js';
 import { shell } from './utils/shell.js';
 import { logger } from './utils/logger.js';
 import { app as appConfig } from './config/app.js';
+import { db } from './database/db.js';
 
 const server = app.listen(appConfig.port, async () => {
 	logger.info(`Server was started on http://localhost:${appConfig.port}`);
@@ -20,19 +21,33 @@ const server = app.listen(appConfig.port, async () => {
 	await job.cleanupDatabaseBackupJob({ amount: 5 });
 });
 
-function gracefulShutdown() {
-	logger.info('Received kill signal, shutting down gracefully.');
-	server.close(() => {
+function gracefulShutdown(signal) {
+	logger.info(`Received ${signal}, shutting down gracefully.`);
+
+	server.close(async () => {
+		logger.info('closing any db connection');
+		await db.destroy();
+
 		logger.info('HTTP server closed.');
 		process.exit(0);
 	});
+
+	setTimeout(() => {
+		logger.error('Could not close connections in time, forcefully shutting down');
+		process.exit(1);
+	}, 10000);
 }
 
-process.on('SIGINT', gracefulShutdown);
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGQUIT', () => gracefulShutdown('SIGQUIT'));
 
-process.on('SIGTERM', gracefulShutdown);
+process.on('uncaughtException', async (error, origin) => {
+	logger.error('Uncaught Exception:', error, 'Origin:', origin);
+	gracefulShutdown('uncaughtException');
+});
 
 process.on('unhandledRejection', async (reason, promise) => {
-	logger.alert('Unhandled Rejection at: ', promise, ' reason: ', reason);
-	gracefulShutdown();
+	logger.error('Unhandled Rejection:', promise, 'reason:', reason);
+	gracefulShutdown('unhandledRejection');
 });
