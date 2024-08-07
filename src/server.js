@@ -30,11 +30,16 @@ function gracefulShutdown(signal) {
 	logger.info(`Received ${signal}, shutting down gracefully.`);
 
 	server.close(async () => {
-		logger.info('closing any db connection');
-		await db.destroy();
+		try {
+			logger.info('closing any db connection');
+			await db.destroy();
 
-		logger.info('HTTP server closed.');
-		process.exit(0);
+			logger.info('HTTP server closed.');
+			process.exit(0);
+
+		} catch (error) {
+			logger.error(error);
+		}
 	});
 
 	setTimeout(() => {
