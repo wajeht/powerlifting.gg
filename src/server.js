@@ -6,19 +6,24 @@ import { app as appConfig } from './config/app.js';
 import { db } from './database/db.js';
 
 const server = app.listen(appConfig.port, async () => {
-	logger.info(`Server was started on http://localhost:${appConfig.port}`);
+	try {
+		logger.info(`Server was started on http://localhost:${appConfig.port}`);
 
-	// commands
-	if (appConfig.env === 'production') {
-		await shell('powerlifting clear --cloudflare-cache');
+		// commands
+		if (appConfig.env === 'production') {
+			await shell('powerlifting clear --cloudflare-cache');
+		}
+
+		await shell('powerlifting clear --redis-cache');
+
+		// crons
+		await job.scheduleBackupDatabaseJob();
+		await job.sendNewsletterEmailJob();
+		await job.cleanupDatabaseBackupJob({ amount: 5 });
+
+	} catch (error) {
+		logger.error(error);
 	}
-
-	await shell('powerlifting clear --redis-cache');
-
-	// crons
-	await job.scheduleBackupDatabaseJob();
-	await job.sendNewsletterEmailJob();
-	await job.cleanupDatabaseBackupJob({ amount: 5 });
 });
 
 function gracefulShutdown(signal) {
