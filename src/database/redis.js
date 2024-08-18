@@ -11,7 +11,7 @@ const redisOptions = {
 	host: redisConfig.host,
 	password: redisConfig.password,
 	maxRetriesPerRequest: null,
-	family: 0 // Add this line to support both IPv6 and IPv4
+	family: 0, // Add this line to support both IPv6 and IPv4
 };
 
 if (process.env.NODE_ENV === 'testing') {

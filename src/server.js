@@ -20,7 +20,6 @@ const server = app.listen(appConfig.port, async () => {
 		await job.scheduleBackupDatabaseJob();
 		await job.sendNewsletterEmailJob();
 		await job.cleanupDatabaseBackupJob({ amount: 5 });
-
 	} catch (error) {
 		logger.error(error);
 	}
@@ -36,7 +35,6 @@ function gracefulShutdown(signal) {
 
 			logger.info('HTTP server closed.');
 			process.exit(0);
-
 		} catch (error) {
 			logger.error(error);
 		}
