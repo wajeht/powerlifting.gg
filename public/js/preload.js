@@ -36,10 +36,10 @@ function createPreloadLinksOnHover() {
     fetch(url,
       {
         signal: controller.signal,
-        mode: 'cors',
-        credentials: 'include'
-        // mode: 'no-cors',
-        // credentials: 'same-origin'
+        // mode: 'cors',
+        // credentials: 'include'
+        mode: 'no-cors',
+        credentials: 'same-origin'
       })
       .then(() => {
         preloadLink.href = url; // Set the preload link's href on successful fetch
