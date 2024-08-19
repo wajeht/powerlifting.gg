@@ -55,16 +55,30 @@ function createPreloadLinksOnHover() {
     const linkUrl = new URL(url, window.location.origin);
     const currentDomain = window.location.hostname;
 
-    // Check if the URL is external and if external preloading is allowed
-    if (!config.preloadExternal && !config.preloadSubdomains && linkUrl.origin !== window.location.origin) {
-      return false;
+    // Function to get the base domain
+    function getBaseDomain(domain) {
+      const parts = domain.split('.');
+      return parts.slice(-2).join('.');
     }
 
-    // Check if the URL is a subdomain and if subdomain preloading is allowed
-    if (config.preloadSubdomains &&
-        !linkUrl.hostname.endsWith(`.${currentDomain}`) &&
-        linkUrl.hostname !== currentDomain &&
-        linkUrl.origin !== window.location.origin) {
+    const linkBaseDomain = getBaseDomain(linkUrl.hostname);
+    const currentBaseDomain = getBaseDomain(currentDomain);
+
+    // Check if it's a subdomain or the same domain
+    const isSubdomainOrSameDomain = linkBaseDomain === currentBaseDomain;
+
+    // Allow if it's a subdomain/same domain and subdomain preloading is enabled
+    if (isSubdomainOrSameDomain && config.preloadSubdomains) {
+      return true;
+    }
+
+    // Allow if it's external and external preloading is enabled
+    if (!isSubdomainOrSameDomain && config.preloadExternal) {
+      return true;
+    }
+
+    // Disallow if it's external and external preloading is disabled
+    if (!isSubdomainOrSameDomain && !config.preloadExternal) {
       return false;
     }
 
