@@ -385,6 +385,7 @@ export function helmetHandler() {
 					"'self'",
 					'plausible.jaw.dev',
 					'*.powerlifting.gg',
+					'https://*.powerlifting.gg',
 					'localtest.me',
 					'*.jaw.lol',
 					'https://jaw.dev',

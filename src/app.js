@@ -41,25 +41,26 @@ app.use(flash());
 app.use(compression());
 app.disable('x-powered-by');
 
-const mainDomain = appConfig.env === 'production' ? appConfig.production_app_url : appConfig.development_app_url;
+const mainDomain =
+	appConfig.env === 'production' ? appConfig.production_app_url : appConfig.development_app_url;
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+	origin: function (origin, callback) {
+		// Allow requests with no origin (like mobile apps or curl requests)
+		if (!origin) return callback(null, true);
 
-    try {
-      const hostname = new URL(origin).hostname;
-      if (hostname === mainDomain || hostname.endsWith(`.${mainDomain}`)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    } catch (error) {
-      callback(new Error('Invalid origin'));
-    }
-  },
-  credentials: true
+		try {
+			const hostname = new URL(origin).hostname;
+			if (hostname === mainDomain || hostname.endsWith(`.${mainDomain}`)) {
+				callback(null, true);
+			} else {
+				callback(new Error('Not allowed by CORS'));
+			}
+		} catch (error) {
+			callback(new Error('Invalid origin'));
+		}
+	},
+	credentials: true,
 };
 
 app.use(cors(corsOptions));
