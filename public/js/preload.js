@@ -33,7 +33,12 @@ function createPreloadLinksOnHover() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), config.timeout);
 
-    fetch(url, { signal: controller.signal, mode: 'no-cors', credentials: 'same-origin' })
+    fetch(url,
+      {
+        signal: controller.signal,
+        mode: 'no-cors',
+        credentials: 'same-origin'
+      })
       .then(() => {
         preloadLink.href = url; // Set the preload link's href on successful fetch
       })
