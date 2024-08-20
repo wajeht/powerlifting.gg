@@ -362,6 +362,7 @@ export function helmetHandler() {
 					'*.powerlifting.gg',
 					'localtest.me',
 					'*.jaw.lol',
+					'text/javascript',
 					'blob:',
 					'https://jaw.dev',
 					'https://challenges.cloudflare.com',
