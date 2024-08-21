@@ -3,7 +3,7 @@ import session from 'express-session';
 import multerS3 from 'multer-s3';
 import multer from 'multer';
 import connectRedis from 'connect-redis';
-// import rateLimitRedis from 'rate-limit-redis';
+import rateLimitRedis from 'rate-limit-redis';
 
 import { csrfSync } from 'csrf-sync';
 import { validationResult } from 'express-validator';
@@ -30,9 +30,12 @@ const sessionRedisStore = new connectRedis({
 	disableTouch: true,
 });
 
-// const rateLimitRedisStore = new rateLimitRedis({
-// 	sendCommand: (...args) => redis.call(...args),
-// })
+const rateLimitRedisStore =
+	appConfig.env === 'testing'
+		? null
+		: new rateLimitRedis({
+				sendCommand: (...args) => redis.call(...args),
+			});
 
 export const uploadHandler = multer({
 	storage: multerS3({
@@ -334,7 +337,7 @@ export function rateLimitHandler(getIpAddress) {
 		limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
 		standardHeaders: 'draft-7',
 		legacyHeaders: false,
-		// store: rateLimitRedisStore,
+		store: rateLimitRedisStore,
 		handler: (req, res) => {
 			if (req.get('Content-Type') === 'application/json') {
 				return res.json({ message: 'Too many requests, please try again later.' });
