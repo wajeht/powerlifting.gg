@@ -34,8 +34,8 @@ const rateLimitRedisStore =
 	appConfig.env === 'testing'
 		? null
 		: new rateLimitRedis({
-				sendCommand: (...args) => redis.call(...args),
-			});
+			sendCommand: (...args) => redis.call(...args),
+		});
 
 export const uploadHandler = multer({
 	storage: multerS3({
@@ -408,19 +408,20 @@ export function helmetHandler() {
 export function sessionHandler() {
 	return session({
 		secret: sessionConfig.secret,
-		resave: true,
-		saveUninitialized: true,
+		resave: false,
+		saveUninitialized: false,
 		store: sessionRedisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
+			path: '/',
 			domain:
 				appConfig.env === 'production'
 					? `.${appConfig.production_app_url}`
 					: `.${appConfig.development_app_url}`,
 			maxAge: 1000 * 60 * 60 * 24, // 24 hours
 			httpOnly: appConfig.env === 'production',
-			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
 			secure: appConfig.env === 'production',
+			sameSite: 'lax',
 		},
 	});
 }
