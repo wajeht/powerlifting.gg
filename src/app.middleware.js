@@ -2,7 +2,8 @@ import helmet from 'helmet';
 import session from 'express-session';
 import multerS3 from 'multer-s3';
 import multer from 'multer';
-import RedisStore from 'connect-redis';
+import connectRedis from 'connect-redis';
+// import rateLimitRedis from 'rate-limit-redis';
 
 import { csrfSync } from 'csrf-sync';
 import { validationResult } from 'express-validator';
@@ -23,11 +24,15 @@ import {
 } from './app.error.js';
 import { cloudflare as cloudflareConfig } from './config/cloudflare.js';
 
-const redisStore = new RedisStore({
+const sessionRedisStore = new connectRedis({
 	client: redis,
 	prefix: sessionConfig.store_prefix,
 	disableTouch: true,
 });
+
+// const rateLimitRedisStore = new rateLimitRedis({
+// 	sendCommand: (...args) => redis.call(...args),
+// })
 
 export const uploadHandler = multer({
 	storage: multerS3({
@@ -329,6 +334,7 @@ export function rateLimitHandler(getIpAddress) {
 		limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
 		standardHeaders: 'draft-7',
 		legacyHeaders: false,
+		// store: rateLimitRedisStore,
 		handler: (req, res) => {
 			if (req.get('Content-Type') === 'application/json') {
 				return res.json({ message: 'Too many requests, please try again later.' });
@@ -401,17 +407,17 @@ export function sessionHandler() {
 		secret: sessionConfig.secret,
 		resave: true,
 		saveUninitialized: true,
-		store: redisStore,
+		store: sessionRedisStore,
 		proxy: appConfig.env === 'production',
 		cookie: {
-			httpOnly: false,
-			// prettier-ignore
-			domain: appConfig.env === 'production' ? `.${appConfig.production_app_url}` : `.${appConfig.development_app_url}`,
-			maxAge: 1000 * 60 * 24, // 24 hours
-			// // TODO: fix why this aint working for production
-			// httpOnly: appConfig.env === 'production',
-			// sameSite: appConfig.env === 'production' ? 'none' : 'lax',
-			// secure: appConfig.env === 'production',
+			domain:
+				appConfig.env === 'production'
+					? `.${appConfig.production_app_url}`
+					: `.${appConfig.development_app_url}`,
+			maxAge: 1000 * 60 * 60 * 24, // 24 hours
+			httpOnly: appConfig.env === 'production',
+			sameSite: appConfig.env === 'production' ? 'none' : 'lax',
+			secure: appConfig.env === 'production',
 		},
 	});
 }
