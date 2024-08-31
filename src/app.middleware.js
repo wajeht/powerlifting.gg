@@ -429,8 +429,8 @@ export function sessionHandler() {
 					? `.${appConfig.production_app_url}`
 					: `.${appConfig.development_app_url}`,
 			maxAge: 1000 * 60 * 60 * 24, // 24 hours
-			httpOnly: appConfig.env === 'production',
-			secure: appConfig.env === 'production',
+			// httpOnly: appConfig.env === 'production',
+			// secure: appConfig.env === 'production',
 			sameSite: 'lax',
 		},
 	});
