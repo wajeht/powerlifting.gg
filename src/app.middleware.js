@@ -13,7 +13,6 @@ import { backBlaze as backBlazeConfig, publicS3BucketConfig } from './config/bac
 import { rateLimit } from 'express-rate-limit';
 import { redis } from './database/db.js';
 import { session as sessionConfig } from './config/session.js';
-import { alertDiscord } from './utils/discord.js';
 import {
 	HttpError,
 	NotFoundError,
@@ -23,6 +22,7 @@ import {
 	UnimplementedFunctionError,
 } from './app.error.js';
 import { cloudflare as cloudflareConfig } from './config/cloudflare.js';
+import { notify } from './config/notify.js';
 
 const sessionRedisStore = new connectRedis({
 	client: redis,
@@ -34,8 +34,8 @@ const rateLimitRedisStore =
 	appConfig.env === 'testing'
 		? null
 		: new rateLimitRedis({
-			sendCommand: (...args) => redis.call(...args),
-		});
+				sendCommand: (...args) => redis.call(...args),
+			});
 
 export const uploadHandler = multer({
 	storage: multerS3({
@@ -276,7 +276,17 @@ export async function errorHandler(err, req, res, _next) {
 	if (appConfig.env !== 'testing') {
 		// NOTE: skip 404 errors
 		if (!(err instanceof NotFoundError)) {
-			await alertDiscord(err.message, err.stack);
+			await fetch(notify.url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-API-KEY': notify.xApiKey,
+				},
+				body: JSON.stringify({
+					message: err.message,
+					details: err.stack,
+				}),
+			});
 		}
 	}
 
