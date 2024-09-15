@@ -10,7 +10,6 @@ import badWord from 'bad-words';
 import { job } from '../job/job.js';
 import {
 	tenantIdentityHandler,
-	catchAsyncErrorHandler,
 	authenticationHandler,
 	tenancyHandler,
 	csrfHandler,

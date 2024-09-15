@@ -4,7 +4,6 @@ import { roles } from '../../utils/constants.js';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
-	catchAsyncErrorHandler,
 	tenantIdentityHandler,
 	throwTenancyHandler,
 } from '../../app.middleware.js';
@@ -18,7 +17,7 @@ admin.post(
 	throwTenancyHandler,
 	authenticationHandler,
 	authorizePermissionHandler(roles.SUPER_ADMIN),
-	catchAsyncErrorHandler(async (req, res) => {
+	async (req, res) => {
 		const keys = await redis.keys('*');
 
 		for (const key of keys) {
@@ -26,7 +25,6 @@ admin.post(
 		}
 
 		return res.json({ message: 'ok' });
-	}),
-);
+	});
 
 export { admin };
