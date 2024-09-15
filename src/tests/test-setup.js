@@ -16,9 +16,6 @@ process.env.CLOUDFLARE_EMAIL = 'xxx';
 process.env.CLOUDFLARE_TURNSTILE_SITE_KEY = 'xxx';
 process.env.CLOUDFLARE_TURNSTILE_SITE_SECRET_KEY = 'xxx';
 
-// having this commented out will not register sentry while testing
-// process.env.SENTRY_DSN = null;
-
 // google
 process.env.GOOGLE_ID = 'something';
 process.env.GOOGLE_SECRET = 'gains';

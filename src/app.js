@@ -11,7 +11,6 @@ import { api as apiRoutes } from './api/api.router.js';
 import { expressJSDocSwaggerHandler } from './config/swagger.js';
 import { setupBullDashboard } from './job/job.js';
 import { swagger as swaggerConfig } from './config/swagger.js';
-import { sentry as sentryConfig } from './config/sentry.js';
 import { getIpAddress } from './utils/get-ip-address.js';
 
 import { app as appConfig } from './config/app.js';
@@ -25,13 +24,6 @@ import {
 } from './app.middleware.js';
 
 const app = express();
-
-const sentry = sentryConfig(app, appConfig.env);
-
-sentry.init();
-
-app.use(sentry.requestHandler());
-app.use(sentry.tracingHandler());
 
 app.set('trust proxy', true);
 
@@ -70,7 +62,6 @@ app.use(expressLayouts);
 app.use(apiRoutes);
 app.use(webRoutes);
 
-app.use(sentry.errorHandler());
 app.use(notFoundHandler);
 app.use(errorHandler);
 
