@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { NotFoundError } from '../../app.error.js';
-import { catchAsyncErrorHandler, tenantIdentityHandler } from '../../app.middleware.js';
+import { tenantIdentityHandler } from '../../app.middleware.js';
 import { db } from '../../database/db.js';
 
 const reviews = express.Router();
@@ -9,7 +9,7 @@ const reviews = express.Router();
 reviews.get(
 	'/random',
 	tenantIdentityHandler,
-	catchAsyncErrorHandler(async (req, res) => {
+	async (req, res) => {
 		if (req.tenant) {
 			throw new NotFoundError();
 		}
@@ -25,7 +25,6 @@ reviews.get(
 			.limit(size);
 
 		return res.json({ message: 'ok', data });
-	}),
-);
+	});
 
 export { reviews };

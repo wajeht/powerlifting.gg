@@ -97,16 +97,6 @@ export const csrfHandler = (() => {
 	];
 })();
 
-export const catchAsyncErrorHandler = (fn) => {
-	return async (req, res, next) => {
-		try {
-			await fn(req, res, next);
-		} catch (err) {
-			next(err);
-		}
-	};
-};
-
 export async function authenticationHandler(req, res, next) {
 	try {
 		const user = req.session?.user;
