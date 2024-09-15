@@ -55,6 +55,7 @@ app.use(express.static(path.resolve(path.join(process.cwd(), 'public')), { maxAg
 
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
+app.set('view cache', appConfig.env === 'production');
 app.set('view options', { outputFunctionName: 'render' });
 app.set('views', path.resolve(path.join(process.cwd(), 'src', 'web', 'views', 'pages')));
 app.set('layout', path.resolve(path.join(process.cwd(), 'src', 'web', 'views', 'layouts', 'main.html'))); // prettier-ignore
