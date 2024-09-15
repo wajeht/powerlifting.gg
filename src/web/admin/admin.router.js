@@ -2,7 +2,6 @@ import express from 'express';
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
-	catchAsyncErrorHandler,
 	tenantIdentityHandler,
 	throwTenancyHandler,
 	csrfHandler,
@@ -27,7 +26,7 @@ admin.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
-	catchAsyncErrorHandler(getAdminHandler()),
+	getAdminHandler(),
 );
 
 admin.post(
@@ -37,7 +36,7 @@ admin.post(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
-	catchAsyncErrorHandler(postApproveTenantHandler()),
+	postApproveTenantHandler(),
 );
 
 admin.get(
@@ -47,7 +46,7 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
-	catchAsyncErrorHandler(getReviewsHandler()),
+	getReviewsHandler(),
 );
 
 admin.get(
@@ -57,7 +56,7 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
-	catchAsyncErrorHandler(getTenantsHandler()),
+	getTenantsHandler(),
 );
 
 admin.get(
@@ -67,7 +66,7 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
-	catchAsyncErrorHandler(getDatabaseHandler()),
+	getDatabaseHandler(),
 );
 
 admin.get(
@@ -77,7 +76,7 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
-	catchAsyncErrorHandler(getCacheHandler()),
+	getCacheHandler(),
 );
 
 admin.get(
@@ -87,7 +86,7 @@ admin.get(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
-	catchAsyncErrorHandler(getUsersHandler()),
+	getUsersHandler(),
 );
 
 admin.post(
@@ -97,7 +96,7 @@ admin.post(
 	authenticationHandler,
 	authorizePermissionHandler('SUPER_ADMIN'),
 	csrfHandler,
-	catchAsyncErrorHandler(deleteCacheHandler()),
+	deleteCacheHandler(),
 );
 
 export { admin };
