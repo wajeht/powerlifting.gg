@@ -2,7 +2,6 @@ import express from 'express';
 import { body } from 'express-validator';
 import {
 	authenticationHandler,
-	catchAsyncErrorHandler,
 	csrfHandler,
 	validateRequestHandler,
 } from '../../app.middleware.js';
@@ -12,34 +11,25 @@ import { app as appConfig } from '../../config/app.js';
 
 const test = express.Router();
 
-test.get(
-	'/test/csrf-token',
-	csrfHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		if (appConfig.env !== 'testing') {
-			throw new NotFoundError('Operation not allowed in the current environment.');
-		}
-		return res.status(200).json({
-			message: 'csrf-token!',
-			csrfToken: req.csrfToken(),
-		});
-	}),
-);
+test.get('/test/csrf-token', csrfHandler, async (req, res) => {
+	if (appConfig.env !== 'testing') {
+		throw new NotFoundError('Operation not allowed in the current environment.');
+	}
+	return res.status(200).json({
+		message: 'csrf-token!',
+		csrfToken: req.csrfToken(),
+	});
+});
 
-test.get(
-	'/test/me',
-	authenticationHandler,
-	csrfHandler,
-	catchAsyncErrorHandler(async (req, res) => {
-		if (appConfig.env !== 'testing') {
-			throw new NotFoundError('Operation not allowed in the current environment.');
-		}
-		return res.status(200).json({
-			message: 'me!',
-			csrfToken: req.csrfToken(),
-		});
-	}),
-);
+test.get('/test/me', authenticationHandler, csrfHandler, async (req, res) => {
+	if (appConfig.env !== 'testing') {
+		throw new NotFoundError('Operation not allowed in the current environment.');
+	}
+	return res.status(200).json({
+		message: 'me!',
+		csrfToken: req.csrfToken(),
+	});
+});
 
 test.post(
 	'/test/login',
@@ -50,7 +40,7 @@ test.post(
 			.isEmail()
 			.withMessage('The email must be email!'),
 	]),
-	catchAsyncErrorHandler(async (req, res) => {
+	async (req, res) => {
 		if (appConfig.env !== 'testing') {
 			throw new NotFoundError('Operation not allowed in the current environment.');
 		}
@@ -81,7 +71,7 @@ test.post(
 		return res.status(200).json({
 			message: 'logged in!',
 		});
-	}),
+	},
 );
 
 export { test };

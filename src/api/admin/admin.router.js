@@ -25,6 +25,7 @@ admin.post(
 		}
 
 		return res.json({ message: 'ok' });
-	});
+	},
+);
 
 export { admin };

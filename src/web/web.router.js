@@ -93,7 +93,7 @@ web.get(
 	'/privacy-policy',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getPrivacyPolicyHandler(WebService(WebRepository(db), redis, job))),
+	getPrivacyPolicyHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -105,7 +105,7 @@ web.get(
 	'/terms-of-services',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getTermsOfServiceHandler(WebService(WebRepository(db), redis, job))),
+	getTermsOfServiceHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -119,7 +119,7 @@ web.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(getSettingsHandler(WebService(WebRepository(db), redis, job))),
+	getSettingsHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -134,7 +134,7 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	validateRequestHandler(postSettingsAccountHandlerValidation),
-	catchAsyncErrorHandler(postSettingsAccountHandler(WebService(WebRepository(db), redis, job))),
+	postSettingsAccountHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -148,9 +148,7 @@ web.get(
 	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(getUnsubscribeHandlerValidation),
-	catchAsyncErrorHandler(
-		getUnsubscribeHandler(WebService(WebRepository(db), redis, job), NotFoundError),
-	),
+	getUnsubscribeHandler(WebService(WebRepository(db), redis, job), NotFoundError),
 );
 
 /**
@@ -164,7 +162,7 @@ web.post(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(postSettingsDangerZoneHandler(WebService(WebRepository(db), redis, job))),
+	postSettingsDangerZoneHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -179,9 +177,7 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	validateRequestHandler(postSettingsTenantsDangerZoneHandlerValidation),
-	catchAsyncErrorHandler(
-		postSettingsTenantsDangerZoneHandler(WebService(WebRepository(db), redis, job)),
-	),
+	postSettingsTenantsDangerZoneHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -199,9 +195,7 @@ web.post(
 		{ name: 'banner', maxCount: 1 },
 	]),
 	csrfHandler,
-	catchAsyncErrorHandler(
-		postSettingsTenantsImagesHandler(WebService(WebRepository(db), redis, job)),
-	),
+	postSettingsTenantsImagesHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -216,7 +210,7 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	validateRequestHandler(postSettingsTenantsDetailsValidation),
-	catchAsyncErrorHandler(postSettingsTenantsDetails(WebService(WebRepository(db), redis, job))),
+	postSettingsTenantsDetails(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -230,7 +224,7 @@ web.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(getSettingsTenantsHandler(WebService(WebRepository(db), redis, job))),
+	getSettingsTenantsHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -244,7 +238,7 @@ web.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(getSettingsTenantHandler(WebService(WebRepository(db), redis, job))),
+	getSettingsTenantHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -252,27 +246,21 @@ web.get(
  * @tags auth
  * @summary get login url
  */
-web.get('/login', tenantIdentityHandler, catchAsyncErrorHandler(getLoginHandler()));
+web.get('/login', tenantIdentityHandler, getLoginHandler());
 
 /**
  * GET /logout
  * @tags auth
  * @summary get logout url
  */
-web.get('/logout', tenantIdentityHandler, catchAsyncErrorHandler(getLogoutHandler()));
+web.get('/logout', tenantIdentityHandler, getLogoutHandler());
 
 /**
  * GET /contact
  * @tags contact
  * @summary get contact page
  */
-web.get(
-	'/contact',
-	tenantIdentityHandler,
-	throwTenancyHandler,
-	csrfHandler,
-	catchAsyncErrorHandler(getContactHandler()),
-);
+web.get('/contact', tenantIdentityHandler, throwTenancyHandler, csrfHandler, getContactHandler());
 
 /**
  * POST /contact
@@ -285,7 +273,7 @@ web.post(
 	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(postContactHandlerValidation),
-	catchAsyncErrorHandler(postContactHandler(WebService(WebRepository(db), redis, job))),
+	postContactHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -297,7 +285,7 @@ web.get(
 	'/tenants',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getTenantsHandler(TenantService(db, redis, dayjs, badWord))),
+	getTenantsHandler(TenantService(db, redis, dayjs, badWord)),
 );
 
 /**
@@ -311,7 +299,7 @@ web.get(
 	throwTenancyHandler,
 	authenticationHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(getTenantsCreateHandler()),
+	getTenantsCreateHandler(),
 );
 
 /**
@@ -323,11 +311,9 @@ web.post(
 	'/tenants/:id/subscribe',
 	csrfHandler,
 	validateRequestHandler(postSubscribeToATenantValidation),
-	catchAsyncErrorHandler(
-		postSubscribeToATenant(
-			TenantService(db, redis, dayjs, badWord),
-			WebService(WebRepository(db), redis, job),
-		),
+	postSubscribeToATenant(
+		TenantService(db, redis, dayjs, badWord),
+		WebService(WebRepository(db), redis, job),
 	),
 );
 
@@ -340,7 +326,7 @@ web.post(
 	'/tenants/export-reviews',
 	csrfHandler,
 	validateRequestHandler(postExportTenantReviewsHandlerValidation),
-	catchAsyncErrorHandler(postExportTenantReviewsHandler(WebService(WebRepository(db), redis, job))),
+	postExportTenantReviewsHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -352,7 +338,7 @@ web.post(
 	'/tenants/calibrate-ratings',
 	csrfHandler,
 	validateRequestHandler(postCalibrateTenantRatingsValidation),
-	catchAsyncErrorHandler(postCalibrateTenantRatings(WebService(WebRepository(db), redis, job))),
+	postCalibrateTenantRatings(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -371,7 +357,7 @@ web.post(
 	]),
 	csrfHandler,
 	validateRequestHandler(postTenantHandlerValidation),
-	catchAsyncErrorHandler(postTenantHandler(WebService(WebRepository(db), redis, job))),
+	postTenantHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -389,9 +375,7 @@ web.get(
 	'/',
 	tenantIdentityHandler,
 	csrfHandler,
-	catchAsyncErrorHandler(
-		getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs, badWord)),
-	),
+	getIndexHandler(WebRepository(db), TenantService(db, redis, dayjs, badWord)),
 );
 
 /**
@@ -405,7 +389,7 @@ web.get(
 	tenantIdentityHandler,
 	tenancyHandler,
 	authenticationHandler,
-	catchAsyncErrorHandler(getReviewsHandler()),
+	getReviewsHandler(),
 );
 
 /**
@@ -421,11 +405,9 @@ web.post(
 	authenticationHandler,
 	csrfHandler,
 	validateRequestHandler(postReviewHandlerValidation),
-	catchAsyncErrorHandler(
-		postReviewHandler(
-			TenantService(db, redis, dayjs, badWord),
-			WebService(WebRepository(db), redis, job),
-		),
+	postReviewHandler(
+		TenantService(db, redis, dayjs, badWord),
+		WebService(WebRepository(db), redis, job),
 	),
 );
 
@@ -438,7 +420,7 @@ web.post(
 	'/newsletter',
 	csrfHandler,
 	validateRequestHandler(postNewsletterHandlerValidation),
-	catchAsyncErrorHandler(postNewsletterHandler(WebService(WebRepository(db), redis, job))),
+	postNewsletterHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -450,7 +432,7 @@ web.post(
 	'/subscriptions',
 	csrfHandler,
 	validateRequestHandler(postSubscriptionsHandlerValidation),
-	catchAsyncErrorHandler(postSubscriptionsHandler(WebService(WebRepository(db), redis, job))),
+	postSubscriptionsHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -462,7 +444,7 @@ web.get(
 	'/blog',
 	tenantIdentityHandler,
 	throwTenancyHandler,
-	catchAsyncErrorHandler(getBlogHandler(WebService(WebRepository(db), redis, job))),
+	getBlogHandler(WebService(WebRepository(db), redis, job)),
 );
 
 /**
@@ -476,7 +458,7 @@ web.get(
 	throwTenancyHandler,
 	csrfHandler,
 	validateRequestHandler(getBlogPostHandlerValidation),
-	catchAsyncErrorHandler(getBlogPostHandler(WebService(WebRepository(db), redis, job))),
+	getBlogPostHandler(WebService(WebRepository(db), redis, job)),
 );
 
 export { web };

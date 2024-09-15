@@ -18,7 +18,6 @@ import { exportTenantReviewsJob, exportTenantReviewsQueue } from './export-tenan
 import {
 	authenticationHandler,
 	authorizePermissionHandler,
-	catchAsyncErrorHandler,
 	tenantIdentityHandler,
 	throwTenancyHandler,
 } from '../app.middleware.js';
@@ -62,7 +61,7 @@ export function setupBullDashboard(app) {
 		throwTenancyHandler,
 		authenticationHandler,
 		authorizePermissionHandler('SUPER_ADMIN'),
-		catchAsyncErrorHandler(serverAdapter.getRouter()),
+		serverAdapter.getRouter(),
 	);
 
 	return app;
